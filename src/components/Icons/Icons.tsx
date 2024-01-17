@@ -80,56 +80,24 @@ const Icons = () => {
             <circle cx="17.5" cy="10.5" r="1.5" fill="currentColor" />
             <circle cx="17.5" cy="15.5" r="1.5" fill="currentColor" />
           </symbol>
-          <symbol id="arrow_down" viewBox="0 0 11 6" fill="none">
+          <symbol id="arrow_left" viewBox="0 0 24 24" fill="none">
             <path
-              d="M0.999756 0.998779L5.49976 4.99878L9.99976 0.998779"
-              stroke="white"
+              d="M15 5L9 12L15 19"
+              stroke="#1F171E"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </symbol>
-          <symbol id="user_gray" viewBox="0 0 24 29" fill="none">
+          <symbol id="arrow_right" viewBox="0 0 24 24">
             <path
-              d="M19.475 19.6343C20.4191 20.9752 20.801 22.5711 20.5985 23.9302C20.4008 25.2573 19.6572 26.3511 18.2883 26.8796C16.3086 27.644 14.1217 28.0292 11.9073 27.9983C9.6928 27.9674 7.52545 27.5214 5.58267 26.7031C4.23682 26.1363 3.52891 25.0264 3.36889 23.6969C3.205 22.3353 3.62773 20.7528 4.59824 19.4361L6.37088 17.0313C9.20645 13.1844 14.9778 13.2471 17.7291 17.1547L19.475 19.6343Z"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-            <circle
-              cx="12"
-              cy="6"
-              r="5"
-              stroke="currentColor"
-              strokeWidth="2"
+              d="M9 5L15 12L9 19"
+              stroke="#1F171E"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             />
           </symbol>
-          <symbol id="cancel" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M1 1.01367L15 15.0502M15 1.01367L1 15.0502"
-              stroke="#FF3F56"
-              strokeWidth="2"
-            />
-          </symbol>
-          <symbol id="watch" viewBox="0 0 12 13" fill="none">
-            <path
-              d="M6.18262 3.93945V6.37848L8.31676 7.90287M11.3659 6.37824C11.3659 9.24069 9.04538 11.5612 6.18293 11.5612C3.32048 11.5612 1 9.24069 1 6.37824C1 3.51579 3.32048 1.19531 6.18293 1.19531C9.04538 1.19531 11.3659 3.51579 11.3659 6.37824Z"
-              stroke="#3B37CC"
-              strokeWidth="1.21951"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </symbol>
-          <svg id="plus" viewBox="0 0 45.402 45.402">
-            <g>
-              <path
-                fill="currentColor"
-                d="M41.267,18.557H26.832V4.134C26.832,1.851,24.99,0,22.707,0c-2.283,0-4.124,1.851-4.124,4.135v14.432H4.141
-		c-2.283,0-4.139,1.851-4.138,4.135c-0.001,1.141,0.46,2.187,1.207,2.934c0.748,0.749,1.78,1.222,2.92,1.222h14.453V41.27
-		c0,1.142,0.453,2.176,1.201,2.922c0.748,0.748,1.777,1.211,2.919,1.211c2.282,0,4.129-1.851,4.129-4.133V26.857h14.435
-		c2.283,0,4.134-1.867,4.133-4.15C45.399,20.425,43.548,18.557,41.267,18.557z"
-              />
-            </g>
-          </svg>
         </defs>
       </svg>
     </div>
