@@ -64,13 +64,16 @@ const NavLink = styled.a`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  transition: color 0.15s;
   :hover {
     color: var(--red);
+  }
+  .icon {
+    transition: transform 0.5s cubic-bezier(0.14, 0.77, 0.53, 0.99), color 0.15s;
   }
   :hover .icon {
     transform: translateX(75%);
     color: var(--red);
-    transition: transform 0.5s cubic-bezier(0.14, 0.77, 0.53, 0.99), color 0.1s;
   }
   @media (min-width: 1280px) {
     font-size: 18px;
@@ -143,6 +146,13 @@ const CatalogButton = styled.button`
   border-bottom-right-radius: 20px;
   color: #fff;
   font-weight: 700;
+  transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  :hover {
+    background-color: #e62e2e;
+  }
+  :active {
+    background-color: #cc2929;
+  }
   @media (min-width: 768px) {
     width: 163px;
     height: 46px;
