@@ -80,7 +80,7 @@ export const NavLink = styled.a`
 `;
 
 export const ImageContainer = styled.div`
-  width: calc(100% - 32px);
+  /* width: calc(100% - 32px); */
   margin: 0 auto;
   height: 420px;
   background-image: url(${mobileHero.src});
