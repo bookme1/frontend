@@ -14,13 +14,9 @@ export const HeroWrapper = styled(Wrapper)`
   @media (min-width: 768px) {
     display: flex;
     gap: 27px;
-    padding-left: 20px;
-    padding-right: 20px;
   }
   @media (min-width: 1280px) {
     gap: 30px;
-    padding-left: 0;
-    padding-right: 0;
   }
 `;
 
@@ -80,7 +76,7 @@ export const NavLink = styled.a`
 `;
 
 export const ImageContainer = styled.div`
-  width: calc(100% - 32px);
+  width: 100%;
   margin: 0 auto;
   height: 420px;
   background-image: url(${mobileHero.src});
@@ -93,7 +89,7 @@ export const ImageContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   @media (min-width: 768px) {
-    width: 100%;
+    width: 481px;
     height: 438px;
     background-image: url(${tabletHero.src});
     display: block;
@@ -101,6 +97,7 @@ export const ImageContainer = styled.div`
     padding-left: 54px;
   }
   @media (min-width: 1280px) {
+    width: 944px;
     height: 480px;
     background-image: url(${desktopHero.src});
     padding-top: 150px;
