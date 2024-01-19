@@ -14,11 +14,17 @@ const StyledWrapper = styled(Wrapper)`
     gap: 28px;
     align-items: center;
   }
+  @media (min-width: 1280px) {
+    gap: 53px;
+  }
 `;
 
 const Form = styled.form`
   position: relative;
   width: 100%;
+  @media (min-width: 1280px) {
+    width: 642.5px;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -64,6 +70,27 @@ const FromTablet = styled.div`
   }
 `;
 
+const FromDesktop = styled.div`
+  @media (max-width: 1279.5px) {
+    ${visuallyHidden}
+  }
+  display: flex;
+  gap: 40px;
+  align-items: center;
+`;
+
+const HeaderButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--gray_dark);
+  :active {
+    color: var(--red);
+    fill: var(--red);
+  }
+`;
+
 const Logo = styled(Icon)`
   width: 217px !important;
   height: 40px !important;
@@ -82,6 +109,17 @@ const Header = () => {
             <Icon name="search" size={24} className="icon" />
           </SearchButton>
         </Form>
+        <FromDesktop>
+          <HeaderButton>
+            <Icon name="account" size={28} /> Увійти
+          </HeaderButton>
+          <HeaderButton>
+            <Icon name="heart" size={28} /> Обране
+          </HeaderButton>
+          <HeaderButton>
+            <Icon name="cart" size={28} /> Кошик
+          </HeaderButton>
+        </FromDesktop>
       </StyledWrapper>
     </HeaderContainer>
   );
