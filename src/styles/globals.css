@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 :root {
-    --accent: #FF3F56;
-    --text_secondary: #757887;
-    --bg_primary: #3B37CC;
-    --text_main: #313233;
-    --bg_grey: #F7F8FA;
+    --text_main: #1F171E;
+    --red: #F33;
+    --gray: #6E646D;
+    --gray_dark: #505050;
+    --gray_border: #A7A7A7;
+    --gray_search: #f4f4f4;
+    --beige: #FCDDC9;
+}
+
+.bg-main {
+    color: var(--text_main);
 }

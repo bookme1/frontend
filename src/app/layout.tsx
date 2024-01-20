@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
-import { firaSans } from "@/styles/fonts";
+import { raleway } from "@/styles/fonts";
 import { Icons } from "@/components/Icons";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${firaSans.className}, scroll-smooth`}>
+    <html className={`${raleway.className}`}>
       <head></head>
       <body className="bg-main">
         <main>{children}</main>
