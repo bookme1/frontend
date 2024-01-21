@@ -1,3 +1,4 @@
+import { authService } from "@/api/auth/authService";
 import { CardList } from "@/components/CardList";
 import { Categories } from "@/components/Categories";
 import { Footer } from "@/components/Footer";

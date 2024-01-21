@@ -5,6 +5,7 @@
 :root {
     --text_main: #1F171E;
     --red: #F33;
+    --blue: #0597E8;
     --gray: #6E646D;
     --gray_dark: #505050;
     --gray_border: #A7A7A7;
@@ -14,4 +15,8 @@
 
 .bg-main {
     color: var(--text_main);
+}
+
+body.modal-open {
+    overflow: hidden;
 }
