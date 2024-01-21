@@ -15,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html className={`${raleway.className}`}>
-      <head></head>
+      <head>
+        <link rel="icon" href="/public/favicon.ico" />
+      </head>
       <body className="bg-main">
         <main>{children}</main>
       </body>

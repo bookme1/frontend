@@ -113,7 +113,7 @@ const Header = () => {
     () => async () => {
       try {
         const data = await authService.getUserData();
-        setUserData(data);
+        setUserData(data.userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

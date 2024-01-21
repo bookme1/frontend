@@ -102,7 +102,7 @@ class AuthService {
       if (error.response?.status === 401) {
         try {
           const response = await this.userRefreshToken(refreshToken);
-          return response.userData;
+          return response;
         } catch (error) {
           throw error;
         }
