@@ -67,16 +67,16 @@ const CartButton = styled.button`
   background-color: var(--red);
 `;
 
-const mockBook = {
-  title: "Тіло веде лік",
-  url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/7/a/7acc88e9cb1b198a96ef31c71c38d08b.jpg",
-  price: "180",
-  author: "Бессер Ван, Дер Колк",
-};
+interface IBook {
+  id: number;
+  title: string;
+  url: string;
+  price: number;
+  author: string;
+}
 
-const Card = () => {
-  const { title, url, price, author } = mockBook;
-
+const Card = ({ book }: { book: IBook }) => {
+  const { title, url, price, author } = book;
   return (
     <CardContainer>
       <ImageContainer
@@ -95,7 +95,7 @@ const Card = () => {
             <Icon name="heart" size={24} />
           </HeartButton>
           <CartButton>
-            <Icon name="cart" size={24} />
+            <Icon name="cart" size={24} color="white" />
           </CartButton>
         </BottomContainer>
       </DescriptionContainer>

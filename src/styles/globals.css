@@ -20,3 +20,12 @@
 body.modal-open {
     overflow: hidden;
 }
+
+.scroll-down .scrollable_nav {
+    transform: translate3d(0, 100%, 0);
+    box-shadow: none;
+}
+
+.scroll-up .scrollable_nav {
+    transform: none;
+}

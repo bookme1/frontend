@@ -54,7 +54,7 @@ const Hero = () => {
           <HeroDescription>
             Книги, що змінюють світ, тепер доступні для всього світу!
           </HeroDescription>
-          <CatalogButton>до каталогу</CatalogButton>
+          <CatalogButton>До каталогу</CatalogButton>
         </ImageContainer>
       </HeroWrapper>
     </HeroSection>
