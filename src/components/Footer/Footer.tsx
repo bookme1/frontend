@@ -64,7 +64,7 @@ const Footer = () => {
             </NavItem>
           </NavList>
         </NavContainer>
-        <CatalogButton className="footer">до каталогу</CatalogButton>
+        <CatalogButton className="footer">До каталогу</CatalogButton>
       </StyledWrapper>
       <BottomContainer>
         <SocialLinksContainer>

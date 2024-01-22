@@ -13,16 +13,32 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 
-const CardList = ({ name }: { name: string }) => {
+interface IBook {
+  id: string;
+  title: string;
+  url: string;
+  price: number;
+  author: string;
+}
+
+const CardList = ({ name, books }: { name: string; books: any[] }) => {
+  let booksMarkup;
+  if (books.length) {
+    booksMarkup = books.map((book) => (
+      <SwiperSlide key={book.id}>
+        <Card book={book} />
+      </SwiperSlide>
+    ));
+  }
   return (
     <StyledWrapper>
       <SliderControls>
         <ControlsTitle>{name}</ControlsTitle>
         <ControlsContainer>
-          <ControlsLink className="arrow-left arrow">
+          <ControlsLink className={`arrow-left-${name} arrow`}>
             <Icon name="arrow_left" size={24} />
           </ControlsLink>
-          <ControlsLink className="arrow-right arrow">
+          <ControlsLink className={`arrow-right-${name} arrow`}>
             <Icon name="arrow_right" size={24} />
           </ControlsLink>
         </ControlsContainer>
@@ -34,8 +50,8 @@ const CardList = ({ name }: { name: string }) => {
         modules={[Navigation]}
         className="mySwiper"
         navigation={{
-          nextEl: ".arrow-right",
-          prevEl: ".arrow-left",
+          nextEl: `.arrow-right-${name}`,
+          prevEl: `.arrow-left-${name}`,
         }}
         breakpoints={{
           // when window width is >= 768px
@@ -50,30 +66,7 @@ const CardList = ({ name }: { name: string }) => {
           },
         }}
       >
-        <SwiperSlide className="ml-[1px]">
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
+        {booksMarkup || ""}
       </Swiper>
     </StyledWrapper>
   );
