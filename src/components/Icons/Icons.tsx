@@ -325,9 +325,9 @@ const Icons = () => {
             <path
               d="M9 5L15 12L9 19"
               stroke="#1F171E"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </symbol>
           <symbol id="account" viewBox="0 0 28 28" fill="none">
@@ -339,7 +339,7 @@ const Icons = () => {
                 rx="4.66667"
                 ry="4.66667"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
               <ellipse
                 id="Vector_2"
@@ -348,7 +348,7 @@ const Icons = () => {
                 rx="8.16667"
                 ry="4.66667"
                 stroke="currentColor"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </g>
           </symbol>

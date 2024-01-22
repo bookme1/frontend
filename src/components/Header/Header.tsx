@@ -178,7 +178,6 @@ const Header = () => {
     () => async () => {
       try {
         const data = await authService.getUserData();
-
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -192,7 +191,6 @@ const Header = () => {
   const handleClick = () => {
     setIsOpen(true);
   };
-
   const handleSearch = async (e: any) => {
     if (e.target.value.length >= 2) {
       setIsSearchListOpen(true);
