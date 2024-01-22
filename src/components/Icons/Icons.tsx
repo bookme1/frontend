@@ -352,8 +352,6 @@ const Icons = () => {
               />
             </g>
           </symbol>
-<<<<<<< Updated upstream
-=======
           <symbol id="close_modal" viewBox="0 0 48 48" fill="none">
             <circle cx="24" cy="24" r="20" stroke="#A7A7A7" strokeWidth="1.5" />
             <path
@@ -414,7 +412,6 @@ const Icons = () => {
               fill="white"
             />
           </symbol>
->>>>>>> Stashed changes
         </defs>
       </svg>
     </div>

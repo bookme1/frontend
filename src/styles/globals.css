@@ -14,8 +14,6 @@
 
 .bg-main {
     color: var(--text_main);
-<<<<<<< Updated upstream
-=======
 }
 
 body.modal-open {
@@ -29,5 +27,4 @@ body.modal-open {
 
 .scroll-up .scrollable_nav {
     transform: none;
->>>>>>> Stashed changes
 }

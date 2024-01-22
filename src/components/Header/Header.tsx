@@ -2,8 +2,6 @@
 import styled from "@emotion/styled";
 import { Icon } from "../Icon";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
-<<<<<<< Updated upstream
-=======
 import { Modal } from "../Modal";
 import { useEffect, useMemo, useState } from "react";
 import { authService } from "@/api/auth/authService";
@@ -11,7 +9,6 @@ import baseAvatar from "@/assets/main/user.png";
 import { SearchList } from "../SearchList";
 import { bookService } from "@/api/book/bookService";
 import ScrollBehavior from "./scrollBehavior";
->>>>>>> Stashed changes
 
 const HeaderContainer = styled.header`
   padding-top: 32px;
@@ -166,33 +163,6 @@ const StyledNavLink = styled.a`
 `;
 
 const Header = () => {
-<<<<<<< Updated upstream
-  return (
-    <HeaderContainer>
-      <StyledWrapper>
-        <FromTablet>
-          <Logo name="logo_black" />
-        </FromTablet>
-        <Form>
-          <SearchInput placeholder="Знайти"></SearchInput>
-          <SearchButton type="submit">
-            <Icon name="search" size={24} className="icon" />
-          </SearchButton>
-        </Form>
-        <FromDesktop>
-          <HeaderButton>
-            <Icon name="account" size={28} /> Увійти
-          </HeaderButton>
-          <HeaderButton>
-            <Icon name="heart" size={28} /> Обране
-          </HeaderButton>
-          <HeaderButton>
-            <Icon name="cart" size={28} /> Кошик
-          </HeaderButton>
-        </FromDesktop>
-      </StyledWrapper>
-    </HeaderContainer>
-=======
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUserData] = useState("");
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -314,7 +284,6 @@ const Header = () => {
       </HeaderContainer>
       {isOpen && <Modal setIsOpen={setIsOpen} />}
     </>
->>>>>>> Stashed changes
   );
 };
 

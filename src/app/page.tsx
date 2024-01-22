@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-import { CardList } from "@/components/CardList";
-=======
->>>>>>> Stashed changes
 import { Categories } from "@/components/Categories";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
