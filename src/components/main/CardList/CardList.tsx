@@ -1,5 +1,5 @@
 "use client";
-import { Card } from "../Card";
+import { Card } from "../../common/Card";
 import {
   StyledWrapper,
   SliderControls,
@@ -7,7 +7,7 @@ import {
   ControlsContainer,
   ControlsLink,
 } from "../Categories/Categories.styles";
-import { Icon } from "../Icon";
+import { Icon } from "../../common/Icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -44,7 +44,7 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
         </ControlsContainer>
       </SliderControls>
       <Swiper
-        slidesPerView={2}
+        slidesPerView={1}
         loop={true}
         spaceBetween={16}
         modules={[Navigation]}

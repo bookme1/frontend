@@ -2,13 +2,17 @@
 import styled from "@emotion/styled";
 import { Icon } from "../Icon";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
-import { Modal } from "../Modal";
+import { Modal } from "@/components/main/Modal";
 import { useEffect, useMemo, useState } from "react";
 import { authService } from "@/api/auth/authService";
 import baseAvatar from "@/assets/main/user.png";
-import { SearchList } from "../SearchList";
+import { SearchList } from "@/components/main/SearchList";
 import { bookService } from "@/api/book/bookService";
-import ScrollBehavior from "./scrollBehavior";
+import { CatalogButton } from "../../main/Hero/Hero.styles";
+import ScrollBehavior from "./ScrollBehavior";
+import { DesktopCatalog } from "@/components/main/DesktopCatalog";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import Link from "next/link";
 
 const HeaderContainer = styled.header`
   padding-top: 32px;
@@ -164,8 +168,10 @@ const StyledNavLink = styled.a`
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
+  const [userData, setUserData] = useState("");
+  const [activePage, setActivePage] = useState("main");
   const [books, setBooks] = useState<Array<any>>([]);
   useEffect(() => {
     if (isOpen) {
@@ -174,6 +180,13 @@ const Header = () => {
       document.body.classList.remove("modal-open");
     }
   }, [isOpen]);
+  useEffect(() => {
+    if (isCatalogOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [isCatalogOpen]);
   const fetchUserData = useMemo(
     () => async () => {
       try {
@@ -200,13 +213,37 @@ const Header = () => {
       setIsSearchListOpen(false);
     }
   };
+  const handleCatalog = (e: any) => {
+    e.preventDefault();
+    setIsCatalogOpen((prev) => !prev);
+  };
+  const changePage = (page: string) => {
+    const prevPage = document.querySelector(`[data-nav=${activePage}]`);
+    const currentPage = document.querySelector(`[data-nav=${page}]`);
+    prevPage?.classList.remove("active");
+    currentPage?.classList.add("active");
+    if (page == "catalog") {
+      setIsCatalogOpen(true);
+    } else if (activePage == "catalog") {
+      setIsCatalogOpen(false);
+    }
+    setActivePage(page);
+  };
+
   return (
     <>
       <HeaderContainer>
         <StyledWrapper>
           <FromTablet>
-            <Logo name="logo_black" />
+            <Link href="/">
+              <Logo name="logo_black" />
+            </Link>
           </FromTablet>
+          <FromDesktop>
+            <CatalogButton onClick={handleCatalog} className="z-10">
+              Каталог
+            </CatalogButton>
+          </FromDesktop>
           <Form>
             <SearchInput
               placeholder="Знайти"
@@ -239,7 +276,7 @@ const Header = () => {
             </HeaderButton>
             {userData ? (
               <Avatar>
-                <AccountLink href="#"></AccountLink>
+                <AccountLink href="/account"></AccountLink>
               </Avatar>
             ) : (
               ""
@@ -251,29 +288,58 @@ const Header = () => {
           <Wrapper>
             <NavList>
               <NavItem>
-                <StyledNavLink className="active">
+                <StyledNavLink
+                  className="active"
+                  data-nav="main"
+                  onClick={() => {
+                    changePage("main");
+                  }}
+                >
                   Головна
                   <Icon name="main_page" size={24} />
                 </StyledNavLink>
               </NavItem>
               <NavItem>
-                <StyledNavLink>
+                <StyledNavLink
+                  onClick={() => {
+                    changePage("catalog");
+                  }}
+                  data-nav="catalog"
+                >
                   <Icon name="catalog" size={24} />
                 </StyledNavLink>
               </NavItem>
               <NavItem>
-                <StyledNavLink>
-                  <Icon name="cart" size={24} />
+                <StyledNavLink data-nav="cart">
+                  <Icon
+                    name="cart"
+                    size={24}
+                    onClick={() => {
+                      changePage("cart");
+                    }}
+                  />
                 </StyledNavLink>
               </NavItem>
               <NavItem>
-                <StyledNavLink>
-                  <Icon name="heart" size={24} />
+                <StyledNavLink data-nav="like">
+                  <Icon
+                    name="heart"
+                    size={24}
+                    onClick={() => {
+                      changePage("like");
+                    }}
+                  />
                 </StyledNavLink>
               </NavItem>
               <NavItem>
-                <StyledNavLink>
-                  <Icon name="account" size={24} />
+                <StyledNavLink data-nav="account">
+                  <Icon
+                    name="account"
+                    size={24}
+                    onClick={() => {
+                      changePage("account");
+                    }}
+                  />
                 </StyledNavLink>
               </NavItem>
             </NavList>
@@ -281,6 +347,7 @@ const Header = () => {
         </NavToTablet>
       </HeaderContainer>
       {isOpen && <Modal setIsOpen={setIsOpen} />}
+      {isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}
     </>
   );
 };

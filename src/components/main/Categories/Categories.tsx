@@ -4,7 +4,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Icon } from "../Icon";
+import { Icon } from "../../common/Icon";
 import {
   StyledWrapper,
   SliderControls,

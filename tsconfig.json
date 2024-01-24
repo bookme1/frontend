@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/Hero/Hero.tss"
+    "src/components/Hero/Hero.tss",
+    "src/components/book/MainInformation"
   ],
   "exclude": ["node_modules"]
 }

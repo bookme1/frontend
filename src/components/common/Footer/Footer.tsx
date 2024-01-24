@@ -5,7 +5,7 @@ import {
   NavLink,
   NavIcon,
   CatalogButton,
-} from "../Hero/Hero.styles";
+} from "../../main/Hero/Hero.styles";
 
 import {
   FooterSection,

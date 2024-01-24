@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { raleway } from "@/styles/fonts";
-import { Icons } from "@/components/Icons";
+import { Icons } from "@/components/common/Icons";
 
 export const metadata: Metadata = {
   title: "Bookme",

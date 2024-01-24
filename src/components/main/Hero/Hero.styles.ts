@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import mobileHero from "@/assets/main/hero_mobile.webp";
 import tabletHero from "@/assets/main/hero_tablet.webp";
 import desktopHero from "@/assets/main/hero_desktop.webp";
-import { Icon } from "../Icon";
+import { Icon } from "../../common/Icon";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
 
 export const HeroSection = styled.section`

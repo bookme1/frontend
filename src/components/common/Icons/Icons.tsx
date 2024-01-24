@@ -324,7 +324,7 @@ const Icons = () => {
           <symbol id="arrow_right" viewBox="0 0 24 24" fill="none">
             <path
               d="M9 5L15 12L9 19"
-              stroke="#1F171E"
+              stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -383,31 +383,31 @@ const Icons = () => {
             <path
               d="M2.36395 12.9581C1.98451 10.3211 1.79478 9.00253 2.33524 7.87519C2.87571 6.74785 4.02607 6.06258 6.32679 4.69205L7.71163 3.86711C9.80092 2.62253 10.8456 2.00024 11.9999 2.00024C13.1542 2.00024 14.1988 2.62253 16.2881 3.86711L17.673 4.69205C19.9737 6.06258 21.1241 6.74785 21.6645 7.87519C22.205 9.00253 22.0153 10.3211 21.6358 12.9581L21.357 14.8955C20.8696 18.2829 20.6259 19.9766 19.4509 20.9884C18.2758 22.0002 16.5525 22.0002 13.106 22.0002H10.8938C7.44725 22.0002 5.72397 22.0002 4.54891 20.9884C3.37384 19.9766 3.13013 18.2829 2.64272 14.8955L2.36395 12.9581Z"
               stroke="white"
-              stroke-width="1.5"
+              strokeWidth="1.5"
             />
             <path
               d="M9 16C9.85038 16.6303 10.8846 17 12 17C13.1154 17 14.1496 16.6303 15 16"
               stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
             />
           </symbol>
           <symbol id="catalog" viewBox="0 0 24 24" fill="none">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M20.75 7C20.75 7.41421 20.4142 7.75 20 7.75L4 7.75C3.58579 7.75 3.25 7.41421 3.25 7C3.25 6.58579 3.58579 6.25 4 6.25L20 6.25C20.4142 6.25 20.75 6.58579 20.75 7Z"
               fill="white"
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M20.75 12C20.75 12.4142 20.4142 12.75 20 12.75L4 12.75C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25L20 11.25C20.4142 11.25 20.75 11.5858 20.75 12Z"
               fill="white"
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M20.75 17C20.75 17.4142 20.4142 17.75 20 17.75L4 17.75C3.58579 17.75 3.25 17.4142 3.25 17C3.25 16.5858 3.58579 16.25 4 16.25L20 16.25C20.4142 16.25 20.75 16.5858 20.75 17Z"
               fill="white"
             />
