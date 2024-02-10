@@ -1,5 +1,7 @@
+import { SwiperList } from "@/components/main/SwiperList";
+
 const SliderLastBooks = () => {
-  return <p>Slider last books</p>;
+  return <SwiperList />;
 };
 
 export default SliderLastBooks;

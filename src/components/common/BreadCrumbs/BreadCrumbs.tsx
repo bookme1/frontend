@@ -1,13 +1,15 @@
 "use client";
 import { Wrapper } from "@/styles/globals.styles";
-import { useSearchParams } from "next/navigation";
-import React, { ReactNode } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Icon } from "../Icon";
 
 import styled from "@emotion/styled";
 import names from "./cyrillicNames.json";
+
+const regexExp =
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
 const List = styled.ul`
   display: flex;
@@ -23,18 +25,22 @@ type CyrillicNames = {
   [key: string]: string;
 };
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ name }: { name: string }) => {
   const cyrillicNames: CyrillicNames = names;
   const separator = <Icon name="arrow_right" />;
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
   const cyrillicPathNames = pathNames.map((path) => {
     const matchedCyrillicName = cyrillicNames[path];
-    return matchedCyrillicName !== undefined ? matchedCyrillicName : path;
+    const isUUID = regexExp.test(path);
+    return matchedCyrillicName !== undefined
+      ? matchedCyrillicName
+      : isUUID
+      ? name
+      : path;
   });
-  console.log(cyrillicPathNames);
   const renderLink = (href: string, itemLink: string, index: number) => (
-    <React.Fragment>
+    <React.Fragment key={index}>
       <Item key={index}>
         <Link href={href}>{itemLink}</Link>
       </Item>

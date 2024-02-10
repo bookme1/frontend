@@ -1,6 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { Icon } from "../Icon";
+import Link from "next/link";
 
 const CardContainer = styled.li`
   margin: 2px 0px;
@@ -25,7 +26,11 @@ const DescriptionContainer = styled.div`
   padding: 0px 12px 12px;
 `;
 
-const CardLink = styled.a``;
+const CardLink = styled(Link)`
+  display: block;
+  width: 100%;
+  height: 100%;
+`;
 
 const Title = styled.p`
   font-size: 18px;
@@ -76,17 +81,17 @@ interface IBook {
 }
 
 const Card = ({ book }: { book: IBook }) => {
-  const { title, url, price, author } = book;
+  const { title, url, price, author, id } = book;
   return (
     <CardContainer>
       <ImageContainer
         style={{ ["--background-image" as string]: `url(${url})` }}
       >
-        <CardLink></CardLink>
+        <CardLink href={`book/${id}`}></CardLink>
       </ImageContainer>
       <DescriptionContainer>
         <Title>
-          <CardLink>{title}</CardLink>
+          <CardLink href={`book/${id}`}>{title}</CardLink>
         </Title>
         <Authors>{author}</Authors>
         <BottomContainer>

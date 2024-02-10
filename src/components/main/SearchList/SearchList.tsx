@@ -1,25 +1,18 @@
 "use client";
 import styled from "@emotion/styled";
+import { SearchItem } from "../SearchItem";
 
 const SearchListContainer = styled.div`
   position: absolute;
   top: 49px;
   left: 0;
   margin: 0 auto;
-  width: 643px;
+  width: 430px;
   border: 1px solid var(--gray_border);
+  z-index: 10;
 `;
 
 const SearchListList = styled.ul``;
-
-const SearchItem = styled.li`
-  padding: 16px 24px;
-  background-color: #fff;
-  :hover {
-    background-color: var(--gray_search);
-  }
-`;
-const SearchLink = styled.a``;
 
 interface IBook {
   id: string;
@@ -31,9 +24,7 @@ interface IBook {
 
 const SearchList = ({ books }: { books: IBook[] }) => {
   const searchMarkup = books.map((book) => (
-    <SearchItem key={book.title}>
-      <SearchLink>{book.title}</SearchLink>
-    </SearchItem>
+    <SearchItem key={book.title} title={book.title} id={book.id} />
   ));
   return (
     <SearchListContainer>

@@ -7,7 +7,7 @@ class BookService {
   constructor() {
     this.baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
   }
-
+  // Get books by name
   public async getBooks(type: string, value: string) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const instance = axios.create({
@@ -33,6 +33,19 @@ class BookService {
     });
     try {
       const response = await instance.get("api/book");
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  public async getBookById(id: string) {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const instance = axios.create({
+      baseURL: BASE_URL,
+      url: `api/book/${id}`,
+    });
+    try {
+      const response = await instance.get(`api/book/${id}`);
       return response.data;
     } catch (error) {
       throw error;

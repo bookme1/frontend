@@ -3,6 +3,9 @@
 import styled from "@emotion/styled";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
 import { Icon } from "@/components/common/Icon";
+import { Characteristics } from "../Characteristics";
+import { ICharacteristics } from "../Characteristics/Characteristics";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
 const ImageContainer = styled.div`
   width: 250px;
@@ -17,6 +20,7 @@ const ImageContainer = styled.div`
   @media (min-width: 768px) {
     margin-top: 0;
     margin-left: 0;
+    margin-bottom: 20px;
   }
   @media (min-width: 1280px) {
     width: 502px;
@@ -25,7 +29,9 @@ const ImageContainer = styled.div`
 `;
 
 const MainInfoContainer = styled.div`
+  margin-bottom: 48px;
   @media (min-width: 768px) {
+    margin-bottom: 20px;
     box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     padding: 32px 40px;
@@ -128,52 +134,69 @@ const StyledWrapper = styled(Wrapper)`
     gap: 20px;
     margin-top: 35.5px;
   }
-  @media (min-width: 768px) {
-    gap: 40px;
-    margin-top: 33.5px;
+`;
+
+const InfoContainer = styled.div`
+  @media (min-width: 1280px) {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 `;
 
-const MainInformation = () => {
-  const mockBook = {
-    name: "Усвідомленість. Як знайти гармонію в нашому шаленому світі",
-    price: "290",
-    authors: "Денні Пенман, Марк Вільямс",
-    url: "https://static.yakaboo.ua/media/cloudflare/product/webp/352x340/u/s/usvidomlenist-cover-1-728x1000.jpg",
-    characteristics: {
-      language: "Українська",
-      publish: "Monolit Bizz",
-      pages: 256,
-      cover: "тверда",
-    },
-  };
+const MainInformation = ({
+  authors,
+  url,
+  name,
+  price,
+  characteristics,
+}: {
+  authors: string;
+  url: string;
+  name: string;
+  price: number;
+  characteristics: ICharacteristics;
+}) => {
+  const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
     const authorsArr = authors.split(", ");
     return authorsArr.map((author) => {
       return <Author key={author}>{author}</Author>;
     });
   };
-  const authorsMarkup = getAuthorsMarkup(mockBook.authors);
+  const authorsMarkup = getAuthorsMarkup(authors);
   return (
-    <StyledWrapper>
-      <ImageContainer
-        style={{ ["--background-image" as string]: `url(${mockBook.url})` }}
-      ></ImageContainer>
-      <MainInfoContainer>
-        <Title>{mockBook.name}</Title>
-        <AuthorsList>{authorsMarkup}</AuthorsList>
-        <Price>{mockBook.price} ₴</Price>
-        <Controls>
-          <ToCart>
-            <Icon name="cart" size={28} />
-            Придбати
-          </ToCart>
-          <ToFavorite>
-            <Icon name="heart" size={28} />
-          </ToFavorite>
-        </Controls>
-      </MainInfoContainer>
-    </StyledWrapper>
+    <>
+      <StyledWrapper>
+        <ImageContainer
+          style={{ ["--background-image" as string]: `url(${url})` }}
+        ></ImageContainer>
+        <InfoContainer>
+          <MainInfoContainer>
+            <Title>{name}</Title>
+            <AuthorsList>{authorsMarkup}</AuthorsList>
+            <Price>{price} ₴</Price>
+            <Controls>
+              <ToCart>
+                <Icon name="cart" size={28} />
+                Придбати
+              </ToCart>
+              <ToFavorite>
+                <Icon name="heart" size={28} />
+              </ToFavorite>
+            </Controls>
+          </MainInfoContainer>
+          {screenWidth && (screenWidth < 768 || screenWidth >= 1280) && (
+            <Characteristics characteristics={characteristics} />
+          )}
+        </InfoContainer>
+      </StyledWrapper>
+      {screenWidth && screenWidth >= 768 && screenWidth < 1280 && (
+        <Wrapper>
+          <Characteristics characteristics={characteristics} />
+        </Wrapper>
+      )}
+    </>
   );
 };
 
