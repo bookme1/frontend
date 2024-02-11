@@ -25,19 +25,19 @@ class BookService {
       throw error;
     }
   }
-  public async getAllBooks() {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-    const instance = axios.create({
-      baseURL: BASE_URL,
-      url: "/api/book",
-    });
-    try {
-      const response = await instance.get("api/book");
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // public async getAllBooks() {
+  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  //   const instance = axios.create({
+  //     baseURL: BASE_URL,
+  //     url: "/api/book",
+  //   });
+  //   try {
+  //     const response = await instance.get("api/book");
+  //     return response.data;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   public async getBookById(id: string) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const instance = axios.create({

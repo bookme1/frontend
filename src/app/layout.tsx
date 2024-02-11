@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Metadata } from "next";
 import { raleway } from "@/styles/fonts";
 import { Icons } from "@/components/common/Icons";
+import { Providers } from "@/lib/providers";
 /*
 export const metadata: Metadata = {
   title: "Bookme",
@@ -15,14 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${raleway.className}`}>
-      <head>
-        <link rel="icon" href="/public/favicon.ico" />
-      </head>
-      <body className="bg-main">
-        <main>{children}</main>
-      </body>
-      <Icons />
-    </html>
+    <Providers>
+      <html className={`${raleway.className}`}>
+        <head>
+          <link rel="icon" href="/public/favicon.ico" />
+        </head>
+        <body className="bg-main">
+          <main>{children}</main>
+        </body>
+        <Icons />
+      </html>
+    </Providers>
   );
 }
