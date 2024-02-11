@@ -24,9 +24,8 @@ export const fetchBooksByName = createAppAsyncThunk(
   'books/fetchBooksByName',
   async (credentials, thunkAPI) => {
 
-
     try {
-      const response = await axios.get(`${BASE_URL}/api/diary/${credentials}`);
+      const response = await axios.get(`${BASE_URL}/api/book/${credentials}`);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

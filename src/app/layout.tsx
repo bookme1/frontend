@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { raleway } from "@/styles/fonts";
 import { Icons } from "@/components/common/Icons";
 import { Providers } from "@/lib/providers";
+
 /*
 export const metadata: Metadata = {
   title: "Bookme",
@@ -15,6 +16,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <Providers>
       <html className={`${raleway.className}`}>
