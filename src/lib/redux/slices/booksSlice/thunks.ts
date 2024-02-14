@@ -1,5 +1,5 @@
 import { createAppAsyncThunk } from "@/lib/redux/createAppAsyncThunk";
-import { getBooks } from "./fetchIdentityCount";
+
 import axios from "axios";
 
 
@@ -20,12 +20,16 @@ export const fetchAllBooks = createAppAsyncThunk(
   },
 );
 
-export const fetchBooksByName = createAppAsyncThunk(
-  'books/fetchBooksByName',
-  async (credentials, thunkAPI) => {
+
+
+
+
+export const fetchBooksById = createAppAsyncThunk(
+  'books/fetchBooksById',
+  async (id, thunkAPI) => {
 
     try {
-      const response = await axios.get(`${BASE_URL}/api/book/${credentials}`);
+      const response = await axios.get(`${BASE_URL}/api/book/${id}`);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
