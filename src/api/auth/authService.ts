@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { IUser } from "./authService.types";
 import Notiflix from "notiflix";
+import { redirect } from "next/dist/server/api-utils";
 
 class AuthService {
   private baseURL: string;
@@ -26,6 +27,7 @@ class AuthService {
       const { tokens } = response.data;
       localStorage.setItem("accessToken", tokens.accessToken);
       localStorage.setItem("refreshToken", tokens.refreshToken);
+      window.location.replace("/account");
       return response.data.tokens;
       // }
       return response;
