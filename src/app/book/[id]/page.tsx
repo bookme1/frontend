@@ -9,7 +9,12 @@ import { bookService } from "@/api/book/bookService";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
+import { useSelector } from "react-redux";
+import { selectBooks } from "@/lib/redux";
+
 export default function Home() {
+  const booksArr = useSelector(selectBooks);
+
   const [book, setBook] = useState<{
     title: string;
     author: string;
@@ -37,16 +42,18 @@ export default function Home() {
     if (id === undefined) {
       return;
     }
-    const fetchBook = async () => {
-      try {
-        const bookData = await bookService.getBookById(id);
-        setBook(bookData);
-      } catch (error) {
-        console.error("Error fetching book:", error);
-      }
-    };
-    fetchBook();
-  }, [id]);
+    // const fetchBook = async () => {
+    //   try {
+    //     const bookData = await bookService.getBookById(id);
+    //     setBook(bookData);
+    //   } catch (error) {
+    //     console.error("Error fetching book:", error);
+    //   }
+    // };
+    // fetchBook();
+    const res = booksArr.filter((book: any) => book.id === id);
+    setBook(res);
+  }, [booksArr, id]);
 
   return (
     <>

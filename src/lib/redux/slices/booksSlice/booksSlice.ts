@@ -1,0 +1,50 @@
+/* Core */
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+/* Instruments */
+import { fetchAllBooks, fetchBooksByName } from "./thunks";
+
+const initialState: BooksSliceState = {
+  books: [],
+  isLoading: false,
+  error: null,
+  filteredBooks: [],
+};
+
+export const booksSlice = createSlice({
+  name: "books",
+  initialState,
+
+  reducers: {
+
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllBooks.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+
+      })
+      .addCase(fetchAllBooks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.books = action.payload
+
+      })
+      .addCase(fetchAllBooks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+  },
+});
+
+
+
+/* Types */
+export interface BooksSliceState {
+  books: any;
+  isLoading: boolean;
+  error: any;
+  filteredBooks: any;
+}

@@ -1,19 +1,16 @@
 "use client";
-import { bookService } from "@/api/book/bookService";
+
 import { CardList } from "../CardList";
-import { useEffect, useState } from "react";
+
+import { useSelector } from "react-redux";
+import { selectBooks } from "@/lib/redux";
 
 const SwiperList = () => {
-  const [books, setBooks] = useState<any[]>([]);
+  const booksArr = useSelector(selectBooks);
+
   const name = "Популярне";
-  const fetchBooks = async () => {
-    const data = await bookService.getAllBooks();
-    setBooks(data);
-  };
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-  return <CardList name={name} books={books} />;
+
+  return <CardList name={name} books={booksArr} />;
 };
 
 export default SwiperList;
