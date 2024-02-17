@@ -28,8 +28,16 @@ import {
   StyledNavLink,
 } from "./Header.styles";
 import { useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchBooksByName,
+  selectBooks,
+  selectFilteredBooks,
+} from "@/lib/redux";
 
 const Header = () => {
+  const booksArr = useSelector(selectBooks);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -80,8 +88,11 @@ const Header = () => {
   const handleSearch = async (e: any) => {
     if (e.target.value.length >= 2) {
       setIsSearchListOpen(true);
-      const response = await bookService.getBooks("title", e.target.value);
-      setBooks(response);
+      // const response = await bookService.getBooks("title", e.target.value);
+      const res = booksArr.filter((book: any) =>
+        book.title.toLowerCase().includes(e.target.value)
+      );
+        setBooks(res);
     } else {
       setIsSearchListOpen(false);
     }
