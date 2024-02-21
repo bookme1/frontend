@@ -1,8 +1,7 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { fetchAllBooks } from ".";
 
-/* Instruments */
-import { fetchAllBooks, fetchBooksByName } from "./thunks";
 
 const initialState: BooksSliceState = {
   books: [],

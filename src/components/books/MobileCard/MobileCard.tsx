@@ -58,23 +58,24 @@ const CartButton = styled.button`
   padding: 10px;
 `;
 
-const MobileCard = () => {
-  const mockBook = {
-    title: "Я бачу, вас цікавить пітьма",
-    url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/y/a/ya_bachu_vas_cikavytj_pitjma_cover_full.jpg",
-    price: 199,
-    authors: "Бессер Ван, Дер Колк",
-  };
+const MobileCard = ({book}) => {
+  console.log(book.id)
+  // const mockBook = {
+  //   title: "Я бачу, вас цікавить пітьма",
+  //   url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/y/a/ya_bachu_vas_cikavytj_pitjma_cover_full.jpg",
+  //   price: 199,
+  //   authors: "Бессер Ван, Дер Колк",
+  // };
   return (
     <StyledWrapper>
       <ImageContainer
-        style={{ ["--background-image" as string]: `url(${mockBook.url})` }}
+        style={{ ["--background-image" as string]: `url(${book.url})` }}
       ></ImageContainer>
       <ContentContainer>
-        <Title>{mockBook.title}</Title>
-        <AuthorsList>{mockBook.authors}</AuthorsList>
+        <Title>{book.title}</Title>
+        <AuthorsList>{book.authors}</AuthorsList>
         <BottomContainer>
-          <Price>{mockBook.price} ₴</Price>
+          <Price>{book.price} ₴</Price>
           <Controls>
             <HeartButton>
               <Icon name="heart" size={24} />

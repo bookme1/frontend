@@ -5,9 +5,8 @@ import { Header } from "@/components/common/Header";
 import { Hero } from "@/components/main/Hero";
 import { SwiperList } from "@/components/main/SwiperList";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { fetchAllBooks } from "@/lib/redux";
 import { useEffect } from "react";
+import { fetchAllBooks, useDispatch } from "@/lib/redux";
 
 export default function Home() {
   const dispatch = useDispatch();

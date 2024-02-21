@@ -159,6 +159,7 @@ const MainInformation = ({
 }) => {
   const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
+    if (authors === undefined) return;
     const authorsArr = authors.split(", ");
     return authorsArr.map((author) => {
       return <Author key={author}>{author}</Author>;

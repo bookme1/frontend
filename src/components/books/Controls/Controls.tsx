@@ -3,6 +3,9 @@ import { Icon } from "@/components/common/Icon";
 import { Wrapper } from "@/styles/globals.styles";
 import styled from "@emotion/styled";
 import { MobileCard } from "../MobileCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllBooks, selectBooks } from "@/lib/redux";
+import { useEffect } from "react";
 
 const BooksQuantity = styled.p`
   margin-top: 24px;
@@ -35,6 +38,13 @@ const ControlButton = styled.button`
 `;
 
 const Controls = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllBooks());
+  }, [dispatch]);
+  
+  const booksArr = useSelector(selectBooks);
+  console.log(booksArr);
   const quantity = 18;
   return (
     <>
@@ -50,10 +60,13 @@ const Controls = () => {
           </ControlButton>
         </ControlsContainer>
       </Wrapper>
+      {booksArr.map((book: any) => {
+        return <MobileCard book={book} key={book.id} />;
+      })}
+      {/* <MobileCard />
       <MobileCard />
       <MobileCard />
-      <MobileCard />
-      <MobileCard />
+      <MobileCard /> */}
     </>
   );
 };
