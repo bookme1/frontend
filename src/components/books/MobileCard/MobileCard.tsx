@@ -59,7 +59,6 @@ const CartButton = styled.button`
 `;
 
 const MobileCard = ({book}) => {
-  console.log(book.id)
   // const mockBook = {
   //   title: "Я бачу, вас цікавить пітьма",
   //   url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/y/a/ya_bachu_vas_cikavytj_pitjma_cover_full.jpg",

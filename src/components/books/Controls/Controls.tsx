@@ -5,7 +5,8 @@ import styled from "@emotion/styled";
 import { MobileCard } from "../MobileCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllBooks, selectBooks } from "@/lib/redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Filter from "../Filter/Filter";
 
 const BooksQuantity = styled.p`
   margin-top: 24px;
@@ -42,16 +43,24 @@ const Controls = () => {
   useEffect(() => {
     dispatch(fetchAllBooks());
   }, [dispatch]);
-  
+
   const booksArr = useSelector(selectBooks);
-  console.log(booksArr);
-  const quantity = 18;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggeModal = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const quantity = booksArr.length;
   return (
     <>
       <Wrapper>
         <BooksQuantity>{quantity} Товарів</BooksQuantity>
         <ControlsContainer>
-          <ControlButton className="active">
+          <ControlButton
+            className="active"
+            onClick={toggeModal}
+          >
             <Icon name="filter" size={20} /> Фільтр{" "}
             <Icon name="arrow_down" color="#fff" size={16} />
           </ControlButton>
@@ -59,10 +68,11 @@ const Controls = () => {
             <Icon name="rating" size={20} /> За рейтингом
           </ControlButton>
         </ControlsContainer>
+        {booksArr.map((book: any) => {
+          return <MobileCard book={book} key={book.id} />;
+        })}
+        {isOpen && <Filter toggeModal={toggeModal} />}
       </Wrapper>
-      {booksArr.map((book: any) => {
-        return <MobileCard book={book} key={book.id} />;
-      })}
       {/* <MobileCard />
       <MobileCard />
       <MobileCard />
