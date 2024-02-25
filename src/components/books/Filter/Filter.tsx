@@ -5,7 +5,6 @@ import {
   AsideContant,
   BackBtn,
   CheckBox,
-  Label,
   PartBox,
   SubTitle,
   Title,
@@ -15,18 +14,36 @@ import {
   SearchInput,
   PartBoxTitle,
   InputStyled,
+  ApplyBtn,
 } from "./Filter.styles";
 import { Icon } from "@/components/common/Icon";
+import { useDispatch } from "react-redux";
+import { AddFilter } from "@/lib/redux";
 
 const Filter = ({ toggeModal }: any) => {
-  const [selectedBooks, setSelectedBooks] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedAvailability, setSelectedAvailability] = useState<string[]>(
-    []
-  );
-  const [selectedAuthor, setSelectedAuthor] = useState<string[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<string[]>([]);
-  const [selectedPubHouse, setSelectedPubHouse] = useState<string[]>([]);
+  const dispatch = useDispatch();
+
+  const [selectedFilters, setSelectedFilters] = useState<{
+    books: string[];
+    types: string[];
+    availability: string[];
+    author: string[];
+    language: string[];
+    pubHouse: string[];
+    priceFrom: Number;
+    priceTo: Number;
+  }>({
+    books: [],
+    types: [],
+    availability: [],
+    author: [],
+    language: [],
+    pubHouse: [],
+    priceFrom: 0,
+    priceTo: 100000,
+  });
+
+  const [isBtnVisible, setIsBtnVisible] = useState(false);
 
   const mockList = {
     id: [1, 2],
@@ -38,53 +55,67 @@ const Filter = ({ toggeModal }: any) => {
     pubHouse: ["test", "test-1"],
   };
 
-  const handleBookChange = (book: string) => {
-    setSelectedBooks((prev) =>
-      prev.includes(book) ? prev.filter((a) => a !== book) : [...prev, book]
-    );
+  type SelectedFiltersState = {
+    books: string[];
+    types: string[];
+    availability: string[];
+    author: string[];
+    language: string[];
+    pubHouse: string[];
+    priceFrom: Number;
+    priceTo: Number;
   };
 
-  const handleTypeChange = (type: string) => {
-    setSelectedTypes((prev) =>
-      prev.includes(type) ? prev.filter((a) => a !== type) : [...prev, type]
-    );
+  const toggleSelectedFilter = (
+    filterName: keyof SelectedFiltersState,
+    value: string
+  ) => {
+    setSelectedFilters((prevState) => {
+      const currentFilters = prevState[filterName];
+      const filterIndex = currentFilters.indexOf(value);
+      if (filterIndex === -1) {
+        return {
+          ...prevState,
+          [filterName]: [...currentFilters, value],
+        };
+      } else {
+        return {
+          ...prevState,
+          [filterName]: currentFilters.filter(
+            (filter: any) => filter !== value
+          ),
+        };
+      }
+    });
+    setIsBtnVisible(true);
   };
 
-  const handleAvailabilityChange = (availability: string) => {
-    setSelectedAvailability((prev) =>
-      prev.includes(availability)
-        ? prev.filter((a) => a !== availability)
-        : [...prev, availability]
-    );
+  const handlePriceFrom = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFilters((prevState: any) => ({
+      ...prevState,
+      priceFrom: event.target.value,
+    }));
   };
 
-  const handleAuthorChange = (author: string) => {
-    setSelectedAuthor((prev) =>
-      prev.includes(author)
-        ? prev.filter((a) => a !== author)
-        : [...prev, author]
-    );
-  };
-
-  const handleLanguageChange = (language: string) => {
-    setSelectedLanguage((prev) =>
-      prev.includes(language)
-        ? prev.filter((a) => a !== language)
-        : [...prev, language]
-    );
-  };
-
-  const handlePubHouseChange = (pubHouse: string) => {
-    setSelectedPubHouse((prev) =>
-      prev.includes(pubHouse)
-        ? prev.filter((a) => a !== pubHouse)
-        : [...prev, pubHouse]
-    );
+  const handlePriceTo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFilters((prevState: any) => ({
+      ...prevState,
+      priceTo: event.target.value,
+    }));
   };
 
   return (
     <AsideContainer>
       <AsideContant>
+        {isBtnVisible && (
+          <ApplyBtn
+            onClick={() => {
+              dispatch(AddFilter(selectedFilters));
+            }}
+          >
+            Apply filters
+          </ApplyBtn>
+        )}
         <PartBoxTitle>
           <BackBtn onClick={() => toggeModal(false)}>
             <Icon name="arrow_left" color="#111" size={24} />
@@ -100,7 +131,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handleBookChange(elem)}
+                  onChange={() => toggleSelectedFilter("books", elem)}
                 />
                 {elem}
               </label>
@@ -111,10 +142,18 @@ const Filter = ({ toggeModal }: any) => {
         <PartBox>
           <SubTitle>Ціна</SubTitle>
           <PriceBox>
-            <RangeInput type="input" placeholder="від" />
-            <RangeInput type="input" placeholder="до" />
+            <RangeInput
+              type="input"
+              placeholder="від"
+              onChange={handlePriceFrom}
+            />
+            <RangeInput
+              type="input"
+              placeholder="до"
+              onChange={handlePriceTo}
+            />
 
-            <OkBtn>Ok</OkBtn>
+            {/* <OkBtn>Ok</OkBtn> */}
           </PriceBox>
         </PartBox>
 
@@ -125,7 +164,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handleTypeChange(elem)}
+                  onChange={() => toggleSelectedFilter("types", elem)}
                 />
                 {elem}
               </label>
@@ -140,7 +179,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handleAvailabilityChange(elem)}
+                  onChange={() => toggleSelectedFilter("availability", elem)}
                 />
                 {elem}
               </label>
@@ -157,7 +196,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handleAuthorChange(elem)}
+                  onChange={() => toggleSelectedFilter("author", elem)}
                 />
                 {elem}
               </label>
@@ -174,7 +213,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handleLanguageChange(elem)}
+                  onChange={() => toggleSelectedFilter("language", elem)}
                 />
                 {elem}
               </label>
@@ -191,7 +230,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
-                  onChange={() => handlePubHouseChange(elem)}
+                  onChange={() => toggleSelectedFilter("pubHouse", elem)}
                 />
                 {elem}
               </label>

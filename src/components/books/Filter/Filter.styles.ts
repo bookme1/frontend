@@ -13,6 +13,8 @@ export const AsideContainer = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 10;
+
+  display: flex;
 `;
 
 
@@ -148,4 +150,19 @@ color: var(--text_main);
 
 export const InputStyled = styled.input`
 margin-right: 16px;
+`
+
+export const ApplyBtn = styled.button`
+position: sticky;
+top: 15%;
+border-radius: 16px;
+background-color: var(--red);
+padding: 10px;
+width: 316px;
+
+color: #FFF;
+font-weight: 500;
+font-size: 20px;
+line-height: 23.48px;
+cursor: pointer;
 `
