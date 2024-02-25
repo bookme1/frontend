@@ -146,3 +146,6 @@ color: var(--text_main);
 }
 `
 
+export const InputStyled = styled.input`
+margin-right: 16px;
+`

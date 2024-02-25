@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",
-    "@types/pdfjs-dist": "^2.10.378",
     "@reduxjs/toolkit": "^2.1.0",
+    "@types/pdfjs-dist": "^2.10.378",
     "axios": "^1.6.5",
     "classnames": "^2.5.1",
     "next": "14.0.4",
