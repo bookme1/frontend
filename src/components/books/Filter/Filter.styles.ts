@@ -15,14 +15,18 @@ export const AsideContainer = styled.div`
   z-index: 10;
 
   display: flex;
+  @media (min-width: 1280px) {
+
+}
 `;
 
 
 export const AsideContant = styled.div`
   position: relative;
   height: 100%;
-  width: 375px;
-  margin-left: auto;
+  width: 100%;
+  max-width: 375px;
+  margin-left: 0;
   margin-right: auto;
   background-color: #fff;
 
@@ -38,6 +42,13 @@ export const AsideContant = styled.div`
   &::-webkit-scrollbar-thumb {
     background-color: var(--gray_border);
     border-radius: 6px;
+  }
+
+  @media (min-width: 768px) {
+
+  }
+  @media (min-width: 1280px) {
+ 
   }
 `
 

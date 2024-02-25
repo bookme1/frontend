@@ -23,6 +23,26 @@ const ControlsContainer = styled.div`
   margin-bottom: 32px;
 `;
 
+const CardContainer = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  @media (min-width: 1280px) {
+  gap: 32px 16px;
+}
+`;
+
+const ItemContainer = styled.li`
+  max-width: 230px;
+  @media (min-width: 1280px) {
+    display: flex;
+
+}
+`;
+
 const ControlButton = styled.button`
   background-color: var(--gray_border);
   color: white;
@@ -40,6 +60,7 @@ const ControlButton = styled.button`
 
 const Controls = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAllBooks());
   }, [dispatch]);
@@ -57,10 +78,7 @@ const Controls = () => {
       <Wrapper>
         <BooksQuantity>{quantity} Товарів</BooksQuantity>
         <ControlsContainer>
-          <ControlButton
-            className="active"
-            onClick={toggeModal}
-          >
+          <ControlButton className="active" onClick={toggeModal}>
             <Icon name="filter" size={20} /> Фільтр{" "}
             <Icon name="arrow_down" color="#fff" size={16} />
           </ControlButton>
@@ -68,10 +86,16 @@ const Controls = () => {
             <Icon name="rating" size={20} /> За рейтингом
           </ControlButton>
         </ControlsContainer>
-        {booksArr.map((book: any) => {
-          return <MobileCard book={book} key={book.id} />;
-        })}
-        {isOpen && <Filter toggeModal={toggeModal} />}
+        <CardContainer>
+          {booksArr.map((book: any) => {
+            return (
+              <ItemContainer key={book.id}>
+                <MobileCard book={book} />
+              </ItemContainer>
+            );
+          })}
+          {isOpen && <Filter toggeModal={toggeModal} />}
+        </CardContainer>
       </Wrapper>
       {/* <MobileCard />
       <MobileCard />

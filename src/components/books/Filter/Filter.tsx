@@ -103,18 +103,18 @@ const Filter = ({ toggeModal }: any) => {
       priceTo: event.target.value,
     }));
   };
+ 
+
+  const handleApply = () => {
+    dispatch(AddFilter(selectedFilters));
+    toggeModal(false);
+  };
 
   return (
     <AsideContainer>
       <AsideContant>
         {isBtnVisible && (
-          <ApplyBtn
-            onClick={() => {
-              dispatch(AddFilter(selectedFilters));
-            }}
-          >
-            Apply filters
-          </ApplyBtn>
+          <ApplyBtn onClick={handleApply}>Apply filters</ApplyBtn>
         )}
         <PartBoxTitle>
           <BackBtn onClick={() => toggeModal(false)}>
