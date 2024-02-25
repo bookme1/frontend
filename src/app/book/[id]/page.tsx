@@ -55,6 +55,10 @@ export default function Home() {
     setBook(res);
   }, [booksArr, id]);
 
+  console.log(book)
+  console.log(id)
+
+
   return (
     <>
       <Header />

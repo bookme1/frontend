@@ -1,14 +1,13 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { fetchAllBooks } from ".";
 
-/* Instruments */
-import { fetchAllBooks, fetchBooksByName } from "./thunks";
 
 const initialState: BooksSliceState = {
   books: [],
   isLoading: false,
   error: null,
-  filteredBooks: [],
+  filter: [],
 };
 
 export const booksSlice = createSlice({
@@ -16,7 +15,9 @@ export const booksSlice = createSlice({
   initialState,
 
   reducers: {
-
+    AddFilter(state, action) {
+      state.filter = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -39,12 +40,13 @@ export const booksSlice = createSlice({
   },
 });
 
-
+export const { AddFilter } =
+  booksSlice.actions;
 
 /* Types */
 export interface BooksSliceState {
   books: any;
   isLoading: boolean;
   error: any;
-  filteredBooks: any;
+  filter: any;
 }

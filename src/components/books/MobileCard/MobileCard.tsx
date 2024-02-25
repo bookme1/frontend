@@ -5,16 +5,22 @@ import styled from "@emotion/styled";
 
 const StyledWrapper = styled(Wrapper)`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 24px;
 `;
 
 const ImageContainer = styled.div`
   width: 120px;
   height: 150px;
+
   background-image: var(--background-image);
   background-position: center;
   background-size: cover;
+  @media (min-width: 1280px) {
+    width: 230px;
+    height: 288px;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -58,23 +64,23 @@ const CartButton = styled.button`
   padding: 10px;
 `;
 
-const MobileCard = () => {
-  const mockBook = {
-    title: "Я бачу, вас цікавить пітьма",
-    url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/y/a/ya_bachu_vas_cikavytj_pitjma_cover_full.jpg",
-    price: 199,
-    authors: "Бессер Ван, Дер Колк",
-  };
+const MobileCard = ({ book }) => {
+  // const mockBook = {
+  //   title: "Я бачу, вас цікавить пітьма",
+  //   url: "https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/y/a/ya_bachu_vas_cikavytj_pitjma_cover_full.jpg",
+  //   price: 199,
+  //   authors: "Бессер Ван, Дер Колк",
+  // };
   return (
     <StyledWrapper>
       <ImageContainer
-        style={{ ["--background-image" as string]: `url(${mockBook.url})` }}
+        style={{ ["--background-image" as string]: `url(${book.url})` }}
       ></ImageContainer>
       <ContentContainer>
-        <Title>{mockBook.title}</Title>
-        <AuthorsList>{mockBook.authors}</AuthorsList>
+        <Title>{book.title}</Title>
+        <AuthorsList>{book.authors}</AuthorsList>
         <BottomContainer>
-          <Price>{mockBook.price} ₴</Price>
+          <Price>{book.price} ₴</Price>
           <Controls>
             <HeartButton>
               <Icon name="heart" size={24} />
