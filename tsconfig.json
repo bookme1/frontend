@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/Hero/Hero.tss",
-    "src/components/book/MainInformation"
+    "src/components/book/MainInformation",
+    "src/app/api/auth/[...nextauth].tsx"
   ],
   "exclude": ["node_modules"]
 }

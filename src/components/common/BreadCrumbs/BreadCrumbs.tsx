@@ -4,33 +4,19 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Icon } from "../Icon";
-
-import styled from "@emotion/styled";
+import { CyrillicNames, regexExp } from "./BreadCrumbs.types";
 import names from "./cyrillicNames.json";
-
-const regexExp =
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-const List = styled.ul`
-  display: flex;
-  gap: 16px;
-  align-items: center;
-`;
-
-const Item = styled.li`
-  font-size: 16px;
-`;
-
-type CyrillicNames = {
-  [key: string]: string;
-};
+import { Item, List } from "./BreadCrumbs.styles";
 
 const Breadcrumbs = ({ name }: { name: string }) => {
   const cyrillicNames: CyrillicNames = names;
   const separator = <Icon name="arrow_right" />;
   const paths = usePathname();
-  const pathNames = paths.split("/").filter((path) => path);
-  const cyrillicPathNames = pathNames.map((path) => {
+  let pathNames: any;
+  if (paths) {
+    pathNames = paths.split("/").filter((path) => path);
+  }
+  const cyrillicPathNames = pathNames.map((path: string) => {
     const matchedCyrillicName = cyrillicNames[path];
     const isUUID = regexExp.test(path);
     return matchedCyrillicName !== undefined
@@ -48,12 +34,14 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     </React.Fragment>
   );
 
-  const breadcrumbItems = cyrillicPathNames.map((link, index) => {
-    const href = `/${pathNames.slice(0, index + 1).join("/")}`;
-    const itemLink = link[0].toUpperCase() + link.slice(1, link.length);
+  const breadcrumbItems = cyrillicPathNames.map(
+    (link: string | any[], index: number) => {
+      const href = `/${pathNames.slice(0, index + 1).join("/")}`;
+      const itemLink = link[0].toUpperCase() + link.slice(1, link.length);
 
-    return renderLink(href, itemLink, index);
-  });
+      return renderLink(href, itemLink, index);
+    }
+  );
   return (
     <Wrapper>
       <List>

@@ -1,8 +1,4 @@
-import {
-  ModalWindow,
-  ModalContainer,
-  CloseButton,
-} from "./DesktopCatalog.styles";
+import { ModalWindow, ModalContainer } from "./DesktopCatalog.styles";
 import { Icon } from "../../common/Icon";
 
 import styled from "@emotion/styled";

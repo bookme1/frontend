@@ -37,6 +37,22 @@ class AuthService {
     }
   }
 
+  public async googleAuth(email: string, name: string): Promise<AxiosResponse> {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    try {
+      const response = await axios.post(`${BASE_URL}/api/auth/email/google`, {
+        email,
+        name,
+      });
+      const { tokens } = response.data;
+      localStorage.setItem("accessToken", tokens.accessToken);
+      localStorage.setItem("refreshToken", tokens.refreshToken);
+      return response.data.tokens;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async signUp(
     name: string,
     email: string,

@@ -13,14 +13,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 
-interface IBook {
-  id: string;
-  title: string;
-  url: string;
-  price: number;
-  author: string;
-}
-
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
   let booksMarkup;
   if (books.length) {

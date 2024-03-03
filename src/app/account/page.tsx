@@ -1,3 +1,4 @@
+"use client";
 import { BreadCrumbs } from "@/components/common/BreadCrumbs";
 
 import {
@@ -12,6 +13,7 @@ import {
 import AvatarPhoto from "@/assets/account/UserAvatar.png";
 import { Header } from "@/components/common/Header";
 import { Icon } from "@/components/common/Icon";
+import { signOut } from "next-auth/react";
 
 export default function Home() {
   return (
@@ -42,8 +44,16 @@ export default function Home() {
         </NavDiv>
         <ExitDiv>
           <Navli>
-            <Icon name="exit" />
-            Вийти
+            <button
+              onClick={() => {
+                signOut();
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("accessToken");
+              }}
+            >
+              <Icon name="exit" />
+              Вийти
+            </button>
           </Navli>
         </ExitDiv>
       </WrapperStyle>

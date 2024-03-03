@@ -8,7 +8,6 @@ import {
   PartBox,
   SubTitle,
   Title,
-  OkBtn,
   PriceBox,
   RangeInput,
   SearchInput,
@@ -103,7 +102,6 @@ const Filter = ({ toggeModal }: any) => {
       priceTo: event.target.value,
     }));
   };
- 
 
   const handleApply = () => {
     dispatch(AddFilter(selectedFilters));

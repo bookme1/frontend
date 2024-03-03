@@ -1,8 +1,8 @@
 "use client";
 import { authService } from "@/api/auth/authService";
-import styled from "@emotion/styled";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
+  GoogleBtn,
   ModalContent,
   Title,
   Description,
@@ -11,6 +11,8 @@ import {
   SubmitButton,
   ChangeModalButton,
 } from "../Modal.styles";
+import { signIn } from "next-auth/react";
+import { Icon } from "@/components/common/Icon";
 
 const SignInModal = ({
   setType,
@@ -48,7 +50,14 @@ const SignInModal = ({
         />
         <SubmitButton type="submit">Увійти</SubmitButton>
       </Form>
-      <Description>Або увійдіть за допомогою:</Description>
+      <Description className="google">Або увійдіть за допомогою:</Description>
+      <GoogleBtn
+        onClick={() => {
+          signIn();
+        }}
+      >
+        <Icon name="google" size="24" />
+      </GoogleBtn>
       <Description>
         Немає профілю?
         <ChangeModalButton

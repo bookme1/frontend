@@ -7,6 +7,7 @@ import { SwiperList } from "@/components/main/SwiperList";
 import Image from "next/image";
 import { useEffect } from "react";
 import { fetchAllBooks, useDispatch } from "@/lib/redux";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ export default function Home() {
     dispatch(fetchAllBooks());
   }, [dispatch]);
 
+  const session = useSession();
+  console.log(session);
   return (
     <>
       <Header />

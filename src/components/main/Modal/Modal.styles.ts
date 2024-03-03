@@ -62,6 +62,10 @@ export const Description = styled.p`
   text-align: center;
   margin-bottom: 40px;
   font-size: 18px;
+
+  &.google {
+    margin-bottom: 20px;
+  }
 `;
 
 export const Form = styled.form`
@@ -95,4 +99,25 @@ export const ChangeModalButton = styled.button`
   font-size: 18px;
   font-weight: 700;
   color: var(--blue);
+`;
+
+export const GoogleBtn = styled.button`
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 6px 0px #00000026;
+  border: 1px solid #00000026;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  transition: background-color 0.1s ease-in-out;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
 `;

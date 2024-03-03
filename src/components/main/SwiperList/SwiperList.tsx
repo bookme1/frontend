@@ -1,7 +1,5 @@
 "use client";
-
 import { CardList } from "../CardList";
-
 import { useSelector } from "react-redux";
 import { selectBooks } from "@/lib/redux";
 

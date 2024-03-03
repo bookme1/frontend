@@ -5,7 +5,6 @@ import { Modal } from "@/components/main/Modal";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { authService } from "@/api/auth/authService";
 import { SearchList } from "@/components/main/SearchList";
-import { bookService } from "@/api/book/bookService";
 import { CatalogButton } from "../../main/Hero/Hero.styles";
 import ScrollBehavior from "./ScrollBehavior";
 import { DesktopCatalog } from "@/components/main/DesktopCatalog";
@@ -28,12 +27,9 @@ import {
   StyledNavLink,
 } from "./Header.styles";
 import { useSearchParams } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchBooksByName,
-  selectBooks,
-  selectFilteredBooks,
-} from "@/lib/redux";
+import { useSelector } from "react-redux";
+import { selectBooks } from "@/lib/redux";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
   const booksArr = useSelector(selectBooks);
@@ -92,7 +88,7 @@ const Header = () => {
       const res = booksArr.filter((book: any) =>
         book.title.toLowerCase().includes(e.target.value)
       );
-        setBooks(res);
+      setBooks(res);
     } else {
       setIsSearchListOpen(false);
     }
@@ -113,6 +109,27 @@ const Header = () => {
     }
     setActivePage(page);
   };
+  // ---------------------------------
+  //Check if user authorized by google
+  // ---------------------------------
+  const session = useSession();
+
+  useEffect(() => {
+    if (session && session.data?.user?.email) {
+      const fetchData = async () => {
+        try {
+          const data = await authService.googleAuth(
+            session.data?.user?.email || "",
+            session.data?.user?.name || ""
+          );
+          setUserData(data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [session]);
 
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

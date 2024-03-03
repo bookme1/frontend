@@ -16,7 +16,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <Providers>
       <html className={`${raleway.className}`}>
