@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import {
   AsideContainer,
@@ -18,9 +19,38 @@ import {
 import { Icon } from "@/components/common/Icon";
 import { useDispatch } from "react-redux";
 import { AddFilter } from "@/lib/redux";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Filter = ({ toggeModal }: any) => {
   const dispatch = useDispatch();
+
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const book = searchParams.getAll("book");
+  const types = searchParams.getAll("types");
+  const availability = searchParams.getAll("availability");
+  const author = searchParams.getAll("author");
+  const language = searchParams.getAll("language");
+  const pubHouse = searchParams.getAll("pubHouse");
+  const priceFrom = searchParams.get("priceFrom");
+  const priceTo = searchParams.get("priceTo");
+
+  useEffect(() => {
+    setSelectedFilters((prevState: any) => ({
+      ...prevState,
+      books: book,
+      types: types,
+      availability: availability,
+      author: author,
+      language: language,
+      pubHouse: pubHouse,
+      priceFrom: priceFrom,
+      priceTo: priceTo,
+    }));
+    dispatch(AddFilter(selectedFilters));
+  }, []);
 
   const [selectedFilters, setSelectedFilters] = useState<{
     books: string[];
@@ -65,12 +95,40 @@ const Filter = ({ toggeModal }: any) => {
     priceTo: Number;
   };
 
+  useEffect(() => {
+    router.push(
+      `?book=${selectedFilters.books.join(
+        ","
+      )}&types=${selectedFilters.types.join(
+        ","
+      )}&availability=${selectedFilters.availability.join(
+        ","
+      )}&author=${selectedFilters.author.join(
+        ","
+      )}&language=${selectedFilters.language.join(
+        ","
+      )}&pubHouse=${selectedFilters.pubHouse.join(",")}&priceFrom=${
+        selectedFilters.priceFrom
+      }&priceTo=${selectedFilters.priceTo}`
+    );
+  }, [
+    router,
+    selectedFilters.author,
+    selectedFilters.availability,
+    selectedFilters.books,
+    selectedFilters.language,
+    selectedFilters.priceFrom,
+    selectedFilters.priceTo,
+    selectedFilters.pubHouse,
+    selectedFilters.types,
+  ]);
+
   const toggleSelectedFilter = (
     filterName: keyof SelectedFiltersState,
     value: string
   ) => {
     setSelectedFilters((prevState) => {
-      const currentFilters = prevState[filterName];
+      const currentFilters: any = prevState[filterName];
       const filterIndex = currentFilters.indexOf(value);
       if (filterIndex === -1) {
         return {
@@ -94,6 +152,7 @@ const Filter = ({ toggeModal }: any) => {
       ...prevState,
       priceFrom: event.target.value,
     }));
+    setIsBtnVisible(true);
   };
 
   const handlePriceTo = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,11 +160,12 @@ const Filter = ({ toggeModal }: any) => {
       ...prevState,
       priceTo: event.target.value,
     }));
+    setIsBtnVisible(true);
   };
 
   const handleApply = () => {
     dispatch(AddFilter(selectedFilters));
-    toggeModal(false);
+    // toggeModal(false);
   };
 
   return (
@@ -129,6 +189,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.books.includes(elem)}
                   onChange={() => toggleSelectedFilter("books", elem)}
                 />
                 {elem}
@@ -143,12 +204,22 @@ const Filter = ({ toggeModal }: any) => {
             <RangeInput
               type="input"
               placeholder="від"
-              onChange={handlePriceFrom}
+              defaultValue={
+                selectedFilters.priceFrom?.toString()
+                  ? selectedFilters.priceFrom?.toString()
+                  : ""
+              }
+              onInput={handlePriceFrom}
             />
             <RangeInput
               type="input"
               placeholder="до"
-              onChange={handlePriceTo}
+              defaultValue={
+                selectedFilters.priceTo?.toString()
+                  ? selectedFilters.priceTo?.toString()
+                  : ""
+              }
+              onInput={handlePriceTo}
             />
 
             {/* <OkBtn>Ok</OkBtn> */}
@@ -162,6 +233,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.types.includes(elem)}
                   onChange={() => toggleSelectedFilter("types", elem)}
                 />
                 {elem}
@@ -177,6 +249,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.availability.includes(elem)}
                   onChange={() => toggleSelectedFilter("availability", elem)}
                 />
                 {elem}
@@ -186,7 +259,7 @@ const Filter = ({ toggeModal }: any) => {
         </PartBox>
 
         <PartBox>
-          <SubTitle>Наявність</SubTitle>
+          <SubTitle>Автор</SubTitle>
           <SearchInput type="input" placeholder="Знайти" />
 
           {mockList.author.map((elem) => (
@@ -194,6 +267,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.author.includes(elem)}
                   onChange={() => toggleSelectedFilter("author", elem)}
                 />
                 {elem}
@@ -211,6 +285,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.language.includes(elem)}
                   onChange={() => toggleSelectedFilter("language", elem)}
                 />
                 {elem}
@@ -228,6 +303,7 @@ const Filter = ({ toggeModal }: any) => {
               <label>
                 <InputStyled
                   type="checkbox"
+                  checked={selectedFilters.pubHouse.includes(elem)}
                   onChange={() => toggleSelectedFilter("pubHouse", elem)}
                 />
                 {elem}

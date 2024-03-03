@@ -8,21 +8,37 @@ import { useEffect, useState } from "react";
 import Filter from "../Filter/Filter";
 import {
   BooksQuantity,
-  ControlButton,
   ControlsContainer,
+  ControlButton,
   CardContainer,
   ItemContainer,
 } from "./Controls.styles";
+
 const Controls = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const booksArr = useSelector(selectBooks);
 
   useEffect(() => {
     dispatch(fetchAllBooks());
   }, [dispatch]);
 
-  const booksArr = useSelector(selectBooks);
+  useEffect(() => {
+    setIsOpen(window.innerWidth >= 1280);
+  }, []);
 
-  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth >= 1280);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const toggeModal = () => {
     setIsOpen(!isOpen);
   };
@@ -31,26 +47,30 @@ const Controls = () => {
   return (
     <>
       <Wrapper>
-        <BooksQuantity>{quantity} Товарів</BooksQuantity>
-        <ControlsContainer>
-          <ControlButton className="active" onClick={toggeModal}>
-            <Icon name="filter" size={20} /> Фільтр{" "}
-            <Icon name="arrow_down" color="#fff" size={16} />
-          </ControlButton>
-          <ControlButton>
-            <Icon name="rating" size={20} /> За рейтингом
-          </ControlButton>
-        </ControlsContainer>
-        <CardContainer>
-          {booksArr.map((book: any) => {
-            return (
-              <ItemContainer key={book.id}>
-                <MobileCard book={book} />
-              </ItemContainer>
-            );
-          })}
+        <div style={{ display: "flex", gap: "16px" }}>
           {isOpen && <Filter toggeModal={toggeModal} />}
-        </CardContainer>
+          <div>
+            <BooksQuantity>{quantity} Товарів</BooksQuantity>
+            <ControlsContainer>
+              <ControlButton className="active" onClick={toggeModal}>
+                <Icon name="filter" size={20} /> Фільтр{" "}
+                <Icon name="arrow_down" color="#fff" size={16} />
+              </ControlButton>
+              <ControlButton>
+                <Icon name="rating" size={20} /> За рейтингом
+              </ControlButton>
+            </ControlsContainer>
+            <CardContainer>
+              {booksArr.map((book: any) => {
+                return (
+                  <ItemContainer key={book.id}>
+                    <MobileCard book={book} />
+                  </ItemContainer>
+                );
+              })}
+            </CardContainer>
+          </div>
+        </div>
       </Wrapper>
     </>
   );

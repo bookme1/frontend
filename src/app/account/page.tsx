@@ -9,6 +9,7 @@ import {
   NavDiv,
   Navli,
   ExitDiv,
+  SpanStyle,
 } from "./page.style";
 import AvatarPhoto from "@/assets/account/UserAvatar.png";
 import { Header } from "@/components/common/Header";
@@ -28,17 +29,22 @@ export default function Home() {
         <NavDiv>
           <ul>
             <Navli>
-              <Icon name="clock" /> Мої покупки
+              <SpanStyle>
+                <Icon name="clock" />
+                Мої покупки
+              </SpanStyle>
             </Navli>
 
             <Navli>
-              {" "}
-              <Icon name="heart" />
-              Обране
+              <SpanStyle>
+                <Icon name="heart" />
+                Обране
+              </SpanStyle>
             </Navli>
             <Navli>
-              {" "}
-              <Icon name="wallet" /> Мій гаманець
+              <SpanStyle>
+                <Icon name="wallet" /> Мій гаманець{" "}
+              </SpanStyle>
             </Navli>
           </ul>
         </NavDiv>

@@ -1,10 +1,9 @@
 "use client";
 import styled from "@emotion/styled";
-import AvatarPhoto from "../../styles/img/UserAvatar.png";
 
 export const WrapperStyle = styled.div`
   width: 343px;
-  margin: 0 16px;
+  margin: 10px 16px;
   @media (min-width: 768px) {
     /* width: 728px; */
     width: 25%;
@@ -26,6 +25,8 @@ export const UserDiv = styled.div`
   justify-content: left;
   align-items: center;
   gap: 12px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const UserImg = styled.img`
@@ -40,25 +41,33 @@ export const UserName = styled.p``;
 
 export const NavDiv = styled.div`
   margin-top: 48px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Navli = styled.li`
   margin-bottom: 40px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  list-style-type: none;
   padding: 10px;
   background-color: transparent;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+`;
+
+export const SpanStyle = styled.span`
   transition: color 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 
   &:hover {
-    background-color: var(--red);
+    color: var(--red);
   }
 `;
 
 export const ExitDiv = styled.div`
   margin-top: 200px;
+  display: flex;
+  justify-content: center;
 `;

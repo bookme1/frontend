@@ -16,7 +16,9 @@ export const AsideContainer = styled.div`
 
   display: flex;
   @media (min-width: 1280px) {
+position: relative;
 
+/* display: none; */
 }
 `;
 
@@ -73,6 +75,10 @@ display: flex;
 justify-content: center;
 align-items: center;
 margin-right: 16px;
+
+@media (min-width: 1280px) {
+display: none;
+}
 `
 
 export const Title = styled.h2`
@@ -80,6 +86,10 @@ color: var(--text_main);
 font-weight: 700;
 font-size: 24px;
 line-height: 33.6px;
+
+@media (min-width: 1280px) {
+display: none;
+}
 `
 
 export const SubTitle = styled.h3`
