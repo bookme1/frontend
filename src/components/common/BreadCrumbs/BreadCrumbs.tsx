@@ -12,10 +12,8 @@ const Breadcrumbs = ({ name }: { name: string }) => {
   const cyrillicNames: CyrillicNames = names;
   const separator = <Icon name="arrow_right" />;
   const paths = usePathname();
-  let pathNames: any;
-  if (paths) {
-    pathNames = paths.split("/").filter((path) => path);
-  }
+  const pathNames = paths.split("/").filter((path) => path);
+
   const cyrillicPathNames = pathNames.map((path: string) => {
     const matchedCyrillicName = cyrillicNames[path];
     const isUUID = regexExp.test(path);
@@ -34,14 +32,15 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     </React.Fragment>
   );
 
-  const breadcrumbItems = cyrillicPathNames.map(
-    (link: string | any[], index: number) => {
-      const href = `/${pathNames.slice(0, index + 1).join("/")}`;
-      const itemLink = link[0].toUpperCase() + link.slice(1, link.length);
-
-      return renderLink(href, itemLink, index);
+  const breadcrumbItems = cyrillicPathNames.map((link, index) => {
+    const href = `/${pathNames.slice(0, index + 1).join("/")}`;
+    let itemLink: any;
+    if (link && link.length) {
+      itemLink = link[0].toUpperCase() + link.slice(1, link.length);
     }
-  );
+
+    return renderLink(href, itemLink, index);
+  });
   return (
     <Wrapper>
       <List>
