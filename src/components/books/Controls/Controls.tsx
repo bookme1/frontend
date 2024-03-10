@@ -12,7 +12,9 @@ import {
   ControlButton,
   CardContainer,
   ItemContainer,
+  Container,
 } from "./Controls.styles";
+
 
 const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -47,7 +49,7 @@ const Controls = () => {
   return (
     <>
       <Wrapper>
-        <div style={{ display: "flex", gap: "16px" }}>
+        <Container>
           {isOpen && <Filter toggeModal={toggeModal} />}
           <div>
             <BooksQuantity>{quantity} Товарів</BooksQuantity>
@@ -70,7 +72,7 @@ const Controls = () => {
               })}
             </CardContainer>
           </div>
-        </div>
+        </Container>
       </Wrapper>
     </>
   );
