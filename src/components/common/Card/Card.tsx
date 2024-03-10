@@ -10,12 +10,15 @@ import {
   Authors,
   BottomContainer,
   Price,
-  HeartButton,
   CartButton,
+  BoxStyles,
 } from "./Card.styles";
+
+import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 
 const Card = ({ book }: { book: IBook }) => {
   const { title, url, price, author, id } = book;
+
   return (
     <CardContainer>
       <ImageContainer
@@ -30,12 +33,12 @@ const Card = ({ book }: { book: IBook }) => {
         <Authors>{author}</Authors>
         <BottomContainer>
           <Price>{price} ₴</Price>
-          <HeartButton>
-            <Icon name="heart" size={24} />
-          </HeartButton>
-          <CartButton>
-            <Icon name="cart" size={24} color="white" />
-          </CartButton>
+          <BoxStyles>
+            <FavoriteBtn book={book} />
+            <CartButton>
+              <Icon name="cart" size={24} color="white" />
+            </CartButton>
+          </BoxStyles>
         </BottomContainer>
       </DescriptionContainer>
     </CardContainer>

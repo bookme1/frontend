@@ -1,6 +1,9 @@
 "use client";
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+
 
 export const CardContainer = styled.li`
   margin: 2px 0px;
@@ -8,6 +11,27 @@ export const CardContainer = styled.li`
   border-radius: 10px;
   list-style: none;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+export const HeartFillStyles = styled(FaHeart)`
+width: 24px;
+height: 24px;
+fill: var(--red);
+color: var(--red);
+`;
+
+export const HeartNotFillStyles = styled(FaRegHeart)`
+width: 24px;
+height: 24px;
+
+`;
+
+export const BoxStyles = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 24px;
+
 `;
 
 export const ImageContainer = styled.div`
@@ -48,6 +72,7 @@ export const Authors = styled.p`
 export const BottomContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const Price = styled.p`

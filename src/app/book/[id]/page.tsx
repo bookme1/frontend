@@ -9,11 +9,17 @@ import { bookService } from "@/api/book/bookService";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { useSelector } from "react-redux";
-import { selectBooks } from "@/lib/redux";
+import {  useDispatch, useSelector } from "react-redux";
+import {  fetchAllBooks, selectBooks } from "@/lib/redux";
 
 export default function Home() {
+  const dispatch = useDispatch();
   const booksArr = useSelector(selectBooks);
+
+  // useEffect(() => {
+  //   dispatch(fetchAllBooks());
+  // }, [dispatch]);
+
 
   const [book, setBook] = useState<{
     title: string;
@@ -37,8 +43,9 @@ export default function Home() {
     },
   };
   const router = usePathname();
-  const id = router.split("/").pop();
+  const id = router?.split("/").pop();
   useEffect(() => {
+  
     if (id === undefined) {
       return;
     }
@@ -53,10 +60,13 @@ export default function Home() {
     // fetchBook();
     const res = booksArr.filter((book: any) => book.id === id);
     setBook(res);
-  }, [booksArr, id]);
+    console.log(res)
+  }, [booksArr, id ]);
 
   console.log(book)
   console.log(id)
+
+
 
 
   return (
@@ -69,6 +79,7 @@ export default function Home() {
           url={book.url}
           price={book.price}
           name={book.title}
+          
           characteristics={mockBook.characteristics}
         />
       )}

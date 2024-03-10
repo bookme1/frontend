@@ -12,11 +12,16 @@ import {
   Controls,
   ToCart,
   ToFavorite,
+  HeartNotFillStyles,
 } from "./MainInformation.styles";
 import { Icon } from "@/components/common/Icon";
 import { Characteristics } from "../Characteristics";
 import { ICharacteristics } from "../Characteristics/Characteristics.types";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { HeartFillStyles } from "@/components/common/Card/Card.styles";
+import { useDispatch } from "react-redux";
+import { AddToFavorite, RemoveFavorite } from "@/lib/redux";
+import { useState } from "react";
 
 const MainInformation = ({
   authors,
@@ -31,6 +36,8 @@ const MainInformation = ({
   price: number;
   characteristics: ICharacteristics;
 }) => {
+ 
+
   const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
     if (authors === undefined) return;
@@ -40,6 +47,20 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(authors);
+
+  const dispatch = useDispatch();
+  const [isFavorite, setIsFavotire] = useState(false);
+
+  const handleFavoriteClick = () => {
+    // dispatch(AddToFavorite(book));
+    setIsFavotire(!isFavorite);
+  };
+
+  const handleNotFavoriteClick = () => {
+    // dispatch(RemoveFavorite(book));
+    setIsFavotire(!isFavorite);
+  };
+
   return (
     <>
       <StyledWrapper>
@@ -57,7 +78,13 @@ const MainInformation = ({
                 Придбати
               </ToCart>
               <ToFavorite>
-                <Icon name="heart" size={28} />
+                {/* <Icon name="heart" size={28} /> */}
+
+                {isFavorite ? (
+                  <HeartFillStyles onClick={handleNotFavoriteClick} />
+                ) : (
+                  <HeartNotFillStyles onClick={handleFavoriteClick} />
+                )}
               </ToFavorite>
             </Controls>
           </MainInfoContainer>

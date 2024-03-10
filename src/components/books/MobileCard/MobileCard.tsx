@@ -9,9 +9,10 @@ import {
   BottomContainer,
   Price,
   Controls,
-  HeartButton,
   CartButton,
 } from "./MobileCard.styles";
+
+import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 
 const MobileCard = ({ book }: { book: any }) => {
   return (
@@ -25,9 +26,7 @@ const MobileCard = ({ book }: { book: any }) => {
         <BottomContainer>
           <Price>{book.price} ₴</Price>
           <Controls>
-            <HeartButton>
-              <Icon name="heart" size={24} />
-            </HeartButton>
+            <FavoriteBtn book={book} />
             <CartButton>
               <Icon name="cart" size={24} color="#fff" />
             </CartButton>

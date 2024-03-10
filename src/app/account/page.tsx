@@ -10,13 +10,22 @@ import {
   Navli,
   ExitDiv,
   SpanStyle,
+  UserList,
 } from "./page.style";
 import AvatarPhoto from "@/assets/account/UserAvatar.png";
 import { Header } from "@/components/common/Header";
 import { Icon } from "@/components/common/Icon";
 import { signOut } from "next-auth/react";
+import { Favorite } from "@/components/Favorite";
+import { useState } from "react";
 
 export default function Home() {
+  const [isFavVisible, setIsFavVisible] = useState(false);
+
+  const handleFavClick = () => {
+    setIsFavVisible(!isFavVisible);
+  };
+
   return (
     <>
       <Header />
@@ -27,7 +36,7 @@ export default function Home() {
           <UserName>Batman</UserName>
         </UserDiv>
         <NavDiv>
-          <ul>
+          <UserList>
             <Navli>
               <SpanStyle>
                 <Icon name="clock" />
@@ -35,7 +44,7 @@ export default function Home() {
               </SpanStyle>
             </Navli>
 
-            <Navli>
+            <Navli onClick={handleFavClick}>
               <SpanStyle>
                 <Icon name="heart" />
                 Обране
@@ -46,8 +55,10 @@ export default function Home() {
                 <Icon name="wallet" /> Мій гаманець{" "}
               </SpanStyle>
             </Navli>
-          </ul>
+          </UserList>
+          {isFavVisible && <Favorite />}
         </NavDiv>
+
         <ExitDiv>
           <Navli>
             <button
