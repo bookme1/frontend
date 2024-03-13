@@ -1,3 +1,4 @@
+import { createWrapper } from 'next-redux-wrapper';
 /* Core */
 import {
     configureStore,
@@ -10,6 +11,8 @@ import {
     type TypedUseSelectorHook,
   } from "react-redux";
   
+  
+
   /* Instruments */
   import { reducer } from "./rootReducer";
   import { middleware } from "./middleware";
@@ -33,3 +36,4 @@ import {
     unknown,
     Action
   >;
+  export const wrapper = createWrapper<ReduxStore>(reduxStore);

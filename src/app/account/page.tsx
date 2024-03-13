@@ -19,6 +19,7 @@ import { signOut } from "next-auth/react";
 import { Favorite } from "@/components/Favorite";
 import { useState } from "react";
 
+
 export default function Home() {
   const [isFavVisible, setIsFavVisible] = useState(false);
 
@@ -77,3 +78,4 @@ export default function Home() {
     </>
   );
 }
+

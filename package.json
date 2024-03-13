@@ -16,6 +16,7 @@
     "classnames": "^2.5.1",
     "next": "14.0.4",
     "next-auth": "^4.24.6",
+    "next-redux-wrapper": "^8.1.0",
     "normalize.css": "^8.0.1",
     "notiflix": "^3.2.7",
     "pdf.js-extract": "^0.2.1",

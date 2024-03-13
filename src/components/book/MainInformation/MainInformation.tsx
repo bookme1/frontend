@@ -19,24 +19,40 @@ import { Characteristics } from "../Characteristics";
 import { ICharacteristics } from "../Characteristics/Characteristics.types";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { HeartFillStyles } from "@/components/common/Card/Card.styles";
-import { useDispatch } from "react-redux";
-import { AddToFavorite, RemoveFavorite } from "@/lib/redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AddToFavorite,
+  RemoveFavorite,
+  fetchAllBooks,
+  selectBooks,
+  selectFavorite,
+} from "@/lib/redux";
+import { useEffect, useState } from "react";
+import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
+import { usePathname } from "next/navigation";
 
 const MainInformation = ({
-  authors,
-  url,
-  name,
-  price,
+  book,
   characteristics,
 }: {
-  authors: string;
-  url: string;
-  name: string;
-  price: number;
+  book: any;
   characteristics: ICharacteristics;
 }) => {
- 
+  const dispatch = useDispatch();
+
+  useEffect( () => {
+     dispatch(fetchAllBooks());
+  }, [dispatch]);
+
+  const booksList = useSelector(selectBooks);
+
+  const router = usePathname();
+  const id = router?.split("/").pop();
+  if (book === undefined) {
+    book.push(booksList.filter((book: any) => book.id === id));
+  }
+
+  const { authors, url, name, price } = book;
 
   const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
@@ -47,20 +63,7 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(authors);
-
-  const dispatch = useDispatch();
-  const [isFavorite, setIsFavotire] = useState(false);
-
-  const handleFavoriteClick = () => {
-    // dispatch(AddToFavorite(book));
-    setIsFavotire(!isFavorite);
-  };
-
-  const handleNotFavoriteClick = () => {
-    // dispatch(RemoveFavorite(book));
-    setIsFavotire(!isFavorite);
-  };
-
+console.log(book[0])
   return (
     <>
       <StyledWrapper>
@@ -78,13 +81,7 @@ const MainInformation = ({
                 Придбати
               </ToCart>
               <ToFavorite>
-                {/* <Icon name="heart" size={28} /> */}
-
-                {isFavorite ? (
-                  <HeartFillStyles onClick={handleNotFavoriteClick} />
-                ) : (
-                  <HeartNotFillStyles onClick={handleFavoriteClick} />
-                )}
+                <FavoriteBtn book={book[0]} />
               </ToFavorite>
             </Controls>
           </MainInfoContainer>

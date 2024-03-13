@@ -135,7 +135,7 @@ export const ToFavorite = styled.button`
     position: absolute;
     top: 32px;
     right: 40px;
-    background-color: var(--red);
+    background-color: var(--gray_border);
   }
 `;
 

@@ -60,11 +60,11 @@ export default function Home() {
     // fetchBook();
     const res = booksArr.filter((book: any) => book.id === id);
     setBook(res);
-    console.log(res)
+    // console.log(res)
   }, [booksArr, id ]);
 
-  console.log(book)
-  console.log(id)
+  // console.log(book)
+  // console.log(id)
 
 
 
@@ -75,11 +75,11 @@ export default function Home() {
       {book && <BreadCrumbs name={book.title} />}
       {book && (
         <MainInformation
-          authors={book.author}
-          url={book.url}
-          price={book.price}
-          name={book.title}
-          
+          // authors={book.author}
+          // url={book.url}
+          // price={book.price}
+          // name={book.title}
+          book={book}
           characteristics={mockBook.characteristics}
         />
       )}
