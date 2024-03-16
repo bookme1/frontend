@@ -8,28 +8,33 @@ import {
   selectBooks,
   selectFavorite,
 } from "@/lib/redux";
+import { FavList } from "./Favorite.styles";
+
+
 
 const Favorite = () => {
   const favorite = useSelector(selectFavorite);
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const favBooks = books.filter((book: any) => favorite[0].includes(book.id));
+  const favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
 
   useEffect(() => {
     dispatch(GetFromFavorite());
     dispatch(fetchAllBooks());
   }, [dispatch]);
+
+  
   return (
     <>
-      {favorite.length === 0 ? (
+      {favorite[0]?.length === 0 ? (
         <p>There are no favorite books here</p>
       ) : (
-        <ul>
+        <FavList>
           {favBooks.map((book: any) => (
-            <Card key={book.id} book={book} />
+            <Card key={book.id} book={book} favorite={favorite[0]}/>
           ))}
-        </ul>
+        </FavList>
       )}
     </>
   );

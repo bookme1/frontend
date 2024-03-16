@@ -20,6 +20,19 @@ export const fetchAllBooks = createAppAsyncThunk(
   },
 );
 
+export const fetchBooksById = createAppAsyncThunk(
+  'books/fetchBooksById',
+  async (id, thunkAPI) => {
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/book/${id}`);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 
 const setAuthHeader = (token: any) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -35,7 +48,7 @@ const config = {
 
 export const AddToFavorite = createAppAsyncThunk(
   "books/addToFavotive",
-  async (credentials, thunkAPI) => {
+  async (credentials:any, thunkAPI) => {
     try {
       const response = await axios.post(`${BASE_URL}/api/user/favorite`, credentials, config);
       setAuthHeader(response.data.token);
@@ -65,9 +78,9 @@ export const GetFromFavorite = createAppAsyncThunk(
 
 export const RemoveFromFavorite = createAppAsyncThunk(
   "books/removeFromFavotive",
-  async (credentials, thunkAPI) => {
+  async (credentials:any, thunkAPI) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/api/user/favorite.${credentials}`, config);
+      const response = await axios.delete(`${BASE_URL}/api/user/favorite/${credentials}`, config);
       return response.data;
     }
     catch (error: any) {
@@ -78,15 +91,3 @@ export const RemoveFromFavorite = createAppAsyncThunk(
 );
 
 
-export const fetchBooksById = createAppAsyncThunk(
-  'books/fetchBooksById',
-  async (id, thunkAPI) => {
-
-    try {
-      const response = await axios.get(`${BASE_URL}/api/book/${id}`);
-      return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  },
-);

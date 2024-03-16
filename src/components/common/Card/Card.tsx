@@ -16,8 +16,10 @@ import {
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 
-const Card = ({ book }: { book: IBook }) => {
+const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
+
+  const isFavAlredy = favorite?.find((fav: any) => book.id === fav);
 
   return (
     <CardContainer>
@@ -34,7 +36,7 @@ const Card = ({ book }: { book: IBook }) => {
         <BottomContainer>
           <Price>{price} ₴</Price>
           <BoxStyles>
-            <FavoriteBtn book={book} />
+            <FavoriteBtn book={book} isFavAlredy={isFavAlredy}/>
             <CartButton>
               <Icon name="cart" size={24} color="white" />
             </CartButton>

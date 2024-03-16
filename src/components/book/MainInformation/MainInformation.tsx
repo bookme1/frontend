@@ -22,7 +22,7 @@ import { HeartFillStyles } from "@/components/common/Card/Card.styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddToFavorite,
-  RemoveFavorite,
+  GetFromFavorite,
   fetchAllBooks,
   selectBooks,
   selectFavorite,
@@ -39,14 +39,16 @@ const MainInformation = ({
   characteristics: ICharacteristics;
 }) => {
   const dispatch = useDispatch();
+  const favorite = useSelector(selectFavorite);
 
-  useEffect( () => {
-     dispatch(fetchAllBooks());
+  useEffect(() => {
+    dispatch(fetchAllBooks());
   }, [dispatch]);
 
   const booksList = useSelector(selectBooks);
 
   const router = usePathname();
+
   const id = router?.split("/").pop();
   if (book === undefined) {
     book.push(booksList.filter((book: any) => book.id === id));
@@ -63,7 +65,8 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(authors);
-console.log(book[0])
+  const isFavAlredy = favorite?.find((fav: any) => book.id === fav);
+
   return (
     <>
       <StyledWrapper>
@@ -81,7 +84,7 @@ console.log(book[0])
                 Придбати
               </ToCart>
               <ToFavorite>
-                <FavoriteBtn book={book[0]} />
+                <FavoriteBtn book={book[0]} isFavAlredy={isFavAlredy} />
               </ToFavorite>
             </Controls>
           </MainInfoContainer>

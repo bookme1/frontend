@@ -12,6 +12,10 @@ import { useEffect, useMemo, useState } from "react";
 import {  useDispatch, useSelector } from "react-redux";
 import {  fetchAllBooks, selectBooks } from "@/lib/redux";
 
+
+
+
+
 export default function Home() {
   const dispatch = useDispatch();
   const booksArr = useSelector(selectBooks);
@@ -81,6 +85,7 @@ export default function Home() {
           // name={book.title}
           book={book}
           characteristics={mockBook.characteristics}
+          // pathname={pathname}
         />
       )}
       <Reviews />

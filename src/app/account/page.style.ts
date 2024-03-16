@@ -47,6 +47,7 @@ export const NavDiv = styled.div`
   margin-top: 48px;
   display: flex;
   justify-content: flex-start;
+  width: 1240px;
 `;
 
 export const Navli = styled.li`

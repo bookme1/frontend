@@ -1,6 +1,6 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllBooks, GetFromFavorite, AddToFavorite } from ".";
+import { fetchAllBooks, GetFromFavorite, AddToFavorite, RemoveFromFavorite } from ".";
 
 
 const initialState: BooksSliceState = {
@@ -27,9 +27,9 @@ export const booksSlice = createSlice({
     //   }
 
     // },
-    RemoveFavorite(state, action) {
-      state.favorite = state.favorite.filter((fav: any) => fav.id !== action.payload.id)
-    },
+    // RemoveFavorite(state, action) {
+    //   state.favorite = state.favorite.filter((fav: any) => fav.id !== action.payload.id)
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -72,7 +72,7 @@ export const booksSlice = createSlice({
       })
       .addCase(AddToFavorite.fulfilled, (state, action) => {
         state.isLoading = false;
-        const existingFavorite = state.favorite.find((fav: any) => fav.id === action.payload.id);
+        const existingFavorite = state.favorite.find((fav: any) => fav.find((fav: any) => fav === action.payload));
         if (!existingFavorite) {
           state.favorite.push(action.payload);
         }
@@ -82,11 +82,25 @@ export const booksSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(RemoveFromFavorite.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+
+      })
+      .addCase(RemoveFromFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.favorite = state.favorite.filter((fav: any) => fav !== action.payload)
+
+      })
+      .addCase(RemoveFromFavorite.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
   },
 });
 
-export const { AddFilter, RemoveFavorite } =
+export const { AddFilter } =
   booksSlice.actions;
 
 /* Types */
