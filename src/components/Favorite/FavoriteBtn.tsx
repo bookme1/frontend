@@ -11,14 +11,11 @@ const FavoriteBtn = ({ book }: { book: any }) => {
 
   const [isFavorite, setIsFavotire] = useState(false);
 
-  const existingFavorite = favoriteList?.some((fav: any) => fav.id === book.id);
-  // if (!existingFavorite) {
-  //   setIsFavotire(true);
-  // }
 
-
+  const reqestData = { bookId: book.id };
   const handleFavoriteClick = () => {
-    dispatch(AddToFavorite(book));
+    dispatch(AddToFavorite(reqestData));
+
     setIsFavotire(!isFavorite);
   };
   const handleNotFavoriteClick = () => {

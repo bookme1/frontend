@@ -1,6 +1,6 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllBooks } from ".";
+import { fetchAllBooks, GetFromFavorite, AddToFavorite } from ".";
 
 
 const initialState: BooksSliceState = {
@@ -19,14 +19,14 @@ export const booksSlice = createSlice({
     AddFilter(state, action) {
       state.filter = action.payload;
     },
-    AddToFavorite(state, action) {
+    // AddToFavorite(state, action) {
 
-      const existingFavorite = state.favorite.find((fav: any) => fav.id === action.payload.id);
-      if (!existingFavorite) {
-        state.favorite.push(action.payload);
-      }
+    //   const existingFavorite = state.favorite.find((fav: any) => fav.id === action.payload.id);
+    //   if (!existingFavorite) {
+    //     state.favorite.push(action.payload);
+    //   }
 
-    },
+    // },
     RemoveFavorite(state, action) {
       state.favorite = state.favorite.filter((fav: any) => fav.id !== action.payload.id)
     },
@@ -47,11 +47,46 @@ export const booksSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(GetFromFavorite.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+
+      })
+      .addCase(GetFromFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const existingFavorite = state.favorite.find((fav: any) => fav.id === action.payload.id);
+        if (!existingFavorite) {
+          state.favorite.push(action.payload);
+        }
+
+      })
+      .addCase(GetFromFavorite.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(AddToFavorite.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+
+      })
+      .addCase(AddToFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const existingFavorite = state.favorite.find((fav: any) => fav.id === action.payload.id);
+        if (!existingFavorite) {
+          state.favorite.push(action.payload);
+        }
+
+      })
+      .addCase(AddToFavorite.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
   },
 });
 
-export const { AddFilter, AddToFavorite, RemoveFavorite } =
+export const { AddFilter, RemoveFavorite } =
   booksSlice.actions;
 
 /* Types */
