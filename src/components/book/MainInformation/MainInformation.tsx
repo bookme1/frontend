@@ -40,6 +40,7 @@ const MainInformation = ({
 }) => {
   const dispatch = useDispatch();
   const favorite = useSelector(selectFavorite);
+  const router = usePathname();
 
   useEffect(() => {
     dispatch(fetchAllBooks());
@@ -47,14 +48,7 @@ const MainInformation = ({
 
   const booksList = useSelector(selectBooks);
 
-  const router = usePathname();
-
   const id = router?.split("/").pop();
-  if (book === undefined) {
-    book.push(booksList.filter((book: any) => book.id === id));
-  }
-
-  const { authors, url, name, price } = book;
 
   const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
@@ -64,20 +58,23 @@ const MainInformation = ({
       return <Author key={author}>{author}</Author>;
     });
   };
-  const authorsMarkup = getAuthorsMarkup(authors);
-  const isFavAlredy = favorite?.find((fav: any) => book.id === fav);
+  const authorsMarkup = getAuthorsMarkup(book[0]?.authors);
+  const isFavAlredy = favorite[0]?.some((fav: any) => fav===id);
+  // const isFavAlredy = favorite[0]?.find((book: any) => book.includes(id));
+  // console.log(isFavAlredy);
+  // console.log(favorite);
 
   return (
     <>
       <StyledWrapper>
         <ImageContainer
-          style={{ ["--background-image" as string]: `url(${url})` }}
+          style={{ ["--background-image" as string]: `url(${book[0]?.url})` }}
         ></ImageContainer>
         <InfoContainer>
           <MainInfoContainer>
-            <Title>{name}</Title>
+            <Title>{book[0]?.title}</Title>
             <AuthorsList>{authorsMarkup}</AuthorsList>
-            <Price>{price} ₴</Price>
+            <Price>{book[0]?.price} ₴</Price>
             <Controls>
               <ToCart>
                 <Icon name="cart" size={28} />

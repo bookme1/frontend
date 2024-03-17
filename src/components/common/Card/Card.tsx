@@ -19,7 +19,7 @@ import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
 
-  const isFavAlredy = favorite?.find((fav: any) => book.id === fav);
+  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (
     <CardContainer>
