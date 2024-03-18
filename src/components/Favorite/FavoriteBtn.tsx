@@ -13,18 +13,52 @@ const FavoriteBtn = ({
   isFavAlredy: boolean;
 }) => {
   const dispatch = useDispatch();
-  const favoriteList = useSelector(selectFavorite);
 
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
+  const token = localStorage.getItem("accessToken");
 
   const reqestData = { bookId: book?.id };
+
+  function addIdToLocalStorage(id: string): void {
+    let favorites: string[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    favorites.push(id);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+
+  // Функция для удаления ID из списка в Local Storage
+  function removeIdFromLocalStorage(id: string): void {
+    let favorites: string[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const index: number = favorites.indexOf(id);
+    if (index !== -1) {
+      favorites.splice(index, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+  }
+
   const handleFavoriteClick = () => {
-    dispatch(AddToFavorite(reqestData));
+    if (token === "null") {
+      dispatch(AddToFavorite(reqestData));
+    } else {
+    
+      addIdToLocalStorage(book.id);
+   
+    }
 
     setIsFavotire(!isFavorite);
   };
   const handleNotFavoriteClick = () => {
-    dispatch(RemoveFromFavorite(book.id));
+    if (token === "null") {
+      dispatch(RemoveFromFavorite(book.id));
+    } else {
+      console.log(2);
+
+      removeIdFromLocalStorage(book.id);
+    }
+
     setIsFavotire(!isFavorite);
   };
 

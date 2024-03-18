@@ -39,9 +39,10 @@ const Header = () => {
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [userData, setUserData] = useState("");
   const [activePage, setActivePage] = useState("main");
-  const searchVal = useRef<HTMLInputElement | null>(null); // Specify the type as HTMLInputElement | null
+  const searchVal = useRef<HTMLInputElement | null>(null);
   const [books, setBooks] = useState<Array<any>>([]);
   const router = useSearchParams();
+
   useEffect(() => {
     const q = router.get("q");
     if (q) {
@@ -190,14 +191,16 @@ const Header = () => {
                   handleClick();
                 }}
               >
-                <Icon name="account" size={28} /> Увійти
+                <Icon name="account" size={28} />Увійти
               </HeaderButton>
             )}
             <HeaderButton>
-              <Icon name="heart" size={28} /> Обране
+              <AccountLink href="/favorite">
+                <Icon name="heart" size={28} />Обране
+              </AccountLink>
             </HeaderButton>
             <HeaderButton>
-              <Icon name="cart" size={28} /> Кошик
+              <Icon name="cart" size={28} />Кошик
             </HeaderButton>
             {userData ? (
               <Avatar>

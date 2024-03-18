@@ -85,9 +85,10 @@ export const FromDesktop = styled.div`
   align-items: center;
 `;
 
-export const HeaderButton = styled.button`
+export const HeaderButton = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 4px;
   color: var(--gray_dark);
@@ -113,7 +114,10 @@ export const Avatar = styled.div`
 `;
 
 export const AccountLink = styled.a`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
   height: 100%;
 `;

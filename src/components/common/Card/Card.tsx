@@ -36,7 +36,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
         <BottomContainer>
           <Price>{price} ₴</Price>
           <BoxStyles>
-            <FavoriteBtn book={book} isFavAlredy={isFavAlredy}/>
+            <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
             <CartButton>
               <Icon name="cart" size={24} color="white" />
             </CartButton>

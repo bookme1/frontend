@@ -8,31 +8,41 @@ import {
   selectBooks,
   selectFavorite,
 } from "@/lib/redux";
-import { FavList } from "./Favorite.styles";
-
-
+import { FavList, Text } from "./Favorite.styles";
 
 const Favorite = () => {
   const favorite = useSelector(selectFavorite);
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
+  const favIdList = localStorage.getItem("favorites");
+  const favIdListArr = JSON.parse(favIdList);
+  const token = localStorage.getItem("accessToken");
+
+  let favBooks = [];
+  if (token === null) {
+    favBooks = books.filter((book: any) => favIdList?.includes(book.id));
+  } else {
+    favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
+  }
 
   useEffect(() => {
     dispatch(GetFromFavorite());
     dispatch(fetchAllBooks());
   }, [dispatch]);
 
-  
   return (
     <>
-      {favorite[0]?.length === 0 ? (
-        <p>There are no favorite books here</p>
+      {favBooks.length === 0 ? (
+        <Text>There are no favorite books here</Text>
       ) : (
         <FavList>
           {favBooks.map((book: any) => (
-            <Card key={book.id} book={book} favorite={favorite[0]}/>
+            <Card
+              key={book.id}
+              book={book}
+              favorite={token === null ? favIdListArr : favorite[0]}
+            />
           ))}
         </FavList>
       )}
