@@ -1,9 +1,10 @@
 "use client";
 import "@/styles/globals.css";
-import { Metadata } from "next";
 import { raleway } from "@/styles/fonts";
 import { Icons } from "@/components/common/Icons";
 import { Providers } from "@/lib/providers";
+
+
 
 /*
 export const metadata: Metadata = {
@@ -30,3 +31,4 @@ export default function RootLayout({
     </Providers>
   );
 }
+

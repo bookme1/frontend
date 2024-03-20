@@ -4,6 +4,12 @@ import { Header } from "@/components/common/Header";
 import { LeftMenu } from "@/components/account/LeftMenu";
 
 export default function Home() {
+  const [isFavVisible, setIsFavVisible] = useState(false);
+
+  const handleFavClick = () => {
+    setIsFavVisible(!isFavVisible);
+  };
+
   return (
     <>
       <Header />
@@ -12,3 +18,4 @@ export default function Home() {
     </>
   );
 }
+

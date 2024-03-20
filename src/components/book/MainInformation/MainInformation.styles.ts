@@ -1,6 +1,8 @@
 "use client";
 import styled from "@emotion/styled";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 
 export const ImageContainer = styled.div`
   width: 250px;
@@ -21,6 +23,20 @@ export const ImageContainer = styled.div`
     width: 502px;
     height: 660px;
   }
+`;
+
+export const HeartStyles = styled(FaHeart)`
+width: 24px;
+height: 24px;
+fill: var(--red);
+color: var(--red);
+
+`;
+
+export const HeartNotFillStyles = styled(FaRegHeart)`
+width: 24px;
+height: 24px;
+
 `;
 
 export const MainInfoContainer = styled.div`
@@ -119,7 +135,7 @@ export const ToFavorite = styled.button`
     position: absolute;
     top: 32px;
     right: 40px;
-    background-color: var(--red);
+    background-color: var(--gray_border);
   }
 `;
 

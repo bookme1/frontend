@@ -1,12 +1,29 @@
 "use client";
 import { Wrapper } from "@/styles/globals.styles";
 import styled from "@emotion/styled";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+
 
 export const StyledWrapper = styled(Wrapper)`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 24px;
+`;
+
+export const HeartStyles = styled(FaHeart)`
+width: 24px;
+height: 24px;
+fill: var(--red);
+color: var(--red);
+
+`;
+
+export const HeartNotFillStyles = styled(FaRegHeart)`
+width: 24px;
+height: 24px;
+
 `;
 
 export const ImageContainer = styled.div`
@@ -46,6 +63,7 @@ export const BottomContainer = styled.div`
 
 export const Controls = styled.div`
   display: flex;
+  align-items: center;
   gap: 24px;
 `;
 

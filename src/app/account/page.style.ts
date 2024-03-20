@@ -29,6 +29,10 @@ export const UserDiv = styled.div`
   justify-content: center;
 `;
 
+export const UserList = styled.ul`
+min-width: 270px;
+`;
+
 export const UserImg = styled.img`
   border: 2px solid black;
   width: 64px;
@@ -42,7 +46,8 @@ export const UserName = styled.p``;
 export const NavDiv = styled.div`
   margin-top: 48px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 1240px;
 `;
 
 export const Navli = styled.li`
