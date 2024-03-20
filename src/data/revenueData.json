@@ -1,0 +1,14 @@
+[
+  { "label": "Січень", "revenue": 10000, "cost": 8000 },
+  { "label": "Лютий", "revenue": 12000, "cost": 8500 },
+  { "label": "Березень", "revenue": 13000, "cost": 9000 },
+  { "label": "Квітень", "revenue": 11000, "cost": 8500 },
+  { "label": "Травень", "revenue": 15000, "cost": 9500 },
+  { "label": "Червень", "revenue": 14000, "cost": 9200 },
+  { "label": "Липень", "revenue": 16000, "cost": 9800 },
+  { "label": "Серпень", "revenue": 17000, "cost": 10000 },
+  { "label": "Вересень", "revenue": 16000, "cost": 9500 },
+  { "label": "Жовтень", "revenue": 15000, "cost": 9200 },
+  { "label": "Листопад", "revenue": 14000, "cost": 9000 },
+  { "label": "Грудень", "revenue": 18000, "cost": 10500 }
+]
