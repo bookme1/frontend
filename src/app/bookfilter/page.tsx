@@ -47,7 +47,6 @@ export default function Home() {
             </div>
           </div>
           <div className="flex px-9  gap-44 font-bold ">
-            {" "}
             <p>Назва</p>
             <p className="pl-12">Жанр</p>
             <p>Артикул</p>
