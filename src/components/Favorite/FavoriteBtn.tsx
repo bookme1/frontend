@@ -40,7 +40,7 @@ const FavoriteBtn = ({
   }
 
   const handleFavoriteClick = () => {
-    if (token === "null") {
+    if (token !== "null") {
       dispatch(AddToFavorite(reqestData));
     } else {
     

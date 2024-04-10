@@ -14,11 +14,16 @@ import {
 } from "./page.style";
 import AvatarPhoto from "@/assets/account/UserAvatar.png";
 import { Header } from "@/components/common/Header";
+<<<<<<< Updated upstream
 import { Icon } from "@/components/common/Icon";
 import { signOut } from "next-auth/react";
 import { Favorite } from "@/components/Favorite";
 import { useState } from "react";
 
+=======
+import { LeftMenu } from "@/components/account/LeftMenu";
+import { useState } from "react";
+>>>>>>> Stashed changes
 
 export default function Home() {
   const [isFavVisible, setIsFavVisible] = useState(false);
