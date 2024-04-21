@@ -6,7 +6,7 @@ import { Hero } from "@/components/main/Hero";
 import { SwiperList } from "@/components/main/SwiperList";
 import Image from "next/image";
 import { useEffect } from "react";
-import { fetchAllBooks, useDispatch, wrapper } from "@/lib/redux";
+import { fetchAllBooks, useDispatch } from "@/lib/redux";
 import { useSession } from "next-auth/react";
 
 export default function Home() {
@@ -27,4 +27,3 @@ export default function Home() {
     </>
   );
 }
-
