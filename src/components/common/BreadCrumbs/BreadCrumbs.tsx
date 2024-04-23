@@ -12,17 +12,19 @@ const Breadcrumbs = ({ name }: { name: string }) => {
   const cyrillicNames: CyrillicNames = names;
   const separator = <Icon name="arrow_right" />;
   const paths = usePathname();
-  const pathNames = paths.split("/").filter((path) => path);
+  const pathNames = paths ? paths.split("/").filter((path) => path) : "";
 
-  const cyrillicPathNames = pathNames.map((path: string) => {
-    const matchedCyrillicName = cyrillicNames[path];
-    const isUUID = regexExp.test(path);
-    return matchedCyrillicName !== undefined
-      ? matchedCyrillicName
-      : isUUID
-      ? name
-      : path;
-  });
+  const cyrillicPathNames = pathNames
+    ? pathNames.map((path: string) => {
+        const matchedCyrillicName = cyrillicNames[path];
+        const isUUID = regexExp.test(path);
+        return matchedCyrillicName !== undefined
+          ? matchedCyrillicName
+          : isUUID
+          ? name
+          : path;
+      })
+    : "";
   const renderLink = (href: string, itemLink: string, index: number) => (
     <React.Fragment key={index}>
       <Item key={index}>
@@ -32,15 +34,19 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     </React.Fragment>
   );
 
-  const breadcrumbItems = cyrillicPathNames.map((link, index) => {
-    const href = `/${pathNames.slice(0, index + 1).join("/")}`;
-    let itemLink: any;
-    if (link && link.length) {
-      itemLink = link[0].toUpperCase() + link.slice(1, link.length);
-    }
+  const breadcrumbItems = cyrillicPathNames
+    ? cyrillicPathNames.map((link: any, index: any) => {
+        const href = pathNames
+          ? `/${pathNames.slice(0, index + 1).join("/")}`
+          : "";
+        let itemLink: any;
+        if (link && link.length) {
+          itemLink = link[0].toUpperCase() + link.slice(1, link.length);
+        }
 
-    return renderLink(href, itemLink, index);
-  });
+        return renderLink(href, itemLink, index);
+      })
+    : "";
   return (
     <Wrapper>
       <List>
