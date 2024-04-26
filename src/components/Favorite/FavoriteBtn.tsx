@@ -1,7 +1,7 @@
 "use client";
-import { AddToFavorite, RemoveFromFavorite, selectFavorite } from "@/lib/redux";
+import { AddToFavorite, RemoveFromFavorite, useDispatch } from "@/lib/redux";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { HeartFillStyles } from "../common/Card/Card.styles";
 import { HeartNotFillStyles } from "../book/MainInformation/MainInformation.styles";
 
@@ -17,7 +17,7 @@ const FavoriteBtn = ({
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
   const token = localStorage.getItem("accessToken");
 
-  const reqestData = { bookId: book?.id };
+  const reqestData: any = { bookId: book?.id };
 
   function addIdToLocalStorage(id: string): void {
     let favorites: string[] = JSON.parse(
@@ -43,13 +43,12 @@ const FavoriteBtn = ({
     if (token !== "null") {
       dispatch(AddToFavorite(reqestData));
     } else {
-    
       addIdToLocalStorage(book.id);
-   
     }
 
     setIsFavotire(!isFavorite);
   };
+
   const handleNotFavoriteClick = () => {
     if (token === "null") {
       dispatch(RemoveFromFavorite(book.id));

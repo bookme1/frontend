@@ -15,7 +15,7 @@ const Favorite = () => {
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const favIdList = localStorage.getItem("favorites");
+  const favIdList: any = localStorage.getItem("favorites");
   const favIdListArr = JSON.parse(favIdList);
   const token = localStorage.getItem("accessToken");
 
