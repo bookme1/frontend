@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "../common/Card";
 import {
   GetFromFavorite,
@@ -16,7 +16,12 @@ const Favorite = () => {
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const favIdList: any = localStorage.getItem("favorites");
+  let favIdList: any;
+  if (typeof window !== "undefined") {
+    favIdList = localStorage.getItem("favorites");
+  }
+
+  // const favIdList: any = localStorage.getItem("favorites");
   const favIdListArr = JSON.parse(favIdList);
   const token = localStorage.getItem("accessToken");
 
