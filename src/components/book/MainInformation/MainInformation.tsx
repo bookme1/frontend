@@ -38,7 +38,7 @@ const MainInformation = ({
   book: any;
   characteristics: ICharacteristics;
 }) => {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const favorite = useSelector(selectFavorite);
   const router = usePathname();
 
@@ -59,7 +59,7 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(book[0]?.authors);
-  const isFavAlredy = favorite[0]?.some((fav: any) => fav===id);
+  const isFavAlredy = favorite[0]?.some((fav: any) => fav === id);
   // const isFavAlredy = favorite[0]?.find((book: any) => book.includes(id));
   // console.log(isFavAlredy);
   // console.log(favorite);

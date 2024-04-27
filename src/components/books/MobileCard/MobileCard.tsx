@@ -26,7 +26,7 @@ const MobileCard = ({ book }: { book: any }) => {
         <BottomContainer>
           <Price>{book.price} ₴</Price>
           <Controls>
-            <FavoriteBtn book={book} />
+            <FavoriteBtn book={book} isFavAlredy={false} />
             <CartButton>
               <Icon name="cart" size={24} color="#fff" />
             </CartButton>

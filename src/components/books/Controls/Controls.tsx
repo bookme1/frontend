@@ -15,10 +15,9 @@ import {
   Container,
 } from "./Controls.styles";
 
-
 const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const booksArr = useSelector(selectBooks);
 
   useEffect(() => {

@@ -39,8 +39,10 @@ const Breadcrumbs = ({ name }: { name: string }) => {
       itemLink = link[0].toUpperCase() + link.slice(1, link.length);
     }
 
-    return renderLink(href, itemLink, index);
-  });
+
+        return renderLink(href, itemLink, index);
+      })
+    : "";
   return (
     <Wrapper>
       <List>

@@ -17,7 +17,11 @@ const FavoriteBtn = ({
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
   const token = localStorage.getItem("accessToken");
 
-  const reqestData: any = { bookId: book?.id };
+interface AddToFavoriteRequest {
+  bookId: string; // Assuming the bookId is of type string
+}
+
+  const reqestData: AddToFavoriteRequest = { bookId: book?.id };
 
   function addIdToLocalStorage(id: string): void {
     let favorites: string[] = JSON.parse(
@@ -51,7 +55,7 @@ const FavoriteBtn = ({
 
   const handleNotFavoriteClick = () => {
     if (token === "null") {
-      dispatch(RemoveFromFavorite(book.id));
+      dispatch(RemoveFromFavorite(book.id);
     } else {
       console.log(2);
 

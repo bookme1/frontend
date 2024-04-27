@@ -28,14 +28,14 @@ const Filter = ({ toggeModal }: any) => {
 
   const searchParams = useSearchParams();
 
-  const book = searchParams.getAll("book");
-  const types = searchParams.getAll("types");
-  const availability = searchParams.getAll("availability");
-  const author = searchParams.getAll("author");
-  const language = searchParams.getAll("language");
-  const pubHouse = searchParams.getAll("pubHouse");
-  const priceFrom = searchParams.get("priceFrom");
-  const priceTo = searchParams.get("priceTo");
+  const book = searchParams ? searchParams.getAll("book") : "";
+  const types = searchParams ? searchParams.getAll("types") : "";
+  const availability = searchParams ? searchParams.getAll("availability") : "";
+  const author = searchParams ? searchParams.getAll("author") : "";
+  const language = searchParams ? searchParams.getAll("language") : "";
+  const pubHouse = searchParams ? searchParams.getAll("pubHouse") : "";
+  const priceFrom = searchParams ? searchParams.get("priceFrom") : "";
+  const priceTo = searchParams ? searchParams.get("priceTo") : "";
 
   useEffect(() => {
     setSelectedFilters((prevState: any) => ({
