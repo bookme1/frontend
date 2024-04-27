@@ -44,7 +44,7 @@ interface AddToFavoriteRequest {
   }
 
   const handleFavoriteClick = () => {
-    if (token === "null") {
+    if (token !== "null") {
       dispatch(AddToFavorite(reqestData));
     } else {
       addIdToLocalStorage(book.id);

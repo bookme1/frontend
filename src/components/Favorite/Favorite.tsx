@@ -25,6 +25,8 @@ const Favorite = () => {
   } else {
     favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
   }
+console.log(favBooks)
+console.log(favorite)
 
   useEffect(() => {
     dispatch(GetFromFavorite());
