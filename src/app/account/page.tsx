@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import { Favorite } from "@/components/Favorite";
 import { useState } from "react";
 import { LeftMenu } from "@/components/account/LeftMenu";
+import { useState } from "react";
 
 
 export default function Home() {

@@ -32,7 +32,12 @@ const setAuthHeader = (token: any) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-const token = localStorage.getItem("accessToken");
+// const token = localStorage.getItem("accessToken")
+
+let token;
+if (typeof window !== 'undefined') {
+  token = localStorage.getItem("accessToken");
+}
 
 const config = {
   headers: {
@@ -46,7 +51,7 @@ interface AddToFavoriteRequest {
 
 export const AddToFavorite = createAppAsyncThunk<string, AddToFavoriteRequest>(
   "books/addToFavotive",
-  async (credentials: AddToFavoriteRequest, thunkAPI) => {
+  async (credentials: any, thunkAPI) => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/user/favorite`,

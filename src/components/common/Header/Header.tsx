@@ -44,7 +44,7 @@ const Header = () => {
   const router = useSearchParams();
 
   useEffect(() => {
-    const q = router.get("q");
+    const q = router?.get("q");
     if (q) {
       if (searchVal.current) {
         searchVal.current.value = q;
