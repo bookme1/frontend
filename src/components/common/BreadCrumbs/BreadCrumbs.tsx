@@ -39,17 +39,15 @@ const Breadcrumbs = ({ name }: { name: string }) => {
       itemLink = link[0].toUpperCase() + link.slice(1, link.length);
     }
 
-
-        return renderLink(href, itemLink, index);
-      })
-    : "";
+    return renderLink(href, itemLink, index);
+  });
   return (
     <Wrapper>
       <List>
         <Item>
           <Link href={"/"}>Головна</Link>
         </Item>
-        {cyrillicPathNames.length > 0 && separator}
+        {cyrillicPathNames && cyrillicPathNames.length > 0 && separator}
         {breadcrumbItems}
       </List>
     </Wrapper>
