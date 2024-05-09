@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card } from "../common/Card";
 import {
   GetFromFavorite,
   fetchAllBooks,
   selectBooks,
   selectFavorite,
+  useDispatch,
 } from "@/lib/redux";
 import { FavList, Text } from "./Favorite.styles";
 
@@ -15,7 +16,12 @@ const Favorite = () => {
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const favIdList = localStorage.getItem("favorites");
+  let favIdList: any;
+  if (typeof window !== "undefined") {
+    favIdList = localStorage.getItem("favorites");
+  }
+
+  // const favIdList: any = localStorage.getItem("favorites");
   const favIdListArr = JSON.parse(favIdList);
   const token = localStorage.getItem("accessToken");
 
@@ -25,6 +31,8 @@ const Favorite = () => {
   } else {
     favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
   }
+console.log(favBooks)
+console.log(favorite)
 
   useEffect(() => {
     dispatch(GetFromFavorite());

@@ -1,7 +1,7 @@
 "use client";
-import { AddToFavorite, RemoveFromFavorite, selectFavorite } from "@/lib/redux";
+import { AddToFavorite, RemoveFromFavorite, useDispatch } from "@/lib/redux";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { HeartFillStyles } from "../common/Card/Card.styles";
 import { HeartNotFillStyles } from "../book/MainInformation/MainInformation.styles";
 
@@ -44,7 +44,7 @@ const FavoriteBtn = ({
   }
 
   const handleFavoriteClick = () => {
-    if (token === "null") {
+    if (token !== "null") {
       dispatch(AddToFavorite(reqestData));
     } else {
       addIdToLocalStorage(book.id);
