@@ -10,13 +10,13 @@ class BookService {
   // Get books by name
   // public async getBooks(type: string, value: string) {
   //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-    // const instance = axios.create({
-    //   baseURL: BASE_URL,
-    //   url: "/api/book",
-    //   params: {
-    //     type,
-    //     value,
-    //   },
+  // const instance = axios.create({
+  //   baseURL: BASE_URL,
+  //   url: "/api/book",
+  //   params: {
+  //     type,
+  //     value,
+  //   },
   //   });
   //   try {
   //     const response = await instance.get("api/book");
@@ -38,19 +38,33 @@ class BookService {
   //     throw error;
   //   }
   // }
-//   public async getBookById(id: string) {
-//     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-//     const instance = axios.create({
-//       baseURL: BASE_URL,
-//       url: `api/book/${id}`,
-//     });
-//     try {
-//       const response = await instance.get(`api/book/${id}`);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
+  //   public async getBookById(id: string) {
+  //     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  //     const instance = axios.create({
+  //       baseURL: BASE_URL,
+  //       url: `api/book/${id}`,
+  //     });
+  //     try {
+  //       const response = await instance.get(`api/book/${id}`);
+  //       return response.data;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  public async updateBooksFromServer() {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const instance = axios.create({
+      baseURL: BASE_URL,
+      url: `api/book/updateBooksFromServer`,
+    });
+    try {
+      const response = await instance.post(`api/book/updateBooksFromServer`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export const bookService = new BookService();
