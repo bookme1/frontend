@@ -8,7 +8,7 @@ const SwiperList = () => {
 
   const name = "Популярне";
 
-  return <CardList name={name} books={booksArr} />;
+  return <CardList name={name} books={booksArr.slice(0, 15)} />;
 };
 
 export default SwiperList;

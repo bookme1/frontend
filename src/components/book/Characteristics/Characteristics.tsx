@@ -43,10 +43,14 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
       <CharList>
         <CharItem>
           <CharKey>Мова:</CharKey>
-          <CharValue>{characteristics.language}</CharValue>
+          <CharValue>
+            {characteristics.language === "ukr"
+              ? "Українська"
+              : characteristics.language}
+          </CharValue>
         </CharItem>
         <CharItem>
-          <CharKey>Видавництво</CharKey>
+          <CharKey>Видавництво:</CharKey>
           <CharValue>{characteristics.publish}</CharValue>
         </CharItem>
         <CharItem>
@@ -56,7 +60,7 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
         {isFull && (
           <CharItem>
             <CharKey>Обкладинка:</CharKey>
-            <CharValue>{characteristics.cover}</CharValue>
+            <CharValue>Тут будут жанры в ближайшем будущем</CharValue>
           </CharItem>
         )}
         <FullButton
@@ -75,9 +79,10 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
         <ControlButton className="mobile">Читати уривок</ControlButton>
         <ControlButton className="quote">Цитати з книги</ControlButton>
       </ControlButtons>
-      <Description className="description">
-        {characteristics.description}
-      </Description>
+      <Description
+        className="description"
+        dangerouslySetInnerHTML={{ __html: characteristics.description }}
+      ></Description>
       <FullButton
         onClick={() => {
           setIsDescFull((prev) => !prev);
