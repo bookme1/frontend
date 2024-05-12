@@ -30,6 +30,7 @@ import {
 import { useEffect, useState } from "react";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
+import Bookformat from "@/components/bookformat/bookformat";
 
 const MainInformation = ({
   book,
@@ -75,6 +76,7 @@ const MainInformation = ({
             <Title>{book[0]?.title}</Title>
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book[0]?.price} ₴</Price>
+            <Bookformat />
             <Controls>
               <ToCart>
                 <Icon name="cart" size={28} />
