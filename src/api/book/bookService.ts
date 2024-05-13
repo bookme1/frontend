@@ -65,6 +65,23 @@ class BookService {
       throw error;
     }
   }
+
+  public async makeTestCheckout(amount: number) {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const instance = axios.create({
+      baseURL: BASE_URL,
+      url: `api/book/checkout`,
+    });
+    try {
+      const response = await instance.post(`api/book/checkout`, null, {
+        params: { amount: amount },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export const bookService = new BookService();

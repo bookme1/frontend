@@ -31,6 +31,8 @@ import { useEffect, useState } from "react";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
 import { IBook } from "@/app/book/[id]/page.types";
+import { Formats } from "../Formats";
+import { bookService } from "@/api/book/bookService";
 
 const MainInformation = ({
   book,
@@ -77,7 +79,11 @@ const MainInformation = ({
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
             <Controls>
-              <ToCart>
+              <ToCart
+                onClick={() => {
+                  bookService.makeTestCheckout(130);
+                }}
+              >
                 <Icon name="cart" size={28} />
                 Придбати
               </ToCart>
@@ -85,6 +91,7 @@ const MainInformation = ({
                 <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
               </ToFavorite>
             </Controls>
+            <Formats pdf={true} mobi={true} epub={false} />
           </MainInfoContainer>
           {screenWidth && (screenWidth < 768 || screenWidth >= 1280) && (
             <Characteristics characteristics={characteristics} />
