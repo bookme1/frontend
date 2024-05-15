@@ -4,7 +4,7 @@ import { Wrapper } from "@/styles/globals.styles";
 import { MobileCard } from "../MobileCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllBooks, selectBooks } from "@/lib/redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Filter from "../Filter/Filter";
 import {
   BooksQuantity,
@@ -14,6 +14,7 @@ import {
   ItemContainer,
   Container,
 } from "./Controls.styles";
+import usePagination from "@/components/hooks/usePagination";
 
 const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -44,6 +45,38 @@ const Controls = () => {
     setIsOpen(!isOpen);
   };
 
+
+
+  const { paginatedItems, loadMoreItems } = usePagination(booksArr, 30);
+  const loader = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreItems();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '20px',
+        threshold: 1.0,
+      }
+    );
+
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+
+    return () => {
+      if (loader.current) {
+        observer.unobserve(loader.current);
+      }
+    };
+  }, [loadMoreItems]);
+
+
+
   const quantity = booksArr.length;
   return (
     <>
@@ -62,7 +95,7 @@ const Controls = () => {
               </ControlButton>
             </ControlsContainer>
             <CardContainer>
-              {booksArr.map((book: any) => {
+              {paginatedItems.map((book: any) => {
                 return (
                   <ItemContainer key={book.id}>
                     <MobileCard book={book} />
@@ -70,6 +103,7 @@ const Controls = () => {
                 );
               })}
             </CardContainer>
+            <div ref={loader} style={{ height: '100px', backgroundColor: 'transparent' }} />
           </div>
         </Container>
       </Wrapper>
