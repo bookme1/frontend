@@ -31,12 +31,15 @@ import { useEffect, useState } from "react";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
 import Bookformat from "@/components/bookformat/bookformat";
+import { IBook } from "@/app/book/[id]/page.types";
+import { Formats } from "../Formats";
+import { bookService } from "@/api/book/bookService";
 
 const MainInformation = ({
   book,
   characteristics,
 }: {
-  book: any;
+  book: IBook;
   characteristics: ICharacteristics;
 }) => {
   const dispatch: any = useDispatch();
@@ -59,7 +62,7 @@ const MainInformation = ({
       return <Author key={author}>{author}</Author>;
     });
   };
-  const authorsMarkup = getAuthorsMarkup(book[0]?.authors);
+  const authorsMarkup = getAuthorsMarkup(book.author);
   const isFavAlredy = favorite[0]?.some((fav: any) => fav === id);
   // const isFavAlredy = favorite[0]?.find((book: any) => book.includes(id));
   // console.log(isFavAlredy);
@@ -69,23 +72,28 @@ const MainInformation = ({
     <>
       <StyledWrapper>
         <ImageContainer
-          style={{ ["--background-image" as string]: `url(${book[0]?.url})` }}
+          style={{ ["--background-image" as string]: `url(${book?.url})` }}
         ></ImageContainer>
         <InfoContainer>
           <MainInfoContainer>
-            <Title>{book[0]?.title}</Title>
+            <Title>{book?.title}</Title>
             <AuthorsList>{authorsMarkup}</AuthorsList>
-            <Price>{book[0]?.price} ₴</Price>
+            <Price>{book?.price} ₴</Price>
             <Bookformat />
             <Controls>
-              <ToCart>
+              <ToCart
+                onClick={() => {
+                  bookService.makeTestCheckout(130);
+                }}
+              >
                 <Icon name="cart" size={28} />
                 Придбати
               </ToCart>
               <ToFavorite>
-                <FavoriteBtn book={book[0]} isFavAlredy={isFavAlredy} />
+                <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
               </ToFavorite>
             </Controls>
+            <Formats pdf={true} mobi={true} epub={false} />
           </MainInfoContainer>
           {screenWidth && (screenWidth < 768 || screenWidth >= 1280) && (
             <Characteristics characteristics={characteristics} />

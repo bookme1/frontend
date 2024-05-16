@@ -26,17 +26,15 @@ export const ImageContainer = styled.div`
 `;
 
 export const HeartStyles = styled(FaHeart)`
-width: 24px;
-height: 24px;
-fill: var(--red);
-color: var(--red);
-
+  width: 24px;
+  height: 24px;
+  fill: var(--red);
+  color: var(--red);
 `;
 
 export const HeartNotFillStyles = styled(FaRegHeart)`
-width: 24px;
-height: 24px;
-
+  width: 24px;
+  height: 24px;
 `;
 
 export const MainInfoContainer = styled.div`
@@ -50,7 +48,7 @@ export const MainInfoContainer = styled.div`
     height: 330px;
     @media (min-width: 1280px) {
       width: 676px;
-      height: 358px;
+      height: 420px;
       position: relative;
     }
   }

@@ -4,35 +4,32 @@ import Link from "next/link";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 
-
 export const CardContainer = styled.li`
   margin: 2px 0px;
   width: 230px;
-  max-height: 450px;
+  height: 470px;
   border-radius: 10px;
   list-style: none;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 export const HeartFillStyles = styled(FaHeart)`
-width: 24px;
-height: 24px;
-fill: var(--red);
-color: var(--red);
+  width: 24px;
+  height: 24px;
+  fill: var(--red);
+  color: var(--red);
 `;
 
 export const HeartNotFillStyles = styled(FaRegHeart)`
-width: 24px;
-height: 24px;
-
+  width: 24px;
+  height: 24px;
 `;
 
 export const BoxStyles = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 24px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
 `;
 
 export const ImageContainer = styled.div`
@@ -44,6 +41,12 @@ export const ImageContainer = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin-bottom: 8px;
+
+  &.lazyload {
+    background-color: #ccc; /* Цвет фона, который будет виден, пока изображение не загружено */
+    background-size: cover;
+    background-position: center;
+  }
 `;
 
 export const DescriptionContainer = styled.div`
@@ -61,6 +64,11 @@ export const Title = styled.p`
   line-height: 140%;
   font-weight: 700;
   margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* Ограничивает количество строк до 3 */
+  height: 75.6px;
 `;
 
 export const Authors = styled.p`
@@ -68,8 +76,10 @@ export const Authors = styled.p`
   font-size: 15px;
   line-height: 140%;
   margin-bottom: 8px;
-  
-    white-space: nowrap;
+  height: 21px;
+  display: block;
+
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;

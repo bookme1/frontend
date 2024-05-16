@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 
-
 export const StyledWrapper = styled(Wrapper)`
   display: flex;
   justify-content: center;
@@ -13,17 +12,15 @@ export const StyledWrapper = styled(Wrapper)`
 `;
 
 export const HeartStyles = styled(FaHeart)`
-width: 24px;
-height: 24px;
-fill: var(--red);
-color: var(--red);
-
+  width: 24px;
+  height: 24px;
+  fill: var(--red);
+  color: var(--red);
 `;
 
 export const HeartNotFillStyles = styled(FaRegHeart)`
-width: 24px;
-height: 24px;
-
+  width: 24px;
+  height: 24px;
 `;
 
 export const ImageContainer = styled.div`
@@ -47,6 +44,12 @@ export const Title = styled.h3`
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* Ограничивает количество строк до 3 */
+  height: 75.6px;
 `;
 
 export const AuthorsList = styled.p`
