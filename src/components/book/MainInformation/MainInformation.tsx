@@ -30,6 +30,7 @@ import {
 import { useEffect, useState } from "react";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
+import Bookformat from "@/components/bookformat/bookformat";
 import { IBook } from "@/app/book/[id]/page.types";
 import { Formats } from "../Formats";
 import { bookService } from "@/api/book/bookService";
@@ -78,6 +79,7 @@ const MainInformation = ({
             <Title>{book?.title}</Title>
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
+            <Bookformat />
             <Controls>
               <ToCart
                 onClick={() => {

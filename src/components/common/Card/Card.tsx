@@ -15,6 +15,7 @@ import {
 } from "./Card.styles";
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
+import Bookformat from "@/components/bookformat/bookformat";
 import { lazyloadExp } from "./lazyload";
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
@@ -36,7 +37,8 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
         </Title>
         <Authors>{author}</Authors>
         <BottomContainer>
-          <Price>{price} ₴</Price>
+          <Price>{price}₴</Price>
+          <Bookformat />
           <BoxStyles>
             <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
             <CartButton>
