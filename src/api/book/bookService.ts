@@ -51,6 +51,7 @@ class BookService {
   //       throw error;
   //     }
   //   }
+
   public async updateBooksFromServer() {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const instance = axios.create({
@@ -59,8 +60,6 @@ class BookService {
     });
     try {
       const response = await instance.post(`api/book/updateBooksFromServer`);
-      console.log(response.data);
-      return response.data;
     } catch (error) {
       throw error;
     }
