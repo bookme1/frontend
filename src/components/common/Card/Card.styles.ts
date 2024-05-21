@@ -7,10 +7,35 @@ import { FaRegHeart } from "react-icons/fa";
 export const CardContainer = styled.li`
   margin: 2px 0px;
   width: 230px;
-  height: 470px;
+  height: 400px;
   border-radius: 10px;
   list-style: none;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+  transition: height 0.25s ease;
+
+  .formats-hover {
+    overflow: hidden;
+    position: absolute;
+    bottom: 0; /* Начальная позиция скрытого блока */
+    left: 0;
+    transform: translateY(105%); /* Скрываем блок за пределами контейнера */
+    transition: transform 0.25s ease; /* Плавный переход трансформации */
+  }
+
+  .hidden-buttons {
+    transform: translateY(100%);
+    transition: translate 0.25s ease;
+  }
+  &:hover {
+    height: 450px;
+    .formats-hover {
+      transform: translateY(0);
+    }
+    .hidden-buttons {
+      transform: translateY(0);
+    }
+  }
 `;
 
 export const HeartFillStyles = styled(FaHeart)`
@@ -18,11 +43,13 @@ export const HeartFillStyles = styled(FaHeart)`
   height: 24px;
   fill: var(--red);
   color: var(--red);
+  cursor: pointer;
 `;
 
 export const HeartNotFillStyles = styled(FaRegHeart)`
   width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
 export const BoxStyles = styled.div`
@@ -67,8 +94,7 @@ export const Title = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 3; /* Ограничивает количество строк до 3 */
-  height: 75.6px;
+  -webkit-line-clamp: 1; /* Ограничивает количество строк до 1 */
 `;
 
 export const Authors = styled.p`

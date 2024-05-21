@@ -1,8 +1,9 @@
 import React from "react";
 import { Icon } from "../common/Icon";
+import { FormatsContainer } from "./BookFormat.styles";
 
 const Bookformat = ({ size }: { size: number }) => {
-  const renderBookFormatImage = (format) => {
+  const renderBookFormatImage = (format: any) => {
     let imagePath;
     switch (format.toLowerCase()) {
       case "epub":
@@ -12,18 +13,24 @@ const Bookformat = ({ size }: { size: number }) => {
         imagePath = "mobi";
         break;
       case "pdf":
-        imagePath = "pfg";
+        imagePath = "pdf";
         break;
       default:
         imagePath = "default.png";
     }
-    return <Icon name={imagePath} alt={format.toUpperCase()} size={size} />;
+    return (
+      <Icon name={imagePath} data-format={format.toUpperCase()} size={size} />
+    );
   };
   const bookFormats = ["EPUB", "MOBI", "PDF"];
   const renderedImages = bookFormats.map((format) =>
     renderBookFormatImage(format)
   );
-  return <div> {renderedImages}</div>;
+  return (
+    <FormatsContainer className="formats-hover">
+      {renderedImages}
+    </FormatsContainer>
+  );
 };
 
 export default Bookformat;

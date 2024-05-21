@@ -30,11 +30,13 @@ export const HeartStyles = styled(FaHeart)`
   height: 24px;
   fill: var(--red);
   color: var(--red);
+  cursor: pointer;
 `;
 
 export const HeartNotFillStyles = styled(FaRegHeart)`
   width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
 export const MainInfoContainer = styled.div`
