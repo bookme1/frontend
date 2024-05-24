@@ -27,11 +27,11 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
       <ImageContainer
         style={{ ["--background-image" as string]: `url(${url})` }}
       >
-        <CardLink href={`book/${id}`}></CardLink>
+        <CardLink href={`/book/${id}`}></CardLink>
       </ImageContainer>
       <DescriptionContainer>
         <Title>
-          <CardLink href={`book/${id}`}>{title}</CardLink>
+          <CardLink href={`/book/${id}`}>{title}</CardLink>
         </Title>
         <Authors>{author}</Authors>
         <BottomContainer>
@@ -44,7 +44,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
             </CartButton>
           </BoxStyles>
         </BottomContainer>
-      </DescriptionContainer>
+      </DescriptionContainer> 
     </CardContainer>
   );
 };
