@@ -14,8 +14,22 @@ export default function Home() {
   const handleFavClick = () => {
     setIsFavVisible(!isFavVisible);
   };
+
+  const handlePayment = async () => {
+    try {
+      const response = await bookService.makeTestCheckout(100); // пример суммы
+      console.log(response);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   return (
     <>
+      <div>
+        <button onClick={handlePayment}>Pay</button>
+        <div id="liqpay" style={{ display: "none" }}></div>
+      </div>
       <Header />
       <button
         onClick={() => {
