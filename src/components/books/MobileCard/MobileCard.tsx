@@ -13,15 +13,21 @@ import {
 } from "./MobileCard.styles";
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
+import { CardLink } from "@/components/common/Card/Card.styles";
 
 const MobileCard = ({ book }: { book: any }) => {
   return (
     <StyledWrapper>
       <ImageContainer
         style={{ ["--background-image" as string]: `url(${book.url})` }}
-      ></ImageContainer>
+      >
+        <CardLink href={`book/${book.id}`}></CardLink>
+      </ImageContainer>
       <ContentContainer>
-        <Title>{book.title}</Title>
+        <Title>
+          <CardLink href={`book/${book.id}`}>{book.title}</CardLink>
+        </Title>
+
         <AuthorsList>{book.authors}</AuthorsList>
         <BottomContainer>
           <Price>{book.price} ₴</Price>

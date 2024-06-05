@@ -11,4 +11,7 @@ export const SearchListContainer = styled.div`
   z-index: 10;
 `;
 
-export const SearchListList = styled.ul``;
+export const SearchListList = styled.ul`
+max-height: 200px;
+overflow-y: auto;
+`;

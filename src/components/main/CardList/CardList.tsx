@@ -12,8 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { useDispatch, useSelector } from "react-redux";
-import { GetFromFavorite, selectFavorite } from "@/lib/redux";
+import {  useSelector } from "react-redux";
+import { GetFromFavorite, selectFavorite, useDispatch } from "@/lib/redux";
 import { useEffect } from "react";
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
@@ -24,11 +24,18 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
     dispatch(GetFromFavorite());
   }, [dispatch]);
 
+  let favIdList: any;
+  if (typeof window !== "undefined") {
+    favIdList = localStorage.getItem("favorites");
+  }
+  const token = localStorage.getItem("accessToken");
+  const favIdListArr = JSON.parse(favIdList);
+
   let booksMarkup;
   if (books.length) {
     booksMarkup = books.map((book) => (
       <SwiperSlide key={book.id}>
-        <Card book={book} favorite={favorite[0]} />
+        <Card book={book} favorite={token === null ? favIdListArr : favorite[0]} />
       </SwiperSlide>
     ));
   }
