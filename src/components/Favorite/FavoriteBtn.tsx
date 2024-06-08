@@ -1,6 +1,6 @@
 "use client";
 import { AddToFavorite, RemoveFromFavorite, useDispatch } from "@/lib/redux";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { HeartFillStyles } from "../common/Card/Card.styles";
 import { HeartNotFillStyles } from "../book/MainInformation/MainInformation.styles";
@@ -17,6 +17,7 @@ const FavoriteBtn = ({
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
   const token = localStorage.getItem("accessToken");
 
+
   interface AddToFavoriteRequest {
     bookId: string; // Assuming the bookId is of type string
   }
@@ -31,7 +32,6 @@ const FavoriteBtn = ({
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }
 
-  // Функция для удаления ID из списка в Local Storage
   function removeIdFromLocalStorage(id: string): void {
     let favorites: string[] = JSON.parse(
       localStorage.getItem("favorites") || "[]"
@@ -44,25 +44,26 @@ const FavoriteBtn = ({
   }
 
   const handleFavoriteClick = () => {
-    if (token !== "null") {
+    if (token !== null) {
       dispatch(AddToFavorite(reqestData));
     } else {
       addIdToLocalStorage(book.id);
     }
 
     setIsFavotire(!isFavorite);
+   
+    
   };
 
   const handleNotFavoriteClick = () => {
-    if (token === "null") {
+    if (token !== null) {
       dispatch(RemoveFromFavorite(book.id));
     } else {
-      console.log(2);
-
       removeIdFromLocalStorage(book.id);
     }
 
     setIsFavotire(!isFavorite);
+   
   };
 
   return (

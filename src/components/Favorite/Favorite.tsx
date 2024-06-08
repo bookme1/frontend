@@ -16,12 +16,13 @@ const Favorite = () => {
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
+  
+
   let favIdList: any;
   if (typeof window !== "undefined") {
     favIdList = localStorage.getItem("favorites");
   }
 
-  // const favIdList: any = localStorage.getItem("favorites");
   const favIdListArr = JSON.parse(favIdList);
   const token = localStorage.getItem("accessToken");
 
@@ -31,8 +32,6 @@ const Favorite = () => {
   } else {
     favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
   }
-console.log(favBooks)
-console.log(favorite)
 
   useEffect(() => {
     dispatch(GetFromFavorite());
