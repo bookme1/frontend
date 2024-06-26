@@ -74,7 +74,7 @@ class BookService {
 
     try {
       const response = await instance.post(`/api/book/checkout`, null, {
-        params: { amount: amount },
+        params: { amount: Number(amount) },
       });
 
       const { data, signature } = response.data;

@@ -79,15 +79,16 @@ const MainInformation = ({
             <Title>{book?.title}</Title>
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
-            <Bookformat />
             <Controls>
+              <ToCart>
+                <Icon name="cart" size={28} />В кошик
+              </ToCart>
               <ToCart
                 onClick={() => {
-                  bookService.makeTestCheckout(130);
+                  bookService.makeTestCheckout(book.price);
                 }}
               >
-                <Icon name="cart" size={28} />
-                Придбати
+                Купити зараз
               </ToCart>
               <ToFavorite>
                 <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
