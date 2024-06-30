@@ -3,7 +3,7 @@ import { Icon } from "@/components/common/Icon";
 import { Wrapper } from "@/styles/globals.styles";
 import { MobileCard } from "../MobileCard";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllBooks, selectBooks } from "@/lib/redux";
+import { selectBooks } from "@/lib/redux";
 import { useEffect, useRef, useState } from "react";
 import Filter from "../Filter/Filter";
 import {
@@ -20,10 +20,6 @@ const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch: any = useDispatch();
   const booksArr = useSelector(selectBooks);
-
-  useEffect(() => {
-    dispatch(fetchAllBooks());
-  }, [dispatch]);
 
   useEffect(() => {
     setIsOpen(window.innerWidth >= 1280);
@@ -45,8 +41,6 @@ const Controls = () => {
     setIsOpen(!isOpen);
   };
 
-
-
   const { paginatedItems, loadMoreItems } = usePagination(booksArr, 30);
   const loader = useRef<HTMLDivElement | null>(null);
 
@@ -59,7 +53,7 @@ const Controls = () => {
       },
       {
         root: null,
-        rootMargin: '20px',
+        rootMargin: "20px",
         threshold: 1.0,
       }
     );
@@ -74,8 +68,6 @@ const Controls = () => {
       }
     };
   }, [loadMoreItems]);
-
-
 
   const quantity = booksArr.length;
   return (
@@ -103,7 +95,10 @@ const Controls = () => {
                 );
               })}
             </CardContainer>
-            <div ref={loader} style={{ height: '100px', backgroundColor: 'transparent' }} />
+            <div
+              ref={loader}
+              style={{ height: "100px", backgroundColor: "transparent" }}
+            />
           </div>
         </Container>
       </Wrapper>

@@ -2,10 +2,10 @@ import { createAppAsyncThunk } from "@/lib/redux/createAppAsyncThunk";
 
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
 
-export const fetchAllBooks = createAppAsyncThunk(
-  "books/fetchAllBooks",
+export const getAllBooks = createAppAsyncThunk(
+  "books/getAllBooks",
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${BASE_URL}/api/book`);
@@ -16,8 +16,8 @@ export const fetchAllBooks = createAppAsyncThunk(
   }
 );
 
-export const fetchBooksById = createAppAsyncThunk(
-  "books/fetchBooksById",
+export const getBookById = createAppAsyncThunk(
+  "books/getBookById",
   async (id, thunkAPI) => {
     try {
       const response = await axios.get(`${BASE_URL}/api/book/${id}`);
@@ -35,7 +35,7 @@ const setAuthHeader = (token: any) => {
 // const token = localStorage.getItem("accessToken")
 
 let token;
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   token = localStorage.getItem("accessToken");
 }
 
@@ -50,7 +50,7 @@ interface AddToFavoriteRequest {
 }
 
 export const AddToFavorite = createAppAsyncThunk<string, AddToFavoriteRequest>(
-  "books/addToFavotive",
+  "books/favorites/add",
   async (credentials: any, thunkAPI) => {
     try {
       const response = await axios.post(

@@ -3,7 +3,6 @@ import { Icon } from "../Icon";
 import { Wrapper } from "@/styles/globals.styles";
 import { Modal } from "@/components/main/Modal";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { authService } from "@/api/auth/authService";
 import { SearchList } from "@/components/main/SearchList";
 import { CatalogButton } from "../../main/Hero/Hero.styles";
 import ScrollBehavior from "./ScrollBehavior";
@@ -30,6 +29,12 @@ import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectBooks } from "@/lib/redux";
 import { useSession } from "next-auth/react";
+import {
+  useGetDataMutation,
+  useGoogleAuthMutation,
+  useRefreshTokenMutation,
+} from "@/lib/redux/features/user/userApi";
+import { loginOutputDTO } from "@/lib/redux/features/user/types";
 
 const Header = () => {
   const booksArr = useSelector(selectBooks);
@@ -37,7 +42,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState<loginOutputDTO>();
   const [activePage, setActivePage] = useState("main");
   const searchVal = useRef<HTMLInputElement | null>(null);
   const [books, setBooks] = useState<Array<any>>([]);
@@ -65,27 +70,66 @@ const Header = () => {
       document.body.classList.remove("modal-open");
     }
   }, [isCatalogOpen]);
-  const fetchUserData = useMemo(
-    () => async () => {
-      try {
-        const data = await authService.getUserData();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+
+  const [
+    getUserData,
+    {
+      data: getUserDataData,
+      error: getUserDataError,
+      isLoading: getUserDataLoading,
     },
-    []
-  );
+  ] = useGetDataMutation();
+
+  const [
+    refreshTokens,
+    {
+      data: refreshTokenData,
+      error: refreshTokenError,
+      isLoading: refreshTokenIsLoading,
+    },
+  ] = useRefreshTokenMutation();
+
+  const getData = async () => {
+    if (typeof localStorage == undefined) {
+      return;
+    }
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!accessToken && !refreshToken) {
+      return null;
+    }
+
+    try {
+      if (accessToken) {
+        // If we have access token -> login by access token
+        console.log(accessToken);
+        await getUserData(accessToken);
+      }
+      if (refreshToken && !getUserDataData) {
+        // If access token was lost -> refresh tokens by refresh token
+        await refreshTokens(refreshToken);
+      }
+
+      setUserData(data);
+    } catch (error: any) {
+      console.error("Error fetching user data:", error);
+      if (error.status == 401 && refreshToken) {
+        await refreshTokens(refreshToken); // if access token was expired -> refresh by refresh token
+      }
+    }
+  };
+
   useEffect(() => {
-    fetchUserData();
+    getData();
   }, []);
+
   const handleClick = () => {
     setIsOpen(true);
   };
   const handleSearch = async (e: any) => {
     if (e.target.value.length >= 2) {
       setIsSearchListOpen(true);
-      // const response = await bookService.getBooks("title", e.target.value);
       const res = booksArr.filter((book: any) =>
         book.title.toLowerCase().includes(e.target.value)
       );
@@ -114,16 +158,17 @@ const Header = () => {
   //Check if user authorized by google
   // ---------------------------------
   const session = useSession();
+  const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
 
   useEffect(() => {
     if (session && session.data?.user?.email) {
       const fetchData = async () => {
         try {
-          const data = await authService.googleAuth(
-            session.data?.user?.email || "",
-            session.data?.user?.name || ""
-          );
-          setUserData(data);
+          if (session.data?.user?.email && session.data?.user?.name) {
+            const { email, name } = session.data.user;
+            await googleSignIn({ email, name });
+            setUserData(data);
+          }
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -131,6 +176,20 @@ const Header = () => {
       fetchData();
     }
   }, [session]);
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("accessToken", data.tokens.accessToken);
+      localStorage.setItem("refreshToken", data.tokens.refreshToken);
+      setUserData(data);
+    } else if (refreshTokenData) {
+      localStorage.setItem("accessToken", refreshTokenData.tokens.accessToken);
+      localStorage.setItem(
+        "refreshToken",
+        refreshTokenData.tokens.refreshToken
+      );
+      setUserData(refreshTokenData);
+    }
+  }, [data, refreshTokenData]);
 
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -191,16 +250,19 @@ const Header = () => {
                   handleClick();
                 }}
               >
-                <Icon name="account" size={28} />Увійти
+                <Icon name="account" size={28} />
+                Увійти
               </HeaderButton>
             )}
             <HeaderButton>
               <AccountLink href="/favorite">
-                <Icon name="heart" size={28} />Обране
+                <Icon name="heart" size={28} />
+                Обране
               </AccountLink>
             </HeaderButton>
             <HeaderButton>
-              <Icon name="cart" size={28} />Кошик
+              <Icon name="cart" size={28} />
+              Кошик
             </HeaderButton>
             {userData ? (
               <Avatar>

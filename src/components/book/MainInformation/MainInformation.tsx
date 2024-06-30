@@ -12,28 +12,19 @@ import {
   Controls,
   ToCart,
   ToFavorite,
-  HeartNotFillStyles,
 } from "./MainInformation.styles";
 import { Icon } from "@/components/common/Icon";
 import { Characteristics } from "../Characteristics";
 import { ICharacteristics } from "../Characteristics/Characteristics.types";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { HeartFillStyles } from "@/components/common/Card/Card.styles";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  AddToFavorite,
-  GetFromFavorite,
-  fetchAllBooks,
-  selectBooks,
-  selectFavorite,
-} from "@/lib/redux";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectBooks, selectFavorite } from "@/lib/redux";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
-import Bookformat from "@/components/BookFormat/BookFormat";
 import { IBook } from "@/app/book/[id]/page.types";
 import { Formats } from "../Formats";
 import { bookService } from "@/api/book/bookService";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 
 const MainInformation = ({
   book,
@@ -42,15 +33,8 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
-  const dispatch: any = useDispatch();
   const favorite = useSelector(selectFavorite);
   const router = usePathname();
-
-  useEffect(() => {
-    dispatch(fetchAllBooks());
-  }, [dispatch]);
-
-  const booksList = useSelector(selectBooks);
 
   const id = router?.split("/").pop();
 

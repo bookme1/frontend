@@ -1,10 +1,8 @@
-
 /* Core */
 import {
   configureStore,
   type ThunkAction,
   type Action,
-
 } from "@reduxjs/toolkit";
 import {
   useSelector as useReduxSelector,
@@ -12,17 +10,17 @@ import {
   type TypedUseSelectorHook,
 } from "react-redux";
 
-
-
 /* Instruments */
 import { reducer } from "./rootReducer";
-import { middleware } from "./middleware";
+import { userApi } from "./features/user/userApi";
+import { bookApi } from "./features/book/bookApi";
 
 export const reduxStore = configureStore({
-  reducer,
-  // middleware: (getDefaultMiddleware) => {
-  //   return getDefaultMiddleware().concat(middleware);
-  // },
+  reducer: reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(userApi.middleware)
+      .concat(bookApi.middleware),
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
 export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector;
@@ -37,5 +35,3 @@ export type ReduxThunkAction<ReturnType = void> = ThunkAction<
   unknown,
   Action
 >;
-
-

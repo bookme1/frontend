@@ -1,5 +1,4 @@
 "use client";
-import { authService } from "@/api/auth/authService";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
   GoogleBtn,
@@ -11,8 +10,10 @@ import {
   SubmitButton,
   ChangeModalButton,
 } from "../Modal.styles";
-import { signIn } from "next-auth/react";
+import { signIn as googleSignIn } from "next-auth/react";
 import { Icon } from "@/components/common/Icon";
+import { useSignInMutation } from "@/lib/redux/features/user/userApi";
+import Notiflix from "notiflix";
 
 const SignInModal = ({
   setType,
@@ -21,10 +22,23 @@ const SignInModal = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signIn, { data, error, isLoading }] = useSignInMutation();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    authService.signIn(email, password);
+    try {
+      await signIn({ email, password });
+      Notiflix.Notify.success("Вхід успішний!");
+      if (data) {
+        localStorage.setItem("accessToken", data.tokens.accessToken);
+        localStorage.setItem("refreshToken", data.tokens.refreshToken);
+      }
+
+      window.location.replace("/account");
+    } catch (err: any) {
+      console.error("Error while logging in", err);
+      Notiflix.Notify.failure("Помилка при вході в аккаунт ", err.status);
+    }
   };
 
   return (
@@ -53,7 +67,7 @@ const SignInModal = ({
       <Description className="google">Або увійдіть за допомогою:</Description>
       <GoogleBtn
         onClick={() => {
-          signIn();
+          googleSignIn();
         }}
       >
         <Icon name="google" size="24" />

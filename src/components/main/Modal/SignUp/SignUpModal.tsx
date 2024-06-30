@@ -10,6 +10,8 @@ import {
   ChangeModalButton,
 } from "../Modal.styles";
 import { Agreement, AgreementLink } from "./SignUpModal.styles";
+import { useSignUpMutation } from "@/lib/redux/features/user/userApi";
+import Notiflix from "notiflix";
 
 const SignUpModal = ({
   setType,
@@ -19,10 +21,20 @@ const SignUpModal = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signUp, { data, error, isLoading }] = useSignUpMutation();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    authService.signUp(name, email, password);
+    try {
+      await signUp({ name, email, password }).unwrap();
+      Notiflix.Notify.success("Реєстрація успішна!");
+      Notiflix.Notify.warning(
+        "Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі"
+      );
+    } catch (err: any) {
+      Notiflix.Notify.warning("Помилка при реєстрації ", err.status);
+      console.error("Error while registrating", err);
+    }
   };
 
   return (
@@ -54,10 +66,10 @@ const SignUpModal = ({
         <SubmitButton type="submit">Зареєструватись</SubmitButton>
       </Form>
       <Agreement>
-        Реєструючись, ви погоджуєтеся{" "}
+        Реєструючись, ви погоджуєтеся
         <AgreementLink href="#">
           з угодою користувача і політикою конфіденційності
-        </AgreementLink>{" "}
+        </AgreementLink>
         bookme
       </Agreement>
       <Description>Або зареєструйтесь за допомогою:</Description>

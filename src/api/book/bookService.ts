@@ -2,14 +2,14 @@ import axios, { AxiosResponse } from "axios";
 import Notiflix from "notiflix";
 
 class BookService {
-  private baseURL: string;
+  private baseURL: string | undefined;
 
   constructor() {
-    this.baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
+    this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
   }
   // Get books by name
   // public async getBooks(type: string, value: string) {
-  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
   // const instance = axios.create({
   //   baseURL: BASE_URL,
   //   url: "/api/book",
@@ -26,7 +26,7 @@ class BookService {
   //   }
   // }
   // public async getAllBooks() {
-  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  //   const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
   //   const instance = axios.create({
   //     baseURL: BASE_URL,
   //     url: "/api/book",
@@ -39,7 +39,7 @@ class BookService {
   //   }
   // }
   //   public async getBookById(id: string) {
-  //     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  //     const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
   //     const instance = axios.create({
   //       baseURL: BASE_URL,
   //       url: `api/book/${id}`,
@@ -53,7 +53,7 @@ class BookService {
   //   }
 
   public async updateBooksFromServer() {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
     const instance = axios.create({
       baseURL: BASE_URL,
       url: `api/book/updateBooksFromServer`,
@@ -66,8 +66,7 @@ class BookService {
   }
 
   public async makeTestCheckout(amount: number) {
-    const BASE_URL =
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
     const instance = axios.create({
       baseURL: BASE_URL,
     });

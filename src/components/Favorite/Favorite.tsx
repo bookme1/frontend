@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { Card } from "../common/Card";
 import {
   GetFromFavorite,
-  fetchAllBooks,
   selectBooks,
   selectFavorite,
   useDispatch,
@@ -15,8 +14,6 @@ const Favorite = () => {
   const favorite = useSelector(selectFavorite);
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
-
-  
 
   let favIdList: any;
   if (typeof window !== "undefined") {
@@ -35,7 +32,6 @@ const Favorite = () => {
 
   useEffect(() => {
     dispatch(GetFromFavorite());
-    dispatch(fetchAllBooks());
   }, [dispatch]);
 
   return (

@@ -10,16 +10,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllBooks, selectBooks } from "@/lib/redux";
+import { selectBooks } from "@/lib/redux";
 import { IBook } from "./page.types";
 
 export default function Home() {
   const dispatch = useDispatch();
   const booksArr = useSelector(selectBooks);
 
-  // useEffect(() => {
-  //   dispatch(fetchAllBooks());
-  // }, [dispatch]);
   const mockBook = {
     title: "0",
     author: "0",
