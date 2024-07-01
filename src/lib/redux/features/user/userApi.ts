@@ -56,7 +56,7 @@ export const userApi = createApi({
       //get user data by token
       query: (token) => ({
         url: "api/user",
-        method: "POST",
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },

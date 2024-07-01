@@ -34,7 +34,6 @@ import {
   useGoogleAuthMutation,
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
-import { loginOutputDTO } from "@/lib/redux/features/user/types";
 
 const Header = () => {
   const booksArr = useSelector(selectBooks);
@@ -42,98 +41,19 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-  const [userData, setUserData] = useState<loginOutputDTO>();
+  const [userData, setUserData] = useState<any>();
   const [activePage, setActivePage] = useState("main");
   const searchVal = useRef<HTMLInputElement | null>(null);
   const [books, setBooks] = useState<Array<any>>([]);
   const router = useSearchParams();
 
-  useEffect(() => {
-    const q = router?.get("q");
-    if (q) {
-      if (searchVal.current) {
-        searchVal.current.value = q;
-      }
-    }
-  }, [router]);
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-  }, [isOpen]);
-  useEffect(() => {
-    if (isCatalogOpen) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-  }, [isCatalogOpen]);
-
-  const [
-    getUserData,
-    {
-      data: getUserDataData,
-      error: getUserDataError,
-      isLoading: getUserDataLoading,
-    },
-  ] = useGetDataMutation();
-
-  const [
-    refreshTokens,
-    {
-      data: refreshTokenData,
-      error: refreshTokenError,
-      isLoading: refreshTokenIsLoading,
-    },
-  ] = useRefreshTokenMutation();
-
-  const getData = async () => {
-    if (typeof localStorage == undefined) {
-      return;
-    }
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-
-    if (!accessToken && !refreshToken) {
-      return null;
-    }
-
-    try {
-      if (accessToken) {
-        // If we have access token -> login by access token
-        console.log(accessToken);
-        await getUserData(accessToken);
-      }
-      if (
-        (accessToken && !getUserDataData && getUserDataError) ||
-        !accessToken
-      ) {
-        if (refreshToken) await refreshTokens(refreshToken);
-        // If access token was lost -> refresh tokens by refresh token
-      }
-
-      setUserData(data);
-    } catch (error: any) {
-      console.error("Error fetching user data:", error);
-      if (error.status == 401 && refreshToken) {
-        console.log("Pizdec");
-        console.log(accessToken);
-        console.log(getUserDataData);
-        console.log(refreshToken);
-        await refreshTokens(refreshToken); // if access token was expired -> refresh by refresh token
-      }
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+  // #############
+  // HANDLE EVENTS
+  // #############
   const handleClick = () => {
     setIsOpen(true);
   };
+
   const handleSearch = async (e: any) => {
     if (e.target.value.length >= 2) {
       setIsSearchListOpen(true);
@@ -145,6 +65,7 @@ const Header = () => {
       setIsSearchListOpen(false);
     }
   };
+
   const handleCatalog = (e: any) => {
     e.preventDefault();
     setIsCatalogOpen((prev) => !prev);
@@ -161,6 +82,31 @@ const Header = () => {
     }
     setActivePage(page);
   };
+
+  useEffect(() => {
+    const q = router?.get("q");
+    if (q) {
+      if (searchVal.current) {
+        searchVal.current.value = q;
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isCatalogOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [isCatalogOpen]);
   // ---------------------------------
   //Check if user authorized by google
   // ---------------------------------
@@ -175,8 +121,10 @@ const Header = () => {
             const { email, name } = session.data.user;
             await googleSignIn({ email, name });
             setUserData(data);
-            console.log("GOOGLE TOKEN");
-            console.log(data);
+            if (data) {
+              localStorage.setItem("accessToken", data.tokens.accessToken);
+              localStorage.setItem("refreshToken", data.tokens.refreshToken);
+            }
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -185,20 +133,6 @@ const Header = () => {
       fetchData();
     }
   }, [session]);
-  useEffect(() => {
-    if (data) {
-      localStorage.setItem("accessToken", data.tokens.accessToken);
-      localStorage.setItem("refreshToken", data.tokens.refreshToken);
-      setUserData(data);
-    } else if (refreshTokenData) {
-      localStorage.setItem("accessToken", refreshTokenData.tokens.accessToken);
-      localStorage.setItem(
-        "refreshToken",
-        refreshTokenData.tokens.refreshToken
-      );
-      setUserData(refreshTokenData);
-    }
-  }, [data, refreshTokenData]);
 
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

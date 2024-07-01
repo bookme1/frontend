@@ -14,38 +14,22 @@ import {
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
 import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
+import useUserLoginData from "@/components/common/Header/loginFunc";
 
 export default function Home() {
   const { data: session, status: sessionStatus } = useSession();
   const [userData, setUserData] = useState<loginOutputDTO | null>(null);
   const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
 
-  const [
-    refreshTokens,
-    {
-      data: refreshTokenData,
-      error: refreshTokenError,
-      isLoading: refreshTokenIsLoading,
-    },
-  ] = useRefreshTokenMutation();
+  const [refreshTokens, { isLoading: refreshTokenIsLoading }] =
+    useRefreshTokenMutation();
 
   const [
     googleSignIn,
-    {
-      data: googleSignInData,
-      error: googleSignInError,
-      isLoading: googleSignInLoading,
-    },
+    { data: googleSignInData, isLoading: googleSignInLoading },
   ] = useGoogleAuthMutation();
 
-  const [
-    getUserData,
-    {
-      data: getUserDataData,
-      error: getUserDataError,
-      isLoading: getUserDataLoading,
-    },
-  ] = useGetDataMutation();
+  const [getUserData, { isLoading: getUserDataLoading }] = useGetDataMutation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,26 +56,23 @@ export default function Home() {
     accessToken: token,
     type: BookType.Fav,
   });
-  console.log("getBooks");
-  console.log(getBooks);
+  // console.log("getBooks");
+  // console.log(getBooks);
   useEffect(() => {
     getBooks;
-    if (googleSignInData) {
-      localStorage.setItem("accessToken", googleSignInData.tokens.accessToken);
-      localStorage.setItem(
-        "refreshToken",
-        googleSignInData.tokens.refreshToken
-      );
-      setUserData(googleSignInData);
-    } else if (refreshTokenData) {
-      localStorage.setItem("accessToken", refreshTokenData.tokens.accessToken);
-      localStorage.setItem(
-        "refreshToken",
-        refreshTokenData.tokens.refreshToken
-      );
-      setUserData(refreshTokenData);
-    }
-  }, [googleSignInData, refreshTokenData]);
+  }, []);
+
+  const {
+    userData: userLoginData,
+    error,
+    isLoading,
+  } = useUserLoginData(session);
+
+  useEffect(() => {
+    console.log("user data");
+    console.log(userLoginData);
+    if (userLoginData) setUserData(userLoginData);
+  }, [userLoginData]);
 
   if (
     refreshTokenIsLoading ||
@@ -101,6 +82,10 @@ export default function Home() {
   ) {
     return <Loading />;
   }
+
+  // ###########
+  // LOGIN LOGIC
+  // ###########
 
   return (
     <>
