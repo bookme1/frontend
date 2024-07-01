@@ -106,15 +106,22 @@ const Header = () => {
         console.log(accessToken);
         await getUserData(accessToken);
       }
-      if (refreshToken && !getUserDataData) {
+      if (
+        (accessToken && !getUserDataData && getUserDataError) ||
+        !accessToken
+      ) {
+        if (refreshToken) await refreshTokens(refreshToken);
         // If access token was lost -> refresh tokens by refresh token
-        await refreshTokens(refreshToken);
       }
 
       setUserData(data);
     } catch (error: any) {
       console.error("Error fetching user data:", error);
       if (error.status == 401 && refreshToken) {
+        console.log("Pizdec");
+        console.log(accessToken);
+        console.log(getUserDataData);
+        console.log(refreshToken);
         await refreshTokens(refreshToken); // if access token was expired -> refresh by refresh token
       }
     }
@@ -168,6 +175,8 @@ const Header = () => {
             const { email, name } = session.data.user;
             await googleSignIn({ email, name });
             setUserData(data);
+            console.log("GOOGLE TOKEN");
+            console.log(data);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);

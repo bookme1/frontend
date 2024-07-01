@@ -69,11 +69,8 @@ export const userApi = createApi({
     getBooks: builder.query<IUser, getUserBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
       query: (DTO) => ({
-        url: "api/user/books",
+        url: `api/user/books/${DTO.type}`,
         method: "GET",
-        body: {
-          type: DTO.type,
-        },
         headers: {
           Authorization: `Bearer ${DTO.accessToken}`,
         },
@@ -119,4 +116,5 @@ export const {
   useGoogleAuthMutation,
   useRefreshTokenMutation,
   useGetDataMutation,
+  useGetBooksQuery,
 } = userApi;

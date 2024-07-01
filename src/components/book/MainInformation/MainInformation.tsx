@@ -35,7 +35,8 @@ const MainInformation = ({
 }) => {
   const favorite = useSelector(selectFavorite);
   const router = usePathname();
-
+  const getBooks = useGetBooksQuery("");
+  const fav = useGetBooksQuery("");
   const id = router?.split("/").pop();
 
   const screenWidth = useWindowSize().width;
