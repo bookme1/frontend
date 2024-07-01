@@ -1,4 +1,3 @@
-
 import { BookContent } from '@/components/bookReading/bookContent/BookContent';
 import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
 import PageTurner from '@/components/bookReading/pageTurner/PageTurner';
@@ -9,9 +8,9 @@ export default function Home() {
 	return (
 		<>
 			<Header />
-			<BookHeader/>
-		 <PageTurner/>
-			<BookContent/> 
+			<BookHeader />
+			<PageTurner />
+			<BookContent />
 			{/* <Footer /> */}
 		</>
 	);

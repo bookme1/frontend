@@ -13,7 +13,7 @@ export const HeaderWrapper = styled(Wrapper)`
 		margin-bottom: 48px;
 	}
 
-	header {
+	.reading-header {
 		display: flex;
 		gap: 12px;
 		margin-bottom: 32px;

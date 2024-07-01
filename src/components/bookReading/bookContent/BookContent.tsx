@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import desktopImg from '@/assets/reading/image-desktop.png';
-import { ContentWrapper } from './BookContent.styles';
+import { ContentWrapper} from './BookContent.styles';
 
 export const BookContent = () => {
 	return (
 		<ContentWrapper>
-			<p>
+			<p className='text'>
 				In the Sword Marquis Mansion, Bashui Commandery, Tianyan province in the Tianzong Dynasty—
 				“Meng’er, your sword can be faster and more powerful.” “Nice, that time was better.” Jian
 				Meng’er, a beautiful young girl wearing snow-white clothes, was practicing her swordsmanship
@@ -22,7 +22,7 @@ export const BookContent = () => {
 				Jian Wushuang shook his head secretly.
 			</p>
 			<Image src={desktopImg} alt="Knight" className='illustration'/>
-			<p>
+			<p className='text'>
 				He knew that his instruction was part of it, but what was more important was that Jian
 				Meng’er herself had great talent in the sword. In the Sword Marquis Mansion, where most
 				people paid attention to practicing swordsmanship, perhaps Jian Meng’er was the one with the

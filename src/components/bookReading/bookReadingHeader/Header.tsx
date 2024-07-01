@@ -4,10 +4,9 @@ import { HeaderWrapper } from './Header.styles';
 export default function BookHeader() {
 	return (
 		<HeaderWrapper>
-			<header>
-				{' '}
+			<header className='reading-header'>
 				<p className="library">Бібліотека</p>
-				<Icon name="arrow_right" />
+				<Icon name="arrow_right" width={24} height={24}/>
 				<p className="title">Майстер і Маргарита</p>
 			</header>
 			<div className='chapter'>

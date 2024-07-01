@@ -11,7 +11,7 @@ export const ContentWrapper = styled(Wrapper)`
 		}
 	}
 
-	p {
+	.text {
 		font-size: 18px;
 		font-weight: 500;
 		line-height: 18.8px;
@@ -22,3 +22,4 @@ export const ContentWrapper = styled(Wrapper)`
 		}
 	}
 `;
+
