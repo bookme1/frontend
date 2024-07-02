@@ -26,10 +26,17 @@ export default function Home() {
 
   const [
     googleSignIn,
-    { data: googleSignInData, isLoading: googleSignInLoading },
+    {
+      data: googleSignInData,
+      isLoading: googleSignInLoading,
+      error: googleError,
+    },
   ] = useGoogleAuthMutation();
 
-  const [getUserData, { isLoading: getUserDataLoading }] = useGetDataMutation();
+  const [
+    getUserData,
+    { data: wtfData, isLoading: getUserDataLoading, error: getDataError },
+  ] = useGetDataMutation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +63,7 @@ export default function Home() {
     accessToken: token,
     type: BookType.Fav,
   });
+
   // console.log("getBooks");
   // console.log(getBooks);
   useEffect(() => {
@@ -74,14 +82,22 @@ export default function Home() {
     if (userLoginData) setUserData(userLoginData);
   }, [userLoginData]);
 
-  if (
-    refreshTokenIsLoading ||
-    googleSignInLoading ||
-    getUserDataLoading ||
-    loading
-  ) {
-    return <Loading />;
-  }
+  let loadinggg;
+
+  useEffect(() => {
+    if (
+      refreshTokenIsLoading ||
+      googleSignInLoading ||
+      getUserDataLoading ||
+      loading
+    ) {
+      loadinggg = true;
+    } else {
+      loadinggg = false;
+    }
+  }, [refreshTokenIsLoading, googleSignInLoading, getUserDataLoading, loading]);
+
+  if (loadinggg) return <Loading />;
 
   // ###########
   // LOGIN LOGIC

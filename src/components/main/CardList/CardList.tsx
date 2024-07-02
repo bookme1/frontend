@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { GetFromFavorite, selectFavorite, useDispatch } from "@/lib/redux";
 import { useEffect } from "react";
 
@@ -35,7 +35,7 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
   if (books.length) {
     booksMarkup = books.map((book) => (
       <SwiperSlide key={book.id}>
-        <Card book={book} favorite={token === null ? favIdListArr : favorite[0]} />
+        <Card book={book} favorite={token === null ? favIdListArr : ""} />
       </SwiperSlide>
     ));
   }

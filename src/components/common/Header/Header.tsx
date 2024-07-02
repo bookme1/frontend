@@ -34,6 +34,7 @@ import {
   useGoogleAuthMutation,
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
+import useUserLoginData from "./loginFunc";
 
 const Header = () => {
   const booksArr = useSelector(selectBooks);
@@ -112,7 +113,14 @@ const Header = () => {
   // ---------------------------------
   const session = useSession();
   const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
+  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] =
+    useGetDataMutation();
 
+  if (data && userData == null) {
+    console.log("google not everty time right");
+    console.log(data);
+    setUserData(data);
+  }
   useEffect(() => {
     if (session && session.data?.user?.email) {
       const fetchData = async () => {

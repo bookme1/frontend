@@ -21,7 +21,10 @@ import { lazyloadExp } from "./lazyload";
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
-  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
+  let isFavAlredy = false;
+  if (favorite && favorite.length) {
+    isFavAlredy = favorite?.some((fav: any) => book.id === fav);
+  }
 
   return (
     <CardContainer>
@@ -46,7 +49,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
             </CartButton>
           </BoxStyles>
         </BottomContainer>
-      </DescriptionContainer> 
+      </DescriptionContainer>
     </CardContainer>
   );
 };

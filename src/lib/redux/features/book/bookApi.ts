@@ -28,4 +28,4 @@ export const bookApi = createApi({
   }),
 });
 
-export const { useGetBooksQuery } = bookApi;
+export const { useGetBooksQuery, useGetBookByIdQuery } = bookApi;
