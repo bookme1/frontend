@@ -26,32 +26,27 @@ import {
   StyledNavLink,
 } from "./Header.styles";
 import { useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
-import { selectBooks } from "@/lib/redux";
 import { useSession } from "next-auth/react";
 import {
   useGetDataMutation,
   useGoogleAuthMutation,
-  useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
-import { loginOutputDTO } from "@/lib/redux/features/user/types";
 import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 import useUserLoginData from "./loginFunc";
 
 const Header = () => {
-
   const getBooks = useGetBooksQuery("");
-
 
   const booksArr = getBooks.data;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-  const [userData, setUserData] = useState<any>();
+  const [userLoggedData, setUserLoggedData] = useState<any>(null);
   const [activePage, setActivePage] = useState("main");
   const searchVal = useRef<HTMLInputElement | null>(null);
   const [books, setBooks] = useState<Array<any>>([]);
+    const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
   const router = useSearchParams();
 
   // #############
@@ -77,14 +72,15 @@ const Header = () => {
     e.preventDefault();
     setIsCatalogOpen((prev) => !prev);
   };
+
   const changePage = (page: string) => {
     const prevPage = document.querySelector(`[data-nav=${activePage}]`);
     const currentPage = document.querySelector(`[data-nav=${page}]`);
     prevPage?.classList.remove("active");
     currentPage?.classList.add("active");
-    if (page == "catalog") {
+    if (page === "catalog") {
       setIsCatalogOpen(true);
-    } else if (activePage == "catalog") {
+    } else if (activePage === "catalog") {
       setIsCatalogOpen(false);
     }
     setActivePage(page);
@@ -114,39 +110,49 @@ const Header = () => {
       document.body.classList.remove("modal-open");
     }
   }, [isCatalogOpen]);
-  // ---------------------------------
-  //Check if user authorized by google
-  // ---------------------------------
-  const session = useSession();
-  const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
-  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] =
-    useGetDataMutation();
 
-  if (data && userData == null) {
-    console.log("google not everty time right");
-    console.log(data);
-    setUserData(data);
-  }
+  // ---------------------------------
+  // Check if user authorized by google
+  // ---------------------------------
+  const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
+    const { data: session, status: sessionStatus } = useSession();
+  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] = useGetDataMutation();
+
   useEffect(() => {
-    if (session && session.data?.user?.email) {
-      const fetchData = async () => {
-        try {
-          if (session.data?.user?.email && session.data?.user?.name) {
-            const { email, name } = session.data.user;
-            await googleSignIn({ email, name });
-            setUserData(data);
-            if (data) {
-              localStorage.setItem("accessToken", data.tokens.accessToken);
-              localStorage.setItem("refreshToken", data.tokens.refreshToken);
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
+    const fetchData = async () => {
+      try {
+        if (session && session.user?.email) {
+          const { email, name } = session.user;
+          if (name) await googleSignIn({ email, name });
         }
-      };
+      } catch (error) {
+        console.error("Error during Google Sign-In:", error);
+      } finally {
+                setLoading(false); // Устанавливаем loading в false после загрузки данных
+      }
+    };
+
+    if (sessionStatus === "authenticated" && loading) {
       fetchData();
     }
-  }, [session]);
+  }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
+
+  useEffect(() => {
+    if (data) {
+      setUserLoggedData(data);
+      localStorage.setItem("accessToken", data.tokens.accessToken);
+      localStorage.setItem("refreshToken", data.tokens.refreshToken);
+    }
+  }, [data]);
+
+  const { userData, error: userLoginError } = useUserLoginData(session);
+
+  useEffect(() => {
+    if (userData) {
+      console.log(userData);
+      setUserLoggedData(userData);
+    }
+  }, [userData]);
 
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -199,7 +205,7 @@ const Header = () => {
             {isSearchListOpen && <SearchList books={books} />}
           </Form>
           <FromDesktop>
-            {userData ? (
+            {userLoggedData ? (
               ""
             ) : (
               <HeaderButton
@@ -221,7 +227,7 @@ const Header = () => {
               <Icon name="cart" size={28} />
               Кошик
             </HeaderButton>
-            {userData ? (
+            {userLoggedData ? (
               <Avatar>
                 <AccountLink href="/account"></AccountLink>
               </Avatar>

@@ -12,7 +12,9 @@ const SwiperList = () => {
   const booksArr = getBooks.data;
  
   const name = "Популярне";
-
+  if (!booksArr)
+    return <p>Книжок не знайдено :(</p>;
+  
   return <CardList name={name} books={booksArr?.slice(0, 15) ?? []} />;
 };
 

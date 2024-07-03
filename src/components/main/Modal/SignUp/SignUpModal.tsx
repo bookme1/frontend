@@ -26,7 +26,7 @@ const SignUpModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await signUp({ name, email, password }).unwrap();
+      await signUp({ username: name, email, password }).unwrap();
       Notiflix.Notify.success("Реєстрація успішна!");
       Notiflix.Notify.warning(
         "Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі"

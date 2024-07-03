@@ -22,41 +22,41 @@ export default function Home() {
   const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
  
 
-  const [refreshTokens, { isLoading: refreshTokenIsLoading }] =
-    useRefreshTokenMutation();
+  // const [refreshTokens, { isLoading: refreshTokenIsLoading }] =
+  //   useRefreshTokenMutation();
 
-  const [
-    googleSignIn,
-    {
-      data: googleSignInData,
-      isLoading: googleSignInLoading,
-      error: googleError,
-    },
-  ] = useGoogleAuthMutation();
+  // const [
+  //   googleSignIn,
+  //   {
+  //     data: googleSignInData,
+  //     isLoading: googleSignInLoading,
+  //     error: googleError,
+  //   },
+  // ] = useGoogleAuthMutation();
 
-  const [
-    getUserData,
-    { data: wtfData, isLoading: getUserDataLoading, error: getDataError },
-  ] = useGetDataMutation();
+  // const [
+  //   getUserData,
+  //   { data: wtfData, isLoading: getUserDataLoading, error: getDataError },
+  // ] = useGetDataMutation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session && session.user?.email) {
-          const { email, name } = session.user;
-          if (name) await googleSignIn({ email, name });
-        }
-      } catch (error) {
-        console.error("Error during Google Sign-In:", error);
-      } finally {
-        setLoading(false); // Устанавливаем loading в false после загрузки данных
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (session && session.user?.email) {
+  //         const { email, name } = session.user;
+  //         if (name) await googleSignIn({ email, name });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error during Google Sign-In:", error);
+  //     } finally {
+  //       setLoading(false); // Устанавливаем loading в false после загрузки данных
+  //     }
+  //   };
 
-    if (sessionStatus === "authenticated" && loading) {
-      fetchData();
-    }
-  }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
+  //   if (sessionStatus === "authenticated" && loading) {
+  //     fetchData();
+  //   }
+  // }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
 
   let token = localStorage.getItem("accessToken");
   if (!token) token = "1";
@@ -71,45 +71,45 @@ export default function Home() {
     getBooks;
   }, []);
 
-  const {
-    userData: userLoginData,
-    error,
-    isLoading,
-  } = useUserLoginData(session);
+  // const {
+  //   userData: userLoginData,
+  //   error,
+  //   isLoading,
+  // } = useUserLoginData(session);
 
-  useEffect(() => {
-    console.log("user data");
-    console.log(userLoginData);
-    if (userLoginData) setUserData(userLoginData);
-  }, [userLoginData]);
+  // useEffect(() => {
+  //   console.log("user data");
+  //   console.log(userLoginData);
+  //   if (userLoginData) setUserData(userLoginData);
+  // }, [userLoginData]);
 
-  let loadinggg;
+  // let loadinggg;
 
-  useEffect(() => {
-    if (
-      refreshTokenIsLoading ||
-      googleSignInLoading ||
-      getUserDataLoading ||
-      loading
-    ) {
-      loadinggg = true;
-    } else {
-      loadinggg = false;
-    }
-  }, [refreshTokenIsLoading, googleSignInLoading, getUserDataLoading, loading]);
+  // useEffect(() => {
+  //   if (
+  //     refreshTokenIsLoading ||
+  //     googleSignInLoading ||
+  //     getUserDataLoading ||
+  //     loading
+  //   ) {
+  //     loadinggg = true;
+  //   } else {
+  //     loadinggg = false;
+  //   }
+  // }, [refreshTokenIsLoading, googleSignInLoading, getUserDataLoading, loading]);
 
-  if (loadinggg) return <Loading />;
+  // if (loadinggg) return <Loading />;
 
   // console.log(getBooks.data)
 
-  if (
-    refreshTokenIsLoading ||
-    googleSignInLoading ||
-    getUserDataLoading ||
-    loading
-  ) {
+  // if (
+  //   refreshTokenIsLoading ||
+  //   googleSignInLoading ||
+  //   getUserDataLoading ||
+  //   loading
+  // ) {
     // return <Loading />;
-  }
+  // }
   // ###########
   // LOGIN LOGIC
   // ###########

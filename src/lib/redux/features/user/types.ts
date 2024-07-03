@@ -29,7 +29,7 @@ export interface signInDTO {
 }
 
 export interface signUpDTO extends signInDTO {
-  name: string;
+  username: string;
 }
 
 export interface googleAuthDTO {
