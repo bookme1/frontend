@@ -1,18 +1,32 @@
-"use client";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+'use client';
+
+import { FaHeart } from 'react-icons/fa';
+import { FaRegHeart } from 'react-icons/fa';
+
+import styled from '@emotion/styled';
+import Link from 'next/link';
+
+export const BookFormatContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+`;
 
 export const CardContainer = styled.li`
-  margin: 2px 0px;
+  margin: 2px 0;
   width: 230px;
   height: 400px;
   border-radius: 10px;
   list-style: none;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
   position: relative;
-  transition: height 0.25s ease;
+  transition: height 0.3s ease;
+
+  &:hover .bookformat {
+    opacity: 1;
+  }
 
   .formats-hover {
     overflow: hidden;
@@ -20,12 +34,12 @@ export const CardContainer = styled.li`
     bottom: 0; /* Начальная позиция скрытого блока */
     left: 0;
     transform: translateY(105%); /* Скрываем блок за пределами контейнера */
-    transition: transform 0.25s ease; /* Плавный переход трансформации */
+    transition: transform 0.3s ease; /* Плавный переход трансформации */
   }
 
   .hidden-buttons {
-    transform: translateY(100%);
-    transition: translate 0.25s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
   }
   &:hover {
     height: 450px;
@@ -33,7 +47,9 @@ export const CardContainer = styled.li`
       transform: translateY(0);
     }
     .hidden-buttons {
-      transform: translateY(0);
+      opacity: 1;
+      //transition: visibility 0.3s ease-in;
+      //transform: translateY(0);
     }
   }
 `;

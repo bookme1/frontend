@@ -1,22 +1,25 @@
-"use client";
-import { Card } from "../../common/Card";
+'use client';
+
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
+
+import { GetFromFavorite, selectFavorite, useDispatch } from '@/lib/redux';
+
+import { Card } from '../../common/Card';
+import { Icon } from '../../common/Icon';
 import {
-  StyledWrapper,
-  SliderControls,
-  ControlsTitle,
+  CardWrapper,
   ControlsContainer,
   ControlsLink,
-} from "../Categories/Categories.styles";
-import { Icon } from "../../common/Icon";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import { useSelector } from "react-redux";
-import { GetFromFavorite, selectFavorite, useDispatch } from "@/lib/redux";
-import { useEffect } from "react";
-import { useGetBooksQuery } from "@/lib/redux/features/user/userApi";
-import { BookType } from "@/lib/redux/features/user/types";
+  ControlsTitle,
+  SliderControls,
+  StyledWrapper,
+} from '../Categories/Categories.styles';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
   let token1 = localStorage.getItem("accessToken");
@@ -83,7 +86,7 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
           },
         }}
       >
-        {booksMarkup || ""}
+        {booksMarkup || ''}
       </Swiper>
     </StyledWrapper>
   );
