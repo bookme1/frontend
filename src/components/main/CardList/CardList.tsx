@@ -12,7 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-
+import { useSelector } from "react-redux";
+import { GetFromFavorite, selectFavorite, useDispatch } from "@/lib/redux";
 import { useEffect } from "react";
 import { useGetBooksQuery } from "@/lib/redux/features/user/userApi";
 import { BookType } from "@/lib/redux/features/user/types";

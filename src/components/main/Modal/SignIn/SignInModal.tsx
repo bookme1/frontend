@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   GoogleBtn,
   ModalContent,
@@ -24,17 +24,20 @@ const SignInModal = ({
   const [password, setPassword] = useState("");
   const [signIn, { data, error, isLoading }] = useSignInMutation();
 
+  useEffect(() => {
+    if (data) {
+      Notiflix.Notify.success("Вхід успішний!");
+      localStorage.setItem("accessToken", data.tokens.accessToken);
+      localStorage.setItem("refreshToken", data.tokens.refreshToken);
+      window.location.replace("/account");
+    }
+  }, [data]);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       await signIn({ email, password });
-      Notiflix.Notify.success("Вхід успішний!");
-      if (data) {
-        localStorage.setItem("accessToken", data.tokens.accessToken);
-        localStorage.setItem("refreshToken", data.tokens.refreshToken);
-      }
 
-      window.location.replace("/account");
     } catch (err: any) {
       console.error("Error while logging in", err);
       Notiflix.Notify.failure("Помилка при вході в аккаунт ", err.status);

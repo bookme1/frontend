@@ -22,7 +22,7 @@ import { Bookformat } from "@/components/bookformat";
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
-
+  
   const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (

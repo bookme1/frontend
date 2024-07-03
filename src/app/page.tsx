@@ -8,13 +8,15 @@ import { Loading } from "@/components/SERVICE_PAGES/Loading";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
+  useGetBooksQuery,
   useGetDataMutation,
   useGoogleAuthMutation,
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
 import { loginOutputDTO } from "@/lib/redux/features/user/types";
 import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
-
+import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
+import useUserLoginData from "@/components/common/Header/loginFunc";
 
 export default function Home() {
   const { data: session, status: sessionStatus } = useSession();
@@ -22,31 +24,21 @@ export default function Home() {
   const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
  
 
-  const [
-    refreshTokens,
-    {
-      data: refreshTokenData,
-      error: refreshTokenError,
-      isLoading: refreshTokenIsLoading,
-    },
-  ] = useRefreshTokenMutation();
+  const [refreshTokens, { isLoading: refreshTokenIsLoading }] =
+    useRefreshTokenMutation();
 
   const [
     googleSignIn,
     {
       data: googleSignInData,
-      error: googleSignInError,
       isLoading: googleSignInLoading,
+      error: googleError,
     },
   ] = useGoogleAuthMutation();
 
   const [
     getUserData,
-    {
-      data: getUserDataData,
-      error: getUserDataError,
-      isLoading: getUserDataLoading,
-    },
+    { data: wtfData, isLoading: getUserDataLoading, error: getDataError },
   ] = useGetDataMutation();
 
   useEffect(() => {
@@ -68,23 +60,47 @@ export default function Home() {
     }
   }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
 
+  let token = localStorage.getItem("accessToken");
+  if (!token) token = "1";
+  const getBooks = useGetBooksQuery({
+    accessToken: token,
+    type: BookType.Fav,
+  });
+
+  // console.log("getBooks");
+  // console.log(getBooks);
   useEffect(() => {
-    if (googleSignInData) {
-      localStorage.setItem("accessToken", googleSignInData.tokens.accessToken);
-      localStorage.setItem(
-        "refreshToken",
-        googleSignInData.tokens.refreshToken
-      );
-      setUserData(googleSignInData);
-    } else if (refreshTokenData) {
-      localStorage.setItem("accessToken", refreshTokenData.tokens.accessToken);
-      localStorage.setItem(
-        "refreshToken",
-        refreshTokenData.tokens.refreshToken
-      );
-      setUserData(refreshTokenData);
+    getBooks;
+  }, []);
+
+  const {
+    userData: userLoginData,
+    error,
+    isLoading,
+  } = useUserLoginData(session);
+
+  useEffect(() => {
+    console.log("user data");
+    console.log(userLoginData);
+    if (userLoginData) setUserData(userLoginData);
+  }, [userLoginData]);
+
+  let loadinggg;
+
+  useEffect(() => {
+    if (
+      refreshTokenIsLoading ||
+      googleSignInLoading ||
+      getUserDataLoading ||
+      loading
+    ) {
+      loadinggg = true;
+    } else {
+      loadinggg = false;
     }
-  }, [googleSignInData, refreshTokenData]);
+  }, [refreshTokenIsLoading, googleSignInLoading, getUserDataLoading, loading]);
+
+  if (loadinggg) return <Loading />;
 
   const getBooks = useGetBooksQuery("");
   useEffect(() => {
@@ -102,6 +118,9 @@ export default function Home() {
   ) {
     // return <Loading />;
   }
+  // ###########
+  // LOGIN LOGIC
+  // ###########
 
   return (
     <>
