@@ -15,16 +15,15 @@ import {
 } from "./Card.styles";
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
-import Bookformat from "@/components/BookFormat/BookFormat";
+
 import { lazyloadExp } from "./lazyload";
+import { Bookformat } from "@/components/bookformat";
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
-  let isFavAlredy = false;
-  if (favorite && favorite.length) {
-    isFavAlredy = favorite?.some((fav: any) => book.id === fav);
-  }
+  
+  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (
     <CardContainer>

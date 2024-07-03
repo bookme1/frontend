@@ -66,6 +66,8 @@ export const userApi = createApi({
     // ################################
     // BOOK COLLECTIONS OF USER SECTION
     // ################################
+
+
     getBooks: builder.query<IUser, getUserBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
       query: (DTO) => ({
@@ -76,6 +78,11 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    
+
+
+    
     addBook: builder.query<IUser, userBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
       query: (DTO) => ({
@@ -116,5 +123,7 @@ export const {
   useGoogleAuthMutation,
   useRefreshTokenMutation,
   useGetDataMutation,
+  useAddBookQuery,
   useGetBooksQuery,
+  useRemoveBookQuery,
 } = userApi;

@@ -5,6 +5,7 @@ const usePagination = (items: any[], itemsPerPage: number) => {
   const [paginatedItems, setPaginatedItems] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!items) return;
     const start = (page - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     setPaginatedItems((prevItems) => [...prevItems, ...items.slice(start, end)]);

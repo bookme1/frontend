@@ -49,6 +49,6 @@ export interface getUserBookDTO {
 }
 
 export enum BookType {
-  Fav = "Fav",
-  Cart = "Cart",
+  Fav = 'Fav',
+  Cart = 'Card',
 }

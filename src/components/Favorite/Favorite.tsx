@@ -9,42 +9,48 @@ import {
   useDispatch,
 } from "@/lib/redux";
 import { FavList, Text } from "./Favorite.styles";
+import { useGetBooksQuery } from "@/lib/redux/features/user/userApi";
+import { BookType } from "@/lib/redux/features/user/types";
 
-const Favorite = () => {
-  const favorite = useSelector(selectFavorite);
-  const books = useSelector(selectBooks);
-  const dispatch = useDispatch();
+const Favorite = ({ books }) => {
+  const token = localStorage.getItem("accessToken");
 
+  const fav = useGetBooksQuery({
+    accessToken: token ?? "",
+    type: BookType.Fav,
+  });
+
+  useEffect(() => {
+    fav;
+  });
+
+  const favorite = fav.data;
+  
   let favIdList: any;
   if (typeof window !== "undefined") {
     favIdList = localStorage.getItem("favorites");
   }
 
   const favIdListArr = JSON.parse(favIdList);
-  const token = localStorage.getItem("accessToken");
 
   let favBooks = [];
   if (token === null) {
-    favBooks = books.filter((book: any) => favIdList?.includes(book.id));
+    favBooks = books?.filter((book: any) => favIdList?.includes(book.id));
   } else {
-    favBooks = books.filter((book: any) => favorite[0]?.includes(book.id));
+    // favBooks = books.filter((book: any) => favorite?.includes(book.id));
   }
-
-  useEffect(() => {
-    dispatch(GetFromFavorite());
-  }, [dispatch]);
 
   return (
     <>
-      {favBooks.length === 0 ? (
+      {favBooks?.length === 0 ? (
         <Text>There are no favorite books here</Text>
       ) : (
         <FavList>
-          {favBooks.map((book: any) => (
+          {favBooks?.map((book: any) => (
             <Card
               key={book.id}
               book={book}
-              favorite={token === null ? favIdListArr : favorite[0]}
+              favorite={token === null ? favIdListArr : favorite}
             />
           ))}
         </FavList>
