@@ -1,16 +1,16 @@
 import {
+  CatalogButton,
+  HeroDescription,
   HeroSection,
+  HeroTitle,
   HeroWrapper,
+  ImageContainer,
   NavContainer,
-  NavList,
+  NavIcon,
   NavItem,
   NavLink,
-  NavIcon,
-  ImageContainer,
-  HeroTitle,
-  HeroDescription,
-  CatalogButton,
-} from "./Hero.styles";
+  NavList,
+} from './Hero.styles';
 
 const Hero = () => {
   return (

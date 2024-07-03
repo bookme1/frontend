@@ -1,22 +1,24 @@
-"use client";
-import { Icon } from "../Icon";
-import { IBook } from "./Card.types";
-import {
-  CardContainer,
-  ImageContainer,
-  CardLink,
-  DescriptionContainer,
-  Title,
-  Authors,
-  BottomContainer,
-  Price,
-  CartButton,
-  BoxStyles,
-} from "./Card.styles";
+'use client';
 
-import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
-import Bookformat from "@/components/BookFormat/BookFormat";
-import { lazyloadExp } from "./lazyload";
+import {
+  Authors,
+  BookFormatContainer,
+  BottomContainer,
+  BoxStyles,
+  CardContainer,
+  CardLink,
+  CartButton,
+  DescriptionContainer,
+  ImageContainer,
+  Price,
+  Title,
+} from './Card.styles';
+import { IBook } from './Card.types';
+import { lazyloadExp } from './lazyload';
+import Bookformat from '@/components/BookFormat/BookFormat';
+import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+
+import { Icon } from '../Icon';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
@@ -30,7 +32,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
     <CardContainer>
       <ImageContainer
         className="lazyload"
-        style={{ ["--background-image" as string]: `url(${url})` }}
+        style={{ ['--background-image' as string]: `url(${url})` }}
       >
         <CardLink href={`/book/${id}`}></CardLink>
       </ImageContainer>
@@ -39,7 +41,9 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
           <CardLink href={`/book/${id}`}>{title}</CardLink>
         </Title>
         <Authors>{author}</Authors>
-        <Bookformat size={35} />
+        <BookFormatContainer className="bookformat">
+          <Bookformat size={35} />
+        </BookFormatContainer>
         <BottomContainer>
           <Price>{price}₴</Price>
           <BoxStyles className="hidden-buttons">

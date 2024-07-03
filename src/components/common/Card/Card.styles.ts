@@ -1,11 +1,18 @@
-"use client";
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+'use client';
+
+import { FaHeart } from 'react-icons/fa';
+import { FaRegHeart } from 'react-icons/fa';
+
+import styled from '@emotion/styled';
+import Link from 'next/link';
+
+export const BookFormatContainer = styled.div`
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+`;
 
 export const CardContainer = styled.li`
-  margin: 2px 0px;
+  margin: 2px 0;
   width: 230px;
   height: 400px;
   border-radius: 10px;
@@ -13,6 +20,10 @@ export const CardContainer = styled.li`
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
   position: relative;
   transition: height 0.25s ease;
+
+  &:hover .bookformat {
+    opacity: 1;
+  }
 
   .formats-hover {
     overflow: hidden;
@@ -24,8 +35,8 @@ export const CardContainer = styled.li`
   }
 
   .hidden-buttons {
-    transform: translateY(100%);
-    transition: translate 0.25s ease;
+    opacity: 0;
+    transition: opacity 0.25s ease-in;
   }
   &:hover {
     height: 450px;
@@ -33,7 +44,9 @@ export const CardContainer = styled.li`
       transform: translateY(0);
     }
     .hidden-buttons {
-      transform: translateY(0);
+      opacity: 1;
+      transition: visibility 0.25s ease-in;
+      //transform: translateY(0);
     }
   }
 `;

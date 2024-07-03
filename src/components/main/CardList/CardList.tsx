@@ -1,20 +1,25 @@
-"use client";
-import { Card } from "../../common/Card";
+'use client';
+
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
+
+import { GetFromFavorite, selectFavorite, useDispatch } from '@/lib/redux';
+
+import { Card } from '../../common/Card';
+import { Icon } from '../../common/Icon';
 import {
-  StyledWrapper,
-  SliderControls,
-  ControlsTitle,
+  CardWrapper,
   ControlsContainer,
   ControlsLink,
-} from "../Categories/Categories.styles";
-import { Icon } from "../../common/Icon";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import { useSelector } from "react-redux";
-import { GetFromFavorite, selectFavorite, useDispatch } from "@/lib/redux";
-import { useEffect } from "react";
+  ControlsTitle,
+  SliderControls,
+  StyledWrapper,
+} from '../Categories/Categories.styles';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
   const favorite = useSelector(selectFavorite);
@@ -25,17 +30,19 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
   }, [dispatch]);
 
   let favIdList: any;
-  if (typeof window !== "undefined") {
-    favIdList = localStorage.getItem("favorites");
+  if (typeof window !== 'undefined') {
+    favIdList = localStorage.getItem('favorites');
   }
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem('accessToken');
   const favIdListArr = JSON.parse(favIdList);
 
   let booksMarkup;
   if (books.length) {
-    booksMarkup = books.map((book) => (
+    booksMarkup = books.map(book => (
       <SwiperSlide key={book.id}>
-        <Card book={book} favorite={token === null ? favIdListArr : ""} />
+        <CardWrapper>
+          <Card book={book} favorite={token === null ? favIdListArr : ''} />
+        </CardWrapper>
       </SwiperSlide>
     ));
   }
@@ -75,7 +82,7 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
           },
         }}
       >
-        {booksMarkup || ""}
+        {booksMarkup || ''}
       </Swiper>
     </StyledWrapper>
   );
