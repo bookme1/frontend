@@ -1,114 +1,80 @@
-import {
-  NavContainer,
-  NavList,
-  NavItem,
-  NavLink,
-  NavIcon,
-  CatalogButton,
-} from "../../main/Hero/Hero.styles";
-
-import {
-  FooterSection,
-  StyledWrapper,
-  Logo,
-  NavDescription,
-  BottomContainer,
-  SocialLinksContainer,
-  SocialLinkItem,
-  SocialLink,
-  TechLinksContainer,
-  TechLinkItem,
-  TechLink,
-  CatalogButtonFooter,
-  NavLinkFooter,
-} from "./Footer.styles";
+import { BottomSection, Container, TopSection } from "./Footer.styles";
 import { Icon } from "../Icon";
+import footer from "@/data/footer.json";
+import Link from "next/link";
 
 const Footer = () => {
-  return (
-    <FooterSection>
-      <StyledWrapper>
-        <div className="flex-col">
-          <Logo name="logo_white" />
-          <SocialLinksContainer className="mt-10">
-            <SocialLinkItem>
-              <SocialLink href="https://www.instagram.com/chervyak.ua/">
-                <Icon name="instagram" />
-              </SocialLink>
-            </SocialLinkItem>
-            <SocialLinkItem>
-              <SocialLink href="https://www.instagram.com/chervyak.ua/">
-                <Icon name="telegram" />
-              </SocialLink>
-            </SocialLinkItem>
-          </SocialLinksContainer>
-        </div>
-        <NavContainer>
-          <NavDescription>Каталог</NavDescription>
-
-          <NavList>
-            <div className="flex gap-40">
-              <div>
-                <NavItem className=" mb-5">
-                  <NavLinkFooter className="accent footer">Акції</NavLinkFooter>
-                </NavItem>
-                <NavItem className="mb-5">
-                  <NavLinkFooter className="footer w-max">
-                    Магазин BookMe
-                    <NavIcon name="arrow_right" className="icon" size={24} />
-                  </NavLinkFooter>
-                </NavItem>
-                <NavItem className="">
-                  <NavLinkFooter className="footer">
-                    Дитячi
-                    <NavIcon name="arrow_right" className="icon" size={24} />
-                  </NavLinkFooter>
-                </NavItem>
-              </div>
-              <div>
-                <NavItem className="mb-5">
-                  <NavLinkFooter className="footer">
-                    Комплекти
-                    <NavIcon name="arrow_right" className="icon" size={24} />
-                  </NavLinkFooter>
-                </NavItem>
-                <NavItem className="mb-5">
-                  <NavLinkFooter className="footer">
-                    Блог{" "}
-                    <NavIcon name="arrow_right" className="icon" size={24} />
-                  </NavLinkFooter>
-                </NavItem>
-                <NavItem>
-                  <NavLinkFooter className="footer w-max">
-                    Доставка і оплата
-                    <NavIcon name="arrow_right" className="icon" size={24} />
-                  </NavLinkFooter>
-                </NavItem>
-              </div>
-            </div>
-          </NavList>
-        </NavContainer>
-
-        <CatalogButtonFooter className="footer">
-          До каталогу
-        </CatalogButtonFooter>
-      </StyledWrapper>
-
-      <BottomContainer className=" bg-gray-500 flex justify-center text-center items-center">
-        <TechLinksContainer>
-          <TechLinkItem className=" mr-44">
-            <TechLink className=" text-white">Privacy</TechLink>
-          </TechLinkItem>
-          <TechLinkItem>
-            <TechLink className=" text-white">Attribution</TechLink>
-          </TechLinkItem>
-          <TechLinkItem>
-            <TechLink className=" text-white">©2024 — Copyright</TechLink>
-          </TechLinkItem>
-        </TechLinksContainer>
-      </BottomContainer>
-    </FooterSection>
-  );
+    return (
+        <footer>
+            <TopSection>
+                <Container>
+                    <div className="links">
+                        <Link href="#"><Icon name="logo_white" width={176} height={40} /></Link>
+                        <div>
+                            <a href="">
+                                <Icon name="instagram" />
+                            </a>
+                            <a href="">
+                                <Icon name="telegram" />
+                            </a>
+                        </div>
+                    </div>
+                    <div className="navigation">
+                        <h3>Каталог</h3>
+                        <div>
+                            <ul>
+                                {footer.first.map((text) => {
+                                    return (
+                                        <li key={text}>
+                                            <Link href="#">
+                                                {text}{" "}
+                                                <Icon
+                                                    name="arrow_right"
+                                                    width={24}
+                                                />
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <ul>
+                                {footer.second.map((text) => {
+                                    return (
+                                        <li key={text}>
+                                            <Link href="#">
+                                                {text}{" "}
+                                                <Icon
+                                                    name="arrow_right"
+                                                    width={24}
+                                                />
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="mobile__navigation">
+                        <a href="">
+                            <Icon name="instagram" />
+                        </a>
+                        <a href="">
+                            <Icon name="telegram" />
+                        </a>
+                    </div>
+                </Container>
+            </TopSection>
+            <BottomSection>
+                <Container>
+                    <ul>
+                        <li>Attribution</li>
+                        <li>©2023— Copyright</li>
+                        <li>Privacy</li>
+                    </ul>
+                </Container>
+            </BottomSection>
+        </footer>
+    );
 };
 
 export default Footer;
