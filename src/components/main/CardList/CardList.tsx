@@ -22,27 +22,31 @@ import {
 } from '../Categories/Categories.styles';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
-  const favorite = useSelector(selectFavorite);
-  const dispatch = useDispatch();
+  let token1 = localStorage.getItem("accessToken");
+
+  const fav = useGetBooksQuery({
+    accessToken: token1 ?? "",
+    type: BookType.Fav,
+  });
 
   useEffect(() => {
-    dispatch(GetFromFavorite());
-  }, [dispatch]);
+    fav;
+  });
+
+  const favorite = fav.data;
 
   let favIdList: any;
-  if (typeof window !== 'undefined') {
-    favIdList = localStorage.getItem('favorites');
+  if (typeof window !== "undefined") {
+    favIdList = localStorage.getItem("favorites");
   }
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   const favIdListArr = JSON.parse(favIdList);
 
   let booksMarkup;
-  if (books.length) {
-    booksMarkup = books.map(book => (
+  if (books?.length) {
+    booksMarkup = books.map((book) => (
       <SwiperSlide key={book.id}>
-        <CardWrapper>
-          <Card book={book} favorite={token === null ? favIdListArr : ''} />
-        </CardWrapper>
+        <Card book={book} favorite={token === null ? favIdListArr : favorite} />
       </SwiperSlide>
     ));
   }

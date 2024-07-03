@@ -14,9 +14,18 @@ import {
 import AvatarPhoto from "@/assets/account/UserAvatar.png";
 import { Favorite } from "@/components/Favorite";
 import { Icon } from "@/components/common/Icon";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 import { signOut } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function LeftMenu() {
+
+  const getBooks = useGetBooksQuery("");
+  useEffect(() => {
+    getBooks;
+  });
+
+  const books = getBooks.data;
   return (
     <>
       <Section>
@@ -63,7 +72,7 @@ export default function LeftMenu() {
             </Navli>
           </ExitDiv>
         </WrapperStyle>
-        <Favorite />
+        <Favorite books={books}/>
       </Section>
     </>
   );

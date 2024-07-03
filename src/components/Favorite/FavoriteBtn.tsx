@@ -4,6 +4,11 @@ import React, { useEffect, useState } from "react";
 
 import { HeartFillStyles } from "../common/Card/Card.styles";
 import { HeartNotFillStyles } from "../book/MainInformation/MainInformation.styles";
+import {
+  useAddBookQuery,
+  useRemoveBookQuery,
+} from "@/lib/redux/features/user/userApi";
+import { BookType } from "@/lib/redux/features/user/types";
 
 const FavoriteBtn = ({
   book,
@@ -12,17 +17,25 @@ const FavoriteBtn = ({
   book: any;
   isFavAlredy: boolean;
 }) => {
-  const dispatch = useDispatch();
-
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
   const token = localStorage.getItem("accessToken");
 
+  const addFavBooks = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: book.id ?? "",
+    type: BookType.Fav,
+  });
 
-  interface AddToFavoriteRequest {
-    bookId: string; // Assuming the bookId is of type string
-  }
+  const removeFavBooks = useRemoveBookQuery({
+    accessToken: token ?? "",
+    bookId: book.id ?? "",
+    type: BookType.Fav,
+  });
 
-  const reqestData: AddToFavoriteRequest = { bookId: book?.id };
+  useEffect(() => {
+    addFavBooks;
+    removeFavBooks;
+  }, [addFavBooks, removeFavBooks]);
 
   function addIdToLocalStorage(id: string): void {
     let favorites: string[] = JSON.parse(
@@ -45,25 +58,22 @@ const FavoriteBtn = ({
 
   const handleFavoriteClick = () => {
     if (token !== null) {
-      dispatch(AddToFavorite(reqestData));
+      addFavBooks;
     } else {
       addIdToLocalStorage(book.id);
     }
 
     setIsFavotire(!isFavorite);
-   
-    
   };
 
   const handleNotFavoriteClick = () => {
     if (token !== null) {
-      dispatch(RemoveFromFavorite(book.id));
+      // removeFavBooks;
     } else {
       removeIdFromLocalStorage(book.id);
     }
 
     setIsFavotire(!isFavorite);
-   
   };
 
   return (

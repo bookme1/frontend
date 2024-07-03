@@ -23,10 +23,8 @@ import { Icon } from '../Icon';
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
-  let isFavAlredy = false;
-  if (favorite && favorite.length) {
-    isFavAlredy = favorite?.some((fav: any) => book.id === fav);
-  }
+  
+  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (
     <CardContainer>
