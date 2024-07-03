@@ -15,7 +15,7 @@ import {
 } from "@/lib/redux/features/user/userApi";
 import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
 import useUserLoginData from "@/components/common/Header/loginFunc";
-import { useGetGenresQuery } from "@/lib/redux/features/book/bookApi";
+import { useGetFiltersQuery, useGetGenresQuery } from "@/lib/redux/features/book/bookApi";
 
 export default function Home() {
 
@@ -37,6 +37,15 @@ export default function Home() {
     console.log("Genres");
     console.log(genres.data);
   }, [genres]);
+
+  // Стягивание всех фильтров для отображения в маркапе на странице с фильтрами
+
+    const filters = useGetFiltersQuery("");
+
+  useEffect(() => {
+    console.log("Filters");
+    console.log(filters.data);
+  }, [filters]);
 
   return (
     <>

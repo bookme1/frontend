@@ -23,16 +23,22 @@ export const bookApi = createApi({
         method: "GET",
       }),
     }),
+    // #################
+    // FILTER INTERACTION
+    // #################
     getGenres: builder.query<IBook[], string>({
       query: (id) => ({
         url: `api/filter`,
         method: "GET",
       }),
     }),
-    // #################
-    // FILTER INTERACTION
-    // #################
+        getFilters: builder.query<IBook[], string>({
+      query: (id) => ({
+        url: `api/filter/filters`, // Endpoint will be changed after first deploy
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useGetBookByIdQuery, useGetGenresQuery } = bookApi;
+export const { useGetBooksQuery, useGetBookByIdQuery, useGetGenresQuery, useGetFiltersQuery } = bookApi;
