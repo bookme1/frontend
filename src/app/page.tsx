@@ -8,13 +8,11 @@ import { Loading } from "@/components/SERVICE_PAGES/Loading";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
-  useGetBooksQuery,
   useGetDataMutation,
+  useGetUserBooksQuery,
   useGoogleAuthMutation,
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
-import { loginOutputDTO } from "@/lib/redux/features/user/types";
-import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
 import useUserLoginData from "@/components/common/Header/loginFunc";
 
@@ -62,7 +60,7 @@ export default function Home() {
 
   let token = localStorage.getItem("accessToken");
   if (!token) token = "1";
-  const getBooks = useGetBooksQuery({
+  const getBooks = useGetUserBooksQuery({
     accessToken: token,
     type: BookType.Fav,
   });
@@ -101,12 +99,6 @@ export default function Home() {
   }, [refreshTokenIsLoading, googleSignInLoading, getUserDataLoading, loading]);
 
   if (loadinggg) return <Loading />;
-
-  const getBooks = useGetBooksQuery("");
-  useEffect(() => {
-    getBooks
-    
-  });
 
   // console.log(getBooks.data)
 

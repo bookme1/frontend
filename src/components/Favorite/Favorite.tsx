@@ -9,13 +9,13 @@ import {
   useDispatch,
 } from "@/lib/redux";
 import { FavList, Text } from "./Favorite.styles";
-import { useGetBooksQuery } from "@/lib/redux/features/user/userApi";
+import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
 import { BookType } from "@/lib/redux/features/user/types";
 
 const Favorite = ({ books }) => {
   const token = localStorage.getItem("accessToken");
 
-  const fav = useGetBooksQuery({
+  const fav = useGetUserBooksQuery({
     accessToken: token ?? "",
     type: BookType.Fav,
   });

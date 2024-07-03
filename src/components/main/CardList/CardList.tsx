@@ -20,11 +20,13 @@ import {
   SliderControls,
   StyledWrapper,
 } from '../Categories/Categories.styles';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
   let token1 = localStorage.getItem("accessToken");
 
-  const fav = useGetBooksQuery({
+  const fav = useGetUserBooksQuery({
     accessToken: token1 ?? "",
     type: BookType.Fav,
   });
