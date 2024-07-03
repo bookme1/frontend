@@ -15,12 +15,14 @@ import {
 } from "./Card.styles";
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
-import Bookformat from "@/components/BookFormat/BookFormat";
+
 import { lazyloadExp } from "./lazyload";
+import { Bookformat } from "@/components/bookformat";
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
+
   const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (
@@ -46,7 +48,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
             </CartButton>
           </BoxStyles>
         </BottomContainer>
-      </DescriptionContainer> 
+      </DescriptionContainer>
     </CardContainer>
   );
 };

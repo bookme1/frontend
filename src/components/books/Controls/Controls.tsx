@@ -15,11 +15,17 @@ import {
   Container,
 } from "./Controls.styles";
 import usePagination from "@/components/hooks/usePagination";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 
 const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dispatch: any = useDispatch();
-  const booksArr = useSelector(selectBooks);
+
+  const getBooks = useGetBooksQuery("");
+  useEffect(() => {
+    getBooks;
+  });
+
+  const booksArr = getBooks.data;
 
   useEffect(() => {
     setIsOpen(window.innerWidth >= 1280);
@@ -41,7 +47,7 @@ const Controls = () => {
     setIsOpen(!isOpen);
   };
 
-  const { paginatedItems, loadMoreItems } = usePagination(booksArr, 30);
+  const { paginatedItems, loadMoreItems } = usePagination(booksArr ?? [], 30);
   const loader = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -69,7 +75,7 @@ const Controls = () => {
     };
   }, [loadMoreItems]);
 
-  const quantity = booksArr.length;
+  const quantity = booksArr?.length;
   return (
     <>
       <Wrapper>

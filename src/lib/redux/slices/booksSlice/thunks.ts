@@ -4,46 +4,46 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
 
-export const getAllBooks = createAppAsyncThunk(
-  "books/getAllBooks",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/book`);
-      return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
+// export const getAllBooks = createAppAsyncThunk(
+//   "books/getAllBooks",
+//   async (_, thunkAPI) => {
+//     try {
+//       const response = await axios.get(`${BASE_URL}/api/book`);
+//       return response.data;
+//     } catch (error: any) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
-export const getBookById = createAppAsyncThunk(
-  "books/getBookById",
-  async (id, thunkAPI) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/book/${id}`);
-      return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
+// export const getBookById = createAppAsyncThunk(
+//   "books/getBookById",
+//   async (id, thunkAPI) => {
+//     try {
+//       const response = await axios.get(`${BASE_URL}/api/book/${id}`);
+//       return response.data;
+//     } catch (error: any) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
-const setAuthHeader = (token: any) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
+// const setAuthHeader = (token: any) => {
+//   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
 
-// const token = localStorage.getItem("accessToken")
+// // const token = localStorage.getItem("accessToken")
 
-let token;
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("accessToken");
-}
+// let token;
+// if (typeof window !== "undefined") {
+//   token = localStorage.getItem("accessToken");
+// }
 
-const config = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
+// const config = {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// };
 
 interface AddToFavoriteRequest {
   bookId: string; // Assuming the bookId is of type string

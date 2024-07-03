@@ -14,6 +14,7 @@ export const bookApi = createApi({
       query: () => ({
         url: "api/book",
         method: "GET",
+        cacheTime: 24*60*60*1000,
       }),
     }),
     getBookById: builder.query<IBook[], string>({

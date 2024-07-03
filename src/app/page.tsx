@@ -13,11 +13,14 @@ import {
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
 import { loginOutputDTO } from "@/lib/redux/features/user/types";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
+
 
 export default function Home() {
   const { data: session, status: sessionStatus } = useSession();
   const [userData, setUserData] = useState<loginOutputDTO | null>(null);
   const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
+ 
 
   const [
     refreshTokens,
@@ -83,13 +86,21 @@ export default function Home() {
     }
   }, [googleSignInData, refreshTokenData]);
 
+  const getBooks = useGetBooksQuery("");
+  useEffect(() => {
+    getBooks
+    
+  });
+
+  // console.log(getBooks.data)
+
   if (
     refreshTokenIsLoading ||
     googleSignInLoading ||
     getUserDataLoading ||
     loading
   ) {
-    return <Loading />;
+    // return <Loading />;
   }
 
   return (

@@ -35,9 +35,14 @@ import {
   useRefreshTokenMutation,
 } from "@/lib/redux/features/user/userApi";
 import { loginOutputDTO } from "@/lib/redux/features/user/types";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 
 const Header = () => {
-  const booksArr = useSelector(selectBooks);
+
+  const getBooks = useGetBooksQuery("");
+
+
+  const booksArr = getBooks.data;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
@@ -130,7 +135,7 @@ const Header = () => {
   const handleSearch = async (e: any) => {
     if (e.target.value.length >= 2) {
       setIsSearchListOpen(true);
-      const res = booksArr.filter((book: any) =>
+      const res = booksArr?.filter((book: any) =>
         book.title.toLowerCase().includes(e.target.value)
       );
       setBooks(res);
