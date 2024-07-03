@@ -85,31 +85,31 @@ const DesktopCatalog = ({ setIsOpen }: { setIsOpen: any }) => {
 
   const categoriesMarkup = categories.map((category) => {
     return (
-      <Category key={category.id}>
+      <Category key={category.name}>
         <CategoryButton
           onClick={(e) => {
             showCategory(e);
           }}
           data-category={category.name}
         >
-          {category.name}
+          {category.name} ({category.quantity})
           <Icon name="arrow_right" />
         </CategoryButton>
       </Category>
     );
   });
-  const subCategoriesMarkup = (categoryToFind: string) => {
-    const resCategory = categories.find(
-      (category) => category.name == categoryToFind
-    );
-    return resCategory?.children.map((subCategory) => {
-      return (
-        <Category key={subCategory} className="sub">
-          <CategoryButton>{subCategory}</CategoryButton>
-        </Category>
-      );
-    });
-  };
+  // const subCategoriesMarkup = (categoryToFind: string) => {
+  //   const resCategory = categories.find(
+  //     (category) => category.name == categoryToFind
+  //   );
+  //   return resCategory?.children.map((subCategory) => {
+  //     return (
+  //       <Category key={subCategory} className="sub">
+  //         <CategoryButton>{subCategory}</CategoryButton>
+  //       </Category>
+  //     );
+  //   });
+  // };
 
   return (
     <ModalWindow
@@ -132,13 +132,13 @@ const DesktopCatalog = ({ setIsOpen }: { setIsOpen: any }) => {
               </CategoryButton>
             </Category>
           )}
-          {clientWidth && clientWidth < 768 && isSubShown
-            ? subCategoriesMarkup(categoryToShow)
-            : categoriesMarkup}
+          {/*{clientWidth && clientWidth < 768 && isSubShown*/}
+          {/*  ? subCategoriesMarkup(categoryToShow)*/}
+          {/*  : categoriesMarkup}*/}
         </CategoryList>
-        {clientWidth && clientWidth > 768 && isSubShown && (
-          <CategoryList>{subCategoriesMarkup(categoryToShow)}</CategoryList>
-        )}
+        {/*{clientWidth && clientWidth > 768 && isSubShown && (*/}
+        {/*  <CategoryList>{subCategoriesMarkup(categoryToShow)}</CategoryList>*/}
+        {/*)}*/}
       </ModalContainer>
     </ModalWindow>
   );
