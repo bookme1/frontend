@@ -1,19 +1,25 @@
-"use client";
+'use client';
 
-import { Favorite } from "@/components/Favorite";
-import { Footer } from "@/components/common/Footer";
-import { Header } from "@/components/common/Header";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
 
-const page = () => {
+import { Favorite } from '@/components/Favorite';
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+
+export default function Home() {
+  const getBooks = useGetBooksQuery('');
+  useEffect(() => {
+    getBooks;
+  });
+
+  const books = getBooks.data;
+
   return (
     <>
       <Header />
-      <Favorite />
+      <Favorite books={books} />
       <Footer />
     </>
   );
-};
-
-export default page;
+}

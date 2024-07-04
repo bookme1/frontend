@@ -1,13 +1,16 @@
-"use client";
-import React from "react";
-import loaderData from "/src/assets/book_animation.json";
+'use client';
+
+import React from 'react';
+
+import loaderData from '/src/assets/book_animation.json';
+
 import {
   CenteringLogo,
   Content,
   StyledIcon,
   StyledLottie,
   Wrapper,
-} from "./Loading.style";
+} from './Loading.style';
 
 const Loading = () => {
   return (

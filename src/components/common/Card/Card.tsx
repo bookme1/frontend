@@ -13,8 +13,8 @@ import {
   Price,
   Title,
 } from './Card.styles';
-import { IBook } from './Card.types';
 import { lazyloadExp } from './lazyload';
+import { IBook } from '@/app/book/[id]/page.types';
 import Bookformat from '@/components/BookFormat/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
@@ -23,7 +23,7 @@ import { Icon } from '../Icon';
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
-  
+
   const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
 
   return (

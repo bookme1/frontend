@@ -1,41 +1,46 @@
-"use client";
-import { Icon } from "../Icon";
-import { Wrapper } from "@/styles/globals.styles";
-import { Modal } from "@/components/main/Modal";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { SearchList } from "@/components/main/SearchList";
-import { CatalogButton } from "../../main/Hero/Hero.styles";
-import ScrollBehavior from "./ScrollBehavior";
-import { DesktopCatalog } from "@/components/main/DesktopCatalog";
-import Link from "next/link";
+'use client';
+
+import { useSession } from 'next-auth/react';
+import { useEffect, useRef, useState } from 'react';
+
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
 import {
-  HeaderContainer,
-  StyledWrapper,
-  FromDesktop,
-  NavToTablet,
-  Avatar,
   AccountLink,
+  Avatar,
+  Form,
+  FromDesktop,
+  HeaderButton,
+  HeaderContainer,
   Logo,
   LogoContainer,
-  Form,
-  SearchInput,
-  SearchButton,
-  HeaderButton,
-  NavList,
   NavItem,
+  NavList,
+  NavToTablet,
+  SearchButton,
+  SearchInput,
   StyledNavLink,
-} from "./Header.styles";
-import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+  StyledWrapper,
+} from './Header.styles';
+import ScrollBehavior from './ScrollBehavior';
+import useUserLoginData from './loginFunc';
+import { IBook } from '@/app/book/[id]/page.types';
+import { DesktopCatalog } from '@/components/main/DesktopCatalog';
+import { Modal } from '@/components/main/Modal';
+import { SearchList } from '@/components/main/SearchList';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import {
   useGetDataMutation,
   useGoogleAuthMutation,
-} from "@/lib/redux/features/user/userApi";
-import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
-import useUserLoginData from "./loginFunc";
+} from '@/lib/redux/features/user/userApi';
+import { Wrapper } from '@/styles/globals.styles';
+
+import { CatalogButton } from '../../main/Hero/Hero.styles';
+import { Icon } from '../Icon';
 
 const Header = () => {
-  const getBooks = useGetBooksQuery("");
+  const getBooks = useGetBooksQuery('');
 
   const booksArr = getBooks.data;
 
@@ -43,10 +48,10 @@ const Header = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [userLoggedData, setUserLoggedData] = useState<any>(null);
-  const [activePage, setActivePage] = useState("main");
+  const [activePage, setActivePage] = useState('main');
   const searchVal = useRef<HTMLInputElement | null>(null);
-  const [books, setBooks] = useState<Array<any>>([]);
-    const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
+  const [books, setBooks] = useState<IBook[] | undefined>();
+  const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
   const router = useSearchParams();
 
   // #############
@@ -70,24 +75,24 @@ const Header = () => {
 
   const handleCatalog = (e: any) => {
     e.preventDefault();
-    setIsCatalogOpen((prev) => !prev);
+    setIsCatalogOpen(prev => !prev);
   };
 
   const changePage = (page: string) => {
     const prevPage = document.querySelector(`[data-nav=${activePage}]`);
     const currentPage = document.querySelector(`[data-nav=${page}]`);
-    prevPage?.classList.remove("active");
-    currentPage?.classList.add("active");
-    if (page === "catalog") {
+    prevPage?.classList.remove('active');
+    currentPage?.classList.add('active');
+    if (page === 'catalog') {
       setIsCatalogOpen(true);
-    } else if (activePage === "catalog") {
+    } else if (activePage === 'catalog') {
       setIsCatalogOpen(false);
     }
     setActivePage(page);
   };
 
   useEffect(() => {
-    const q = router?.get("q");
+    const q = router?.get('q');
     if (q) {
       if (searchVal.current) {
         searchVal.current.value = q;
@@ -97,17 +102,17 @@ const Header = () => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add("modal-open");
+      document.body.classList.add('modal-open');
     } else {
-      document.body.classList.remove("modal-open");
+      document.body.classList.remove('modal-open');
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (isCatalogOpen) {
-      document.body.classList.add("modal-open");
+      document.body.classList.add('modal-open');
     } else {
-      document.body.classList.remove("modal-open");
+      document.body.classList.remove('modal-open');
     }
   }, [isCatalogOpen]);
 
@@ -115,8 +120,9 @@ const Header = () => {
   // Check if user authorized by google
   // ---------------------------------
   const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
-    const { data: session, status: sessionStatus } = useSession();
-  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] = useGetDataMutation();
+  const { data: session, status: sessionStatus } = useSession();
+  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] =
+    useGetDataMutation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,13 +132,13 @@ const Header = () => {
           if (name) await googleSignIn({ email, name });
         }
       } catch (error) {
-        console.error("Error during Google Sign-In:", error);
+        console.error('Error during Google Sign-In:', error);
       } finally {
-                setLoading(false); // Устанавливаем loading в false после загрузки данных
+        setLoading(false); // Устанавливаем loading в false после загрузки данных
       }
     };
 
-    if (sessionStatus === "authenticated" && loading) {
+    if (sessionStatus === 'authenticated' && loading) {
       fetchData();
     }
   }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
@@ -140,8 +146,8 @@ const Header = () => {
   useEffect(() => {
     if (data) {
       setUserLoggedData(data);
-      localStorage.setItem("accessToken", data.tokens.accessToken);
-      localStorage.setItem("refreshToken", data.tokens.refreshToken);
+      localStorage.setItem('accessToken', data.tokens.accessToken);
+      localStorage.setItem('refreshToken', data.tokens.refreshToken);
     }
   }, [data]);
 
@@ -188,13 +194,13 @@ const Header = () => {
             </CatalogButton>
           </FromDesktop>
           <Form
-            onSubmit={(e) => {
+            onSubmit={e => {
               handleSubmitSearch(e);
             }}
           >
             <SearchInput
               placeholder="Знайти"
-              onChange={(e) => {
+              onChange={e => {
                 handleSearch(e);
               }}
               ref={searchVal}
@@ -206,7 +212,7 @@ const Header = () => {
           </Form>
           <FromDesktop>
             {userLoggedData ? (
-              ""
+              ''
             ) : (
               <HeaderButton
                 onClick={() => {
@@ -232,7 +238,7 @@ const Header = () => {
                 <AccountLink href="/account"></AccountLink>
               </Avatar>
             ) : (
-              ""
+              ''
             )}
           </FromDesktop>
         </StyledWrapper>
@@ -245,7 +251,7 @@ const Header = () => {
                   className="active"
                   data-nav="main"
                   onClick={() => {
-                    changePage("main");
+                    changePage('main');
                   }}
                 >
                   Головна
@@ -255,7 +261,7 @@ const Header = () => {
               <NavItem>
                 <StyledNavLink
                   onClick={() => {
-                    changePage("catalog");
+                    changePage('catalog');
                   }}
                   data-nav="catalog"
                 >
@@ -268,7 +274,7 @@ const Header = () => {
                     name="cart"
                     size={24}
                     onClick={() => {
-                      changePage("cart");
+                      changePage('cart');
                     }}
                   />
                 </StyledNavLink>
@@ -279,7 +285,7 @@ const Header = () => {
                     name="heart"
                     size={24}
                     onClick={() => {
-                      changePage("like");
+                      changePage('like');
                     }}
                   />
                 </StyledNavLink>
@@ -290,7 +296,7 @@ const Header = () => {
                     name="account"
                     size={24}
                     onClick={() => {
-                      changePage("account");
+                      changePage('account');
                     }}
                   />
                 </StyledNavLink>

@@ -1,22 +1,25 @@
-"use client";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Card } from "../common/Card";
+'use client';
+
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+import { FavList, Text } from './Favorite.styles';
 import {
   GetFromFavorite,
   selectBooks,
   selectFavorite,
   useDispatch,
-} from "@/lib/redux";
-import { FavList, Text } from "./Favorite.styles";
-import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
-import { BookType } from "@/lib/redux/features/user/types";
+} from '@/lib/redux';
+import { BookType } from '@/lib/redux/features/user/types';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
-const Favorite = ({ books }) => {
-  const token = localStorage.getItem("accessToken");
+import { Card } from '../common/Card';
+
+const Favorite = ({ books }: { books: any }) => {
+  const token = localStorage.getItem('accessToken');
 
   const fav = useGetUserBooksQuery({
-    accessToken: token ?? "",
+    accessToken: token ?? '',
     type: BookType.Fav,
   });
 
@@ -25,10 +28,10 @@ const Favorite = ({ books }) => {
   });
 
   const favorite = fav.data;
-  
+
   let favIdList: any;
-  if (typeof window !== "undefined") {
-    favIdList = localStorage.getItem("favorites");
+  if (typeof window !== 'undefined') {
+    favIdList = localStorage.getItem('favorites');
   }
 
   const favIdListArr = JSON.parse(favIdList);

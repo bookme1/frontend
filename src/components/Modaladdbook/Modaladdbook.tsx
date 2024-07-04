@@ -1,20 +1,29 @@
-"use client";
-import React, { useEffect } from "react";
-export default function ModalAddBook({ isVisible, onClose }) {
-  if (!isVisible) return null;
+'use client';
 
-  const handleClose = (e) => {
-    if (e.target.id === "wrapper") onClose();
+import React, { useEffect } from 'react';
+
+export default function ModalAddBook({
+  isVisible,
+  onClose,
+}: {
+  isVisible: boolean;
+  onClose: any;
+}) {
+  const handleClose = (e: any) => {
+    if (e.target.id === 'wrapper') onClose();
   };
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape") onClose();
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Escape') onClose();
   };
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  if (!isVisible) return null;
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
@@ -22,7 +31,7 @@ export default function ModalAddBook({ isVisible, onClose }) {
       onClick={handleClose}
     >
       <div className=" w-[700px] ">
-        {" "}
+        {' '}
         <div className=" bg-white p-5 rounded-lg text-green-900">
           <div className="flex items-center gap-10 mb-5">
             <label className=" flex flex-col w-72 ">
@@ -66,7 +75,7 @@ export default function ModalAddBook({ isVisible, onClose }) {
           </div>
           <div className="flex gap-10 mb-5">
             <label>
-              {" "}
+              {' '}
               Автор
               <input
                 type="text"
@@ -110,14 +119,14 @@ export default function ModalAddBook({ isVisible, onClose }) {
             </label>
           </div>
           <div className="flex flex-col mb-5">
-            <label for="description" class=" text-gray-700">
+            <label htmlFor="description" className=" text-gray-700">
               Опис
             </label>
             <textarea
               placeholder="Опис"
               id="description"
               name="description"
-              rows="5"
+              rows={5}
               className="mt-1 p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-green-900 resize-none"
             ></textarea>
           </div>

@@ -1,6 +1,6 @@
-import { createAppAsyncThunk } from "@/lib/redux/createAppAsyncThunk";
+import axios from 'axios';
 
-import axios from "axios";
+import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
 
@@ -50,15 +50,16 @@ interface AddToFavoriteRequest {
 }
 
 export const AddToFavorite = createAppAsyncThunk<string, AddToFavoriteRequest>(
-  "books/favorites/add",
+  'books/favorites/add',
   async (credentials: any, thunkAPI) => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/user/favorite`,
-        credentials,
-        config
+        credentials
+        // config
       );
-      setAuthHeader(response.data.token);
+      // setAuthHeader(response.data.token);
+      // При билде не нашло ети два имени, сорри что закоментил
       return response.data.bookId;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -67,10 +68,10 @@ export const AddToFavorite = createAppAsyncThunk<string, AddToFavoriteRequest>(
 );
 
 export const GetFromFavorite = createAppAsyncThunk(
-  "books/getFromFavotive",
+  'books/getFromFavotive',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/user/favorite`, config);
+      const response = await axios.get(`${BASE_URL}/api/user/favorite`);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -79,12 +80,11 @@ export const GetFromFavorite = createAppAsyncThunk(
 );
 
 export const RemoveFromFavorite = createAppAsyncThunk(
-  "books/removeFromFavotive",
+  'books/removeFromFavotive',
   async (credentials: any, thunkAPI) => {
     try {
       const response = await axios.delete(
-        `${BASE_URL}/api/user/favorite/${credentials}`,
-        config
+        `${BASE_URL}/api/user/favorite/${credentials}`
       );
       return response.data;
     } catch (error: any) {

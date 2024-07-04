@@ -1,22 +1,29 @@
-"use client";
-import { useEffect } from "react";
+'use client';
 
-export default function ModalDelete({ isVisible, onClose }) {
-  if (!isVisible) return null;
+import { useEffect } from 'react';
 
-  const handleClose = (e) => {
-    if (e.target.id === "wrapper") onClose();
+export default function ModalDelete({
+  isVisible,
+  onClose,
+}: {
+  isVisible: boolean;
+  onClose: any;
+}) {
+  const handleClose = (e: any) => {
+    if (e.target.id === 'wrapper') onClose();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape") onClose();
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Escape') onClose();
   };
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  if (!isVisible) return null;
 
   return (
     <div
