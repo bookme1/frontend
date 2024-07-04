@@ -148,7 +148,7 @@ const TopSection = styled.div`
 `;
 
 const BottomSection = styled.div`
-    background-color: var(--bottom);
+    background-color: var(--collor-footer-bottom);
     padding: 24px 0;
     @media (min-width: 748px) {
         padding: 8px 0;

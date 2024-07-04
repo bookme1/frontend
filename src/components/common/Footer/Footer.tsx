@@ -1,9 +1,12 @@
 import { BottomSection, Container, TopSection } from "./Footer.styles";
 import { Icon } from "../Icon";
-import footer from "@/data/footer.json";
 import Link from "next/link";
 
 const Footer = () => {
+    const footer = {
+        "first": ["Акції", "Комплекти", "Магазин BookMe"],
+        "second": ["Блог", "Дитячі", "Доставка/Оплата"]
+    };    
     return (
         <footer>
             <TopSection>
@@ -11,10 +14,10 @@ const Footer = () => {
                     <div className="links">
                         <Link href="#"><Icon name="logo_white" width={176} height={40} /></Link>
                         <div>
-                            <a href="">
+                            <a href="#">
                                 <Icon name="instagram" />
                             </a>
-                            <a href="">
+                            <a href="#">
                                 <Icon name="telegram" />
                             </a>
                         </div>
@@ -27,7 +30,7 @@ const Footer = () => {
                                     return (
                                         <li key={text}>
                                             <Link href="#">
-                                                {text}{" "}
+                                                {text}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}
@@ -42,7 +45,7 @@ const Footer = () => {
                                     return (
                                         <li key={text}>
                                             <Link href="#">
-                                                {text}{" "}
+                                                {text}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}
