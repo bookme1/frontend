@@ -4,7 +4,7 @@ import { FormatsContainer } from './BookFormat.styles';
 
 import { Icon } from '../common/Icon';
 
-const Bookformat = ({ size }: { size: number }) => {
+const BookFormat = ({ size }: { size: number }) => {
   const renderBookFormatImage = (format: any) => {
     let imagePath;
     switch (format.toLowerCase()) {
@@ -35,4 +35,4 @@ const Bookformat = ({ size }: { size: number }) => {
   );
 };
 
-export default Bookformat;
+export default BookFormat;
