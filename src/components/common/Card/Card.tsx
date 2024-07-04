@@ -15,7 +15,7 @@ import {
 } from './Card.styles';
 import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
-import Bookformat from '@/components/BookFormat/BookFormat';
+import BookFormat from '@/components/BookFormat/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
 import { Icon } from '../Icon';
@@ -40,7 +40,7 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
         </Title>
         <Authors>{author}</Authors>
         <BookFormatContainer className="bookformat">
-          <Bookformat size={35} />
+          <BookFormat size={35} />
         </BookFormatContainer>
         <BottomContainer>
           <Price>{price}₴</Price>
