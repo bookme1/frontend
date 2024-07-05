@@ -15,10 +15,10 @@ import {
 } from './Card.styles';
 import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
-import BookFormat from '@/components/BookFormat/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
 import { Icon } from '../Icon';
+import { BookFormat } from '@/components/bookformat';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;

@@ -1,23 +1,29 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-import { usePathname, useRouter } from 'next/navigation';
+
+import { usePathname } from 'next/navigation';
 
 import { IBook } from './page.types';
-import { bookService } from '@/api/book/bookService';
+
 import { MainInformation } from '@/components/book/MainInformation';
 import { Reviews } from '@/components/book/Reviews';
 import { SliderLastBooks } from '@/components/book/SliderLastBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import { selectBooks } from '@/lib/redux';
+
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const booksArr = useSelector(selectBooks);
+
+  const getBooks = useGetBooksQuery("");
+  useEffect(() => {
+    getBooks;
+  });
+
+  const booksArr = getBooks.data;
 
   const mockBook = {
     id: '0',
@@ -38,12 +44,11 @@ export default function Home() {
     if (id === undefined) {
       return;
     }
-    const res = booksArr.filter((book: any) => book.id === id);
+    const res = booksArr?.filter((book: any) => book.id === id);
     if (res) {
       setBook(res[0]);
     }
   }, [booksArr, id]);
-  console.log(book);
   return (
     <>
       <Header />

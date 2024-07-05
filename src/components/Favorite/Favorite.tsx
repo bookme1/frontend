@@ -1,22 +1,24 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import { FavList, Text } from './Favorite.styles';
-import {
-  GetFromFavorite,
-  selectBooks,
-  selectFavorite,
-  useDispatch,
-} from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
+
+import { BookType, IUser } from '@/lib/redux/features/user/types';
 import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 import { Card } from '../common/Card';
 
 const Favorite = ({ books }: { books: any }) => {
+
+  // let token:any;
+  // if (typeof window !== 'undefined') {
+  //   const token = localStorage.getItem('accessToken');
+  // }
+
   const token = localStorage.getItem('accessToken');
+
+
 
   const fav = useGetUserBooksQuery({
     accessToken: token ?? '',
@@ -24,24 +26,58 @@ const Favorite = ({ books }: { books: any }) => {
   });
 
   useEffect(() => {
-    fav;
-  });
+    if (typeof window !== 'undefined') {
+    fav;}
+  },[fav]);
 
   const favorite = fav.data;
 
+  let favoriteArr: IUser[] = [];
+  
+  favorite?.map(data=>favoriteArr.push(data));
+  // if (typeof favorite === 'object') {
+
+  // } else {
+  //   favoriteArr = [];
+  // }
+
+
+  
+
+console.log(favorite)
+console.log(favoriteArr)
+
+
+
+ 
   let favIdList: any;
   if (typeof window !== 'undefined') {
     favIdList = localStorage.getItem('favorites');
   }
 
+  
+
+ 
+  // let favIdListArr: IUser[] = [];
+  
+  // if (typeof favorite === 'string') {
+  //   favIdListArr = Object.values(favIdList);
+  // } else {
+  //   favIdListArr = [];
+  // }
+
   const favIdListArr = JSON.parse(favIdList);
+
+
+
 
   let favBooks = [];
   if (token === null) {
     favBooks = books?.filter((book: any) => favIdList?.includes(book.id));
   } else {
-    // favBooks = books.filter((book: any) => favorite?.includes(book.id));
+    favBooks = books?.filter((book: any) => favoriteArr?.includes(book.id));
   }
+  
 
   return (
     <>
@@ -53,7 +89,7 @@ const Favorite = ({ books }: { books: any }) => {
             <Card
               key={book.id}
               book={book}
-              favorite={token === null ? favIdListArr : favorite}
+              favorite={token === null ? favIdListArr : favoriteArr}
             />
           ))}
         </FavList>

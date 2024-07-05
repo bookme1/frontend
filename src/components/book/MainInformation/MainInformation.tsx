@@ -25,6 +25,9 @@ import { IBook } from "@/app/book/[id]/page.types";
 import { Formats } from "../Formats";
 import { bookService } from "@/api/book/bookService";
 import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
+import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
+import { BookType } from "@/lib/redux/features/user/types";
+import { useEffect } from "react";
 
 const MainInformation = ({
   book,
@@ -33,11 +36,23 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
-  const favorite = useSelector(selectFavorite);
+
   const router = usePathname();
-  const getBooks = useGetBooksQuery("");
-  const fav = useGetBooksQuery("");
+
   const id = router?.split("/").pop();
+  const token = localStorage.getItem('accessToken');
+
+  const fav = useGetUserBooksQuery({
+    accessToken: token ?? '',
+    type: BookType.Fav,
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+    fav;}
+  },[fav]);
+
+  const favorite = fav.data;
 
   const screenWidth = useWindowSize().width;
   const getAuthorsMarkup = (authors: string) => {
@@ -48,10 +63,8 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(book.author);
-  const isFavAlredy = favorite[0]?.some((fav: any) => fav === id);
-  // const isFavAlredy = favorite[0]?.find((book: any) => book.includes(id));
-  // console.log(isFavAlredy);
-  // console.log(favorite);
+  const isFavAlredy = favorite?.some((fav: any) => fav === id);
+
 
   return (
     <>
