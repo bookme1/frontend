@@ -29,3 +29,35 @@ body.modal-open {
 .scroll-up .scrollable_nav {
     transform: none;
 }
+
+.for_light_theme {
+    --primary-background-color: #ffffff;
+    --text-color: #1F171E;
+    --title-color: #1F171E;
+    --arrow-btn-bgcolor: #ffffff;
+    --arrow-btn-bgcolor-hover:  #f4f4f4;
+    --filter-btn-bgcolor: #A7A7A7;
+    --btn-text-color:  #1F171E;
+}
+
+.for_dark_theme {
+    --primary-background-color: #1F171E;
+    --text-color: #E1CDC1;
+    --title-color: #F6E7DE;
+    --arrow-btn-bgcolor: #505050;
+    --arrow-btn-bgcolor-hover:  #2b2828;
+    --filter-btn-bgcolor: #505050;
+    --btn-text-color: #ffffff;
+
+}
+
+.for_beige_theme{
+    --primary-background-color: #FFE6C0;
+    --text-color: #1F171E;
+    --title-color: #1F171E;
+    --arrow-btn-bgcolor:  #FFE6C0;
+    --arrow-btn-bgcolor-hover:  #f4f4f4;
+    --filter-btn-bgcolor: #A7A7A7;
+    --btn-text-color: #505050;
+    
+}
