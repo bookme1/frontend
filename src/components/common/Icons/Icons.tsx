@@ -843,6 +843,10 @@ const Icons = () => {
 							fill="#E21C1C"
 						/>
 					</symbol>
+					<symbol id="icon-Linear" viewBox="0 0 31 32">
+						<path fill="none" stroke="#a7a7a7"  stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="1.92" d="M28.16 16c0 7.069-5.731 12.8-12.8 12.8s-12.8-5.731-12.8-12.8c0-7.069 5.731-12.8 12.8-12.8s12.8 5.731 12.8 12.8z"></path>
+						<path fill="none" stroke="#a7a7a7"  stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.92" d="M18.56 12.8l-6.4 6.4M12.16 12.8l6.4 6.4"></path>
+					</symbol>
 				</defs>
 			</svg>
 		</div>

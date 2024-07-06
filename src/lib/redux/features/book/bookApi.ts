@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { IBook } from '@/app/book/[id]/page.types';
+import { FiltersData, IBook } from '@/app/book/[id]/page.types';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -33,7 +33,7 @@ export const bookApi = createApi({
         method: 'GET',
       }),
     }),
-    getFilters: builder.query<IBook[], string>({
+    getFilters: builder.query<FiltersData, string>({
       query: id => ({
         url: `api/filter/filters`, // Endpoint will be changed after first deploy
         method: 'GET',

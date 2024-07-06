@@ -9,3 +9,12 @@ export interface IBook {
   pages: number;
   desc: string;
 }
+
+export interface FiltersData {
+  authors: string[];
+  publishers: string[];
+  genres: string[];
+  languages: string[];
+  minPrice: number;
+  maxPrice: number;
+}
