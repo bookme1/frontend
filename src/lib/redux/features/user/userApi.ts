@@ -80,9 +80,9 @@ export const userApi = createApi({
     }),
     addBook: builder.query<IUser, userBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
-      query: DTO => ({
-        url: 'api/user/books',
-        method: 'POST',
+      query: (DTO) => ({
+        url: "api/user/books",
+        method: "POST",
         body: {
           bookId: DTO.bookId,
           type: DTO.type,
@@ -94,9 +94,9 @@ export const userApi = createApi({
     }),
     removeBook: builder.query<IUser, userBookDTO>({
       // It removes 1 book from the cart or from favorites with help of 'type'
-      query: DTO => ({
-        url: 'api/user',
-        method: 'DELETE',
+      query: (DTO) => ({
+        url: "api/user/books",
+        method: "DELETE",
         body: {
           bookId: DTO.bookId,
           type: DTO.type,
