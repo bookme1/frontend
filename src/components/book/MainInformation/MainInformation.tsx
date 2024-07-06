@@ -40,7 +40,12 @@ const MainInformation = ({
   const router = usePathname();
 
   const id = router?.split("/").pop();
-  const token = localStorage.getItem('accessToken');
+
+ let token;
+  if (typeof window !== "undefined") {
+  token = localStorage.getItem('accessToken');
+  }
+
 
   const fav = useGetUserBooksQuery({
     accessToken: token ?? '',
@@ -63,7 +68,13 @@ const MainInformation = ({
     });
   };
   const authorsMarkup = getAuthorsMarkup(book.author);
-  const isFavAlredy = favorite?.some((fav: any) => fav === id);
+
+  let isFavAlredy=[]
+if (Array.isArray(favorite)){
+  isFavAlredy = favorite?.some((fav: any) => fav === id);
+}
+
+  
 
 
   return (

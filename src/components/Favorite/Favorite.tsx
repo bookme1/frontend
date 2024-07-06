@@ -71,10 +71,13 @@ console.log(favoriteArr)
 
 
 
-  let favBooks = [];
+  let favBooks:any = [];
   if (token === null) {
     favBooks = books?.filter((book: any) => favIdList?.includes(book.id));
   } else {
+    if (!Array.isArray(favBooks)) {
+      console.warn("Array of favorite books is not an array")
+    }
     favBooks = books?.filter((book: any) => favoriteArr?.includes(book.id));
   }
   

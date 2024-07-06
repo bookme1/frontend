@@ -15,6 +15,7 @@ import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 
 export default function Home() {
 
@@ -24,6 +25,11 @@ export default function Home() {
   });
 
   const booksArr = getBooks.data;
+
+  if (!Array.isArray(booksArr)) {
+    console.warn("Array of books is not an array")
+  //  return <Loading />
+  }
 
   const mockBook = {
     id: '0',
@@ -65,6 +71,7 @@ export default function Home() {
           // pathname={pathname}
         />
       )}
+
       <Reviews />
       <SliderLastBooks />
       <Footer />

@@ -18,7 +18,7 @@ import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
 import { Icon } from '../Icon';
-import { BookFormat } from '@/components/bookformat';
+import { BookFormat } from '@/components/BookFormat';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
