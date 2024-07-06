@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import {
   IUser,
   getUserBookDTO,
@@ -7,46 +8,46 @@ import {
   signInDTO,
   signUpDTO,
   userBookDTO,
-} from "./types";
+} from './types';
 
 export const userApi = createApi({
-  reducerPath: "userApi",
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL,
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     // #####################
     // AUTHORIZATION SECTION
     // #####################
     signUp: builder.mutation<IUser, signUpDTO>({
       // Registration, sends email verification link
-      query: (DTO) => ({
-        url: "api/auth/email/signup",
-        method: "POST",
+      query: DTO => ({
+        url: 'api/auth/email/signup',
+        method: 'POST',
         body: DTO,
       }),
     }),
     signIn: builder.mutation<loginOutputDTO, signInDTO>({
       // Login into account, if verified, otherwise sends email + no token
-      query: (DTO) => ({
-        url: "api/auth/email/login",
-        method: "POST",
+      query: DTO => ({
+        url: 'api/auth/email/login',
+        method: 'POST',
         body: DTO,
       }),
     }),
     googleAuth: builder.mutation<loginOutputDTO, googleAuthDTO>({
       // Login into account using Google
-      query: (DTO) => ({
-        url: "api/auth/email/google",
-        method: "POST",
+      query: DTO => ({
+        url: 'api/auth/email/google',
+        method: 'POST',
         body: DTO,
       }),
     }),
     refreshToken: builder.mutation<loginOutputDTO, string>({
       // Refresh user tokens by refresh token
-      query: (token) => ({
-        url: "api/auth/refresh",
-        method: "GET",
+      query: token => ({
+        url: 'api/auth/refresh',
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -54,9 +55,9 @@ export const userApi = createApi({
     }),
     getData: builder.mutation<loginOutputDTO, string>({
       //get user data by token
-      query: (token) => ({
-        url: "api/user",
-        method: "GET",
+      query: token => ({
+        url: 'api/user',
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,12 +68,11 @@ export const userApi = createApi({
     // BOOK COLLECTIONS OF USER SECTION
     // ################################
 
-
     getUserBooks: builder.query<IUser, getUserBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
-      query: (DTO) => ({
+      query: DTO => ({
         url: `api/user/books/${DTO.type}`,
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${DTO.accessToken}`,
         },

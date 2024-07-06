@@ -1,26 +1,30 @@
 /* Core */
 import {
-  configureStore,
-  type ThunkAction,
-  type Action,
-} from "@reduxjs/toolkit";
-import {
-  useSelector as useReduxSelector,
-  useDispatch as useReduxDispatch,
   type TypedUseSelectorHook,
-} from "react-redux";
+  useDispatch as useReduxDispatch,
+  useSelector as useReduxSelector,
+} from 'react-redux';
+
+import {
+  type Action,
+  type ThunkAction,
+  configureStore,
+} from '@reduxjs/toolkit';
+
+import { adminApi } from './features/admin/adminApi';
+import { bookApi } from './features/book/bookApi';
+import { userApi } from './features/user/userApi';
 
 /* Instruments */
-import { reducer } from "./rootReducer";
-import { userApi } from "./features/user/userApi";
-import { bookApi } from "./features/book/bookApi";
+import { reducer } from './rootReducer';
 
 export const reduxStore = configureStore({
   reducer: reducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .concat(userApi.middleware)
-      .concat(bookApi.middleware),
+      .concat(bookApi.middleware)
+      .concat(adminApi.middleware),
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
 export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector;
