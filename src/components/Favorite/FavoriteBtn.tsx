@@ -18,6 +18,8 @@ const FavoriteBtn = ({
 }) => {
   const [isFavorite, setIsFavotire] = useState(isFavAlredy);
   const token = localStorage.getItem("accessToken");
+  const [addClick, setAddClick] = useState(false);
+  const [delClick, setDelClick] = useState(false);
 
 
 
@@ -25,14 +27,14 @@ const addFavBooks = useAddBookQuery({
   accessToken: token ?? "",
   bookId: book.id ?? "",
   type: BookType.Fav,
-});
+}, {skip: addClick===false});
 
 
   const removeFavBooks = useRemoveBookQuery({
     accessToken: token ?? "",
     bookId: book.id ?? "",
     type: BookType.Fav,
-  });
+  }, {skip: delClick===false});
 
 
 
@@ -57,7 +59,8 @@ const addFavBooks = useAddBookQuery({
 
   const handleFavoriteClick = () => {
     if (token !== null) {
-         addFavBooks;
+      setAddClick(true);
+     
     } else {
       addIdToLocalStorage(book.id);
     }
@@ -67,7 +70,8 @@ const addFavBooks = useAddBookQuery({
 
   const handleNotFavoriteClick = () => {
     if (token !== null) {
-      removeFavBooks;
+      setDelClick(true);
+      
     } else {
       removeIdFromLocalStorage(book.id);
     }
