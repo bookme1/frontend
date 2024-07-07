@@ -18,7 +18,7 @@ import { Characteristics } from "../Characteristics";
 import { ICharacteristics } from "../Characteristics/Characteristics.types";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useSelector } from "react-redux";
-import { selectBooks, selectFavorite } from "@/lib/redux";
+import { openModal, selectBooks, selectFavorite, useDispatch } from "@/lib/redux";
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { usePathname } from "next/navigation";
 import { IBook } from "@/app/book/[id]/page.types";
@@ -28,6 +28,7 @@ import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
 import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
 import { BookType } from "@/lib/redux/features/user/types";
 import { useEffect } from "react";
+import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
 
 const MainInformation = ({
   book,
@@ -36,7 +37,11 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
-
+  const modals = useSelector((state: any) => state.modals.modals);
+  const dispatch = useDispatch();
+  const handleOpenModal = (modalName: string) => {
+    dispatch(openModal(modalName));
+  };
   const router = usePathname();
 
   const id = router?.split("/").pop();
@@ -89,7 +94,7 @@ if (Array.isArray(favorite)){
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
             <Controls>
-              <ToCart>
+              <ToCart  onClick={()=>{handleOpenModal('successInfo')}}>
                 <Icon name="cart" size={28} />В кошик
               </ToCart>
               <ToCart
@@ -115,6 +120,7 @@ if (Array.isArray(favorite)){
           <Characteristics characteristics={characteristics} />
         </Wrapper>
       )}
+    
     </>
   );
 };

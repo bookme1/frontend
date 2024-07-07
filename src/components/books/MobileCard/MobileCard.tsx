@@ -14,9 +14,18 @@ import {
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { CardLink } from "@/components/common/Card/Card.styles";
+import { openModal, useDispatch, useSelector } from "@/lib/redux";
+import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
+
 
 const MobileCard = ({ book }: { book: any }) => {
+  const modals = useSelector((state: any) => state.modals.modals);
+  const dispatch = useDispatch();
+  const handleOpenModal = (modalName: string) => {
+    dispatch(openModal(modalName));
+  };
   return (
+    <>
     <StyledWrapper>
       <ImageContainer
         style={{ ["--background-image" as string]: `url(${book.url})` }}
@@ -33,13 +42,15 @@ const MobileCard = ({ book }: { book: any }) => {
           <Price>{book.price} ₴</Price>
           <Controls>
             <FavoriteBtn book={book} isFavAlredy={false} />
-            <CartButton>
+            <CartButton onClick={()=>{handleOpenModal('successInfo')}}>
               <Icon name="cart" size={24} color="#fff" />
             </CartButton>
           </Controls>
         </BottomContainer>
       </ContentContainer>
     </StyledWrapper>
+ 
+      </>
   );
 };
 

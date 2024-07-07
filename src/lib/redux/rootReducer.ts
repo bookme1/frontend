@@ -6,8 +6,9 @@ import { modalsSlice } from './slices/modalsSlice';
 
 
 export const reducer = {
-  book: modalsSlice.reducer,
+  modals: modalsSlice.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [bookApi.reducerPath]: bookApi.reducer,
   [adminApi.reducerPath]: adminApi.reducer,
 };
+

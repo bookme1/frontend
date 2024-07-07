@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import { raleway } from "@/styles/fonts";
 import { Icons } from "@/components/common/Icons";
 import { Providers } from "@/lib/providers";
+import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
+import { useSelector } from "@/lib/redux";
 
 
 
@@ -17,6 +19,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+
   return (
     <Providers>
       <html className={`${raleway.className}`}>
@@ -24,7 +28,9 @@ export default function RootLayout({
           <link rel="icon" href="/public/favicon.ico" />
         </head>
         <body className="bg-main">
-          <main>{children}</main>
+
+          <main>
+            {children}</main>
         </body>
         <Icons />
       </html>

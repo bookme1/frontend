@@ -18,7 +18,7 @@ import {
 } from "./Filter.styles";
 import { Icon } from "@/components/common/Icon";
 import { useDispatch } from "react-redux";
-import { AddFilter } from "@/lib/redux";
+// import { AddFilter } from "@/lib/redux";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const Filter = ({ toggeModal }: any) => {
@@ -37,20 +37,20 @@ const Filter = ({ toggeModal }: any) => {
   const priceFrom = searchParams ? searchParams.get("priceFrom") : "";
   const priceTo = searchParams ? searchParams.get("priceTo") : "";
 
-  useEffect(() => {
-    setSelectedFilters((prevState: any) => ({
-      ...prevState,
-      books: book,
-      types: types,
-      availability: availability,
-      author: author,
-      language: language,
-      pubHouse: pubHouse,
-      priceFrom: priceFrom,
-      priceTo: priceTo,
-    }));
-    dispatch(AddFilter(selectedFilters));
-  }, []);
+  // useEffect(() => {
+  //   setSelectedFilters((prevState: any) => ({
+  //     ...prevState,
+  //     books: book,
+  //     types: types,
+  //     availability: availability,
+  //     author: author,
+  //     language: language,
+  //     pubHouse: pubHouse,
+  //     priceFrom: priceFrom,
+  //     priceTo: priceTo,
+  //   }));
+  //   dispatch(AddFilter(selectedFilters));
+  // }, []);
 
   const [selectedFilters, setSelectedFilters] = useState<{
     books: string[];
@@ -163,16 +163,16 @@ const Filter = ({ toggeModal }: any) => {
     setIsBtnVisible(true);
   };
 
-  const handleApply = () => {
-    dispatch(AddFilter(selectedFilters));
-    // toggeModal(false);
-  };
+  // const handleApply = () => {
+  //   dispatch(AddFilter(selectedFilters));
+  //   // toggeModal(false);
+  // };
 
   return (
     <AsideContainer>
       <AsideContant>
         {isBtnVisible && (
-          <ApplyBtn onClick={handleApply}>Apply filters</ApplyBtn>
+          <ApplyBtn >Apply filters</ApplyBtn>
         )}
         <PartBoxTitle>
           <BackBtn onClick={() => toggeModal(false)}>

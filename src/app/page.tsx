@@ -15,6 +15,8 @@ import {
 import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
 
 import { useGetFiltersQuery, useGetGenresQuery } from "@/lib/redux/features/book/bookApi";
+import { useSelector } from "@/lib/redux";
+import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
 
 export default function Home() {
 
@@ -50,6 +52,7 @@ export default function Home() {
   //   console.log("Filters");
   //   console.log(filters.data);
   // }, [filters]);
+  const modals = useSelector((state: any) => state.modals.modals);
 
   return (
     <>
@@ -57,7 +60,10 @@ export default function Home() {
       <Hero />
       <Categories />
       <SwiperList />
+
       <Footer />
+      <div id="modal-root"></div>
+      {modals.successInfo.isOpen && <SuccessInfo />}
     </>
   );
 }
