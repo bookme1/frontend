@@ -1,4 +1,6 @@
-import styled from "@emotion/styled";
+import { Dispatch, SetStateAction } from 'react';
+
+import styled from '@emotion/styled';
 
 const FormatSection = styled.div`
   margin-top: 20px;
@@ -33,7 +35,9 @@ const FormatButton = styled.button`
   z-index: 5;
   border: 1px solid gray;
   border-radius: 5px;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out,
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
 
   &.active {
@@ -49,33 +53,45 @@ const FormatButton = styled.button`
   }
 `;
 
-function onFormatClicked(evt: any) {
-  if (evt.target.classList.contains("active")) {
-    evt.target.classList.remove("active");
-  } else {
-    evt.target.classList.add("active");
-  }
-}
-
 const Formats = ({
   epub,
   pdf,
   mobi,
+  setChecked,
 }: {
   epub: boolean;
   pdf: boolean;
   mobi: boolean;
+  setChecked: Dispatch<SetStateAction<string[]>>;
 }) => {
+  function onFormatClicked(evt: any) {
+    const format = evt.currentTarget.dataset.format;
+
+    setChecked((prevState: string[]) => {
+      if (!format) return prevState;
+
+      if (prevState.includes(format)) {
+        // Remove format
+        return prevState.filter(item => item !== format);
+      } else {
+        // Add format
+        return [...prevState, format];
+      }
+    });
+
+    evt.currentTarget.classList.toggle('active');
+  }
+
   return (
     <FormatSection>
       <FormatTitle>Формати:</FormatTitle>
       <FormatList>
         <FormatItem>
           <FormatButton
-            className={!pdf ? "disabled" : ""}
+            className={!pdf ? 'disabled' : ''}
             disabled={!pdf}
             data-format="pdf"
-            onClick={(evt) => {
+            onClick={evt => {
               onFormatClicked(evt);
             }}
           >
@@ -84,9 +100,9 @@ const Formats = ({
         </FormatItem>
         <FormatItem>
           <FormatButton
-            className={!epub ? "disabled" : ""}
+            className={!epub ? 'disabled' : ''}
             disabled={!epub}
-            onClick={(evt) => {
+            onClick={evt => {
               onFormatClicked(evt);
             }}
             data-format="epub"
@@ -96,9 +112,9 @@ const Formats = ({
         </FormatItem>
         <FormatItem>
           <FormatButton
-            className={!mobi ? "disabled" : ""}
+            className={!mobi ? 'disabled' : ''}
             disabled={!mobi}
-            onClick={(evt) => {
+            onClick={evt => {
               onFormatClicked(evt);
             }}
             data-format="mobi"
