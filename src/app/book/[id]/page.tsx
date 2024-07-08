@@ -13,6 +13,9 @@ import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
+import { useSelector } from '@/lib/redux';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 
 export default function Home() {
   const getBooks = useGetBooksQuery('');
@@ -52,6 +55,8 @@ export default function Home() {
       setBook(res[0]);
     }
   }, [booksArr, id]);
+  const modals = useSelector((state: any) => state.modals.modals);
+
   return (
     <>
       <Header />
@@ -72,6 +77,8 @@ export default function Home() {
       <Reviews />
       <SliderLastBooks />
       <Footer />
+      <div id="modal-root"></div>
+      {modals.successInfo.isOpen && <SuccessInfo />}
     </>
   );
 }

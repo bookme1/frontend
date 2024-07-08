@@ -18,7 +18,7 @@ export const ModalWindow = styled.div`
 export const ModalContainer = styled.div`
   position: relative;
   max-height: 95%;
-  width: 518px;
+  /* width: 518px; */
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;

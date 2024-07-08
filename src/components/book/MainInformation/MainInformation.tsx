@@ -19,6 +19,23 @@ import {
   Title,
   ToCart,
   ToFavorite,
+} from "./MainInformation.styles";
+import { Icon } from "@/components/common/Icon";
+import { Characteristics } from "../Characteristics";
+import { ICharacteristics } from "../Characteristics/Characteristics.types";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { useSelector } from "react-redux";
+import { openModal, selectBooks, selectFavorite, useDispatch } from "@/lib/redux";
+import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
+import { usePathname } from "next/navigation";
+import { IBook } from "@/app/book/[id]/page.types";
+import { Formats } from "../Formats";
+import { bookService } from "@/api/book/bookService";
+import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
+import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
+import { BookType } from "@/lib/redux/features/user/types";
+import { useEffect } from "react";
+import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
@@ -43,8 +60,11 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
-  console.log('book');
-  console.log(book);
+  const modals = useSelector((state: any) => state.modals.modals);
+  const dispatch = useDispatch();
+  const handleOpenModal = (modalName: string) => {
+    dispatch(openModal(modalName));
+  };
   const router = usePathname();
   const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
@@ -136,7 +156,7 @@ const MainInformation = ({
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
             <Controls>
-              <ToCart>
+              <ToCart  onClick={()=>{handleOpenModal('successInfo')}}>
                 <Icon name="cart" size={28} />В кошик
               </ToCart>
               <ToCart
@@ -167,6 +187,7 @@ const MainInformation = ({
           <Characteristics characteristics={characteristics} />
         </Wrapper>
       )}
+    
     </>
   );
 };
