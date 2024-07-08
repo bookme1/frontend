@@ -8,7 +8,6 @@ import { Headerstatistics } from '@/components/Headerstatistics';
 import { Transactions } from '@/components/Transactions';
 import { Webdata } from '@/components/Webdata';
 import { Webstatistics } from '@/components/Webstatistics';
-import AdminUserTable from '@/components/table/AdminUserTable'; // Імпорт нового компоненту
 import { useGetUserStatisticQuery } from '@/lib/redux/features/admin/adminApi';
 
 export default function Home() {
@@ -55,8 +54,7 @@ export default function Home() {
       <ChartStyle className="mt-10 ml-20 mb-10">
         <Chartjsbr />
       </ChartStyle>
-      <div className="mt-10">
-        <AdminUserTable />
+      <div className="mt-10">        
       </div>
     </>
   );
