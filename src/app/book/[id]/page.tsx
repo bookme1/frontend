@@ -2,26 +2,23 @@
 
 import { useEffect, useState } from 'react';
 
-
 import { usePathname } from 'next/navigation';
 
 import { IBook } from './page.types';
-
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { MainInformation } from '@/components/book/MainInformation';
 import { Reviews } from '@/components/book/Reviews';
 import { SliderLastBooks } from '@/components/book/SliderLastBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { useSelector } from '@/lib/redux';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 
 export default function Home() {
-
-  const getBooks = useGetBooksQuery("");
+  const getBooks = useGetBooksQuery('');
   useEffect(() => {
     getBooks;
   });
@@ -29,8 +26,8 @@ export default function Home() {
   const booksArr = getBooks.data;
 
   if (!Array.isArray(booksArr)) {
-    console.warn("Array of books is not an array")
-  //  return <Loading />
+    console.warn('Array of books is not an array');
+    //  return <Loading />
   }
 
   const mockBook = {
@@ -43,6 +40,7 @@ export default function Home() {
     pub: '0',
     pages: 0,
     desc: '0',
+    referenceNumber: '',
   };
 
   const [book, setBook] = useState<IBook>(mockBook);

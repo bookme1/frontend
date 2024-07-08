@@ -8,4 +8,8 @@ export interface IBook {
   pub: string;
   pages: number;
   desc: string;
+  referenceNumber: string;
+  formatPdf: string;
+  formatMobi: string;
+  formatEpub: string;
 }
