@@ -9,3 +9,11 @@ export interface ChartPoint {
   x: string;
   y: number;
 }
+
+export interface userDTO {
+  _id: string;
+  name: string;
+  email: string;
+  isActive: boolean;
+  createdAt: string;
+}
