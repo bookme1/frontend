@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
@@ -19,32 +20,14 @@ import {
   Title,
   ToCart,
   ToFavorite,
-} from "./MainInformation.styles";
-import { Icon } from "@/components/common/Icon";
-import { Characteristics } from "../Characteristics";
-import { ICharacteristics } from "../Characteristics/Characteristics.types";
-import { useWindowSize } from "@/hooks/useWindowSize";
-import { useSelector } from "react-redux";
-import { openModal, selectBooks, selectFavorite, useDispatch } from "@/lib/redux";
-import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
-import { usePathname } from "next/navigation";
-import { IBook } from "@/app/book/[id]/page.types";
-import { Formats } from "../Formats";
-import { bookService } from "@/api/book/bookService";
-import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
-import { useGetUserBooksQuery } from "@/lib/redux/features/user/userApi";
-import { BookType } from "@/lib/redux/features/user/types";
-import { useEffect } from "react";
-import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
-import useUserLoginData from '@/components/common/Header/loginFunc';
 import { Icon } from '@/components/common/Icon';
 import useAuthStatus from '@/components/hooks/useAuthStatus';
-import usePayStatus from '@/components/hooks/usePayStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import { openModal, useDispatch } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
@@ -156,7 +139,11 @@ const MainInformation = ({
             <AuthorsList>{authorsMarkup}</AuthorsList>
             <Price>{book?.price} ₴</Price>
             <Controls>
-              <ToCart  onClick={()=>{handleOpenModal('successInfo')}}>
+              <ToCart
+                onClick={() => {
+                  handleOpenModal('successInfo');
+                }}
+              >
                 <Icon name="cart" size={28} />В кошик
               </ToCart>
               <ToCart
@@ -187,7 +174,6 @@ const MainInformation = ({
           <Characteristics characteristics={characteristics} />
         </Wrapper>
       )}
-    
     </>
   );
 };
