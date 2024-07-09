@@ -17,6 +17,7 @@ import {
   ControlsLink,
   ControlsTitle,
   SliderControls,
+  StyledWrapper,
 } from '../Categories/Categories.styles';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
