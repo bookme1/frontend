@@ -58,7 +58,7 @@ export default function Home() {
       <SwiperList />
 
       <Footer />
-      <div id="modal-root"></div>
+
       {modals.successInfo.isOpen && <SuccessInfo />}
     </>
   );

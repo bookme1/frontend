@@ -3,23 +3,26 @@ import { Wrapper } from '@/styles/globals.styles';
 import styled from '@emotion/styled';
 
 export const HeaderWrapper = styled(Wrapper)`
-	margin-bottom: 24px;
+	background-color: var(--primary-background-color);
+	padding-bottom: 24px;
 
 	@media (min-width: 768px) {
-		margin-bottom: 32px;
+		padding-bottom: 32px;
 	}
 
 	@media (min-width: 1280px) {
-		margin-bottom: 48px;
+		padding-bottom: 48px;
 	}
 
 	.reading-header {
 		display: flex;
 		gap: 12px;
-		margin-bottom: 32px;
+		padding-bottom: 32px;
+		color: var(--btn-text-color);
 	}
 
 	p {
+		/* color: var(--btn-text-color); */
 		font-size: 18px;
 		font-weight: 500;
 		line-height: 21.13px;
@@ -42,6 +45,7 @@ export const HeaderWrapper = styled(Wrapper)`
 		}
 	}
 	h3 {
+		color: var(--title-color);
 		text-align: center;
 		font-size: 24px;
 		font-weight: 700;
