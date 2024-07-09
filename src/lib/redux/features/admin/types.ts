@@ -17,3 +17,9 @@ export interface userDTO {
   isActive: boolean;
   createdAt: string;
 }
+
+export interface transactionDTO {
+  id: string;
+  createdAt: string;
+  amount: number;  
+}
