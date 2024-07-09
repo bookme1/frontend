@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import aiModal from './AiContent.module.css';
 import AiContentMessage from '@/components/Modals/ModalContent/AiContent/AiContentMessage';
+import { Icon } from '@/components/common/Icon';
 
 const AiContent = () => {
   return (
@@ -11,7 +12,7 @@ const AiContent = () => {
           <h2>Привіт</h2>
           <h3>Як я можу тобі допомогти?</h3>
         </div>
-        {/*<Image src={} alt={}/>*/}
+        <Icon name="ai-robot" width={120} height={120} />
       </div>
       <div className={aiModal['ai-content-description']}>
         Я помічник, створений на основі штучного інтелекту і я допоможу тобі

@@ -1,6 +1,6 @@
 .ai_content_wrapper {
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -19,6 +19,7 @@
 
 .ai-content-header {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 

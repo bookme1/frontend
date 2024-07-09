@@ -8,7 +8,9 @@
     --blue: #0597E8;
     --gray: #6E646D;
     --gray_dark: #505050;
-    --gray_border: #A7A7A7;
+    --gray_border: #A7A7A7;body {
+    position: relative;
+}
     --gray_search: #f4f4f4;
     --beige: #FCDDC9;
     --color-footer-bottom: #606060;
@@ -23,10 +25,6 @@
 
 body.modal-open {
     overflow: hidden;
-}
-
-body {
-    position: relative;
 }
 
 .scroll-down .scrollable_nav {
@@ -55,3 +53,15 @@ body {
 
     z-index: 9999;
 }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+

@@ -1,5 +1,6 @@
 import Modal from '@/components/Modals/MainModal/MainModal.tsx';
 import ModalContent from '@/components/Modals/ModalContent/ModalContent';
+import modal from '@/components/main/Modal/Modal.tsx';
 import { Providers } from '@/lib/providers.tsx';
 import {
   selectOpenModal,
@@ -23,16 +24,15 @@ const ModalAiContainer = () => {
   };
 
   return (
-    <Providers>
-      <>
-        <button onClick={handleModal}>AI Modal</button>
-        {modalOpen && (
-          <Modal open={modalOpen} onClose={handleCloseModal}>
-            <ModalContent />
-          </Modal>
-        )}
-      </>
-    </Providers>
+    // <Providers>
+    <>
+      {modalOpen && (
+        <Modal open={modalOpen} onClose={handleCloseModal}>
+          <ModalContent />
+        </Modal>
+      )}
+    </>
+    // </Providers>
   );
 };
 

@@ -2,8 +2,8 @@
 
 import React from 'react';
 
+import AiButton from '@/components/AiButton/AiButton.tsx';
 import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper/ModalAiContainerWrapper.tsx';
-import { Icon } from '@/components/common/Icon';
 import { Icons } from '@/components/common/Icons';
 import { Providers } from '@/lib/providers.tsx';
 import { raleway } from '@/styles/fonts';
@@ -29,10 +29,7 @@ export default function RootLayout({
         </head>
         <body className="bg-main">
           <main>{children}</main>
-          <button className="ai-open-button">
-            <Icon name="ai-chat" width={24} height={24} />
-            AI Chat
-          </button>
+          <AiButton />
           <ModalAiContainerWrapper />
           <div id="modal-root"></div>
         </body>
