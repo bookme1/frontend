@@ -4,13 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="795e5203-51dc-4652-9843-6782d410dc89" name="Changes" comment="" />
+    <list default="true" id="795e5203-51dc-4652-9843-6782d410dc89" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Card/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Card/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Card/lazyload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Card/lazyload.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feat/catalog-data" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -24,8 +33,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/catalog-data",
-    "last_opened_file_path": "/Users/dmytroprontenko/Desktop/WEB/Projects/bookMe/frontend",
+    "git-widget-placeholder": "feat/AI__modal",
+    "last_opened_file_path": "/Users/dmytroprontenko/Desktop/WEB/Projects/bookMe/frontend/src/components/common",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -35,7 +44,7 @@
     "nodejs_package_manager_path": "npm",
     "prettierjs.PrettierConfiguration.Package": "/Users/dmytroprontenko/Desktop/WEB/Projects/bookMe/frontend/node_modules/prettier",
     "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Users/dmytroprontenko/Desktop/WEB/Projects/bookMe/frontend/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -47,6 +56,17 @@
         <entry key="com.intellij.reactbuddy.storybook" value="false" />
       </map>
     </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/common" />
+      <recent name="$PROJECT_DIR$/src/components/common/Card" />
+      <recent name="$PROJECT_DIR$/src/components/Modals" />
+      <recent name="$PROJECT_DIR$/src/components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/Modals" />
+    </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -71,5 +91,8 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>
