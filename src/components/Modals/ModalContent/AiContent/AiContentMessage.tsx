@@ -1,7 +1,8 @@
-import classes from './AiContentMessage.module.css';
 import React from 'react';
 
-const AiContentMessage = ({ children }) => {
+import classes from './AiContentMessage.module.css';
+
+const AiContentMessage = ({ children }: { children: any }) => {
   return <div className={classes['ai-content-message']}>{children}</div>;
 };
 
