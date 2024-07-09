@@ -11,7 +11,6 @@ export const StyledWrapper = styled(Wrapper)`
   }
   @media (min-width: 1280px) {
     margin-bottom: 80px;
-    outline: 1px solid blue;
   }
   .swiper-container {
     margin-top: 50px;
