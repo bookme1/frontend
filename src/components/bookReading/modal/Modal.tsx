@@ -42,7 +42,7 @@ export const ModalReading = ({ isVisible, onClose }: Props) => {
 	}, [isVisible]);
 
 	useEffect(() => {
-		console.log(fontSize); //передати значення в store
+		// dispatch(fontSize)
 	}, [fontSize]);
 
 	const onChange = (value: number) => {
@@ -51,12 +51,10 @@ export const ModalReading = ({ isVisible, onClose }: Props) => {
 
 	const handleChangeTheme = (theme: string) => {
 		setTheme(theme);
-		console.log(theme); //тема
 	};
 
 	const handleChangeFont = (font: string) => {
 		setFont(font);
-		console.log(font); //шрифт
 	};
 
 	if (!isVisible) return null;
@@ -65,7 +63,7 @@ export const ModalReading = ({ isVisible, onClose }: Props) => {
 		<Backdrop id="wrapper" onClick={handleClose}>
 			<Modal>
 				<button className="close-btn" onClick={() => onClose()}>
-					<Icon name="close_modal" width={32} height={32} />
+					<Icon name="close_modal" size={32} />
 				</button>
 				<h3 className="title">Налаштування читання</h3>
 				<div className="themes">
@@ -127,14 +125,3 @@ export const ModalReading = ({ isVisible, onClose }: Props) => {
 		</Backdrop>
 	);
 };
-
-// const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-// 	setFontSize(e.target.value);
-// 	// console.dir(e.target)
-// };
-
-// const onChange = (value: number) => {
-// console.log(value)
-// setFontSize(value)
-// console.log(fontSize)
-// };
