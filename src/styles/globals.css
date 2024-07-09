@@ -13,6 +13,8 @@
     --beige: #FCDDC9;
     --color-footer-bottom: #606060;
     --white: #fff;
+    --ai-button-bg-color: #121212;
+    --ai-button-text-color: #FFFFFF;
 }
 
 .bg-main {
@@ -23,6 +25,10 @@ body.modal-open {
     overflow: hidden;
 }
 
+body {
+    position: relative;
+}
+
 .scroll-down .scrollable_nav {
     transform: translate3d(0, 100%, 0);
     box-shadow: none;
@@ -30,4 +36,22 @@ body.modal-open {
 
 .scroll-up .scrollable_nav {
     transform: none;
+}
+
+.ai-open-button {
+    position: fixed;
+    bottom: 7%;
+    right: 3%;
+
+    display: inline-flex;
+    padding: 12px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    border-radius: 8px;
+    color: var(--ai-button-text-color);
+    background: var(--ai-button-bg-color);
+
+    z-index: 9999;
 }

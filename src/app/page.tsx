@@ -1,32 +1,29 @@
-"use client";
-import { Categories } from "@/components/main/Categories";
-import { Footer } from "@/components/common/Footer";
-import { Header } from "@/components/common/Header";
-import { Hero } from "@/components/main/Hero";
-import { SwiperList } from "@/components/main/SwiperList";
-import { Loading } from "@/components/SERVICE_PAGES/Loading";
-import { useEffect, useState } from "react";
+'use client';
 
+import { useEffect, useState } from 'react';
+
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
+import { Categories } from '@/components/main/Categories';
+import { Hero } from '@/components/main/Hero';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+import { SwiperList } from '@/components/main/SwiperList';
+import { useSelector } from '@/lib/redux';
 import {
-
-  useGetUserBooksQuery,
-
-} from "@/lib/redux/features/user/userApi";
-import { BookType, loginOutputDTO } from "@/lib/redux/features/user/types";
-
-import { useGetFiltersQuery, useGetGenresQuery } from "@/lib/redux/features/book/bookApi";
-import { useSelector } from "@/lib/redux";
-import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
+  useGetFiltersQuery,
+  useGetGenresQuery,
+} from '@/lib/redux/features/book/bookApi';
+import { BookType, loginOutputDTO } from '@/lib/redux/features/user/types';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
-
-
   let token;
   if (typeof window !== 'undefined') {
     token = localStorage.getItem('accessToken');
   }
 
-  if (!token) token = "1";
+  if (!token) token = '1';
   const getBooks = useGetUserBooksQuery({
     accessToken: token,
     type: BookType.Fav,
@@ -37,7 +34,7 @@ export default function Home() {
   }, []);
 
   // Пример стягивания жанров для Димы. В обьекте genres так же есть много полезных проперти, например состояние загрузки для лоадера. После применения удалить с этого файла
-  const genres = useGetGenresQuery("");
+  const genres = useGetGenresQuery('');
 
   // useEffect(() => {
   //   console.log("Genres");
@@ -46,7 +43,7 @@ export default function Home() {
 
   // Стягивание всех фильтров для отображения в маркапе на странице с фильтрами
 
-    const filters = useGetFiltersQuery("");
+  const filters = useGetFiltersQuery('');
 
   // useEffect(() => {
   //   console.log("Filters");
@@ -62,7 +59,7 @@ export default function Home() {
       <SwiperList />
 
       <Footer />
-      <div id="modal-root"></div>
+
       {modals.successInfo.isOpen && <SuccessInfo />}
     </>
   );
