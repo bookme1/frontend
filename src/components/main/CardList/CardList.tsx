@@ -1,33 +1,30 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 
-import { GetFromFavorite, selectFavorite, useDispatch } from '@/lib/redux';
+import { BookType } from '@/lib/redux/features/user/types';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
 import {
-  CardWrapper,
   ControlsContainer,
   ControlsLink,
   ControlsTitle,
   SliderControls,
   StyledWrapper,
 } from '../Categories/Categories.styles';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
-import { BookType } from '@/lib/redux/features/user/types';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
-  let token1 = localStorage.getItem("accessToken");
+  let token1 = localStorage.getItem('accessToken');
 
   const fav = useGetUserBooksQuery({
-    accessToken: token1 ?? "",
+    accessToken: token1 ?? '',
     type: BookType.Fav,
   });
 
@@ -38,15 +35,15 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
   const favorite = fav.data;
 
   let favIdList: any;
-  if (typeof window !== "undefined") {
-    favIdList = localStorage.getItem("favorites");
+  if (typeof window !== 'undefined') {
+    favIdList = localStorage.getItem('favorites');
   }
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem('accessToken');
   const favIdListArr = JSON.parse(favIdList);
 
   let booksMarkup;
   if (books?.length) {
-    booksMarkup = books.map((book) => (
+    booksMarkup = books.map(book => (
       <SwiperSlide key={book.id}>
         <Card book={book} favorite={token === null ? favIdListArr : favorite} />
       </SwiperSlide>

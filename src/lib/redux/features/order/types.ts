@@ -1,8 +1,12 @@
 export class CreateOrderDTO {
-  accessToken: string | undefined;
   order_id: string | undefined;
   orderBooks: IOrderBook[] | undefined;
   amount: number | undefined;
+}
+
+export class CreateOrderDTOExtended extends CreateOrderDTO {
+  accessToken: string | undefined;
+  user: number | undefined;
 }
 
 export enum Status {

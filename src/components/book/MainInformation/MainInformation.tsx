@@ -81,7 +81,7 @@ const MainInformation = ({
   };
   const authorsMarkup = getAuthorsMarkup(book.author);
 
-  let isFavAlredy = [];
+  let isFavAlredy = false;
   if (Array.isArray(favorite)) {
     isFavAlredy = favorite?.some((fav: any) => fav === id);
   }

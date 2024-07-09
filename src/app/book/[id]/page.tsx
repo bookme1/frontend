@@ -39,6 +39,9 @@ export default function Home() {
     pages: 0,
     desc: '0',
     referenceNumber: '',
+    formatPdf: '',
+    formatMobi: '',
+    formatEpub: '',
   };
 
   const [book, setBook] = useState<IBook>(mockBook);

@@ -1,26 +1,27 @@
-"use client";
-import { Icon } from "@/components/common/Icon";
-import { Wrapper } from "@/styles/globals.styles";
-import { MobileCard } from "../MobileCard";
-import { useDispatch, useSelector } from "react-redux";
-import { selectBooks } from "@/lib/redux";
-import { useEffect, useRef, useState } from "react";
-import Filter from "../Filter/Filter";
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
 import {
   BooksQuantity,
-  ControlsContainer,
-  ControlButton,
   CardContainer,
-  ItemContainer,
   Container,
-} from "./Controls.styles";
-import usePagination from "@/components/hooks/usePagination";
-import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
+  ControlButton,
+  ControlsContainer,
+  ItemContainer,
+} from './Controls.styles';
+import { Icon } from '@/components/common/Icon';
+import usePagination from '@/components/hooks/usePagination';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { Wrapper } from '@/styles/globals.styles';
+
+import Filter from '../Filter/Filter';
+import { MobileCard } from '../MobileCard';
 
 const Controls = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const getBooks = useGetBooksQuery("");
+  const getBooks = useGetBooksQuery('');
   useEffect(() => {
     getBooks;
   });
@@ -36,10 +37,10 @@ const Controls = () => {
       setIsOpen(window.innerWidth >= 1280);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -52,14 +53,14 @@ const Controls = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      entries => {
         if (entries[0].isIntersecting) {
           loadMoreItems();
         }
       },
       {
         root: null,
-        rootMargin: "20px",
+        rootMargin: '20px',
         threshold: 1.0,
       }
     );
@@ -85,7 +86,7 @@ const Controls = () => {
             <BooksQuantity>{quantity} Товарів</BooksQuantity>
             <ControlsContainer>
               <ControlButton className="active" onClick={toggeModal}>
-                <Icon name="filter" size={20} /> Фільтр{" "}
+                <Icon name="filter" size={20} /> Фільтр{' '}
                 <Icon name="arrow_down" color="#fff" size={16} />
               </ControlButton>
               <ControlButton>
@@ -103,7 +104,7 @@ const Controls = () => {
             </CardContainer>
             <div
               ref={loader}
-              style={{ height: "100px", backgroundColor: "transparent" }}
+              style={{ height: '100px', backgroundColor: 'transparent' }}
             />
           </div>
         </Container>
