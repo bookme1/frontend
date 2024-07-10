@@ -29,7 +29,7 @@ import useAuthStatus from '@/components/hooks/useAuthStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal, useDispatch } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { useAddBookQuery, useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
@@ -43,20 +43,31 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
+
+  const [addClick, setAddClick] = useState(false);
+  let token;
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('accessToken');
+  }
+ 
+  const addCardBook = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: book.id ?? "",
+    type: BookType.Cart,
+  }, {skip: addClick===false});
+
   const modals = useSelector((state: any) => state.modals.modals);
   const dispatch = useDispatch();
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
+    setAddClick(true)
   };
   const router = usePathname();
   const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
   const id = router?.split('/').pop();
 
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('accessToken');
-  }
+
 
   const fav = useGetUserBooksQuery({
     accessToken: token ?? '',

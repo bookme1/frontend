@@ -2,8 +2,10 @@ import { GenericModal } from '@/components/GenericModal/GenericModal'
 import React from 'react'
 import { Box, Container, ReadBtn, Text } from './SuccessInfo.styles'
 
+
+
 const SuccessInfo = () => {
- 
+
   return (
     <GenericModal modalName="successInfo" align='right'>
     <Container>

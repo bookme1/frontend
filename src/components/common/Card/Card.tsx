@@ -21,10 +21,22 @@ import { Icon } from '../Icon';
 import { BookFormat } from '@/components/BookFormat';
 
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
+import { useState } from 'react';
+import { useAddBookQuery } from '@/lib/redux/features/user/userApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
+
+  const [addClick, setAddClick] = useState(false);
+  const token = localStorage.getItem("accessToken");
+ 
+  const addCardBook = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: id ?? "",
+    type: BookType.Cart,
+  }, {skip: addClick===false});
 
   const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
   
@@ -32,7 +44,10 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const dispatch = useDispatch();
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
+    setAddClick(true);
   };
+
+
 
   
   return (
