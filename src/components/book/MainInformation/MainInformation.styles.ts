@@ -3,8 +3,30 @@ import styled from "@emotion/styled";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import Image from "next/image";
 
 export const ImageContainer = styled.div`
+  /* width: 250px;
+  height: 330px;
+  margin: 0 auto;
+  margin-top: 32px;
+  background-image: var(--background-image);
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+  margin-bottom: 32px;
+  @media (min-width: 768px) {
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+  @media (min-width: 1280px) {
+    width: 502px;
+    height: 660px;
+  } */
+`;
+
+export const StyledImage = styled(Image)`
   width: 250px;
   height: 330px;
   margin: 0 auto;

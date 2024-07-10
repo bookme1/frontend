@@ -8,9 +8,9 @@ import { useEffect } from "react";
 
 const modalRoot = document.getElementById("modal-root");
 
-export const Modal = ({
-    modalName, children
-}:{modalName:string, children:React.ReactNode}) => {
+export const GenericModal = ({
+    modalName, children, align = 'center',
+}:{modalName:string, children:React.ReactNode, align?: 'left' | 'center' | 'right' }) => {
  
     const dispatch = useDispatch();
  const isOpen = useSelector((state: any) => state.modals[modalName]?.isOpen);
@@ -35,7 +35,7 @@ export const Modal = ({
         handleCloseModal(modalName);
       }}
     >
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <ModalContainer onClick={(e:any) => e.stopPropagation()} align={align}>
         <CloseButton onClick={() => handleCloseModal(modalName)}>
           <Icon name="close_modal" size={48} />
         </CloseButton>
