@@ -20,6 +20,7 @@ import {
   Title,
   ToCart,
   ToFavorite,
+  StyledImage,
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
@@ -35,6 +36,7 @@ import { Wrapper } from '@/styles/globals.styles';
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
+import Image from 'next/image';
 
 const MainInformation = ({
   book,
@@ -43,6 +45,14 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (book?.url) {
+      setImageLoaded(true);
+    }
+  }, [book?.url]);
 
   const [addClick, setAddClick] = useState(false);
   let token;
@@ -138,12 +148,23 @@ const MainInformation = ({
   if (book.formatPdf) aviableFormats[0] = true;
   if (book.formatEpub) aviableFormats[2] = true;
 
+
   return (
     <>
       <StyledWrapper>
         <ImageContainer
-          style={{ ['--background-image' as string]: `url(${book?.url})` }}
-        ></ImageContainer>
+          // style={{ ['--background-image' as string]: `url(${book?.url})` }}
+        >
+          {imageLoaded && book?.url && (
+            <StyledImage
+              src={book.url.startsWith('http') ? book.url : `/${book.url}`}
+              alt={book.title}
+              width={250}
+              height={330}
+              
+            />
+          )}
+        </ImageContainer>
         <InfoContainer>
           <MainInfoContainer>
             <Title>{book?.title}</Title>
