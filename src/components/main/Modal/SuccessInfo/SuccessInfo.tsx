@@ -1,12 +1,18 @@
-import { Modal } from '@/components/GenericModal/GenericModal'
+import { GenericModal } from '@/components/GenericModal/GenericModal'
 import React from 'react'
-import { Container } from './SuccessInfo.styles'
+import { Box, Container, ReadBtn, Text } from './SuccessInfo.styles'
 
 const SuccessInfo = () => {
+ 
   return (
-    <Modal modalName="successInfo">
-    <Container style={{width:'500px', height:'500px'}}>SuccessInfo</Container>
-    </Modal>
+    <GenericModal modalName="successInfo" align='right'>
+    <Container>
+      <Box>      
+        <Text>Замовлення успішно оформнене</Text>
+        <ReadBtn>Читати</ReadBtn>
+      </Box>
+    </Container>
+    </GenericModal>
   )
 }
 

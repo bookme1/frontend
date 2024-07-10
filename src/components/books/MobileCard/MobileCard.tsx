@@ -15,7 +15,7 @@ import {
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { CardLink } from "@/components/common/Card/Card.styles";
 import { openModal, useDispatch, useSelector } from "@/lib/redux";
-import SuccessInfo from "@/components/main/Modal/SuccessInfo/SuccessInfo";
+
 
 
 const MobileCard = ({ book }: { book: any }) => {

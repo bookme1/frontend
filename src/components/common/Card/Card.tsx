@@ -19,7 +19,7 @@ import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
 import { Icon } from '../Icon';
 import { BookFormat } from '@/components/BookFormat';
-import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
