@@ -1,8 +1,7 @@
 // DOCS:
 // This api is only for statistics in admin panel
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import { userStatisticDTO, userDTO } from './types';
+import { userStatisticDTO, userDTO, transactionDTO } from './types';
 
 export const adminApi = createApi({
   reducerPath: 'adminApi',
@@ -24,13 +23,27 @@ export const adminApi = createApi({
       }),
     }),
 
-getAllUsers: builder.query<userDTO[], void>({
-      query: () => ({
+    getAllUsers: builder.query<userDTO[], string | null>({
+      query: (accessToken: string | null) => ({
         url: 'api/admin/getAllUsers',
         method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       }),
     }),
+
+    getAllTransactions: builder.query<transactionDTO[], string | null>({
+      query: (accessToken: string | null) => ({
+        url: 'api/order/getAll',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    }),
+
   }),
 });
 
-export const { useGetUserStatisticQuery, useGetAllUsersQuery } = adminApi;
+export const { useGetUserStatisticQuery, useGetAllUsersQuery, useGetAllTransactionsQuery } = adminApi;
