@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ const Transactions = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [amountFilter, setAmountFilter] = useState<string>('all');
+  const [sortOrder, setSortOrder] = useState<string>('desc'); // Додаємо стан для зберігання напрямку сортування
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -29,7 +29,7 @@ const Transactions = () => {
   const sortedTransactions = data?.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   // Унікальні дати для фільтрації
-  const uniqueDates = Array.from(new Set(sortedTransactions?.map(transaction => new Date(transaction.createdAt).toLocaleDateString())));
+  const uniqueDates = [...new Set(sortedTransactions?.map(transaction => new Date(transaction.createdAt).toLocaleDateString()))];
 
   // Фільтрація транзакцій за датою та сумою
   const filteredTransactions = sortedTransactions?.filter(transaction => {
@@ -42,6 +42,18 @@ const Transactions = () => {
     return dateMatch && amountMatch;
   });
 
+  // Сортування транзакцій за напрямком сортування
+  const sortedFilteredTransactions = filteredTransactions?.slice().sort((a, b) => {
+    return sortOrder === 'asc' 
+      ? String(a.id).localeCompare(String(b.id)) 
+      : String(b.id).localeCompare(String(a.id));
+  });
+
+  // Функція для зміни напрямку сортування
+  const toggleSortOrder = () => {
+    setSortOrder(prevSortOrder => prevSortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <div className="mx-auto shadow-2xl rounded-lg" style={{ padding: '0.75rem', maxWidth: '4xl' }}>
       <p className="text-center mb-2 text-green-900 font-bold">Останні транзакції</p>
@@ -50,10 +62,13 @@ const Transactions = () => {
         <ul className="text-green-700">
           <li className="mb-2">
             <div className="flex justify-between gap-10">
-              <div className="flex-1">
-                <label className="mr-2">ID</label>
+              <div className="flex items-center">
+                <p>ID</p>
+                <button onClick={toggleSortOrder} className="ml-2">
+                  {sortOrder === 'asc' ? '↑' : '↓'}
+                </button>
               </div>
-              <div className="flex-1">
+              <div>
                 <label className="mr-2">За датою:</label>
                 <select value={selectedDate} onChange={e => setSelectedDate(e.target.value)}>
                   <option value="">Всі дати</option>
@@ -62,7 +77,7 @@ const Transactions = () => {
                   ))}
                 </select>
               </div>
-              <div className="flex-1">
+              <div>
                 <label className="mr-2">За сумою:</label>
                 <select value={amountFilter} onChange={e => setAmountFilter(e.target.value)}>
                   <option value="all">Всі</option>
@@ -72,18 +87,12 @@ const Transactions = () => {
               </div>
             </div>
           </li>
-          {filteredTransactions && filteredTransactions.map((transaction) => (
+          {sortedFilteredTransactions && sortedFilteredTransactions.map((transaction) => (
             <li key={transaction.id} className="mb-2">
               <div className="flex justify-between gap-10">
-                <div className="flex-1">
-                  <p>{transaction.id}</p>
-                </div>
-                <div className="flex-1">
-                  <p>{new Date(transaction.createdAt).toLocaleDateString()}</p>
-                </div>
-                <div className="flex-1">
-                  <p>{transaction.amount.toFixed(2)} грн</p>
-                </div>
+                <p>{transaction.id}</p>
+                <p>{new Date(transaction.createdAt).toLocaleDateString()}</p>
+                <p>{transaction.amount.toFixed(2)} грн</p>
               </div>
             </li>
           ))}
