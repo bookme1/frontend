@@ -1,6 +1,8 @@
 // DOCS:
 // This api is only for statistics in admin panel
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import { userStatisticDTO, userDTO, transactionDTO } from './types';
 
 export const adminApi = createApi({
@@ -9,9 +11,10 @@ export const adminApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL,
   }),
   endpoints: builder => ({
-    // #################
-    // BOOKS INTERACTION
-    // #################
+  // #################
+  // BOOKS INTERACTION
+  // #################
+
     getUserStatistic: builder.query<userStatisticDTO, string | null>({
       query: (accessToken: string | null) => ({
         url: 'api/admin/getUserStatistic',
@@ -23,8 +26,8 @@ export const adminApi = createApi({
       }),
     }),
 
-    getAllUsers: builder.query<userDTO[], string | null>({
-      query: (accessToken: string | null) => ({
+    getAllUsers: builder.query<userDTO[], void>({
+      query: (accessToken) => ({
         url: 'api/admin/getAllUsers',
         method: 'GET',
         headers: {
@@ -42,7 +45,6 @@ export const adminApi = createApi({
         },
       }),
     }),
-
   }),
 });
 
