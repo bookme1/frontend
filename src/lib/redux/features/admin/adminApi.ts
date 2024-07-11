@@ -27,7 +27,7 @@ export const adminApi = createApi({
     }),
 
     getAllUsers: builder.query<userDTO[], void>({
-      query: (accessToken) => ({
+      query: (accessToken: string | null) => ({
         url: 'api/admin/getAllUsers',
         method: 'GET',
         headers: {
