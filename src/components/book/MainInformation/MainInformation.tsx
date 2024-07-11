@@ -20,6 +20,7 @@ import {
   Title,
   ToCart,
   ToFavorite,
+  StyledImage,
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
@@ -29,12 +30,13 @@ import useAuthStatus from '@/components/hooks/useAuthStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal, useDispatch } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { useAddBookQuery, useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
+import Image from 'next/image';
 
 const MainInformation = ({
   book,
@@ -43,20 +45,39 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (book?.url) {
+      setImageLoaded(true);
+    }
+  }, [book?.url]);
+
+  const [addClick, setAddClick] = useState(false);
+  let token;
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('accessToken');
+  }
+ 
+  const addCardBook = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: book.id ?? "",
+    type: BookType.Cart,
+  }, {skip: addClick===false});
+
   const modals = useSelector((state: any) => state.modals.modals);
   const dispatch = useDispatch();
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
+    setAddClick(true)
   };
   const router = usePathname();
   const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
   const id = router?.split('/').pop();
 
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('accessToken');
-  }
+
 
   const fav = useGetUserBooksQuery({
     accessToken: token ?? '',
@@ -127,12 +148,23 @@ const MainInformation = ({
   if (book.formatPdf) aviableFormats[0] = true;
   if (book.formatEpub) aviableFormats[2] = true;
 
+
   return (
     <>
       <StyledWrapper>
         <ImageContainer
-          style={{ ['--background-image' as string]: `url(${book?.url})` }}
-        ></ImageContainer>
+          // style={{ ['--background-image' as string]: `url(${book?.url})` }}
+        >
+          {imageLoaded && book?.url && (
+            <StyledImage
+              src={book.url.startsWith('http') ? book.url : `/${book.url}`}
+              alt={book.title}
+              width={250}
+              height={330}
+              
+            />
+          )}
+        </ImageContainer>
         <InfoContainer>
           <MainInfoContainer>
             <Title>{book?.title}</Title>
