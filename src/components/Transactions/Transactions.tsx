@@ -58,18 +58,25 @@ const Transactions = () => {
     <div className="mx-auto shadow-2xl rounded-lg" style={{ padding: '0.75rem', maxWidth: '4xl' }}>
       <p className="text-center mb-2 text-green-900 font-bold">Останні транзакції</p>
 
-      <div className="overflow-auto" style={{ maxHeight: '360px', padding: '15px' }}>
-        <ul className="text-green-700">
-          <li className="mb-2">
-            <div className="flex justify-between gap-10">
-              <div className="flex items-center">
-                <p>ID</p>
+      <div className="overflow-auto" style={{ maxHeight: '360px', paddingLeft: '15px', paddingRight: '15px', paddingBottom: '15px' }}>
+        <ul className="text-green-700" style={{ minWidth: '100%' }}>
+          {/* Рядок для назв колонок */}
+          <li className="mb-2 bg-gray-200 p-2 rounded sticky top-0">
+            <div className="grid grid-cols-5 gap-4">
+              <p className="col-span-1">ID</p>
+              <p className="col-span-2">Дата</p>
+              <p className="col-span-2">Сума</p>
+            </div>
+          </li>
+          {/* Рядок для фільтрів */}
+          <li className="mb-2 bg-gray-100 p-2 rounded sticky top-8">
+            <div className="grid grid-cols-5 gap-4 items-center">
+              <div className="flex items-center col-span-1">
                 <button onClick={toggleSortOrder} className="ml-2">
                   {sortOrder === 'asc' ? '↑' : '↓'}
                 </button>
               </div>
-              <div>
-                <label className="mr-2">За датою:</label>
+              <div className="col-span-2">
                 <select value={selectedDate} onChange={e => setSelectedDate(e.target.value)}>
                   <option value="">Всі дати</option>
                   {uniqueDates.map(date => (
@@ -77,8 +84,7 @@ const Transactions = () => {
                   ))}
                 </select>
               </div>
-              <div>
-                <label className="mr-2">За сумою:</label>
+              <div className="col-span-2">
                 <select value={amountFilter} onChange={e => setAmountFilter(e.target.value)}>
                   <option value="all">Всі</option>
                   <option value="below200">До 200 грн</option>
@@ -87,12 +93,13 @@ const Transactions = () => {
               </div>
             </div>
           </li>
+          {/* Рядки з транзакціями */}
           {sortedFilteredTransactions && sortedFilteredTransactions.map((transaction) => (
-            <li key={transaction.id} className="mb-2">
-              <div className="flex justify-between gap-10">
-                <p>{transaction.id}</p>
-                <p>{new Date(transaction.createdAt).toLocaleDateString()}</p>
-                <p>{transaction.amount.toFixed(2)} грн</p>
+            <li key={transaction.id} className="bg-white rounded">
+              <div className="grid grid-cols-5 gap-4">
+                <p className="col-span-1">{transaction.id}</p>
+                <p className="col-span-2">{new Date(transaction.createdAt).toLocaleDateString()}</p>
+                <p className="col-span-2">{transaction.amount.toFixed(2)} грн</p>
               </div>
             </li>
           ))}
