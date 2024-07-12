@@ -1,23 +1,32 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { IBook } from './page.types';
-import { bookService } from '@/api/book/bookService';
 import { MainInformation } from '@/components/book/MainInformation';
 import { Reviews } from '@/components/book/Reviews';
 import { SliderLastBooks } from '@/components/book/SliderLastBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import { selectBooks } from '@/lib/redux';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+import { useSelector } from '@/lib/redux';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const booksArr = useSelector(selectBooks);
+  const getBooks = useGetBooksQuery('');
+  useEffect(() => {
+    getBooks;
+  });
+
+  const booksArr = getBooks.data;
+
+  if (!Array.isArray(booksArr)) {
+    console.warn('Array of books is not an array');
+    //  return <Loading />
+  }
 
   const mockBook = {
     id: '0',
@@ -29,6 +38,10 @@ export default function Home() {
     pub: '0',
     pages: 0,
     desc: '0',
+    referenceNumber: '',
+    formatPdf: '',
+    formatMobi: '',
+    formatEpub: '',
   };
 
   const [book, setBook] = useState<IBook>(mockBook);
@@ -38,12 +51,13 @@ export default function Home() {
     if (id === undefined) {
       return;
     }
-    const res = booksArr.filter((book: any) => book.id === id);
+    const res = booksArr?.filter((book: any) => book.id === id);
     if (res) {
       setBook(res[0]);
     }
   }, [booksArr, id]);
-  console.log(book);
+  const modals = useSelector((state: any) => state.modals.modals);
+
   return (
     <>
       <Header />
@@ -60,9 +74,12 @@ export default function Home() {
           // pathname={pathname}
         />
       )}
+
       <Reviews />
       <SliderLastBooks />
       <Footer />
+      <div id="modal-root"></div>
+      {modals.successInfo.isOpen && <SuccessInfo />}
     </>
   );
 }

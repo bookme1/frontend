@@ -15,18 +15,43 @@ import {
 } from './Card.styles';
 import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
-import BookFormat from '@/components/BookFormat/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 
 import { Icon } from '../Icon';
+import { BookFormat } from '@/components/BookFormat';
+
+import { openModal, useDispatch, useSelector } from '@/lib/redux';
+import { useState } from 'react';
+import { useAddBookQuery } from '@/lib/redux/features/user/userApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
   const { title, url, price, author, id } = book;
   lazyloadExp();
 
-  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
+  const [addClick, setAddClick] = useState(false);
+  const token = localStorage.getItem("accessToken");
+ 
+  const addCardBook = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: id ?? "",
+    type: BookType.Cart,
+  }, {skip: addClick===false});
 
+  const isFavAlredy = favorite?.some((fav: any) => book.id === fav);
+  
+  const modals = useSelector((state: any) => state.modals.modals);
+  const dispatch = useDispatch();
+  const handleOpenModal = (modalName: string) => {
+    dispatch(openModal(modalName));
+    setAddClick(true);
+  };
+
+
+
+  
   return (
+    <>
     <CardContainer>
       <ImageContainer
         className="lazyload"
@@ -46,13 +71,15 @@ const Card = ({ book, favorite }: { book: IBook; favorite: any }) => {
           <Price>{price}₴</Price>
           <BoxStyles className="hidden-buttons">
             <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
-            <CartButton>
+            <CartButton onClick={()=>{handleOpenModal('successInfo')}}>
               <Icon name="cart" size={24} color="white" />
             </CartButton>
           </BoxStyles>
         </BottomContainer>
       </DescriptionContainer>
     </CardContainer>
+    
+    </>
   );
 };
 

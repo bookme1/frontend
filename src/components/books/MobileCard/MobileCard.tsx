@@ -14,9 +14,33 @@ import {
 
 import FavoriteBtn from "@/components/Favorite/FavoriteBtn";
 import { CardLink } from "@/components/common/Card/Card.styles";
+import { openModal, useDispatch, useSelector } from "@/lib/redux";
+import { useState } from "react";
+import { useAddBookQuery } from "@/lib/redux/features/user/userApi";
+import { BookType } from "@/lib/redux/features/user/types";
+
+
 
 const MobileCard = ({ book }: { book: any }) => {
+
+  const [addClick, setAddClick] = useState(false);
+  const token = localStorage.getItem("accessToken");
+ 
+  const addCardBook = useAddBookQuery({
+    accessToken: token ?? "",
+    bookId: book.id ?? "",
+    type: BookType.Cart,
+  }, {skip: addClick===false});
+
+
+  const modals = useSelector((state: any) => state.modals.modals);
+  const dispatch = useDispatch();
+  const handleOpenModal = (modalName: string) => {
+    dispatch(openModal(modalName));
+    setAddClick(true);
+  };
   return (
+    <>
     <StyledWrapper>
       <ImageContainer
         style={{ ["--background-image" as string]: `url(${book.url})` }}
@@ -33,13 +57,15 @@ const MobileCard = ({ book }: { book: any }) => {
           <Price>{book.price} ₴</Price>
           <Controls>
             <FavoriteBtn book={book} isFavAlredy={false} />
-            <CartButton>
+            <CartButton onClick={()=>{handleOpenModal('successInfo')}}>
               <Icon name="cart" size={24} color="#fff" />
             </CartButton>
           </Controls>
         </BottomContainer>
       </ContentContainer>
     </StyledWrapper>
+ 
+      </>
   );
 };
 
