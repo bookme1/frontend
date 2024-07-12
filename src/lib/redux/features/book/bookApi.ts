@@ -18,6 +18,23 @@ export const bookApi = createApi({
         cacheTime: 24 * 60 * 60 * 1000,
       }),
     }),
+    getFilterBooks: builder.query<IBook[], any>({
+      query: (params) => {
+        console.log(params);
+        function createQueryString(params: { [x: string]: any; }) {
+          const queryString = Object.keys(params)
+            .filter(key => params[key]) // Filter out keys with empty values
+            .map(key => `${key}=${params[key]}`)
+            .join('&');
+          return queryString;
+        }
+        console.log(createQueryString(params)); 
+        return {
+          url: `api/book/filter?${createQueryString(params)}`,
+          method: 'GET',
+        };
+      },
+    }),
     getBookById: builder.query<IBook[], string>({
       query: id => ({
         url: `api/book/${id}`,
@@ -46,5 +63,6 @@ export const {
   useGetBooksQuery,
   useGetBookByIdQuery,
   useGetGenresQuery,
+  useGetFilterBooksQuery,
   useGetFiltersQuery,
 } = bookApi;

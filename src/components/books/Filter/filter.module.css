@@ -2,88 +2,35 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
+  max-width: 230px;
 }
 
-.inputs__wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 206px;
+.general__wrapper h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.4;
 }
 
-.title__filter {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.4;
-}
-
-.list__checkbox {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.item__checkbox {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer;
-}
-
-.search {
-  position: relative;
-}
-
-.search input[type='text'] {
+.general__wrapper input[type='text'] {
   border: 1px solid #a7a7a7;
   border-radius: 8px;
   padding: 12px 24px;
-  padding-right: 50px;
+  padding-right: 55px;
   outline: none;
   width: 100%;
+  font-weight: 500;
+  font-size: 18px;
+  color: #1f171e;
+  font-family: "Raleway", sans-serif;
 }
 
-.item__checkbox input[type='checkbox'] {
-  width: 20px;
-  height: 20px;
-  appearance: none;
-  background-color: #f4f4f4;
-  border-radius: 4px;
-  position: relative;
-  transition: all 0.3s ease;
-  outline: none;
-  cursor: pointer;
-}
-
-.item__checkbox input[type='checkbox']:checked {
-  background-color: #f33;
-  border: none;
-}
-
-.item__checkbox input[type='checkbox']:checked::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 15px;
-  height: 11px;
-  background: url('data:image/svg+xml;utf8,<svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 4.56667L7.23913 9.5L13.5 1.5" stroke="white" stroke-width="1.5" stroke-linecap="round" /></svg>')
-    no-repeat center center;
-  transform: translate(-50%, -50%);
-}
-
-.item__checkbox label {
+.general__wrapper input[type='text']::placeholder {
   font-weight: 500;
   font-size: 18px;
   color: #505050;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.item__checkbox:hover input[type='checkbox'],
-.item__checkbox input[type='checkbox']:hover,
-.item__checkbox label:hover ~ input[type='checkbox'] {
-  background-color: #a7a7a7;
+.general__wrapper input[type='text']:focus::placeholder {
+  color: transparent;
 }
+
