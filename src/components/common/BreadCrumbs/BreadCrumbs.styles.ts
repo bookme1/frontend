@@ -10,3 +10,7 @@ export const List = styled.ul`
 export const Item = styled.li`
   font-size: 16px;
 `;
+
+export const LastItem = styled(Item)`
+  color: red;
+`;
