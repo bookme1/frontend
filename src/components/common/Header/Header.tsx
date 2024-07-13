@@ -24,22 +24,18 @@ import {
   StyledWrapper,
 } from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
-import useUserLoginData from './loginFunc';
 import { IBook } from '@/app/book/[id]/page.types';
 import { DesktopCatalog } from '@/components/main/DesktopCatalog';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import {
-  useGetDataMutation,
-  useGoogleAuthMutation,
-} from '@/lib/redux/features/user/userApi';
+import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
 
-const Header = () => {
+const Header = ({ userData }: { userData: IUser | undefined }) => {
   const getBooks = useGetBooksQuery('');
 
   const booksArr = getBooks.data;
@@ -47,11 +43,9 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-  const [userLoggedData, setUserLoggedData] = useState<any>(null);
   const [activePage, setActivePage] = useState('main');
   const searchVal = useRef<HTMLInputElement | null>(null);
   const [books, setBooks] = useState<IBook[] | undefined>();
-  const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
   const router = useSearchParams();
 
   // #############
@@ -116,50 +110,6 @@ const Header = () => {
     }
   }, [isCatalogOpen]);
 
-  // ---------------------------------
-  // Check if user authorized by google
-  // ---------------------------------
-  const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
-  const { data: session, status: sessionStatus } = useSession();
-  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] =
-    useGetDataMutation();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session && session.user?.email) {
-          const { email, name } = session.user;
-          if (name) await googleSignIn({ email, name });
-        }
-      } catch (error) {
-        console.error('Error during Google Sign-In:', error);
-      } finally {
-        setLoading(false); // Устанавливаем loading в false после загрузки данных
-      }
-    };
-
-    if (sessionStatus === 'authenticated' && loading) {
-      fetchData();
-    }
-  }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
-
-  useEffect(() => {
-    if (data) {
-      setUserLoggedData(data);
-      localStorage.setItem('accessToken', data.tokens.accessToken);
-      localStorage.setItem('refreshToken', data.tokens.refreshToken);
-    }
-  }, [data]);
-
-  const { userData, error: userLoginError } = useUserLoginData(session);
-
-  useEffect(() => {
-    if (userData) {
-      // console.log(userData);
-      setUserLoggedData(userData);
-    }
-  }, [userData]);
-
   const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchVal.current) {
@@ -211,7 +161,7 @@ const Header = () => {
             {isSearchListOpen && <SearchList books={books} />}
           </Form>
           <FromDesktop>
-            {userLoggedData ? (
+            {userData ? (
               ''
             ) : (
               <HeaderButton
@@ -233,7 +183,7 @@ const Header = () => {
               <Icon name="cart" size={28} />
               Кошик
             </HeaderButton>
-            {userLoggedData ? (
+            {userData ? (
               <Avatar>
                 <AccountLink href="/account"></AccountLink>
               </Avatar>

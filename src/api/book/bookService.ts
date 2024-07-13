@@ -174,7 +174,8 @@ class BookService {
     uuid: string,
     formats: string,
     transactionId: string,
-    reference_number: string
+    reference_number: string,
+    amount: number
   ) {
     const orderedBooks = [
       {
@@ -187,7 +188,7 @@ class BookService {
     const createOrderDTO = {
       order_id: uuid,
       orderBooks: orderedBooks,
-      amount: 200,
+      amount: Number(amount),
     };
 
     const data = await this.orderRequest(createOrderDTO, accessToken);

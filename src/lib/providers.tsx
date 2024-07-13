@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
 /* Core */
-import { Provider } from "react-redux";
+import { SessionProvider } from 'next-auth/react';
+import { Provider } from 'react-redux';
 
 /* Instruments */
-import { reduxStore } from "@/lib/redux";
-import { SessionProvider } from "next-auth/react";
+import { reduxStore } from '@/lib/redux';
 
-export const Providers = (props: React.PropsWithChildren) => {
+export const Providers = ({ children }: React.PropsWithChildren<{}>) => {
   return (
     <SessionProvider>
-      <Provider store={reduxStore}>{props.children}</Provider>
+      <Provider store={reduxStore}>{children}</Provider>
     </SessionProvider>
   );
 };

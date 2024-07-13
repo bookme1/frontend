@@ -1,5 +1,12 @@
+// contexts/UserContext.tsx
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { loginOutputDTO } from '@/lib/redux/features/user/types';
 import {
@@ -8,7 +15,16 @@ import {
   useRefreshTokenMutation,
 } from '@/lib/redux/features/user/userApi';
 
-const useUserLoginData = () => {
+interface UserContextProps {
+  userData: loginOutputDTO | null;
+  error: unknown;
+  isLoading: boolean;
+}
+
+export const UserContext = createContext<UserContextProps | null>(null);
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  console.log(1);
   const [userData, setUserData] = useState<loginOutputDTO | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +63,7 @@ const useUserLoginData = () => {
       } catch (err) {
         setError(err);
         setUserData(null);
+        console.log('errored');
       } finally {
         setIsLoading(false);
       }
@@ -58,13 +75,24 @@ const useUserLoginData = () => {
   }, [session, sessionStatus, googleSignIn, getUserData, refreshTokens]);
 
   useEffect(() => {
-    if (userData) {
+    if (userData && userData.tokens) {
+      console.log('set tokens');
       localStorage.setItem('accessToken', userData.tokens.accessToken);
       localStorage.setItem('refreshToken', userData.tokens.refreshToken);
     }
   }, [userData]);
-
-  return { userData, error, isLoading };
+  const dataToReturn = (IUser)userData;
+  return (
+    <UserContext.Provider value={{ userData, error, isLoading }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
-export default useUserLoginData;
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+};

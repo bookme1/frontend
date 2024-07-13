@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-import { Favorite } from '@/components/Favorite';
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
+import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import { Icon } from '@/components/common/Icon';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import useUserLoginData from '@/components/common/Header/loginFunc';
 import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
@@ -18,17 +17,24 @@ export default function Home() {
     setIsFavVisible(!isFavVisible);
   };
 
-  const getBooks = useGetBooksQuery('');
-  useEffect(() => {
-    getBooks;
-  });
+  // const getBooks = useGetBooksQuery('');
+  // useEffect(() => {
+  //   getBooks;
+  // });
 
-  const books = getBooks.data;
+  // const books = getBooks.data;
+
+  const { userData, error, isLoading } = useUserLoginData();
+  const [loading, setLoading] = useState(true);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
       <Wrapper>
-        <Header />
+        <Header userData={userData?.user} />
         {/* <button
         onClick={() => {
           bookService.updateBooksFromServer();
@@ -37,7 +43,8 @@ export default function Home() {
         UPDATE
       </button> */}
         <BreadCrumbs name="акаунт" />
-        <LeftMenu />
+        <LeftMenu name={userData?.user.username} />
+        <UserBooks userData={userData?.user} />
       </Wrapper>
     </>
   );

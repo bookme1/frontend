@@ -5,7 +5,6 @@ import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styled from 'styled-components';
 
 import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
 import { Icon } from '@/components/common/Icon';
@@ -21,7 +20,11 @@ const NavLink = ({ href, children }: { href: any; children: any }) => {
   );
 };
 
-export default function LeftMenu() {
+export default function LeftMenu({
+  name,
+}: {
+  name: string | null | undefined;
+}) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -36,7 +39,7 @@ export default function LeftMenu() {
     <Section>
       <Item className="account">
         <VscAccount size={64} />
-        <UserName>Іван</UserName>
+        <UserName>{name || 'Гість'}</UserName>
       </Item>
       <List>
         <Item>
@@ -52,9 +55,9 @@ export default function LeftMenu() {
           </NavLink>
         </Item>
         <Item>
-          <NavLink href="/account/wallet">
+          {/* <NavLink href="/account/wallet">
             <Icon name="wallet" /> Мій гаманець
-          </NavLink>
+          </NavLink> */}
         </Item>
       </List>
       <Item className="exit">

@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,11 +17,11 @@ import {
   InfoContainer,
   MainInfoContainer,
   Price,
+  StyledImage,
   StyledWrapper,
   Title,
   ToCart,
   ToFavorite,
-  StyledImage,
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
@@ -30,13 +31,15 @@ import useAuthStatus from '@/components/hooks/useAuthStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal, useDispatch } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddBookQuery, useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import {
+  useAddBookQuery,
+  useGetUserBooksQuery,
+} from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
-import Image from 'next/image';
 
 const MainInformation = ({
   book,
@@ -45,7 +48,6 @@ const MainInformation = ({
   book: IBook;
   characteristics: ICharacteristics;
 }) => {
-
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
@@ -59,25 +61,26 @@ const MainInformation = ({
   if (typeof window !== 'undefined') {
     token = localStorage.getItem('accessToken');
   }
- 
-  const addCardBook = useAddBookQuery({
-    accessToken: token ?? "",
-    bookId: book.id ?? "",
-    type: BookType.Cart,
-  }, {skip: addClick===false});
+
+  const addCardBook = useAddBookQuery(
+    {
+      accessToken: token ?? '',
+      bookId: book.id ?? '',
+      type: BookType.Cart,
+    },
+    { skip: addClick === false }
+  );
 
   const modals = useSelector((state: any) => state.modals.modals);
   const dispatch = useDispatch();
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
-    setAddClick(true)
+    setAddClick(true);
   };
   const router = usePathname();
   const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
   const id = router?.split('/').pop();
-
-
 
   const fav = useGetUserBooksQuery({
     accessToken: token ?? '',
@@ -132,13 +135,20 @@ const MainInformation = ({
     );
     if (transaction_id) {
       console.log('transaction successful');
+    } else {
+      Notiflix.Notify.failure('Помилка при нанесенні вотермарки!');
+      Notiflix.Notify.failure(
+        "Будь ласка, зв'яжіться з адміністратором сайту!"
+      );
     }
+
     const res = await bookService.makeOrder(
       accessToken,
       order_id,
       checkedFormats.join(','),
       transaction_id,
-      book.referenceNumber
+      book.referenceNumber,
+      book.price
     );
   }
 
@@ -148,12 +158,11 @@ const MainInformation = ({
   if (book.formatPdf) aviableFormats[0] = true;
   if (book.formatEpub) aviableFormats[2] = true;
 
-
   return (
     <>
       <StyledWrapper>
         <ImageContainer
-          // style={{ ['--background-image' as string]: `url(${book?.url})` }}
+        // style={{ ['--background-image' as string]: `url(${book?.url})` }}
         >
           {imageLoaded && book?.url && (
             <StyledImage
@@ -161,7 +170,6 @@ const MainInformation = ({
               alt={book.title}
               width={250}
               height={330}
-              
             />
           )}
         </ImageContainer>
