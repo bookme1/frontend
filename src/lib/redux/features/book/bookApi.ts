@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { IBook } from '@/app/book/[id]/page.types';
+import { FiltersData, IBook } from '@/app/book/[id]/page.types';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -18,6 +18,21 @@ export const bookApi = createApi({
         cacheTime: 24 * 60 * 60 * 1000,
       }),
     }),
+    getFilterBooks: builder.query<IBook[], any>({
+      query: (params) => {
+        function createQueryString(params: { [x: string]: any; }) {
+          const queryString = Object.keys(params)
+            .filter(key => params[key]) // Filter out keys with empty values
+            .map(key => `${key}=${params[key]}`)
+            .join('&');
+          return queryString;
+        }
+        return {
+          url: `api/book/filter?${createQueryString(params)}`,
+          method: 'GET',
+        };
+      },
+    }),
     getBookById: builder.query<IBook[], string>({
       query: id => ({
         url: `api/book/${id}`,
@@ -33,7 +48,7 @@ export const bookApi = createApi({
         method: 'GET',
       }),
     }),
-    getFilters: builder.query<IBook[], string>({
+    getFilters: builder.query<FiltersData, string>({
       query: id => ({
         url: `api/filter/filters`, // Endpoint will be changed after first deploy
         method: 'GET',
@@ -46,5 +61,6 @@ export const {
   useGetBooksQuery,
   useGetBookByIdQuery,
   useGetGenresQuery,
+  useGetFilterBooksQuery,
   useGetFiltersQuery,
 } = bookApi;
