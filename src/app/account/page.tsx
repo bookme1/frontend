@@ -1,51 +1,49 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+
+import { useRouter } from 'next/navigation';
 
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
-import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
-import useUserLoginData from '@/components/common/Header/loginFunc';
+import useFetchUserData from '@/contexts/useFetchUserData';
+import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
-  const [isFavVisible, setIsFavVisible] = useState(false);
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
+    const router = useRouter();
 
-  const handleFavClick = () => {
-    setIsFavVisible(!isFavVisible);
-  };
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
+            fetchUserData(storedAccessToken, storedRefreshToken);
+        }
+    }, [fetchUserData]);
 
-  // const getBooks = useGetBooksQuery('');
-  // useEffect(() => {
-  //   getBooks;
-  // });
+    const isAuthorized = useMemo(() => !!userData, [userData]);
 
-  // const books = getBooks.data;
+    if (isLoading) {
+        return <Loading />;
+    }
 
-  const { userData, error, isLoading } = useUserLoginData();
-  const [loading, setLoading] = useState(true);
+    if (!isAuthorized && !isLoading) {
+        // console.log('попався!');
+        router.replace('/');
+        return null;
+    }
 
-  if (loading) {
-    return <Loading />;
-  }
+    const data = userData as IUser;
 
-  return (
-    <>
-      <Wrapper>
-        <Header userData={userData?.user} />
-        {/* <button
-        onClick={() => {
-          bookService.updateBooksFromServer();
-        }}
-      >
-        UPDATE
-      </button> */}
-        <BreadCrumbs name="акаунт" />
-        <LeftMenu name={userData?.user.username} />
-        <UserBooks userData={userData?.user} />
-      </Wrapper>
-    </>
-  );
+    return (
+        <Wrapper>
+            <Header userData={data} />
+            <BreadCrumbs name="акаунт" />
+            <LeftMenu username={data?.username} />
+            {/* <UserBooks userData={data} /> */}
+        </Wrapper>
+    );
 }

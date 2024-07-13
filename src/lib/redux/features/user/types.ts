@@ -1,8 +1,18 @@
-enum Role {
+export enum Role {
   User,
   Moderator,
   Admin,
 }
+
+export const defaultUser: IUser = {
+  id: 0,
+  username: '',
+  email: '',
+  role: Role.User,
+  fav: [],
+  cart: [],
+  books: [],
+};
 
 // User entity from backend without password
 export interface IUser {
