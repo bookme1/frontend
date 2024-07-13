@@ -1,42 +1,22 @@
-import React, { useState } from 'react';
-
+import React, { useRef } from 'react';
 import styles from './rangePrice.module.css';
 import { RangePriceProps } from './rangePrice.types';
 import { useSearchParams } from 'next/navigation';
 
 const RangePrice: React.FC<RangePriceProps> = ({ filtersData, updateURL }) => {
-    const numberPattern = /^\d*\.?\d*$/;
     const searchParams = useSearchParams();
-    const [minPrice, setMinPrice] = useState<string>(searchParams?.get("minPrice") ||
-        filtersData.minPrice.toString()
-    );
-    const [maxPrice, setMaxPrice] = useState<string>(searchParams?.get("maxPrice") ||
-        filtersData.maxPrice.toString()
-    );
-
-    const handleMinPriceChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const { value } = event.target;
-        if (numberPattern.test(value) && Number(value) >= filtersData.minPrice) {
-            setMinPrice(value);
-        }
-    };
-
-    const handleMaxPriceChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const { value } = event.target;
-        if (numberPattern.test(value) && Number(value) <= filtersData.maxPrice) {
-            setMaxPrice(value);
-        }
-    };
+    const minPriceRef = useRef<string>(searchParams?.get("minPrice") || filtersData.minPrice.toString());
+    const maxPriceRef = useRef<string>(searchParams?.get("maxPrice") || filtersData.maxPrice.toString());
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const minPrice = (document.getElementById("minPrice") as HTMLInputElement).value;
+        const maxPrice = (document.getElementById("maxPrice") as HTMLInputElement).value;
+        minPriceRef.current = minPrice;
+        maxPriceRef.current = maxPrice;
         updateURL({
-            minPrice: minPrice,
-            maxPrice: maxPrice
+            minPrice: minPriceRef.current,
+            maxPrice: maxPriceRef.current
         });
     };
 
@@ -45,15 +25,15 @@ const RangePrice: React.FC<RangePriceProps> = ({ filtersData, updateURL }) => {
             <form onSubmit={handleSubmit}>
                 <label>
                     <input
+                        id="minPrice"
                         type="text"
-                        value={minPrice}
-                        onChange={handleMinPriceChange}
+                        defaultValue={minPriceRef.current}
                         placeholder={filtersData.minPrice.toString()}
                     />
                     <input
+                        id="maxPrice"
                         type="text"
-                        value={maxPrice}
-                        onChange={handleMaxPriceChange}
+                        defaultValue={maxPriceRef.current}
                         placeholder={filtersData.maxPrice.toString()}
                     />
                 </label>

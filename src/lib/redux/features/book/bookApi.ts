@@ -20,7 +20,6 @@ export const bookApi = createApi({
     }),
     getFilterBooks: builder.query<IBook[], any>({
       query: (params) => {
-        console.log(params);
         function createQueryString(params: { [x: string]: any; }) {
           const queryString = Object.keys(params)
             .filter(key => params[key]) // Filter out keys with empty values
@@ -28,7 +27,6 @@ export const bookApi = createApi({
             .join('&');
           return queryString;
         }
-        console.log(createQueryString(params)); 
         return {
           url: `api/book/filter?${createQueryString(params)}`,
           method: 'GET',

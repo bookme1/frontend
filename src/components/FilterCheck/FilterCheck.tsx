@@ -34,7 +34,6 @@ export default function FilterCheck({
         } else {
             newItems = [...currentItems, item];
         }
-        console.log(newItems.join(','))
         updateURL({ [parametrSearch]: newItems.join(',') });
     };
 

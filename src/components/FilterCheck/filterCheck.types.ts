@@ -6,7 +6,7 @@ interface SearchParams {
 }
 
 type URLUpdates = {
-  [key: string]: string | null | undefined;
+  [key: string]: string | undefined;
 };
 
 export interface FilterCheckProps {

@@ -1,7 +1,7 @@
 import { FiltersData } from '@/app/book/[id]/page.types';
 
 type URLUpdates = {
-  [key: string]: string | null | undefined;
+  [key: string]: string | undefined;
 };
 
 export interface RangePriceProps {

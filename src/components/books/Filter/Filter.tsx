@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './filter.module.css';
 import FilterCheck from '@/components/FilterCheck/FilterCheck';
 import RangePrice from '@/components/RangePrice/RangePrice';
@@ -11,7 +11,7 @@ const Filter = ({ filtersData }: {filtersData: FiltersData | undefined}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const updateURL = (updates: {[key: string]: string | null | undefined;}) => {
+    const updateURL = (updates: {[key: string]: string | undefined;}) => {
         if (searchParams) {
             const current = new URLSearchParams(Array.from(searchParams.entries()));
             Object.entries(updates).forEach(([key, value]) => {
