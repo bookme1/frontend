@@ -1,33 +1,30 @@
-"use client";
-import React from "react";
-import { Chart, CategoryScale, defaults } from "chart.js/auto";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+'use client';
 
-import Revenuedata from "@/data/revenueData.json";
+import React from 'react';
+import { Line } from 'react-chartjs-2';
+import { CategoryScale, Chart, defaults } from 'chart.js/auto';
+
 Chart.register(CategoryScale);
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
-const Chartjs = () => {
+const Chartjs = ({ statistics }: { statistics: any }) => {
+  // Сортування статистики за датами (по осі Х)
+  const sortedStatistics = statistics.slice().sort((a: { x: string }, b: { x: string }) => new Date(a.x).getTime() - new Date(b.x).getTime());
+
   return (
     <>
       <div className="flex-col ml-40">
         <div className="h-96 w-full shadow-2xl rounded-xl mb-10">
           <Line
             data={{
-              labels: Revenuedata.map((data) => data.label),
+              labels: sortedStatistics.map((point: { x: string }) => point.x),
               datasets: [
                 {
-                  label: "Revenue",
-                  data: Revenuedata.map((data) => data.revenue),
-                  borderColor: "rgba(255, 99, 132, 0.2)",
-                  backgroundColor: "rgba(255, 159, 64, 0.2)",
-                },
-                {
-                  label: "Cost",
-                  data: Revenuedata.map((data) => data.cost),
-                  borderColor: "rgba(75, 192, 192, 0.2)",
-                  backgroundColor: "rgba(255, 205, 86, 0.2)",
+                  label: 'Statistics',
+                  data: sortedStatistics.map((point: { y: any }) => point.y),
+                  borderColor: 'rgba(75, 192, 192, 0.2)',
+                  backgroundColor: 'rgba(255, 205, 86, 0.2)',
                 },
               ],
             }}

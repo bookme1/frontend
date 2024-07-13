@@ -1,0 +1,8 @@
+.ai-content-message {
+  padding: 16px;
+  background: #fff;
+  border-radius: 10px 10px 0 10px;
+  color: black;
+  width: fit-content;
+  max-width: 70%;
+}

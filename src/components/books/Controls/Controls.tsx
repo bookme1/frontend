@@ -1,9 +1,29 @@
 'use client';
+import {
+  BooksQuantity,
+  CardContainer,
+  Container,
+  ControlButton,
+  ControlsContainer,
+  ItemContainer,
+} from './Controls.styles';
+import { Icon } from '@/components/common/Icon';
+import usePagination from '@/components/hooks/usePagination';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { Wrapper } from '@/styles/globals.styles';
+
+import Filter from '../Filter/Filter';
+import { MobileCard } from '../MobileCard';
 
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useSearchParams } from 'next/navigation';
+
+  const getBooks = useGetBooksQuery('');
+  useEffect(() => {
+    getBooks;
+  });
 
 import {
     BooksQuantity,
@@ -46,12 +66,12 @@ const Controls = () => {
     });
     const { data: filtersData, isLoading: loaderFilter } = useGetFiltersQuery('');
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsOpen(window.innerWidth >= 1280);
-        };
+    window.addEventListener('resize', handleResize);
 
-        window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -62,9 +82,19 @@ const Controls = () => {
         setIsOpen(!isOpen);
     };
 
-    const { paginatedItems, loadMoreItems } = usePagination(
-        filterBooks ?? [],
-        30
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          loadMoreItems();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '20px',
+        threshold: 1.0,
+      }
     );
     const loader = useRef<HTMLDivElement | null>(null);
 
@@ -93,56 +123,41 @@ const Controls = () => {
         };
     }, [loadMoreItems]);
 
-    const quantity = filterBooks?.length;
-    return (
-        <>
-            {isLoading && loaderFilter ? (
-                <Loading />
-            ) : (
-                <Wrapper>
-                    <Container>
-                        <Filter filtersData={filtersData} />
-                        <div>
-                            <BooksQuantity>{quantity} Товарів</BooksQuantity>
-                            <ControlsContainer>
-                                <ControlButton
-                                    className="active"
-                                    onClick={toggeModal}
-                                >
-                                    <Icon name="filter" size={20} /> Фільтр{' '}
-                                    <Icon
-                                        name="arrow_down"
-                                        color="#fff"
-                                        size={16}
-                                    />
-                                </ControlButton>
-                                <ControlButton>
-                                    <Icon name="rating" size={20} /> За
-                                    рейтингом
-                                </ControlButton>
-                            </ControlsContainer>
-                            <CardContainer>
-                                {filterBooks && filterBooks.map((book: any) => {
-                                    return (
-                                        <ItemContainer key={book.id}>
-                                            <MobileCard book={book} />
-                                        </ItemContainer>
-                                    );
-                                })}
-                            </CardContainer>
-                            <div
-                                ref={loader}
-                                style={{
-                                    height: '100px',
-                                    backgroundColor: 'transparent',
-                                }}
-                            />
-                        </div>
-                    </Container>
-                </Wrapper>
-            )}
-        </>
-    );
+  const quantity = booksArr?.length;
+  return (
+    <>
+      <Wrapper>
+        <Container>
+          {isOpen && <Filter toggeModal={toggeModal} />}
+          <div>
+            <BooksQuantity>{quantity} Товарів</BooksQuantity>
+            <ControlsContainer>
+              <ControlButton className="active" onClick={toggeModal}>
+                <Icon name="filter" size={20} /> Фільтр{' '}
+                <Icon name="arrow_down" color="#fff" size={16} />
+              </ControlButton>
+              <ControlButton>
+                <Icon name="rating" size={20} /> За рейтингом
+              </ControlButton>
+            </ControlsContainer>
+            <CardContainer>
+              {paginatedItems.map((book: any) => {
+                return (
+                  <ItemContainer key={book.id}>
+                    <MobileCard book={book} />
+                  </ItemContainer>
+                );
+              })}
+            </CardContainer>
+            <div
+              ref={loader}
+              style={{ height: '100px', backgroundColor: 'transparent' }}
+            />
+          </div>
+        </Container>
+      </Wrapper>
+    </>
+  );
 };
 
 export default Controls;

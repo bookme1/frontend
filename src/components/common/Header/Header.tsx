@@ -155,7 +155,7 @@ const Header = () => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData);
+      // console.log(userData);
       setUserLoggedData(userData);
     }
   }, [userData]);

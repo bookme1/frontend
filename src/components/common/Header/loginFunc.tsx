@@ -35,28 +35,28 @@ const useUserLoginData = (session: any) => {
 
       try {
         if (session) {
-          console.log(1);
+          // console.log(1);
           setUserData(session.data);
         } else if (typeof localStorage !== 'undefined') {
-          console.log(2);
+          // console.log(2);
           const accessToken = localStorage.getItem('accessToken');
           const refreshToken = localStorage.getItem('refreshToken');
 
           if (accessToken) {
-            console.log(3);
+            // console.log(3);
             await getUserData(accessToken)
               .unwrap()
               .then(data => {
-                console.log(4);
+                // console.log(4);
                 setUserData(data);
               })
               .catch(async error => {
-                console.log(5);
+                // console.log(5);
                 if (refreshToken) {
                   await refreshTokens(refreshToken)
                     .unwrap()
                     .then(async data => {
-                      console.log(6);
+                      // console.log(6);
                       localStorage.setItem(
                         'accessToken',
                         data.tokens.accessToken
@@ -85,7 +85,7 @@ const useUserLoginData = (session: any) => {
             await refreshTokens(refreshToken)
               .unwrap()
               .then(async data => {
-                console.log(7);
+                // console.log(7);
                 localStorage.setItem('accessToken', data.tokens.accessToken);
                 localStorage.setItem('refreshToken', data.tokens.refreshToken);
                 await getUserData(data.tokens.accessToken)
