@@ -13,3 +13,12 @@ export interface IBook {
   formatMobi: string;
   formatEpub: string;
 }
+
+export interface FiltersData {
+  authors: string[];
+  publishers: string[];
+  genres: string[];
+  languages: string[];
+  minPrice: number;
+  maxPrice: number;
+}
