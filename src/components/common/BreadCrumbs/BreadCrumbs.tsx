@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Icon } from "../Icon";
 import { CyrillicNames, regexExp } from "./BreadCrumbs.types";
 import names from "./cyrillicNames.json";
-import { Item, List } from "./BreadCrumbs.styles";
+import { Item, List, LastItem } from "./BreadCrumbs.styles";
 
 const Breadcrumbs = ({ name }: { name: string }) => {
   const cyrillicNames: CyrillicNames = names;
@@ -23,11 +23,18 @@ const Breadcrumbs = ({ name }: { name: string }) => {
       ? name
       : path;
   });
+
   const renderLink = (href: string, itemLink: string, index: number) => (
     <React.Fragment key={index}>
-      <Item key={index}>
-        <Link href={href}>{itemLink}</Link>
-      </Item>
+      {index === cyrillicPathNames.length - 1 ? (
+        <LastItem key={index}>
+          <Link href={href}>{itemLink}</Link>
+        </LastItem>
+      ) : (
+        <Item key={index}>
+          <Link href={href}>{itemLink}</Link>
+        </Item>
+      )}
       {cyrillicPathNames?.length !== index + 1 && separator}
     </React.Fragment>
   );
@@ -41,6 +48,7 @@ const Breadcrumbs = ({ name }: { name: string }) => {
 
     return renderLink(href, itemLink, index);
   });
+
   return (
     <Wrapper>
       <List>
