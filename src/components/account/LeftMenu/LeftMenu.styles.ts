@@ -1,46 +1,61 @@
-"use client";
-import styled from "@emotion/styled";
+'use client';
 
-export const WrapperStyle = styled.div`
-  width: 343px;
-  margin: 10px 16px;
-  @media (min-width: 768px) {
-    /* width: 728px; */
-    width: 25%;
+import styled from '@emotion/styled';
 
-    border-radius: 15px;
-    background-color: whitesmoke;
-    padding: 10px;
-  }
+export const Section = styled.div`
+  margin: 0 auto;
+  margin-top: 32px;
+  width: 230px;
+  height: 685px;
+  padding: 40px 20px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+  float: left;
 
-  @media (min-width: 1280px) {
-    width: 20%;
-    margin-left: 10%;
+  a:active {
+    color: red;
   }
 `;
 
-export const UserDiv = styled.div`
-  margin-top: 100px;
+export const UserDiv = styled.div``;
+
+export const List = styled.ul`
   display: flex;
-  justify-content: left;
-  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+`;
+
+export const Item = styled.li`
+  display: flex;
   gap: 12px;
-  display: flex;
-  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+
+  a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  &.account {
+    margin-bottom: 48px;
+  }
+  &.exit {
+    margin-top: 80px;
+  }
+
+  a.active {
+    color: var(--red);
+    font-weight: bold;
+  }
 `;
 
-export const UserImg = styled.img`
-  border: 2px solid black;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background-color: orange;
+export const UserName = styled.p`
+  font-size: 18px;
+  font-weight: bold;
 `;
-
-export const UserName = styled.p``;
 
 export const NavDiv = styled.div`
-  margin-top: 48px;
   display: flex;
   justify-content: center;
 `;
@@ -56,7 +71,9 @@ export const Navli = styled.li`
 `;
 
 export const SpanStyle = styled.span`
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -70,10 +87,4 @@ export const ExitDiv = styled.div`
   margin-top: 200px;
   display: flex;
   justify-content: center;
-`;
-
-export const Section = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;

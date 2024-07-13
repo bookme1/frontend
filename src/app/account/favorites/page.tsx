@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Icon } from '@/components/common/Icon';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
@@ -26,19 +25,18 @@ export default function Home() {
   const books = getBooks.data;
 
   return (
-    <>
-      <Wrapper>
-        <Header />
-        {/* <button
+    <Wrapper>
+      <Header />
+      {/* <button
         onClick={() => {
           bookService.updateBooksFromServer();
         }}
       >
         UPDATE
       </button> */}
-        <BreadCrumbs name="акаунт" />
-        <LeftMenu />
-      </Wrapper>
-    </>
+      <BreadCrumbs name="акаунт" />
+      <LeftMenu />
+      <Favorite books={books} />
+    </Wrapper>
   );
 }

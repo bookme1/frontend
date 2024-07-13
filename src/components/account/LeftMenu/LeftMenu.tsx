@@ -1,79 +1,75 @@
-"use client";
+import { signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { FaBookReader } from 'react-icons/fa';
+import { VscAccount } from 'react-icons/vsc';
 
-import {
-  WrapperStyle,
-  UserDiv,
-  UserImg,
-  UserName,
-  NavDiv,
-  Navli,
-  ExitDiv,
-  SpanStyle,
-  Section,
-} from "./LeftMenu.styles";
-import AvatarPhoto from "@/assets/account/UserAvatar.png";
-import { Favorite } from "@/components/Favorite";
-import { Icon } from "@/components/common/Icon";
-import { useGetBooksQuery } from "@/lib/redux/features/book/bookApi";
-import { signOut } from "next-auth/react";
-import { useEffect } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import styled from 'styled-components';
+
+import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
+import { Icon } from '@/components/common/Icon';
+
+const NavLink = ({ href, children }: { href: any; children: any }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
+  return (
+    <Link href={href} className={isActive ? 'active' : ''}>
+      {children}
+    </Link>
+  );
+};
 
 export default function LeftMenu() {
+  const [isMounted, setIsMounted] = useState(false);
 
-  const getBooks = useGetBooksQuery("");
   useEffect(() => {
-    getBooks;
-  });
+    setIsMounted(true);
+  }, []);
 
-  const books = getBooks.data;
+  if (!isMounted) {
+    return null;
+  }
+
   return (
-    <>
-      <Section>
-        <WrapperStyle>
-          <UserDiv>
-            <UserImg src={AvatarPhoto.src} alt="" />
-            <UserName>Batman</UserName>
-          </UserDiv>
-          <NavDiv>
-            <ul>
-              <Navli>
-                <SpanStyle>
-                  <Icon name="clock" />
-                  Мої покупки
-                </SpanStyle>
-              </Navli>
-
-              <Navli>
-                <SpanStyle>
-                  <Icon name="heart" />
-                  Обране
-                </SpanStyle>
-              </Navli>
-              <Navli>
-                <SpanStyle>
-                  <Icon name="wallet" /> Мій гаманець{" "}
-                </SpanStyle>
-              </Navli>
-            </ul>
-          </NavDiv>
-          <ExitDiv className="">
-            <Navli className="hover:text-red-500 transition-color duration-300 ease">
-              <button
-                onClick={() => {
-                  signOut();
-                  localStorage.removeItem("refreshToken");
-                  localStorage.removeItem("accessToken");
-                }}
-                className="flex items-center"
-              >
-                <Icon name="exit" className="mr-2" />
-                Вийти
-              </button>
-            </Navli>
-          </ExitDiv>
-        </WrapperStyle>
-        <Favorite books={books}/>
-      </Section>
-    </>
+    <Section>
+      <Item className="account">
+        <VscAccount size={64} />
+        <UserName>Іван</UserName>
+      </Item>
+      <List>
+        <Item>
+          <NavLink href="/account">
+            <FaBookReader />
+            Мої покупки
+          </NavLink>
+        </Item>
+        <Item>
+          <NavLink href="/account/favorites">
+            <Icon name="heart" />
+            Обране
+          </NavLink>
+        </Item>
+        <Item>
+          <NavLink href="/account/wallet">
+            <Icon name="wallet" /> Мій гаманець
+          </NavLink>
+        </Item>
+      </List>
+      <Item className="exit">
+        <button
+          onClick={() => {
+            signOut();
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('accessToken');
+          }}
+          className="flex items-center"
+        >
+          <Icon name="exit" className="mr-2" />
+          Вийти
+        </button>
+      </Item>
+    </Section>
   );
 }
