@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { RiAdminFill } from 'react-icons/ri';
+import { FaUserTie } from 'react-icons/fa';
 
 import Link from 'next/link';
 
@@ -20,7 +20,7 @@ const Headerstatistics = ({ username }: { username: string | null }) => {
                     </Link>
                     <div className="flex items-center gap-10">
                         <p>{username}</p>
-                        <RiAdminFill size={40} color="#f33" />
+                        <FaUserTie size={40} color="#000" />
                         <Icon name="exit" className="mr-2" />
                     </div>
                 </LogoContainer>

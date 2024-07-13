@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
+import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
 import useFetchUserData from '@/contexts/useFetchUserData';
@@ -43,7 +44,7 @@ export default function Home() {
             <Header userData={data} />
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={data?.username} />
-            {/* <UserBooks userData={data} /> */}
+            <UserBooks userData={data} />
         </Wrapper>
     );
 }
