@@ -34,6 +34,7 @@ import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
+import {selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -46,6 +47,15 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
+
+
+    const dispatch = useDispatch();
+    const modalOpen = useSelector(selectOpenModal);
+
+    const handleModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Catalog'));
+    };
 
     // #############
     // HANDLE EVENTS
@@ -136,10 +146,10 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     <FromDesktop>
                         <CatalogButton
                             type="submit"
-                            onClick={handleCatalog}
+                            onClick={handleModal}
                             className="z-10"
                         >
-                            Каталог
+                            Категорії
                         </CatalogButton>
                     </FromDesktop>
                     <Form
@@ -260,8 +270,8 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     </Wrapper>
                 </NavToTablet>
             </HeaderContainer>
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
-            {isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}
+            {/*{isOpen && <Modal setIsOpen={setIsOpen} />}*/}
+            {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
         </>
     );
 };

@@ -6,7 +6,7 @@ const Footer = () => {
     const footer = {
         "first": ["Акції", "Комплекти", "Магазин BookMe"],
         "second": ["Блог", "Дитячі", "Доставка/Оплата"]
-    };    
+    };
     return (
         <footer>
             <TopSection>
@@ -25,7 +25,7 @@ const Footer = () => {
                     <div className="navigation">
                         <h3>Каталог</h3>
                         <div>
-                            <ul>
+                        <ul>
                                 {footer.first.map((text) => {
                                     return (
                                         <li key={text}>
