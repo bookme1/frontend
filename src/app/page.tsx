@@ -11,8 +11,9 @@ import Basket from '@/components/main/Modal/Basket/Basket';
 import { SwiperList } from '@/components/main/SwiperList';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
-import { IUser } from '@/lib/redux/features/user/types';
+import { BookType, IUser } from '@/lib/redux/features/user/types';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
     //User authorization
@@ -30,6 +31,8 @@ export default function Home() {
         return <Loading />;
     }
     const data = userData as IUser;
+
+
 
     return (
         <>

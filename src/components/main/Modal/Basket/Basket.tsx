@@ -15,21 +15,34 @@ import {
     StyledImage,
     Text,
     Title,
+    Trash,
 } from './Basket.styles';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import {
+    useGetUserBooksQuery,
+    useRemoveBookQuery,
+} from '@/lib/redux/features/user/userApi';
 
 const Basket = () => {
     const token = localStorage.getItem('accessToken');
+
     const { data: cartData } = useGetUserBooksQuery({
         accessToken: token ?? '',
         type: BookType.Cart,
     });
+
     const { data: booksData } = useGetBooksQuery('');
+
     const [cartBooksArr, setCartBooksArr] = useState([]);
     const [sum, setSum] = useState(null);
+    const [delClick, setDelClick] = useState(false);
+    const [removeId, setRemoveId] = useState();
+
+    useEffect(() => {
+        cartData
+    });
 
     useEffect(() => {
         if (cartData && booksData) {
@@ -38,7 +51,7 @@ const Basket = () => {
             );
             setCartBooksArr(filteredBooks);
         }
-    }, [cartData, booksData]);
+    }, [cartData, booksData, delClick]);
 
     useEffect(() => {
         if (cartBooksArr.length > 0) {
@@ -51,6 +64,22 @@ const Basket = () => {
     }, [cartBooksArr]);
 
     const cartCheck = Array.isArray(cartData) && cartData.length > 0;
+
+    const removeCartBook = useRemoveBookQuery(
+        {
+            accessToken: token ?? '',
+            bookId: removeId ?? '',
+            type: BookType.Cart,
+        },
+        {
+            skip: delClick === false,
+        }
+    );
+
+    const handleDelFromCart = (id: any) => {
+        setRemoveId(id);
+        setDelClick(true);
+    };
 
     return (
         <GenericModal modalName="cart" align="right">
@@ -73,6 +102,11 @@ const Basket = () => {
                                     <Author>{book.author}</Author>
                                     <Price>{book.price}</Price>
                                 </DataBox>
+                                <Trash
+                                    onClick={() => {
+                                        handleDelFromCart(book.id);
+                                    }}
+                                />
                             </ItemBox>
                         ))}
                 </ListBox>

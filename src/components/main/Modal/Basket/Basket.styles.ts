@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "@emotion/styled";
-
+import { GoTrash } from "react-icons/go";
 import Image from "next/image";
 
 export const Container = styled.div`
@@ -11,6 +11,8 @@ align-items: center;
 height: 748px;
 width: 375px;
 padding: 16px;
+
+position: relative;
 
 
 @media (min-width: 768px) {
@@ -153,6 +155,8 @@ flex-direction: column; */
 `;
 
 export const ItemBox = styled.li`
+margin-top: 32px;
+position: relative;
 list-style: none;
 max-height: 631px;
 overflow-y: auto;
@@ -184,3 +188,16 @@ overflow-y: auto;
     max-height: 541px;
 }
 `;
+
+export const Trash = styled(GoTrash)`
+width: 24px;
+height: 24px;
+fill: #6E646D;
+
+position: absolute;
+top:24px;
+right: 0;
+
+cursor: pointer;
+`;
+
