@@ -7,13 +7,18 @@ import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
+import Basket from '@/components/main/Modal/Basket/Basket';
 import { SwiperList } from '@/components/main/SwiperList';
 import useFetchUserData from '@/contexts/useFetchUserData';
+import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 
 export default function Home() {
     //User authorization
     const { userData, isLoading, fetchUserData } = useFetchUserData();
+    const modals = useSelector((state: any) => state.modals.modals);
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedAccessToken = localStorage.getItem('accessToken');
@@ -33,6 +38,8 @@ export default function Home() {
             <Categories />
             <SwiperList />
             <Footer />
+            {modals.cart.isOpen && <Basket />}
+            {modals.successInfo.isOpen && <SuccessInfo />}
         </>
     );
 }

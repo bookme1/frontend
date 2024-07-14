@@ -17,6 +17,7 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types';
+import Basket from '@/components/main/Modal/Basket/Basket';
 
 export default function Home() {
     const getBooks = useGetBooksQuery('');
@@ -102,6 +103,7 @@ export default function Home() {
             <Footer />
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}
+            {modals.cart.isOpen && <Basket />}
         </>
     );
 }

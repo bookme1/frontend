@@ -10,7 +10,7 @@ const SuccessInfo = () => {
     <GenericModal modalName="successInfo" align='right'>
     <Container>
       <Box>      
-        <Text>Замовлення успішно оформнене</Text>
+        <Text>Книга успішно додана до кошика</Text>
         <ReadBtn>Читати</ReadBtn>
       </Box>
     </Container>
