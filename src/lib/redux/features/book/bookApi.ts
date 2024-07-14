@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { FiltersData, IBook } from '@/app/book/[id]/page.types';
+import {FiltersData, IBook, IGenre} from '@/app/book/[id]/page.types';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -42,7 +42,7 @@ export const bookApi = createApi({
     // #################
     // FILTER INTERACTION
     // #################
-    getGenres: builder.query<IBook[], string>({
+    getGenres: builder.query<IGenre[], string>({
       query: id => ({
         url: `api/filter`,
         method: 'GET',
