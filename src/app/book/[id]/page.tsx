@@ -94,6 +94,7 @@ export default function Home() {
                         pages: book.pages,
                         description: book.desc,
                     }}
+                    isAuthorized={isAuthorized}
                     // pathname={pathname}
                 />
             )}

@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { AccountContainer } from './page.style';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { UserBooks } from '@/components/account/UserBooks';
@@ -21,30 +22,35 @@ export default function Home() {
         if (typeof window !== 'undefined') {
             const storedAccessToken = localStorage.getItem('accessToken');
             const storedRefreshToken = localStorage.getItem('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            if (storedAccessToken && storedRefreshToken) {
+                fetchUserData(storedAccessToken, storedRefreshToken);
+            }
         }
     }, [fetchUserData]);
 
     const isAuthorized = useMemo(() => !!userData, [userData]);
 
+    useEffect(() => {
+        if (!isLoading && !isAuthorized) {
+            router.replace('/');
+        }
+    }, [isLoading, isAuthorized, router]);
+
     if (isLoading) {
         return <Loading />;
     }
 
-    if (!isAuthorized && !isLoading) {
-        // console.log('попався!');
-        router.replace('/');
-        return null;
-    }
-
     const data = userData as IUser;
+    const accessToken = localStorage.getItem('accessToken');
 
     return (
         <Wrapper>
             <Header userData={data} />
             <BreadCrumbs name="акаунт" />
-            <LeftMenu username={data?.username} />
-            <UserBooks userData={data} />
+            <AccountContainer>
+                <LeftMenu username={data?.username} />
+                <UserBooks accessToken={accessToken} />
+            </AccountContainer>
         </Wrapper>
     );
 }
