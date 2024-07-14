@@ -1,24 +1,30 @@
+import { IBook } from '@/app/book/[id]/page.types';
+
 export class CreateOrderDTO {
-  order_id: string | undefined;
-  orderBooks: IOrderBook[] | undefined;
-  amount: number | undefined;
+    order_id: string | undefined;
+    orderBooks: IOrderBook[] | undefined;
+    amount: number | undefined;
 }
 
 export class CreateOrderDTOExtended extends CreateOrderDTO {
-  accessToken: string | undefined;
-  user: number | undefined;
+    accessToken: string | undefined;
+    user: number | undefined;
 }
 
 export enum Status {
-  Unknown = 'Unknown',
-  Created = 'Created',
-  Loading = 'Loading',
-  Cancelled = 'Cancelled',
-  Succeed = 'Succeed',
+    Unknown = 'Unknown',
+    Created = 'Created',
+    Loading = 'Loading',
+    Cancelled = 'Cancelled',
+    Succeed = 'Succeed',
 }
 
 export class IOrderBook {
-  reference_number: string | undefined;
-  ordered_formats: string | undefined;
-  transaction_id: string | undefined;
+    reference_number: string | undefined;
+    ordered_formats: string | undefined;
+    transaction_id: string | undefined;
+    book: IBook | undefined;
+    epubLink: string | undefined;
+    mobiLink: string | undefined;
+    pdfLink: string | undefined;
 }

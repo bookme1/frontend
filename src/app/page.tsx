@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';

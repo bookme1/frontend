@@ -5,6 +5,7 @@ import { useState } from 'react';
 import {
     Authors,
     BookFormatContainer,
+    BookLink,
     BottomContainer,
     BoxStyles,
     CardContainer,
@@ -14,8 +15,7 @@ import {
     ImageContainer,
     Price,
     Title,
-} from './Card.styles';
-import { lazyloadExp } from './lazyload';
+} from './CardBought.styles';
 import { IBook } from '@/app/book/[id]/page.types';
 import { BookFormat } from '@/components/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
@@ -23,14 +23,19 @@ import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useAddBookQuery } from '@/lib/redux/features/user/userApi';
 
+import { lazyloadExp } from '../Card/lazyload';
 import { Icon } from '../Icon';
 
-const Card = ({
+const CardBought = ({
     book,
-    favorite,
+    epubLink,
+    pdfLink,
+    mobiLink,
 }: {
     book: IBook | undefined;
-    favorite: any;
+    epubLink: string | undefined;
+    pdfLink: string | undefined;
+    mobiLink: string | undefined;
 }) => {
     let initialBook;
     if (!book)
@@ -51,9 +56,6 @@ const Card = ({
         },
         { skip: addClick === false }
     );
-
-    const isFavAlredy = favorite?.some((fav: any) => initialBook.id === fav);
-
     const modals = useSelector((state: any) => state.modals.modals);
     const dispatch = useDispatch();
     const handleOpenModal = (modalName: string) => {
@@ -75,23 +77,16 @@ const Card = ({
                         <CardLink href={`/book/${id}`}>{title}</CardLink>
                     </Title>
                     <Authors>{author}</Authors>
-                    <BookFormatContainer className="bookformat">
-                        <BookFormat size={35} />
-                    </BookFormatContainer>
+                    <Price>Скачати</Price>
                     <BottomContainer>
-                        <Price>{price}₴</Price>
-                        <BoxStyles className="hidden-buttons">
-                            <FavoriteBtn
-                                book={book}
-                                isFavAlredy={isFavAlredy}
-                            />
-                            <CartButton
-                                onClick={() => {
-                                    handleOpenModal('successInfo');
-                                }}
-                            >
-                                <Icon name="cart" size={24} color="white" />
-                            </CartButton>
+                        <BoxStyles>
+                            {mobiLink && (
+                                <BookLink href={mobiLink}>mobi</BookLink>
+                            )}
+                            {pdfLink && <BookLink href={pdfLink}>pdf</BookLink>}
+                            {epubLink && (
+                                <BookLink href={epubLink}>epub</BookLink>
+                            )}
                         </BoxStyles>
                     </BottomContainer>
                 </DescriptionContainer>
@@ -100,4 +95,4 @@ const Card = ({
     );
 };
 
-export default Card;
+export default CardBought;
