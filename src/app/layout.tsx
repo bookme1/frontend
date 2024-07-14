@@ -16,6 +16,12 @@ import '@/styles/globals.css';
 
 // components/RootLayout.tsx
 
+// components/RootLayout.tsx
+
+// components/RootLayout.tsx
+
+// components/RootLayout.tsx
+
 interface RootLayoutProps {
     children: ReactNode;
 }
@@ -25,7 +31,13 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <Providers>
             <html className={raleway.className}>
                 <head>
-                    <link rel="icon" href="/public/favicon.ico" />
+                    <meta charSet="UTF-8" />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1.0"
+                    />
+                    <title>Bookme</title>
+                    <link rel="icon" href="/favicon.ico" />
                 </head>
                 <body className="bg-main">
                     <main>{children}</main>
