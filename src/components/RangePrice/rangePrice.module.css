@@ -22,13 +22,3 @@
     text-align: center;
     font-weight: 600 !important;
 }
-
-.range__wrapper form button {
-    border-radius: 8px;
-    padding: 10px;
-    background: #f33;
-    font-weight: 500;
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
-}

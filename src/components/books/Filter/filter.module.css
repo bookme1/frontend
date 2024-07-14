@@ -1,8 +1,8 @@
 .general__wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  max-width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 230px;
 }
 
 .general__wrapper h2 {
@@ -12,25 +12,34 @@
 }
 
 .general__wrapper input[type='text'] {
-  border: 1px solid #a7a7a7;
-  border-radius: 8px;
-  padding: 12px 24px;
-  padding-right: 55px;
-  outline: none;
-  width: 100%;
-  font-weight: 500;
-  font-size: 18px;
-  color: #1f171e;
-  font-family: "Raleway", sans-serif;
+    border: 1px solid #a7a7a7;
+    border-radius: 8px;
+    padding: 12px 24px;
+    padding-right: 55px;
+    outline: none;
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+    color: #1f171e;
+    font-family: 'Raleway', sans-serif;
 }
 
 .general__wrapper input[type='text']::placeholder {
-  font-weight: 500;
-  font-size: 18px;
-  color: #505050;
+    font-weight: 500;
+    font-size: 18px;
+    color: #505050;
 }
 
 .general__wrapper input[type='text']:focus::placeholder {
-  color: transparent;
+    color: transparent;
 }
 
+.general__wrapper button[type='submit'] {
+    border-radius: 8px;
+    padding: 10px;
+    background: #f33;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
