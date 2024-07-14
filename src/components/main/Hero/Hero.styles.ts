@@ -134,7 +134,7 @@ export const HeroDescription = styled.p`
   }
 `;
 
-export const CatalogButton = styled.button`
+export const CatalogButton = styled.a`
   width: 100%;
   height: 54px;
   background-color: var(--red);
