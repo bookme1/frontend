@@ -5,9 +5,10 @@ import { ModalReading } from '../modal/Modal';
 
 interface PageTurnerProps {
 	filter?: boolean;
+	page: number;
 }
 
-const PageTurner: FC<PageTurnerProps> = ({ filter }) => {
+const PageTurner: FC<PageTurnerProps> = ({ filter,page }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -18,7 +19,7 @@ const PageTurner: FC<PageTurnerProps> = ({ filter }) => {
 					<span className="turn">Назад</span>
 				</button>
 				<button className="page-number">
-					<span className="short">стр.</span> <span className="full">Сторінка</span>359
+					<span className="short">стр.</span> <span className="full">Сторінка</span>{page}
 					<Icon name="arrow_up" width={24} height={24} />
 				</button>
 				{filter && (
