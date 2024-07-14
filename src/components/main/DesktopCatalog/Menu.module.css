@@ -1,4 +1,5 @@
 .ai_content_wrapper {
+    position: relative;
     display: flex;
     width: 964px;
     height: 80dvh;

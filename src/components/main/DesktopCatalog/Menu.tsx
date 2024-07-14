@@ -1,6 +1,9 @@
 import classes from "@/components/main/DesktopCatalog/Menu.module.css";
 import React, { useState } from 'react';
 import { useGetGenresQuery } from "@/lib/redux/features/book/bookApi.ts";
+import {setModalStatus, useDispatch} from "@/lib/redux";
+import modalStyles from "@/components/Modals/MainModal/MainModal.module.css";
+import {Icon} from "@/components/common/Icon";
 
 interface Subgenre {
     genre: string;
@@ -8,7 +11,8 @@ interface Subgenre {
     subgenres: string[]
 }
 
-const Menu = () => {
+const Menu = ({ onClose }) => {
+    const dispatch = useDispatch();
     const { data, isLoading } = useGetGenresQuery("");
     console.log(data)
     const [submenuData, setSubmenuData] =  useState<Subgenre[]>([]);
@@ -16,12 +20,15 @@ const Menu = () => {
 
     const handleMouseEnter = (subgenres: Subgenre[]) => {
         setSubmenuData(subgenres);
-        console.log("inside menu");
     };
 
     const handleMouseLeave = () => {
         setSubmenuData([]);
-        console.log("leave")
+    };
+
+    const handleCloseModal = () => {
+        dispatch(setModalStatus(false));
+        onClose();
     };
 
     return (
@@ -43,18 +50,20 @@ const Menu = () => {
                     </li>
                 ))}
             </ul>
-
+            <button className={modalStyles['close-button']} onClick={handleCloseModal}>
+                <Icon width={24} height={24} name={'close-ai-modal'}/>
+            </button>
         </div>
     );
 };
 
-const MenuItem = ({ item, onHover }) => {
+const MenuItem = ({item, onHover}) => {
     return (
         <li
             className={classes.menuItem}
             onMouseEnter={onHover}
         >
-            {item.genre} ({item.count})
+        {item.genre} ({item.count})
         </li>
     );
 };
