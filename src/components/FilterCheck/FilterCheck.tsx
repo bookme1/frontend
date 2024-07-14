@@ -1,11 +1,9 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import styles from './filterCheck.module.css';
 import { FilterCheckProps } from './filterCheck.types.ts';
 import { FiltersData } from '@/app/book/[id]/page.types';
-
 import { Icon } from '../common/Icon';
-import { useSearchParams } from 'next/navigation';
 
 export default function FilterCheck({
     filtersData,
@@ -13,9 +11,16 @@ export default function FilterCheck({
     setSearchParamsInput,
     parametrSearch,
     title,
-    updateURL
+    updateURL,
 }: FilterCheckProps) {
     const searchParams = useSearchParams();
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+    useEffect(() => {
+        const currentParamValue = searchParams?.get(parametrSearch);
+        setSelectedItems(currentParamValue ? currentParamValue.split(',') : []);
+    }, [searchParams, parametrSearch]);
+
     const filterSearchInput = (data: FiltersData) => {
         return data[parametrSearch].filter((element: string) =>
             element
@@ -25,24 +30,28 @@ export default function FilterCheck({
                 )
         );
     };
-    const handleCheckboxChange = (item:string) => {
-        const currentParamValue = searchParams?.get(parametrSearch);
-        const currentItems = currentParamValue ? currentParamValue.split(',') : [];
-        let newItems;
-        if (currentItems.includes(item)) {
-            newItems = currentItems.filter(i => i !== item);
-        } else {
-            newItems = [...currentItems, item];
-        }
-        updateURL({ [parametrSearch]: newItems.join(',') });
+
+    const handleCheckboxChange = (item: string) => {
+        setSelectedItems(prevItems => {
+            if (prevItems.includes(item)) {
+                return prevItems.filter(i => i !== item);
+            } else {
+                return [...prevItems, item];
+            }
+        });
     };
 
-    const isChecked = (item:string) => {
-        const currentParamValue = searchParams?.get(parametrSearch);
-        return currentParamValue ? currentParamValue.split(',').includes(item) : false;
+    const isChecked = (item: string) => {
+        return selectedItems.includes(item);
     };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        updateURL({ [parametrSearch]: selectedItems.join(',') });
+    };
+
     return (
-        <div className={styles.inputs__wrapper}>
+        <form onSubmit={handleSubmit} className={styles.inputs__wrapper}>
             <h2 className={styles.title__filter}>{title}</h2>
             {filtersData && filtersData[parametrSearch].length > 5 && (
                 <label className={styles.search}>
@@ -62,6 +71,7 @@ export default function FilterCheck({
                     />
                     {searchParamsInput[parametrSearch].search.length > 0 && (
                         <button
+                            type="button"
                             className={styles.button__clear}
                             onClick={() => {
                                 setSearchParamsInput(prevState => ({
@@ -85,9 +95,11 @@ export default function FilterCheck({
                         .slice(0, searchParamsInput[parametrSearch].more)
                         .map((item: string, index: number) => (
                             <li key={index} className={styles.item__checkbox}>
-                                <input type="checkbox"
-                                checked={isChecked(item)}
-                                    onChange={() => handleCheckboxChange(item)} />
+                                <input
+                                    type="checkbox"
+                                    checked={isChecked(item)}
+                                    onChange={() => handleCheckboxChange(item)}
+                                />
                                 <p>{item}</p>
                             </li>
                         ))}
@@ -96,6 +108,7 @@ export default function FilterCheck({
                 filtersData &&
                 filterSearchInput(filtersData).length > 5 && (
                     <button
+                        type="button"
                         className={styles.button__more}
                         onClick={() => {
                             setSearchParamsInput(prevState => ({
@@ -110,6 +123,7 @@ export default function FilterCheck({
                         Ще <Icon name="icon-Line-Duotone" size={24} />
                     </button>
                 )}
-        </div>
+            <button type="submit">OK</button>
+        </form>
     );
 }
