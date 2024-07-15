@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { TfiPanel } from "react-icons/tfi";
+import { TfiPanel } from 'react-icons/tfi';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -28,12 +28,14 @@ import { IBook } from '@/app/book/[id]/page.types';
 import { DesktopCatalog } from '@/components/main/DesktopCatalog';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
+// import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
+import {openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -47,9 +49,26 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
+
+    const dispatch = useDispatch();
+    const modalOpen = useSelector(selectOpenModal);
+
+    const handleModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Catalog'));
+    };
+
     // #############
     // HANDLE EVENTS
     // #############
+    const [addClick, setAddClick] = useState(false);
+    const modals = useSelector((state: any) => state.modals.modals);
+    // const dispatch = useDispatch();
+    const handleOpenModal = (modalName: string) => {
+        dispatch(openModal(modalName));
+        setAddClick(true);
+    };
+
     const handleClick = () => {
         setIsOpen(true);
     };
@@ -136,10 +155,10 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     <FromDesktop>
                         <CatalogButton
                             type="submit"
-                            onClick={handleCatalog}
+                            onClick={handleModal}
                             className="z-10"
                         >
-                            Каталог
+                            Категорії
                         </CatalogButton>
                     </FromDesktop>
                     <Form
@@ -178,7 +197,11 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                 Обране
                             </AccountLink>
                         </HeaderButton>
-                        <HeaderButton>
+                        <HeaderButton
+                            onClick={() => {
+                                handleOpenModal('cart');
+                            }}
+                        >
                             <Icon name="cart" size={28} />
                             Кошик
                         </HeaderButton>
@@ -260,8 +283,8 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     </Wrapper>
                 </NavToTablet>
             </HeaderContainer>
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
-            {isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}
+            {/*{isOpen && <Modal setIsOpen={setIsOpen} />}*/}
+            {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
         </>
     );
 };
