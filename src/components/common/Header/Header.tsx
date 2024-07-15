@@ -35,7 +35,7 @@ import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
-import {selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
+import {openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -63,7 +63,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     // #############
     const [addClick, setAddClick] = useState(false);
     const modals = useSelector((state: any) => state.modals.modals);
-    const dispatch = useDispatch();
     const handleOpenModal = (modalName: string) => {
         dispatch(openModal(modalName));
         setAddClick(true);
