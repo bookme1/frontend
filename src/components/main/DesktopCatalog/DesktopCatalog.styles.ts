@@ -15,15 +15,16 @@ export const ModalContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 80%;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 15px 30px 0 rgba(#000, 0.25);
+  box-shadow: 0 15px 30px 0 rgba(0,0,0 , 0.25);
   padding: 31px 24px;
+    overflow-y: hidden;
   @media (min-width: 768px) {
     border-radius: 16px;
     top: 100px;

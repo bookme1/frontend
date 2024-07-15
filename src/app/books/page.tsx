@@ -11,6 +11,7 @@ import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';
+import Basket from '@/components/main/Modal/Basket/Basket';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
@@ -36,6 +37,7 @@ export default function Home() {
             <Footer />
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}
+            {modals.cart.isOpen && <Basket />}
         </>
     );
 }

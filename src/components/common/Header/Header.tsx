@@ -28,7 +28,7 @@ import { IBook } from '@/app/book/[id]/page.types';
 import { DesktopCatalog } from '@/components/main/DesktopCatalog';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
-// import { openModal, useDispatch, useSelector } from '@/lib/redux';
+import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
@@ -63,7 +63,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     // #############
     const [addClick, setAddClick] = useState(false);
     const modals = useSelector((state: any) => state.modals.modals);
-    // const dispatch = useDispatch();
     const handleOpenModal = (modalName: string) => {
         dispatch(openModal(modalName));
         setAddClick(true);
