@@ -65,7 +65,9 @@ export const HeartFillStyles = styled(FaHeart)`
 export const HeartNotFillStyles = styled(FaRegHeart)`
   width: 24px;
   height: 24px;
-  cursor: pointer;
+  &:hover {
+    fill: var(--red);
+  }
 `;
 
 export const BoxStyles = styled.div`
