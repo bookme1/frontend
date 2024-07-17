@@ -1,118 +1,68 @@
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import { loginOutputDTO } from '@/lib/redux/features/user/types';
 import {
   useGetDataMutation,
+  useGoogleAuthMutation,
   useRefreshTokenMutation,
 } from '@/lib/redux/features/user/userApi';
 
-const useUserLoginData = (session: any) => {
-  const [userData, setUserData] = useState<loginOutputDTO | null>();
+const useUserLoginData = () => {
+  const [userData, setUserData] = useState<loginOutputDTO | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session, status: sessionStatus } = useSession();
 
-  const [
-    getUserData,
-    {
-      data: getUserDataData,
-      error: getUserDataError,
-      isLoading: getUserDataLoading,
-    },
-  ] = useGetDataMutation();
-
-  const [
-    refreshTokens,
-    {
-      data: refreshTokenData,
-      error: refreshTokenError,
-      isLoading: refreshTokenIsLoading,
-    },
-  ] = useRefreshTokenMutation();
+  const [googleSignIn] = useGoogleAuthMutation();
+  const [getUserData] = useGetDataMutation();
+  const [refreshTokens] = useRefreshTokenMutation();
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-
       try {
-        if (session) {
-          // console.log(1);
-          setUserData(session.data);
-        } else if (typeof localStorage !== 'undefined') {
-          // console.log(2);
-          const accessToken = localStorage.getItem('accessToken');
-          const refreshToken = localStorage.getItem('refreshToken');
-
-          if (accessToken) {
-            // console.log(3);
-            await getUserData(accessToken)
-              .unwrap()
-              .then(data => {
-                // console.log(4);
-                setUserData(data);
-              })
-              .catch(async error => {
-                // console.log(5);
-                if (refreshToken) {
-                  await refreshTokens(refreshToken)
-                    .unwrap()
-                    .then(async data => {
-                      // console.log(6);
-                      localStorage.setItem(
-                        'accessToken',
-                        data.tokens.accessToken
-                      );
-                      localStorage.setItem(
-                        'refreshToken',
-                        data.tokens.refreshToken
-                      );
-                      await getUserData(data.tokens.accessToken)
-                        .unwrap()
-                        .then(data => {
-                          setUserData(data);
-                        })
-                        .catch(() => {
-                          setUserData(null);
-                        });
-                    })
-                    .catch(() => {
-                      setUserData(null);
-                    });
-                } else {
-                  setUserData(null);
-                }
-              });
-          } else if (refreshToken) {
-            await refreshTokens(refreshToken)
-              .unwrap()
-              .then(async data => {
-                // console.log(7);
-                localStorage.setItem('accessToken', data.tokens.accessToken);
-                localStorage.setItem('refreshToken', data.tokens.refreshToken);
-                await getUserData(data.tokens.accessToken)
-                  .unwrap()
-                  .then(data => {
-                    setUserData(data);
-                  })
-                  .catch(() => {
-                    setUserData(null);
-                  });
-              })
-              .catch(() => {
-                setUserData(null);
-              });
-          } else {
-            setUserData(null);
-          }
+        if (session && session.user?.email) {
+          const { email, name } = session.user;
+          if (name) await googleSignIn({ email, name });
         }
-      } catch (e) {
-        setError(e);
+
+        const storedAccessToken = localStorage.getItem('accessToken');
+        const storedRefreshToken = localStorage.getItem('refreshToken');
+
+        if (storedAccessToken) {
+          const data = await getUserData(storedAccessToken).unwrap();
+          setUserData(data);
+        } else if (storedRefreshToken) {
+          const refreshData = await refreshTokens(storedRefreshToken).unwrap();
+          localStorage.setItem('accessToken', refreshData.tokens.accessToken);
+          localStorage.setItem('refreshToken', refreshData.tokens.refreshToken);
+          const data = await getUserData(
+            refreshData.tokens.accessToken
+          ).unwrap();
+          setUserData(data);
+        } else {
+          setUserData(null);
+        }
+      } catch (err) {
+        setError(err);
+        setUserData(null);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [session, getUserData, refreshTokens]);
+    if (sessionStatus === 'authenticated') {
+      fetchData();
+    }
+  }, [session, sessionStatus, googleSignIn, getUserData, refreshTokens]);
+
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem('accessToken', userData.tokens.accessToken);
+      localStorage.setItem('refreshToken', userData.tokens.refreshToken);
+    }
+  }, [userData]);
 
   return { userData, error, isLoading };
 };

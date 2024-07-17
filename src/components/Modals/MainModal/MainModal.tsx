@@ -95,12 +95,12 @@ const MainModal = ({ open, onClose, children }: ModalProps) => {
     open && (
       <div className={modalStyles.backdrop} onClick={handleBackdropClick}>
         <div className={modalStyles.modalContent}>
-          <button
-            className={modalStyles['close-button']}
-            onClick={handleCloseUserModal}
-          >
-            <Icon width={24} height={24} name={'close-ai-modal'} />
-          </button>
+          {/*<button*/}
+          {/*  className={modalStyles['close-button']}*/}
+          {/*  onClick={handleCloseUserModal}*/}
+          {/*>*/}
+          {/*  <Icon width={24} height={24} name={'close-ai-modal'} />*/}
+          {/*</button>*/}
           {children}
         </div>
       </div>

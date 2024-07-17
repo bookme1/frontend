@@ -28,6 +28,7 @@ const Controls = () => {
         searchParams?.get('publishers') || ''
     );
     const languages = decodeURIComponent(searchParams?.get('languages') || '');
+    const genres = decodeURIComponent(searchParams?.get('genre') || '');
 
     const { data: filterBooks, isLoading } = useGetFilterBooksQuery({
         authors,
@@ -35,13 +36,14 @@ const Controls = () => {
         maxPrice,
         publishers,
         languages,
+        genres,
     });
 
     const { data: filtersData, isLoading: loaderFilter } =
         useGetFiltersQuery('');
-
+            
     const loader = useRef<HTMLDivElement | null>(null);
-
+            
     useEffect(() => {
         const handleResize = () => {
             // Your resize logic here
@@ -87,7 +89,6 @@ const Controls = () => {
     };
 
     const quantity = filterBooks?.length;
-    console.log(filterBooks)
 
     return (
         <>

@@ -22,3 +22,9 @@ export interface FiltersData {
   minPrice: number;
   maxPrice: number;
 }
+
+export interface IGenre {
+  count: number;
+  genre: string;
+  subgenres: string[]
+}

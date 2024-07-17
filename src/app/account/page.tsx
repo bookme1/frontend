@@ -1,34 +1,56 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { bookService } from '@/api/book/bookService';
-import { Favorite } from '@/components/Favorite';
+import { useRouter } from 'next/navigation';
+
+import { AccountContainer } from './page.style';
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
+import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
-import { Icon } from '@/components/common/Icon';
+import useFetchUserData from '@/contexts/useFetchUserData';
+import { IUser } from '@/lib/redux/features/user/types';
+import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
-  const [isFavVisible, setIsFavVisible] = useState(false);
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
+    const router = useRouter();
 
-  const handleFavClick = () => {
-    setIsFavVisible(!isFavVisible);
-  };
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
+            if (storedAccessToken && storedRefreshToken) {
+                fetchUserData(storedAccessToken, storedRefreshToken);
+            }
+        }
+    }, [fetchUserData]);
 
-  return (
-    <>
-      <Header />
-      <button
-        onClick={() => {
-          bookService.updateBooksFromServer();
-        }}
-      >
-        UPDATE
-      </button>
-      <BreadCrumbs name="акаунт" />
-      <LeftMenu />
-    </>
-  );
+    const isAuthorized = useMemo(() => !!userData, [userData]);
+
+    useEffect(() => {
+        if (!isLoading && !isAuthorized) {
+            router.replace('/');
+        }
+    }, [isLoading, isAuthorized, router]);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    const data = userData as IUser;
+    const accessToken = localStorage.getItem('accessToken');
+
+    return (
+        <Wrapper>
+            <Header userData={data} />
+            <BreadCrumbs name="акаунт" />
+            <AccountContainer>
+                <LeftMenu username={data?.username} />
+                <UserBooks accessToken={accessToken} />
+            </AccountContainer>
+        </Wrapper>
+    );
 }
