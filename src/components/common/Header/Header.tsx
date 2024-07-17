@@ -35,7 +35,7 @@ import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
-import {openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
+import { selectOpenModal, setModalContent, setModalStatus} from "@/lib/redux";
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');

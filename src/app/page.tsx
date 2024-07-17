@@ -16,9 +16,10 @@ import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
+    const modals = useSelector((state: any) => state.modals.modals);
+    
     //User authorization
     const { userData, isLoading, fetchUserData } = useFetchUserData();
-    const modals = useSelector((state: any) => state.modals.modals);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
