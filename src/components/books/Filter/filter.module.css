@@ -42,4 +42,9 @@
     font-size: 20px;
     text-align: center;
     color: #fff;
+    transition: all 0.25s ease;
+}
+
+.general__wrapper button[type='submit']:hover {
+    background-color: #E21C1C;
 }
