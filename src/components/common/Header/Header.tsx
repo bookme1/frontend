@@ -188,7 +188,6 @@ const Header = () => {
             <CatalogButton
               type="submit"
               onClick={handleCatalog}
-              className="z-10"
             >
               Каталог
             </CatalogButton>

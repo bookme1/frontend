@@ -54,6 +54,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+    margin-bottom: 32px;
 }
 
 .product__item {
@@ -147,6 +148,45 @@
 
 .button__basket:hover {
     transform: scale(1.1);
+}
+
+.pagination {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination button {
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+    background: #fff;
+    border-radius: 100%;
+}
+
+.pagination__button_row {
+    padding: 10px;
+    transition: all 0.25s ease;
+}
+
+.pagination__button_row:hover {
+    fill: #FF3333;
+}
+
+.pagination__button_page {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #a7a7a7;
+    transition: all 0.25s ease;
+}
+
+.pagination__button_page:hover {
+    color: #FF3333;
 }
 
 @media (min-width: 363px) {

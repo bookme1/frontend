@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
@@ -17,6 +17,7 @@ import { IBook } from '@/app/book/[id]/page.types';
 import Image from 'next/image';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
+import { openModal, useDispatch } from '@/lib/redux';
 
 const Controls = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -39,6 +40,18 @@ const Controls = () => {
 
     const { data: filtersData, isLoading: loaderFilter } =
         useGetFiltersQuery('');
+
+    const dispatch = useDispatch();
+ 
+    const handleOpenModal = (modalName: string, event: React.MouseEvent) => {
+      event.preventDefault();
+      // const addCardBook = useAddBookQuery({
+      //   accessToken: token ?? "",
+      //   bookId: book.id ?? "",
+      //   type: BookType.Cart,
+      // }, {skip: addClick===false});
+      dispatch(openModal(modalName));
+    };
 
     const loader = useRef<HTMLDivElement | null>(null);
 
@@ -85,9 +98,7 @@ const Controls = () => {
     const toggleModal = () => {
         setIsOpen(!isOpen);
     };
-
     const quantity = filterBooks?.length;
-    console.log(filterBooks)
 
     return (
         <>
@@ -110,28 +121,36 @@ const Controls = () => {
                             <ul className={styles.product__list}>
                               {filterBooks &&
                                 filterBooks.map((book: IBook) => (
-                                  <li key={book.id} className={styles.product__item}>
-                                    <Link href={`book/${book.id}`}>
-                                      <Image width={230} height={288} className={styles.product__img} src={book.url} alt={book.title} />
-                                      <div className={styles.product__wrapper}>
-                                        <div className={styles.product__wrapper_information}>
-                                          <p className={styles.product__title}>{book.title}</p>
-                                          <p className={styles.product__author}>{book.author}</p>
-                                        </div>
+                                    <li key={book.id} className={styles.product__item}>
+                                        <Link href={`book/${book.id}`}>
+                                        <Image width={230} height={288} className={styles.product__img} src={book.url} alt={book.title} />
+                                        <div className={styles.product__wrapper}>
+                                            <div className={styles.product__wrapper_information}>
+                                                <p className={styles.product__title}>{book.title}</p>
+                                                <p className={styles.product__author}>{book.author}</p>
+                                            </div>
                                         <div className={styles.product__wrapper_functionality}>
-                                          <span>{book.price}</span>
-                                          <div className={styles.product__wrapper_button}>
+                                            <span>{book.price}</span>
+                                            <div className={styles.product__wrapper_button}>
                                             <FavoriteBtn book={book} isFavAlredy={false} />
-                                            <button className={styles.button__basket}>
-                                              <Icon name="basket" size={24} color="#fff" />
+                                            <button className={styles.button__basket} onClick={(e)=>{handleOpenModal('successInfo', e)}}>
+                                                <Icon name="basket" size={24} color="#fff" />
                                             </button>
-                                          </div>
+                                            </div>
                                         </div>
-                                      </div>
+                                        </div>
                                     </Link>
                                   </li>
-                              ))}
+                                 ))}
                             </ul>
+                            <div className={styles.pagination}>
+                                <button className={styles.pagination__button_row}><Icon name='icon-Alt-Arrow-Left' /></button>
+                                <button className={styles.pagination__button_page}>1</button>
+                                <button className={styles.pagination__button_page}>2</button>
+                                <button className={styles.pagination__button_page}>3</button>
+                                <button className={styles.pagination__button_page}>...</button>
+                                <button className={styles.pagination__button_row}><Icon name='icon-Alt-Arrow-Right' /></button>
+                            </div>
                             <div
                                 ref={loader}
                                 style={{

@@ -40,7 +40,7 @@ body.modal-open {
     position: fixed;
     bottom: 7%;
     right: 3%;
-
+    z-index: 1;
     display: inline-flex;
     padding: 12px 32px;
     justify-content: center;
@@ -50,8 +50,6 @@ body.modal-open {
     border-radius: 8px;
     color: var(--ai-button-text-color);
     background: var(--ai-button-bg-color);
-
-    z-index: 9999;
 }
 
 .visually-hidden {

@@ -32,8 +32,6 @@ const MobileCard = ({ book }: { book: any }) => {
     type: BookType.Cart,
   }, {skip: addClick===false});
 
-
-  const modals = useSelector((state: any) => state.modals.modals);
   const dispatch = useDispatch();
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
