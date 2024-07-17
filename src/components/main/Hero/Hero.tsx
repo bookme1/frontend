@@ -18,9 +18,9 @@ const Hero = () => {
             <HeroWrapper>
                 <NavContainer className="navigation">
                     <NavList>
-                        <NavItem>
+                        {/* <NavItem>
                             <NavLink className="accent">Акції</NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem>
                             <NavLink href="/books">
                                 Каталог книжок
@@ -34,19 +34,26 @@ const Hero = () => {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/books">
+                            <NavLink href="/books?genre=Кримінал">
                                 Кримінальні історії
                                 <NavIcon name="arrow_right" className="icon" />
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/books">
-                               Художня література <NavIcon name="arrow_right" className="icon" />
+                            <NavLink href="/books?genre=художня література">
+                                Художня література
+                                <NavIcon name="arrow_right" className="icon" />
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/books">
+                            <NavLink href="/books?genre=Фантастика">
                                 Фантастика
+                                <NavIcon name="arrow_right" className="icon" />
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/books?genre=Наука">
+                                Наука
                                 <NavIcon name="arrow_right" className="icon" />
                             </NavLink>
                         </NavItem>
