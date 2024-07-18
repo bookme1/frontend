@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-
 import styled from '@emotion/styled';
 
 const FormatSection = styled.div`
@@ -39,6 +38,7 @@ const FormatButton = styled.button`
     background-color 0.2s ease-in-out,
     color 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
+  position: relative; /* Added for the strike-through line */
 
   &.active {
     background-color: var(--red);
@@ -50,6 +50,18 @@ const FormatButton = styled.button`
     border-color: #9f9f9f;
     background-color: #9f9f9f;
     color: #ececec;
+    cursor: not-allowed; /* Optional: To indicate it's not clickable */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: red;
+      transform: rotate(-45deg);
+      transform-origin: center;
+    }
   }
 `;
 

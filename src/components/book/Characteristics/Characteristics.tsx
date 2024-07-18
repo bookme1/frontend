@@ -76,8 +76,8 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
       <Title>Опис</Title>
       <ControlButtons>
         <ControlButton className="active mobile">Сюжет</ControlButton>
-        <ControlButton className="mobile">Читати уривок</ControlButton>
-        <ControlButton className="quote">Цитати з книги</ControlButton>
+        <ControlButton className="mobile disabled ">Читати уривок</ControlButton>
+        <ControlButton className="quote disabled ">Цитати з книги</ControlButton>
       </ControlButtons>
       <Description
         className="description"
