@@ -38,7 +38,7 @@ body.modal-open {
 
 .ai-open-button {
     position: fixed;
-    bottom: 1%;
+    bottom: 3%;
     right: 1%;
 
     display: inline-flex;
