@@ -25,17 +25,21 @@ import {
 } from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
-import { DesktopCatalog } from '@/components/main/DesktopCatalog';
-import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
-
+import {
+    openModal,
+    selectOpenModal,
+    setModalContent,
+    setModalStatus,
+    useDispatch,
+    useSelector,
+} from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
-import {openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector} from "@/lib/redux";
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -48,7 +52,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
-
 
     const dispatch = useDispatch();
     const modalOpen = useSelector(selectOpenModal);
