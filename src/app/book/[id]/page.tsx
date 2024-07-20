@@ -99,7 +99,7 @@ export default function Home() {
                 />
             )}
 
-            <Reviews />
+            {/* <Reviews /> */}
             <SliderLastBooks />
             <Footer />
             <div id="modal-root"></div>

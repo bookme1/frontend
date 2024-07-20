@@ -139,9 +139,11 @@ export const ToCart = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 16px;
   @media (min-width: 768px) {
     width: 177px;
     height: 48px;
+    
   }
 `;
 
