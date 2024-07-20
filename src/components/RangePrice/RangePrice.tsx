@@ -23,6 +23,7 @@ const RangePrice: React.FC<RangePriceProps> = ({ filtersData, updateURL }) => {
     return (
         <div className={styles.range__wrapper}>
             <form onSubmit={handleSubmit}>
+                <h2>Ціна</h2>
                 <label>
                     <input
                         id="minPrice"
