@@ -32,7 +32,8 @@ const Controls = () => {
         searchParams?.get('publishers') || ''
     );
     const languages = decodeURIComponent(searchParams?.get('languages') || '');
-    const genres = decodeURIComponent(searchParams?.get('genre') || '');
+    const genre = decodeURIComponent(searchParams?.get('genre') || '');
+    const page = 2;
 
     const { data: filterBooks, isLoading } = useGetFilterBooksQuery({
         authors,
@@ -40,7 +41,8 @@ const Controls = () => {
         maxPrice,
         publishers,
         languages,
-        genres,
+        genre,
+        page
     });
 
     const { data: filtersData, isLoading: loaderFilter } =
@@ -109,6 +111,7 @@ const Controls = () => {
         setIsOpen(!isOpen);
     };
     const quantity = filterBooks?.length;
+    console.log(filterBooks)
 
     return (
         <>
