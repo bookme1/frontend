@@ -50,9 +50,6 @@ export const CartBtn = styled.button`
   @media (min-width: 768px) {
     width: 446px;
     border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     margin-top: 32px;
   }
