@@ -861,6 +861,18 @@ const Icons = () => {
           <symbol id="icon-Alt-Arrow-Right" viewBox="0 0 32 32">
             <path strokeLinejoin="round" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="2.6667" d="M12 6.667l8 9.333-8 9.333"></path>
           </symbol>
+          <symbol id="icon-choice" viewBox="0 0 32 32">
+            <path fill="none" stroke="#fff" strokeLinejoin="miter" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="2" d="M5.333 22.667h9.333"></path>
+            <path fill="none" stroke="#fff" strokeLinejoin="miter" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="2" d="M5.333 16h9.333"></path>
+            <path fill="none" stroke="#fff" strokeLinejoin="miter" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="2" d="M5.333 9.333h9.333"></path>
+            <path fill="none" stroke="#fff" strokeLinejoin="round" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="2" d="M22.667 5.333v21.333M22.667 5.333l-4 5.333M22.667 5.333l4 5.333M22.667 26.667l4-5.333M22.667 26.667l-4-5.333"></path>
+          </symbol>
+          <symbol id="icon-close" viewBox="0 0 32 32">
+            <path fill="none" stroke="#fff" strokeLinejoin="round" strokeLinecap="round" strokeMiterlimit="4" strokeWidth="4" d="M25.333 12l-9.333 8-9.333-8"></path>
+          </symbol>
+          <symbol id="icon-filter" viewBox="0 0 32 32">
+            <path fill="none" stroke="#fff" strokeLinejoin="miter" strokeLinecap="butt" strokeMiterlimit="4" strokeWidth="2" d="M25.333 4h-18.667c-1.886 0-2.828 0-3.414 0.55s-0.586 1.434-0.586 3.203v0.92c0 1.384 0 2.076 0.346 2.649s0.978 0.93 2.243 1.642l3.884 2.186c0.849 0.478 1.273 0.717 1.577 0.98 0.633 0.549 1.022 1.195 1.199 1.986 0.085 0.38 0.085 0.825 0.085 1.714v3.559c0 1.213 0 1.819 0.336 2.292s0.932 0.706 2.126 1.172c2.505 0.979 3.757 1.469 4.648 0.912s0.891-1.83 0.891-4.376v-3.559c0-0.889 0-1.334 0.085-1.714 0.176-0.792 0.566-1.437 1.199-1.986 0.304-0.264 0.728-0.503 1.577-0.98l3.884-2.186c1.265-0.712 1.897-1.068 2.243-1.642s0.346-1.265 0.346-2.649v-0.92c0-1.769 0-2.654-0.586-3.203s-1.529-0.55-3.414-0.55z"></path>
+          </symbol>
 				</defs>
 			</svg>
 		</div>
