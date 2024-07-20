@@ -92,6 +92,7 @@ export const HeaderButton = styled.div`
   align-items: center;
   gap: 4px;
   color: var(--gray_dark);
+  cursor: pointer;
   :active {
     color: var(--red);
     fill: var(--red);

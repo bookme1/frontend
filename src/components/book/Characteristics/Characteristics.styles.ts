@@ -63,19 +63,41 @@ export const ControlButtons = styled.div`
   margin-bottom: 24px;
 `;
 
-export const ControlButton = styled.button`
+export const ControlButton = styled.button`  
   padding: 10px 0;
   text-align: center;
   background-color: var(--gray_border);
   border-radius: 8px;
   color: white;
   font-size: 20px;
+  position: relative; /* Added for the strike-through line */
+  flex: 1;
+  max-width: 163px; /* Ensure the buttons have a max-width */
+  white-space: nowrap; /* Prevent text from wrapping */
+
   &.active {
     background-color: var(--red);
+  } 
+
+  &.disabled {
+    border-color: #9f9f9f;
+    background-color: #9f9f9f;
+    color: #ececec;
+    cursor: not-allowed; /* Optional: To indicate it's not clickable */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      width: 50%;
+      height: 2px;
+      background-color: red;
+      transform: rotate(-45deg);
+      transform-origin: center;
+    }
   }
 
-  &.mobile {
-    width: 163px;
+  &.mobile {    
     @media (min-width: 1280px) {
       width: max-content;
     }

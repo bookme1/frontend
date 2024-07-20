@@ -2,64 +2,48 @@
 
 import { useEffect } from 'react';
 
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
-import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+import Basket from '@/components/main/Modal/Basket/Basket';
 import { SwiperList } from '@/components/main/SwiperList';
+import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
-import {
-  useGetFiltersQuery,
-  useGetGenresQuery,
-} from '@/lib/redux/features/book/bookApi';
-import { BookType } from '@/lib/redux/features/user/types';
+import { BookType, IUser } from '@/lib/redux/features/user/types';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('accessToken');
-  }
+    const modals = useSelector((state: any) => state.modals.modals);
+    
+    //User authorization
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
 
-  if (!token) token = '1';
-  const getBooks = useGetUserBooksQuery({
-    accessToken: token,
-    type: BookType.Fav,
-  });
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
+            fetchUserData(storedAccessToken, storedRefreshToken);
+        }
+    }, [fetchUserData]);
+    if (isLoading) {
+        return <Loading />;
+    }
+    const data = userData as IUser;
 
-  useEffect(() => {
-    getBooks;
-  }, []);
 
-  // Пример стягивания жанров для Димы. В обьекте genres так же есть много полезных проперти, например состояние загрузки для лоадера. После применения удалить с этого файла
-  const genres = useGetGenresQuery('');
 
-  // useEffect(() => {
-  //   console.log("Genres");
-  //   console.log(genres.data);
-  // }, [genres]);
-
-  // Стягивание всех фильтров для отображения в маркапе на странице с фильтрами
-
-  const filters = useGetFiltersQuery('');
-
-  // useEffect(() => {
-  //   console.log("Filters");
-  //   console.log(filters.data);
-  // }, [filters]);
-  const modals = useSelector((state: any) => state.modals.modals);
-
-  return (
-    <>
-      <Header />
-      <Hero />
-      <Categories />
-      <SwiperList />
-
-      <Footer />
-
-      {modals.successInfo.isOpen && <SuccessInfo />}
-    </>
-  );
+    return (
+        <>
+            <Header userData={data} />
+            <Hero />
+            <Categories />
+            <SwiperList />
+            <Footer />
+            {modals.cart.isOpen && <Basket />}
+            {modals.successInfo.isOpen && <SuccessInfo />}
+        </>
+    );
 }

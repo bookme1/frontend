@@ -1,7 +1,10 @@
-"use client";
-import styled from "@emotion/styled";
-import Lottie from "lottie-react";
-import { Icon } from "@/components/common/Icon";
+'use client';
+
+import Lottie from 'lottie-react';
+
+import styled from '@emotion/styled';
+
+import { Icon } from '@/components/common/Icon';
 
 export const Wrapper = styled.div`
   position: absolute;
@@ -13,7 +16,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 100;
 `;
 
 export const Content = styled.div`
