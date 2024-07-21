@@ -28,12 +28,15 @@
 .information {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
+    flex-direction: column-reverse;
+    gap: 20px;
 }
 
 .information__buttons {
     display: flex; 
-    gap: 16px;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .information__buttons div {
@@ -48,6 +51,7 @@
 
 .information__buttons div .button__sort {
     background: #a7a7a7;
+    min-width: 164px;
 }
 
 .information__buttons div .button__sort.open {
@@ -78,6 +82,8 @@
     font-family: "Raleway", sans-serif;
     font-weight: 500;
     font-size: 20px;
+    color: #6E646D;
+    white-space: nowrap;
 }
 
 .information__list {
@@ -137,6 +143,7 @@
 
 .products__img {
     height: 288px;
+    width: 100%;
     object-fit: cover;
     background-position: center;
     border-radius: 10px 10px 0 0;
@@ -214,6 +221,10 @@
     justify-content: center;
 }
 
+.pagination {
+    text-align: center;
+}
+
 .pagination button {
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     background: #fff;
@@ -230,6 +241,7 @@
 }
 
 .pagination__button_page {
+    font-family: "Raleway", sans-serif;
     width: 48px;
     height: 48px;
     display: flex;
@@ -239,7 +251,12 @@
     font-size: 20px;
     text-align: center;
     color: #a7a7a7;
+    cursor: pointer;
     transition: all 0.25s ease;
+}
+
+.pagination__button_page.active {
+    color: #FF3333;
 }
 
 .pagination__button_page:hover {
@@ -262,6 +279,21 @@
     .products__section {
         gap: 40px;
     }
+    .products__item {
+        flex-basis: calc((100% - 2 * 16px) / 3);
+    }
+    .information {
+        flex-direction: row;
+        gap: 0px;
+        align-items: center;
+    }
+    .information__buttons div .button__sort {
+        min-width: 188px;
+    }
+    .information__buttons {
+        gap: 16px;
+        justify-content: unset;
+    }
     .information button {
         font-size: 20px;
     }
@@ -279,6 +311,9 @@
     }
     .products__section {
         gap: 32px;
+    }
+    .products__item {
+        flex-basis: calc((100% - 3 * 16px) / 4);
     }
     .information {
         flex-direction: row-reverse;
