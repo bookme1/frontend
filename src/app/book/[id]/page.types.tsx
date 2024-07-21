@@ -14,6 +14,11 @@ export interface IBook {
   formatEpub: string;
 }
 
+export interface BooksData {
+  books: IBook[];
+  quantity: number;
+}
+
 export interface FiltersData {
   authors: string[];
   publishers: string[];

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import {FiltersData, IBook, IGenre} from '@/app/book/[id]/page.types';
+import {BooksData, FiltersData, IBook, IGenre} from '@/app/book/[id]/page.types';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -18,7 +18,7 @@ export const bookApi = createApi({
         cacheTime: 24 * 60 * 60 * 1000,
       }),
     }),
-    getFilterBooks: builder.query<IBook[], any>({
+    getFilterBooks: builder.query<BooksData, any>({
       query: (params) => {
         function createQueryString(params: { [x: string]: any; }) {
           const queryString = Object.keys(params)
