@@ -121,7 +121,7 @@
 }
 
 .products__item {
-    flex-basis: calc((100% - 3 * 16px) / 4);
+    flex-basis: 100%;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     background: #fff;
     border-radius: 10px;
