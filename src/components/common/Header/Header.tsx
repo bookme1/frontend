@@ -40,6 +40,7 @@ import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
+import { Modal } from '@/components/main/Modal';
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -285,7 +286,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     </Wrapper>
                 </NavToTablet>
             </HeaderContainer>
-            {/*{isOpen && <Modal setIsOpen={setIsOpen} />}*/}
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
             {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
         </>
     );
