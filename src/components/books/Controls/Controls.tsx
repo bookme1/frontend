@@ -21,7 +21,7 @@ import { openModal, useDispatch } from '@/lib/redux';
 import { useRouter } from 'next/navigation';
 
 const Controls = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const sortArray: string[] = ["Дорожче", "Дешевше", "За рейтингом"];
@@ -111,6 +111,13 @@ const Controls = () => {
 
     
     const totalPages = filterBooks ? Math.ceil(filterBooks.quantity / 24) : 1;
+    let quantityRange = "";
+    if (filterBooks && filterBooks.quantity) {
+      const total = filterBooks.quantity;
+      const start = (Number(page) - 1) * 24 + 1;
+      const end = Math.min(Number(page) * 24, total);
+      quantityRange = `${start} - ${end} з ${total} Товарів`;
+    }
     let newPage = !page ? 1 : page;
 
     const arrowPageNavigation = (action: string) => {
@@ -138,23 +145,38 @@ const Controls = () => {
 
     const getPageNumbers = () => {
         const pageNumbers = [];
-        const maxVisiblePages = 3;
+        const isMobile = window.innerWidth <= 748;
         const currentPage = Number(newPage);
-
-        if (totalPages <= maxVisiblePages) {
-            for (let i = 1; i <= totalPages; i++) {
-                pageNumbers.push(i);
+    
+        if (isMobile) {
+            if (totalPages <= 2) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbers.push(i);
+                }
+            } else if (currentPage === 1) {
+                pageNumbers.push(1, 2, '...', totalPages);
+            } else if (currentPage === totalPages) {
+                pageNumbers.push(1, '...', totalPages - 1, totalPages);
+            } else {
+                pageNumbers.push(currentPage, currentPage + 1, '...', totalPages);
             }
         } else {
-            if (currentPage <= 2) {
-                pageNumbers.push(1, 2, 3, '...', totalPages);
-            } else if (currentPage >= totalPages - 1) {
-                pageNumbers.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
+            const maxVisiblePages = 3;
+            if (totalPages <= maxVisiblePages) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbers.push(i);
+                }
             } else {
-                pageNumbers.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+                if (currentPage <= 2) {
+                    pageNumbers.push(1, 2, 3, '...', totalPages);
+                } else if (currentPage >= totalPages - 1) {
+                    pageNumbers.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
+                } else {
+                    pageNumbers.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+                }
             }
         }
-
+    
         return pageNumbers;
     };
 
@@ -167,7 +189,7 @@ const Controls = () => {
 
     return (
         <>
-            {isLoading && loaderFilter ? (
+            {isLoading && loaderFilter && isLoadingImage ? (
                 <Loading />
             ) : (
                 <section className={styles.section}>
@@ -200,7 +222,7 @@ const Controls = () => {
                                         </li>
                                     ))}
                                 </ul>
-                                <p className={styles.information__quantity}>{filterBooks?.quantity} Товарів</p>
+                                <p className={styles.information__quantity}>{quantityRange}</p>
                             </div>
                             <ul className={styles.products__list}>
                                 {filterBooks &&
@@ -208,7 +230,7 @@ const Controls = () => {
                                 .map((book: IBook) => (
                                     <li key={book.id} className={styles.products__item}>
                                         <Link href={`book/${book.id}`}>
-                                        <Image width={230} height={288} className={styles.products__img} src={book.url} alt={book.title} />
+                                        <Image width={230} height={288} className={styles.products__img} onLoad={() => setIsLoadingImage(false)} src={book.url} alt={book.title} />
                                         <div className={styles.products__wrapper}>
                                             <div className={styles.products__wrapper_information}>
                                                 <p className={styles.products__title}>{book.title}</p>
