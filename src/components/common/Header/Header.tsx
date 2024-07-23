@@ -57,6 +57,7 @@ const FavoriteCount = styled.span`
     border-radius: 50%;
     padding: 0.2em 0.5em;
 `;
+import { Modal } from '@/components/main/Modal';
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
@@ -304,7 +305,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     </Wrapper>
                 </NavToTablet>
             </HeaderContainer>
-            {/*{isOpen && <Modal setIsOpen={setIsOpen} />}*/}
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
             {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
         </>
     );

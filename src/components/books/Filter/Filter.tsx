@@ -14,6 +14,7 @@ const Filter = ({ filtersData }: {filtersData: FiltersData | undefined}) => {
     const updateURL = (updates: {[key: string]: string | undefined;}) => {
         if (searchParams) {
             const current = new URLSearchParams(Array.from(searchParams.entries()));
+            current.set('page', '1');
             Object.entries(updates).forEach(([key, value]) => {
                 if (value !== null && value !== undefined && value !== '') {
                     current.set(key, value);
