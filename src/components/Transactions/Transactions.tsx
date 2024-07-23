@@ -45,8 +45,8 @@ const Transactions = () => {
   // Сортування транзакцій за напрямком сортування
   const sortedFilteredTransactions = filteredTransactions?.slice().sort((a, b) => {
     return sortOrder === 'asc' 
-      ? String(a.id).localeCompare(String(b.id)) 
-      : String(b.id).localeCompare(String(a.id));
+      ? a.id - b.id 
+      : b.id - a.id;
   });
 
   // Функція для зміни напрямку сортування

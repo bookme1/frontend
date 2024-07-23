@@ -38,7 +38,7 @@ const FormatButton = styled.button`
     background-color 0.2s ease-in-out,
     color 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
-  position: relative; /* Added for the strike-through line */
+  position: relative;
 
   &.active {
     background-color: var(--red);
@@ -50,17 +50,17 @@ const FormatButton = styled.button`
     border-color: #9f9f9f;
     background-color: #9f9f9f;
     color: #ececec;
-    cursor: not-allowed; /* Optional: To indicate it's not clickable */
+    cursor: not-allowed;
     &::before {
       content: '';
       position: absolute;
       top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
+      left: 50%;
+      width: 118%; /* Ensures the line spans across the entire button */
+      height: 3px;
       background-color: red;
-      transform: rotate(-45deg);
-      transform-origin: center;
+      transform: translate(-50%, -50%) rotate(31deg);
+      pointer-events: none;
     }
   }
 `;
