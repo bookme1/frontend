@@ -51,12 +51,14 @@ const HeartIcon = styled.div`
 const FavoriteCount = styled.span`
     position: absolute;
     top: -10px;
-    right: -10px;
+    right: -22px;
     background: red;
     color: white;
     border-radius: 50%;
-    padding: 0.2em 0.5em;
+    padding: 0.2em 0.6em;
+    font-size: 14px;
 `;
+
 import { Modal } from '@/components/main/Modal';
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
