@@ -2,6 +2,10 @@
     padding: 32px 0 132px;
 }
 
+.section > * {
+    font-family: "Raleway", sans-serif;
+}
+
 .container {
     margin: 0 auto;
     padding: 0 10px;
@@ -51,7 +55,7 @@
 
 .information__buttons div .button__sort {
     background: #a7a7a7;
-    min-width: 164px;
+    min-width: 100%;
 }
 
 .information__buttons div .button__sort.open {
@@ -116,16 +120,14 @@
 .products__list {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 24px;
     margin-bottom: 32px;
 }
 
 .products__item {
     flex-basis: 100%;
-    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
-    background: #fff;
-    border-radius: 10px;
     transition: all 0.25s ease;
+    background: #fff;
 }
 
 .products__item:hover {
@@ -133,27 +135,26 @@
 }
 
 .products__item a {
-    display: block;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
-    gap: 8px;
+    gap: 16px;
 }
 
 .products__img {
-    height: 288px;
-    width: 100%;
+    width: 120px;
+    height: 150px;
     object-fit: cover;
     background-position: center;
-    border-radius: 10px 10px 0 0;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 2px
 }
 
 .products__wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 0 12px 12px;
     flex-grow: 1
 }
 
@@ -167,6 +168,7 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 1.4;
+    max-width: 207px;
 }
 
 .products__author {
@@ -174,6 +176,7 @@
     font-size: 15px;
     line-height: 1.4;
     color: #6e646d;
+    max-width: 207px;
 }
 
 .products__wrapper_functionality {
@@ -267,6 +270,9 @@
     .container {
         width: 363px;
     }
+    .information__buttons div .button__sort {
+        min-width: 164px;
+    }
 }
 
 @media (min-width: 748px) {
@@ -281,6 +287,24 @@
     }
     .products__item {
         flex-basis: calc((100% - 2 * 16px) / 3);
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+        background: #fff;
+        border-radius: 10px;
+    }
+    .products__list {
+        gap: 16px;
+    }
+    .products__item a {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .products__img {
+        height: 288px;
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+    }
+    .products__wrapper {
+        padding: 0 12px 12px;
     }
     .information {
         flex-direction: row;

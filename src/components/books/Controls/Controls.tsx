@@ -114,8 +114,10 @@ const Controls = () => {
     let quantityRange = "";
     if (filterBooks && filterBooks.quantity) {
       const total = filterBooks.quantity;
-      const start = (Number(page) - 1) * 24 + 1;
-      const end = Math.min(Number(page) * 24, total);
+      const currentPage = Number(page) || 1;
+      const itemsPerPage = 24;
+      const start = Math.min((currentPage - 1) * itemsPerPage + 1, total);
+      const end = Math.min(currentPage * itemsPerPage, total);
       quantityRange = `${start} - ${end} з ${total} Товарів`;
     }
     let newPage = !page ? 1 : page;
@@ -132,7 +134,6 @@ const Controls = () => {
     };
 
     const pointsPageNavigation = (action: string) => {
-        console.log(321321)
         if (action === "forward") {
             newPage = Number(newPage) + 2;
         } else if (action === "back") {
@@ -234,7 +235,7 @@ const Controls = () => {
                                         <div className={styles.products__wrapper}>
                                             <div className={styles.products__wrapper_information}>
                                                 <p className={styles.products__title}>{book.title}</p>
-                                                <p className={styles.products__author}>{book.author}</p>
+                                                <p className={styles.products__author}>{book.author !== "" ? book.author : "Немає автора" }</p>
                                             </div>
                                         <div className={styles.products__wrapper_functionality}>
                                             <span>{book.price}</span>
