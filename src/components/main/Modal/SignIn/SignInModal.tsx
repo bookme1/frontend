@@ -1,5 +1,4 @@
-"use client";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import {
   GoogleBtn,
   ModalContent,
@@ -15,13 +14,10 @@ import { Icon } from "@/components/common/Icon";
 import { useSignInMutation } from "@/lib/redux/features/user/userApi";
 import Notiflix from "notiflix";
 
-const SignInModal = ({
-  setType,
-}: {
-  setType: Dispatch<SetStateAction<string>>;
-}) => {
+const SignInModal = ({ setType }: { setType: Dispatch<SetStateAction<string>> }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [signIn, { data, error, isLoading }] = useSignInMutation();
 
   useEffect(() => {
@@ -37,7 +33,6 @@ const SignInModal = ({
     e.preventDefault();
     try {
       await signIn({ email, password });
-
     } catch (err: any) {
       console.error("Error while logging in", err);
       Notiflix.Notify.failure("Помилка при вході в аккаунт ", err.status);
@@ -50,21 +45,32 @@ const SignInModal = ({
       <Description>
         Увійдіть, щоб додавати товари у обране і бачити свої замовлення
       </Description>
-      <Form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
+      <Form onSubmit={(e) => handleSubmit(e)}>
         <ModalInput
           placeholder="Імейл"
           onChange={(evt) => setEmail(evt.target.value)}
           required
         />
-        <ModalInput
-          placeholder="Пароль"
-          onChange={(evt) => setPassword(evt.target.value)}
-          required
-        />
+        <div style={{ position: 'relative' }}>
+          <ModalInput
+            type={showPassword ? "text" : "password"}
+            placeholder="Пароль"
+            onChange={(evt) => setPassword(evt.target.value)}
+            required
+          />
+          <Icon
+            name={showPassword ? "icon-eye" : "icon-eye-slash"}
+            size={24}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+            }}
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        </div>
         <SubmitButton type="submit">Увійти</SubmitButton>
       </Form>
       <Description className="google">Або увійдіть за допомогою:</Description>
