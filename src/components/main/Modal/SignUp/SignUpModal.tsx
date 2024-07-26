@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-
 import Notiflix from 'notiflix';
-
 import { Agreement, AgreementLink } from './SignUpModal.styles';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
-
 import {
   ChangeModalButton,
   Description,
@@ -14,6 +11,7 @@ import {
   SubmitButton,
   Title,
 } from '../Modal.styles';
+import { Icon } from '@/components/common/Icon';
 
 const SignUpModal = ({
   setType,
@@ -23,6 +21,7 @@ const SignUpModal = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [signUp, { data, error, isLoading }] = useSignUpMutation();
 
   const handleSubmit = async (e: any) => {
@@ -60,11 +59,26 @@ const SignUpModal = ({
           onChange={evt => setEmail(evt.target.value)}
           required
         />
-        <ModalInput
-          placeholder="Пароль"
-          onChange={evt => setPassword(evt.target.value)}
-          required
-        />
+        <div style={{ position: 'relative' }}>
+          <ModalInput
+            type={showPassword ? "text" : "password"}
+            placeholder="Пароль"
+            onChange={(evt) => setPassword(evt.target.value)}
+            required
+          />
+          <Icon
+            name={showPassword ? "icon-eye" : "icon-eye-slash"}
+            size={24}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+            }}
+            onClick={() => setShowPassword(!showPassword)}
+          />
+        </div>
         <SubmitButton type="submit">Зареєструватись</SubmitButton>
       </Form>
       <Agreement>
