@@ -7,8 +7,11 @@ import { Wrapper } from '@/styles/globals.styles';
 export const ContentWrapper = styled(Wrapper)`
   height: 800px;
   background-color: var(--primary-background-color);
-  padding-bottom: 40px;
+  /* padding-bottom: 80px; */
   /* padding: 0 16px; */
+  margin-bottom: 40px;
+  margin-top: 140px;
+
 
   @media (min-width: 768px) {
     padding-bottom: 48px;

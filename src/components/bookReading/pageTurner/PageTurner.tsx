@@ -14,10 +14,10 @@ const PageTurner: FC<PageTurnerProps> = ({ filter,page }) => {
 	return (
 		<>
 			<Container>
-				<button className="arrow">
+				{/* <button className="arrow">
 					<Icon name="arrow_left" width={24} height={24} />
 					<span className="turn">Назад</span>
-				</button>
+				</button> */}
 				<button className="page-number">
 					<span className="short">стр.</span> <span className="full">Сторінка</span>{page}
 					<Icon name="arrow_up" width={24} height={24} />
@@ -27,10 +27,10 @@ const PageTurner: FC<PageTurnerProps> = ({ filter,page }) => {
 						<Icon name="settings" width={24} height={24} />
 					</button>
 				)}
-				<button className="arrow">
+				{/* <button className="arrow">
 					<span className="turn">Вперед</span>
 					<Icon name="arrow_right" width={24} height={24} />
-				</button>
+				</button> */}
 			</Container>
 			<ModalReading isVisible={showModal} onClose={() => setShowModal(false)} />
 		</>

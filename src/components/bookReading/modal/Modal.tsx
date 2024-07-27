@@ -116,7 +116,7 @@ export const ModalReading = ({ isVisible, onClose }: Props) => {
 						</li>
 						<li>
 							<button className="vivaldi font-btn" onClick={() => handleChangeFont('Vivaldi')}>
-								Тт
+								Tт
 							</button>
 						</li>
 					</ul>
