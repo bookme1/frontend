@@ -6,10 +6,11 @@ import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import useFetchUserData, { IUser } from '@/contexts/useFetchUserData';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import { useSelector } from '@/lib/redux';
 import Basket from '@/components/main/Modal/Basket/Basket';
+import useFetchUserData from '@/contexts/useFetchUserData';
+import { useSelector } from '@/lib/redux';
+import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);

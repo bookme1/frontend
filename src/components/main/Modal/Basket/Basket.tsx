@@ -41,7 +41,7 @@ const Basket = () => {
     const [removeId, setRemoveId] = useState();
 
     useEffect(() => {
-        cartData
+        cartData;
     });
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const Basket = () => {
     useEffect(() => {
         if (cartBooksArr.length > 0) {
             const totalSum: any = cartBooksArr.reduce(
-                (acc, book) => acc + parseFloat(book.price),
+                (acc, book: any) => acc + parseFloat(book.price),
                 0
             );
             setSum(totalSum);

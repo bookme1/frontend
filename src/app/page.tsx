@@ -8,16 +8,15 @@ import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
 import Basket from '@/components/main/Modal/Basket/Basket';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
-import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
-    
+
     //User authorization
     const { userData, isLoading, fetchUserData } = useFetchUserData();
 
@@ -32,8 +31,6 @@ export default function Home() {
         return <Loading />;
     }
     const data = userData as IUser;
-
-
 
     return (
         <>

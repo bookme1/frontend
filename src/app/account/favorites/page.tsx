@@ -45,7 +45,7 @@ export default function Home() {
         return null;
     }
 
-    const data = userData as IUser;
+    const data = userData as IUser | null;
 
     return (
         <Wrapper>
@@ -58,7 +58,7 @@ export default function Home() {
         UPDATE
       </button> */}
             <BreadCrumbs name="акаунт" />
-            <LeftMenu username={data.username} />
+            <LeftMenu username={data && data.username} />
             <Favorite books={books} />
         </Wrapper>
     );

@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { Role } from '@/lib/redux/features/user/types';
+
 export interface loginOutputDTO {
     user: IUser;
     tokens: {
@@ -16,12 +18,6 @@ export interface IUser {
     fav: string[];
     cart: string[];
     books: string[];
-}
-
-export enum Role {
-    User,
-    Moderator,
-    Admin,
 }
 
 type UserResponse = IUser | loginOutputDTO | null;
