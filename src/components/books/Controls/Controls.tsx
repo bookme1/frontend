@@ -17,13 +17,15 @@ import { IBook } from '@/app/book/[id]/page.types';
 import Image from 'next/image';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
-import { openModal, useDispatch } from '@/lib/redux';
+import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useRouter } from 'next/navigation';
+import { GenericModal } from '@/components/GenericModal/GenericModal';
 
 const Controls = () => {
     const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
+    const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
     const sortArray: string[] = ["Дорожче", "Дешевше", "За рейтингом"];
     const searchParams = useSearchParams();
     const authors = decodeURIComponent(searchParams?.get('authors') || '');
@@ -54,11 +56,6 @@ const Controls = () => {
  
     const handleOpenModal = (modalName: string, event: React.MouseEvent) => {
       event.preventDefault();
-      // const addCardBook = useAddBookQuery({
-      //   accessToken: token ?? "",
-      //   bookId: book.id ?? "",
-      //   type: BookType.Cart,
-      // }, {skip: addClick===false});
       dispatch(openModal(modalName));
     };
 
@@ -187,6 +184,7 @@ const Controls = () => {
         currentUrl.searchParams.set('page', newPage.toString());
         router.push(currentUrl.toString());
     };
+    console.log(isOpenModal)
 
     return (
         <>
@@ -194,15 +192,22 @@ const Controls = () => {
                 <Loading />
             ) : (
                 <section className={styles.section}>
+                    {isOpenModal.isOpen && 
+                        <GenericModal modalName='filter' align={window.innerWidth <= 748 ? 'center' : 'left'}>
+                            <div className={`${styles.filter} ${styles.mobile}`}>
+                                <Filter filtersData={filtersData} />
+                            </div>
+                        </GenericModal>
+                    }
                     <div className={styles.container}>
                     <div className={styles.wrapper}>
-                        <div className={styles.computer__filter}>
+                        <div className={styles.filter}>
                             <Filter filtersData={filtersData} />
                         </div>
                         <div className={styles.products__section}>
                             <div className={styles.information}>
                                 <div className={styles.information__buttons}>
-                                    <button className={styles.button__filter}><Icon size={24} name='icon-filter' />Фільтр <Icon size={12} name='icon-close' /></button>
+                                    <button onClick={(e)=>{handleOpenModal('filter', e)}} className={styles.button__filter}><Icon size={24} name='icon-filter' />Фільтр <Icon size={12} name='icon-close' /></button>
                                     <div>
                                         <button className={`${styles.button__sort} ${isOpenChoice && styles.open}`} onClick={() => setIsOpenChoice(!isOpenChoice)}><Icon name='icon-choice' />{selectedSort}</button>
                                         {isOpenChoice && (

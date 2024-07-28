@@ -13,7 +13,7 @@ export const GenericModal = ({
 }:{modalName:string, children:React.ReactNode, align?: 'left' | 'center' | 'right' }) => {
  
     const dispatch = useDispatch();
- const isOpen = useSelector((state: any) => state.modals[modalName]?.isOpen);
+    const isOpen = useSelector((state: any) => state.modals.modals[modalName]?.isOpen);
 
     const handleCloseModal = (modalName: string) => {
         dispatch(closeModal(modalName));
