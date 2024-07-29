@@ -1,16 +1,19 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import type { NavItem, Rendition } from 'epubjs';
+
 import { BookContent } from '@/components/bookReading/bookContent/BookContent';
 import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
 import PageTurner from '@/components/bookReading/pageTurner/PageTurner';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { ReactReader } from '@/lib/reader';
+
 import '../../../styles/fonts';
 
-type ITheme = 'light' | 'dark' | 'beige';
+export type ITheme = 'light' | 'dark' | 'beige';
 
 function updateTheme(rendition: Rendition, theme: ITheme) {
   const themes = rendition.themes;
@@ -50,8 +53,8 @@ const updateFontFamily = (rendition: Rendition, fontFamily: string) => {
   ];
 
   const fonts: { [key in typeof fontFamily]: string } = {
-    raleway: 'Raleway, sans-serif',
-    'times-new-roman': 'Times New Roman, serif',
+    raleway: 'Raleway, sans-serif !important',
+    'times-new-roman': 'Times New Roman, serif !important',
     vivaldi: 'Vivaldi, cursive !important',
   };
 
@@ -61,7 +64,7 @@ const updateFontFamily = (rendition: Rendition, fontFamily: string) => {
       theme[tag] = { 'font-family': fonts[font] };
     });
     rendition.themes.register(font, theme);
-    // console.log(theme);
+    console.log(font);
   });
 
   rendition.themes.select(fontFamily);
@@ -75,9 +78,12 @@ export default function Home() {
   const [chapter, setChapter] = useState<string | undefined>();
   const [title, setTitle] = useState('');
   const [fontSize, setFontSize] = useState('18px');
-  const [fontFamily, setFontFamily] = useState('times-new-roman');
+  const [fontFamily, setFontFamily] = useState('raleway');
   const [theme, setTheme] = useState<ITheme>('light');
   const [totalPages, setTotalPages] = useState<number>(0);
+
+  console.log(fontFamily)
+
 
   useEffect(() => {
     document.body.classList.add('for_light_theme');
@@ -105,21 +111,6 @@ export default function Home() {
     <>
       <Header />
       <BookHeader chapterName={chapter} bookTitle={title} />
-      <button onClick={() => setFontSize('24px')} style={{ margin: '12px' }}>
-        Change font-size
-      </button>{' '}
-      <button onClick={() => setTheme('light')} style={{ margin: '12px' }}>
-        Light theme
-      </button>{' '}
-      <button onClick={() => setTheme('dark')} style={{ margin: '12px' }}>
-        Dark theme
-      </button>{' '}
-      <button onClick={() => setTheme('beige')} style={{ margin: '12px' }}>
-        Beige theme
-      </button>
-      <button onClick={() => setFontFamily('vivaldi')}>
-        Change fontFamily
-      </button>
       <BookContent>
         <ReactReader
           url="https://s3.amazonaws.com/moby-dick/moby-dick.epub"
@@ -131,8 +122,6 @@ export default function Home() {
             if (rendition.current && toc.current) {
               const { displayed, href } = rendition.current.location.start;
               const chapter = toc.current.find(item => item.href === href);
-
-              // console.log(chapter.label)
               setChapter(chapter ? chapter.label : ' '); //глава
               setPage(displayed.page); // сторінка
             }
@@ -146,9 +135,17 @@ export default function Home() {
             });
           }}
         />
-        <PageTurner filter page={page} />
+        <PageTurner
+          filter
+          page={page}
+          fontSize={fontSize}
+          setFontSize={setFontSize}
+          fontFamily={fontFamily}
+          setFontFamily={setFontFamily}
+          theme={theme}
+          setTheme={setTheme}
+        />
       </BookContent>
-      {/* <PageTurner page={page} /> */}
       <Footer />
     </>
   );
