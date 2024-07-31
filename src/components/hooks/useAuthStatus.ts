@@ -43,7 +43,7 @@ const useAuthStatus = () => {
     }
   }, [data]);
 
-  const { userData } = useUserLoginData(session);
+  const { userData } = useUserLoginData();
 
   useEffect(() => {
     if (userData) {

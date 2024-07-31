@@ -4,44 +4,29 @@ import { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-
-import {
-    AccountLink,
-    Avatar,
-    Form,
-    FromDesktop,
-    HeaderButton,
-    HeaderContainer,
-    Logo,
-    LogoContainer,
-    NavItem,
-    NavList,
-    NavToTablet,
-    SearchButton,
-    SearchInput,
-    StyledNavLink,
-    StyledWrapper,
-} from './Header.styles';
+import styled from 'styled-components';
+import { AccountLink, Avatar, Form, FromDesktop, HeaderButton, HeaderContainer, Logo, LogoContainer, NavItem, NavList, NavToTablet, SearchButton, SearchInput, StyledNavLink, StyledWrapper } from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
+import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
-import {
-    openModal,
-    selectOpenModal,
-    setModalContent,
-    setModalStatus,
-    useDispatch,
-    useSelector,
-} from '@/lib/redux';
+import { openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
+
+
+
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
-import styled from 'styled-components';
 
-const HeartIcon = styled.div`
+
+interface HeartIconProps {
+    hasFavorites: boolean;
+}
+
+const HeartIcon = styled.div<HeartIconProps>`
     position: relative;
     display: inline-block;
     color: ${props => (props.hasFavorites ? 'red' : 'grey')};
@@ -59,12 +44,13 @@ const FavoriteCount = styled.span`
     font-size: 14px;
 `;
 
-import { Modal } from '@/components/main/Modal';
-
 const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
     const booksArr = getBooks.data;
-    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    const token =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('accessToken')
+            : null;
 
     const { data: favoriteBooks } = useGetUserBooksQuery({
         accessToken: token ?? '',
@@ -85,6 +71,11 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const handleModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Catalog'));
+    };
+
+    const handleOpenModal = (content: string) => {
+        dispatch(setModalStatus(true));
+        dispatch(setModalContent(content));
     };
 
     const handleClick = () => {
@@ -216,7 +207,11 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             <AccountLink href="/favorite">
                                 <HeartIcon hasFavorites={hasFavorites}>
                                     <Icon name="heart" size={28} />
-                                    {hasFavorites && <FavoriteCount>{favoriteCount}</FavoriteCount>}
+                                    {hasFavorites && (
+                                        <FavoriteCount>
+                                            {favoriteCount}
+                                        </FavoriteCount>
+                                    )}
                                 </HeartIcon>
                                 Обране
                             </AccountLink>

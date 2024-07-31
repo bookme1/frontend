@@ -1,30 +1,32 @@
 import { useCallback, useState } from 'react';
 
-export interface loginOutputDTO {
-    user: IUser;
-    tokens: {
-        accessToken: string;
-        refreshToken: string;
-    };
-}
+import { IUser, loginOutputDTO, UserResponse } from "@/lib/redux/features/user/types.ts";
 
-export interface IUser {
-    id: number;
-    username: string | null;
-    email: string | null;
-    role: Role;
-    fav: string[];
-    cart: string[];
-    books: string[];
-}
+// export interface loginOutputDTO {
+//     user: IUser;
+//     tokens: {
+//         accessToken: string;
+//         refreshToken: string;
+//     };
+// }
 
-export enum Role {
-    User,
-    Moderator,
-    Admin,
-}
+// export interface IUser {
+//     id: number;
+//     username: string | null;
+//     email: string | null;
+//     role: Role;
+//     fav: string[];
+//     cart: string[];
+//     books: string[];    
+// }
 
-type UserResponse = IUser | loginOutputDTO | null;
+// export enum Role {
+//     User,
+//     Moderator,
+//     Admin,
+// }
+
+// type UserResponse = IUser | loginOutputDTO | null;
 
 const fetchUserData = async (
     accessToken: string | null,
