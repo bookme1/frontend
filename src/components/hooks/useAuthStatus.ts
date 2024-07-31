@@ -2,56 +2,56 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import {
-    useGetDataMutation,
-    useGoogleAuthMutation,
+  useGetDataMutation,
+  useGoogleAuthMutation,
 } from '@/lib/redux/features/user/userApi';
 
 import useUserLoginData from '../common/Header/loginFunc';
 
 const useAuthStatus = () => {
-    const [userLoggedData, setUserLoggedData] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
+  const [userLoggedData, setUserLoggedData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [googleSignIn, { data }] = useGoogleAuthMutation();
-    const { data: session, status: sessionStatus } = useSession();
-    const [getData] = useGetDataMutation();
+  const [googleSignIn, { data }] = useGoogleAuthMutation();
+  const { data: session, status: sessionStatus } = useSession();
+  const [getData] = useGetDataMutation();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (session && session.user?.email) {
-                    const { email, name } = session.user;
-                    if (name) await googleSignIn({ email, name });
-                }
-            } catch (error) {
-                console.error('Error during Google Sign-In:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (sessionStatus === 'authenticated' && isLoading) {
-            fetchData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (session && session.user?.email) {
+          const { email, name } = session.user;
+          if (name) await googleSignIn({ email, name });
         }
-    }, [session, sessionStatus, googleSignIn, isLoading]);
+      } catch (error) {
+        console.error('Error during Google Sign-In:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        if (data) {
-            setUserLoggedData(data);
-            localStorage.setItem('accessToken', data.tokens.accessToken);
-            localStorage.setItem('refreshToken', data.tokens.refreshToken);
-        }
-    }, [data]);
+    if (sessionStatus === 'authenticated' && isLoading) {
+      fetchData();
+    }
+  }, [session, sessionStatus, googleSignIn, isLoading]);
 
-    const { userData } = useUserLoginData(); // Session was sent there as argument, but why
+  useEffect(() => {
+    if (data) {
+      setUserLoggedData(data);
+      localStorage.setItem('accessToken', data.tokens.accessToken);
+      localStorage.setItem('refreshToken', data.tokens.refreshToken);
+    }
+  }, [data]);
 
-    useEffect(() => {
-        if (userData) {
-            setUserLoggedData(userData);
-        }
-    }, [userData]);
+  const { userData } = useUserLoginData(session);
 
-    return { userLoggedData, isLoading };
+  useEffect(() => {
+    if (userData) {
+      setUserLoggedData(userData);
+    }
+  }, [userData]);
+
+  return { userLoggedData, isLoading };
 };
 
 export default useAuthStatus;

@@ -40,7 +40,7 @@ export default function Home() {
         return <Loading />;
     }
 
-    const data = userData as IUser | null;
+    const data = userData as IUser;
     const accessToken = localStorage.getItem('accessToken');
 
     return (
@@ -48,7 +48,7 @@ export default function Home() {
             <Header userData={data} />
             <BreadCrumbs name="акаунт" />
             <AccountContainer>
-                <LeftMenu username={data && data?.username} />
+                <LeftMenu username={data?.username} />
                 <UserBooks accessToken={accessToken} />
             </AccountContainer>
         </Wrapper>

@@ -28,11 +28,7 @@ export default function Home() {
         return <Loading />;
     }
 
-    if (
-        userData &&
-        userData?.role != Role.Moderator &&
-        userData?.role != Role.Admin
-    )
+    if (userData?.role != Role.Moderator && userData?.role != Role.Admin)
         return <div>Доступ закритий.</div>;
 
     const data = userData as IUser;

@@ -1,1 +1,1 @@
-// export { default as DesktopCatalog } from "./DesktopCatalog";
+export { default as DesktopCatalog } from "./DesktopCatalog";

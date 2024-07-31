@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import Notiflix from 'notiflix';
 
 import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
-import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
+import { CreateOrderDTO } from '@/lib/redux/features/order/types';
 
 class BookService {
     private baseURL: string | undefined;
@@ -180,16 +180,19 @@ class BookService {
         reference_number: string,
         amount: number
     ) {
-        const orderedBooks = new Array<IOrderBook>();
+        const orderedBooks = [
+            {
+                reference_number: reference_number,
+                ordered_formats: formats,
+                transaction_id: transactionId,
+            },
+        ];
 
-        orderedBooks[0].reference_number = reference_number;
-        orderedBooks[0].ordered_formats = formats;
-        orderedBooks[0].transaction_id = transactionId;
-
-        const createOrderDTO = new CreateOrderDTO();
-        createOrderDTO.order_id = uuid;
-        createOrderDTO.orderBooks = orderedBooks;
-        createOrderDTO.amount = Number(amount);
+        const createOrderDTO = {
+            order_id: uuid,
+            orderBooks: orderedBooks,
+            amount: Number(amount),
+        };
 
         const data = await this.orderRequest(createOrderDTO, accessToken);
 

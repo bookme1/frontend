@@ -2,10 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
-
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import styled from 'styled-components';
 
 import {
     AccountLink,
@@ -26,9 +24,9 @@ import {
 } from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
-import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
+    openModal,
     selectOpenModal,
     setModalContent,
     setModalStatus,
@@ -36,17 +34,17 @@ import {
     useSelector,
 } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
-
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
+import styled from 'styled-components';
 
 const HeartIcon = styled.div`
     position: relative;
     display: inline-block;
-    color: 'grey'; // Видалити після фіксу
+    color: ${props => (props.hasFavorites ? 'red' : 'grey')};
     cursor: pointer;
 `;
 
@@ -61,13 +59,12 @@ const FavoriteCount = styled.span`
     font-size: 14px;
 `;
 
-const Header = ({ userData }: { userData: IUser | null }) => {
+import { Modal } from '@/components/main/Modal';
+
+const Header = ({ userData }: { userData: IUser | undefined }) => {
     const getBooks = useGetBooksQuery('');
     const booksArr = getBooks.data;
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
+    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
     const { data: favoriteBooks } = useGetUserBooksQuery({
         accessToken: token ?? '',
@@ -217,25 +214,21 @@ const Header = ({ userData }: { userData: IUser | null }) => {
                         )}
                         <HeaderButton>
                             <AccountLink href="/favorite">
-                                {/* <HeartIcon hasFavorites={hasFavorites}>
+                                <HeartIcon hasFavorites={hasFavorites}>
                                     <Icon name="heart" size={28} />
-                                    {hasFavorites && (
-                                        <FavoriteCount>
-                                            {favoriteCount}
-                                        </FavoriteCount>
-                                    )}
-                                </HeartIcon> */}
+                                    {hasFavorites && <FavoriteCount>{favoriteCount}</FavoriteCount>}
+                                </HeartIcon>
                                 Обране
                             </AccountLink>
                         </HeaderButton>
-                        {/* <HeaderButton
+                        <HeaderButton
                             onClick={() => {
                                 handleOpenModal('cart');
                             }}
                         >
                             <Icon name="cart" size={28} />
                             Кошик
-                        </HeaderButton> */}
+                        </HeaderButton>
                         {userData ? (
                             <Avatar>
                                 <AccountLink href="/account"></AccountLink>
