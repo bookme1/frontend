@@ -72,3 +72,5 @@ export enum BookType {
     Fav = 'Fav',
     Cart = 'Cart',
 }
+
+export type UserResponse = IUser | loginOutputDTO | null;

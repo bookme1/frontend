@@ -22,7 +22,7 @@ const Breadcrumbs = ({ name }: { name: string }) => {
       : isUUID
       ? name
       : path;
-  });
+  }) || [];
 
   const renderLink = (href: string, itemLink: string, index: number) => (
     <React.Fragment key={index}>

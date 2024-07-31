@@ -12,7 +12,7 @@ import {
 import { signIn as googleSignIn } from "next-auth/react";
 import { Icon } from "@/components/common/Icon";
 import { useSignInMutation } from "@/lib/redux/features/user/userApi";
-import Notiflix from "notiflix";
+import Notiflix from 'notiflix';
 
 const SignInModal = ({ setType }: { setType: Dispatch<SetStateAction<string>> }) => {
   const [email, setEmail] = useState("");

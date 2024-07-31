@@ -17,6 +17,7 @@ import {
     Title,
     Trash,
 } from './Basket.styles';
+import { IBook as IBookFromPage } from '@/app/book/[id]/page.types';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -25,7 +26,17 @@ import {
     useRemoveBookQuery,
 } from '@/lib/redux/features/user/userApi';
 
-const Basket = () => {
+// Імпортуємо з абсолютним шляхом
+
+interface IBook {
+    id: string;
+    title: string;
+    author: string;
+    price: string; // Залишаємо як string
+    url: string;
+}
+
+const Basket: React.FC = () => {
     const token = localStorage.getItem('accessToken');
 
     const { data: cartData } = useGetUserBooksQuery({
@@ -35,27 +46,29 @@ const Basket = () => {
 
     const { data: booksData } = useGetBooksQuery('');
 
-    const [cartBooksArr, setCartBooksArr] = useState([]);
-    const [sum, setSum] = useState(null);
-    const [delClick, setDelClick] = useState(false);
-    const [removeId, setRemoveId] = useState();
-
-    useEffect(() => {
-        cartData
-    });
+    const [cartBooksArr, setCartBooksArr] = useState<IBook[]>([]);
+    const [sum, setSum] = useState<number | null>(null);
+    const [delClick, setDelClick] = useState<boolean>(false);
+    const [removeId, setRemoveId] = useState<string | undefined>();
 
     useEffect(() => {
         if (cartData && booksData) {
-            const filteredBooks: any = booksData.filter(
-                (book: { id: string }) => cartData.includes(book.id)
-            );
+            const filteredBooks: IBook[] = (booksData as IBookFromPage[])
+                .filter((book: IBookFromPage) => cartData.includes(book.id))
+                .map(book => ({
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    price: book.price.toString(), // Перетворення number на string
+                    url: book.url,
+                }));
             setCartBooksArr(filteredBooks);
         }
     }, [cartData, booksData, delClick]);
 
     useEffect(() => {
         if (cartBooksArr.length > 0) {
-            const totalSum: any = cartBooksArr.reduce(
+            const totalSum: number = cartBooksArr.reduce(
                 (acc, book) => acc + parseFloat(book.price),
                 0
             );
@@ -76,7 +89,7 @@ const Basket = () => {
         }
     );
 
-    const handleDelFromCart = (id: any) => {
+    const handleDelFromCart = (id: string) => {
         setRemoveId(id);
         setDelClick(true);
     };
@@ -87,7 +100,7 @@ const Basket = () => {
                 <Text>Кошик</Text>
                 <ListBox>
                     {cartCheck &&
-                        cartBooksArr.map((book: any) => (
+                        cartBooksArr.map(book => (
                             <ItemBox key={book.id}>
                                 <StyledImage
                                     src={book.url}

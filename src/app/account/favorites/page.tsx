@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
-
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -15,12 +13,7 @@ import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
-    const getBooks = useGetBooksQuery('');
-    useEffect(() => {
-        getBooks;
-    });
-
-    const books = getBooks.data;
+    const { data: books, refetch: refetchBooks } = useGetBooksQuery('');
 
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     const router = useRouter();
@@ -34,6 +27,12 @@ export default function Home() {
     }, [fetchUserData]);
 
     const isAuthorized = useMemo(() => !!userData, [userData]);
+
+    useEffect(() => {
+        if (isAuthorized) {
+            refetchBooks();
+        }
+    }, [isAuthorized, refetchBooks]);
 
     if (isLoading) {
         return <Loading />;
