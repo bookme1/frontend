@@ -1,7 +1,9 @@
-// components/RootLayout.tsx
 'use client';
 
 import React, { ReactNode } from 'react';
+
+import 'swiper/css';
+import 'swiper/swiper-bundle.css';
 
 import AiButton from '@/components/AiButton/AiButton';
 import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper/ModalAiContainerWrapper';
@@ -9,18 +11,6 @@ import { Icons } from '@/components/common/Icons';
 import { Providers } from '@/lib/providers';
 import { raleway } from '@/styles/fonts';
 import '@/styles/globals.css';
-
-// components/RootLayout.tsx
-
-// components/RootLayout.tsx
-
-// components/RootLayout.tsx
-
-// components/RootLayout.tsx
-
-// components/RootLayout.tsx
-
-// components/RootLayout.tsx
 
 interface RootLayoutProps {
     children: ReactNode;
