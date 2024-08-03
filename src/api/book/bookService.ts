@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import Notiflix from 'notiflix';
 
-import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
-import { CreateOrderDTO } from '@/lib/redux/features/order/types';
+import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
+import { IBook } from '@/app/book/[id]/page.types';
 
 class BookService {
     private baseURL: string | undefined;
@@ -18,9 +18,7 @@ class BookService {
             url: `api/book/updateBooksFromServer`,
         });
         try {
-            const response = await instance.post(
-                `api/book/updateBooksFromServer`
-            );
+            await instance.post(`api/book/updateBooksFromServer`);
         } catch (error) {
             throw error;
         }
@@ -43,7 +41,7 @@ class BookService {
 
             const { data, signature } = response.data;
 
-            // Динамическая загрузка LiqPayCheckout
+            // Динамічна завантаження LiqPayCheckout
             const script = document.createElement('script');
             script.src = 'https://static.liqpay.ua/libjs/checkout.js';
             script.onload = () => {
@@ -52,20 +50,17 @@ class BookService {
                     data: data,
                     signature: signature,
                     embedTo: '#liqpay',
-                    mode: 'popup', // или 'embed'
+                    mode: 'popup', // або 'embed'
                 })
                     .on('liqpay.callback', async function (data: any) {
                         const ifPaid = await bookService.checkIfPaid(order_id);
                         if (ifPaid) {
                             Notiflix.Notify.success('Дякуємо за покупку!');
-                            const result =
-                                await bookService.makeDelivery(order_id);
+                            const result = await bookService.makeDelivery(order_id);
                             console.log('RESULT');
                             console.log(result);
                             if (result == 'OK') {
-                                Notiflix.Notify.success(
-                                    'Книжки були доставлені до бібліотеки!'
-                                );
+                                Notiflix.Notify.success('Книжки були доставлені до бібліотеки!');
                             }
                         }
                     })
@@ -86,10 +81,7 @@ class BookService {
         }
     }
 
-    public async orderRequest(
-        orderData: CreateOrderDTO,
-        accessToken: string | null
-    ) {
+    public async orderRequest(orderData: CreateOrderDTO, accessToken: string | null) {
         const url = `${this.baseURL}/api/order`;
         try {
             const response = await axios.post(
@@ -106,7 +98,7 @@ class BookService {
                 }
             );
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -118,17 +110,13 @@ class BookService {
             const response = await axios.get(url);
             if (response.data.status == 'sandbox') return true;
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
     }
 
-    public async makeWatermarking(
-        formats: string,
-        reference_number: string,
-        order_id: string
-    ) {
+    public async makeWatermarking(formats: string, reference_number: string, order_id: string) {
         const url = `${this.baseURL}/api/book/watermarking`;
         try {
             const response = await axios.post(
@@ -138,14 +126,9 @@ class BookService {
                     reference_number,
                     order_id,
                 }
-                // {
-                //   headers: {
-                //     Authorization: `Bearer ${accessToken}`,
-                //   },
-                // }
             );
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -159,36 +142,32 @@ class BookService {
                 {
                     transactionId: order_id,
                 }
-                // {
-                //   headers: {
-                //     Authorization: `Bearer ${accessToken}`,
-                //   },
-                // }
             );
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
     }
 
-    public async makeOrder(
-        accessToken: string | null,
-        uuid: string,
-        formats: string,
-        transactionId: string,
-        reference_number: string,
-        amount: number
-    ) {
-        const orderedBooks = [
+    public async makeOrder(accessToken: string | null, uuid: string, formats: string, transactionId: string, reference_number: string, amount: number) {
+        const orderedBooks: IOrderBook[] = [
             {
                 reference_number: reference_number,
                 ordered_formats: formats,
                 transaction_id: transactionId,
+                book: {
+                    id: 'sampleBookId',
+                    title: 'sampleBookTitle',
+                    // додайте інші властивості, які має IBook
+                } as IBook, 
+                epubLink: 'sampleEpubLink',
+                mobiLink: 'sampleMobiLink',
+                pdfLink: 'samplePdfLink'
             },
         ];
 
-        const createOrderDTO = {
+        const createOrderDTO: CreateOrderDTO = {
             order_id: uuid,
             orderBooks: orderedBooks,
             amount: Number(amount),
