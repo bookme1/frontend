@@ -6,6 +6,7 @@ export enum Role {
     User = 'User',
     Moderator = 'Moderator',
     Admin = 'Admin',
+    Author = 'Author',
 }
 
 // User entity from backend without password
@@ -50,6 +51,7 @@ export interface signInDTO {
 
 export interface signUpDTO extends signInDTO {
     username: string;
+    role?: string;
 }
 
 export interface googleAuthDTO {
