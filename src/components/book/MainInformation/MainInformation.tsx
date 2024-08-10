@@ -1,45 +1,34 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Image from 'next/image';
+
+
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-    Author,
-    AuthorsList,
-    Controls,
-    ImageContainer,
-    InfoContainer,
-    MainInfoContainer,
-    Price,
-    StyledImage,
-    StyledWrapper,
-    Title,
-    ToCart,
-    ToFavorite,
-} from './MainInformation.styles';
+
+
+import { Author, AuthorsList, Controls, ImageContainer, InfoContainer, MainInfoContainer, Price, StyledImage, StyledWrapper, Title, ToCart, ToFavorite } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
-import useAuthStatus from '@/components/hooks/useAuthStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import { openModal, useDispatch } from '@/lib/redux';
+import { openModal } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import {
-    useAddBookQuery,
-    useGetUserBooksQuery,
-} from '@/lib/redux/features/user/userApi';
+import { useAddFavoriteMutation, useGetFavoritesQuery, useRemoveFavoriteMutation } from '@/lib/redux/features/user/userApi';
+import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
+
+
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
+
 
 const MainInformation = ({
     book,
@@ -51,6 +40,38 @@ const MainInformation = ({
     isAuthorized: boolean;
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
+    const dispatch = useDispatch();
+
+    const [addBook, { isLoading }] = useAddFavoriteMutation(); //1
+
+    const token =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('accessToken')
+            : null;
+
+    const router = usePathname();
+    const id = router?.split('/').pop();
+
+    // Отримання обраних книг
+    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
+        {
+            accessToken: token ?? '',
+            type: BookType.Fav,
+        }
+    );
+
+    const [isFavAlready, setIsFavAlready] = useState<boolean>(
+        favorites ? favorites.some((fav: any) => fav === id) : false
+    );
+
+    useEffect(() => {
+        if (favorites) {
+            setIsFavAlready(favorites.some((fav: any) => fav === id));
+        } else {
+            setIsFavAlready(false);
+        }
+    }, [favorites, id]);
 
     useEffect(() => {
         if (book?.url) {
@@ -58,64 +79,26 @@ const MainInformation = ({
         }
     }, [book?.url]);
 
-    const [addClick, setAddClick] = useState(false);
-    let token;
-    if (typeof window !== 'undefined') {
-        token = localStorage.getItem('accessToken');
-    }
+    const handleFavoriteToggle = () => {
+        refetchFavorites();
+    };
 
-    const addCardBook = useAddBookQuery(
-        {
+    const handleAddBook = () => {
+        addBook({
             accessToken: token ?? '',
             bookId: book.id ?? '',
             type: BookType.Cart,
-        },
-        { skip: addClick === false }
-    );
-
-    const modals = useSelector((state: any) => state.modals.modals);
-    const dispatch = useDispatch();
-    const handleOpenModal = (modalName: string) => {
-        dispatch(openModal(modalName));
-        setAddClick(true);
+        })
+            .then(() => {
+                console.log('Book added to cart');
+            })
+            .catch(error => {
+                console.error('Error adding book to cart', error);
+            });
     };
-    const router = usePathname();
-    const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
-    const id = router?.split('/').pop();
-
-    const fav = useGetUserBooksQuery({
-        accessToken: token ?? '',
-        type: BookType.Fav,
-    });
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            fav;
-        }
-    }, [fav]);
-
-    const favorite = fav.data;
-
-    const screenWidth = useWindowSize().width;
-    const getAuthorsMarkup = (authors: string) => {
-        if (authors === undefined) return;
-        const authorsArr = authors.split(',');
-        return authorsArr.map(author => {
-            return <Author key={author}>{author}</Author>;
-        });
-    };
-    const authorsMarkup = getAuthorsMarkup(book.author);
-
-    let isFavAlredy = false;
-    if (Array.isArray(favorite)) {
-        isFavAlredy = favorite?.some((fav: any) => fav === id);
-    }
-
-    //Test if user logged in. If logged in -> checkout can be
-
-    async function handleCheckout() {
-        if (checkedFormats.length == 0) {
+    const handleCheckout = async () => {
+        if (checkedFormats.length === 0) {
             Notiflix.Notify.failure(
                 'Оберіть формати книг, які ви хочете придбати!'
             );
@@ -145,7 +128,7 @@ const MainInformation = ({
             );
         }
 
-        const res = await bookService.makeOrder(
+        await bookService.makeOrder(
             accessToken,
             order_id,
             checkedFormats.join(','),
@@ -153,7 +136,7 @@ const MainInformation = ({
             book.referenceNumber,
             book.price
         );
-    }
+    };
 
     const aviableFormats = [false, false, false];
 
@@ -161,12 +144,20 @@ const MainInformation = ({
     if (book.formatPdf) aviableFormats[0] = true;
     if (book.formatEpub) aviableFormats[2] = true;
 
+    const screenWidth = useWindowSize().width;
+
+    const getAuthorsMarkup = (authors: string) => {
+        if (authors === undefined) return;
+        const authorsArr = authors.split(',');
+        return authorsArr.map(author => <Author key={author}>{author}</Author>);
+    };
+
+    const authorsMarkup = getAuthorsMarkup(book.author);
+
     return (
         <>
             <StyledWrapper>
-                <ImageContainer
-                // style={{ ['--background-image' as string]: `url(${book?.url})` }}
-                >
+                <ImageContainer>
                     {imageLoaded && book?.url && (
                         <StyledImage
                             src={
@@ -188,22 +179,20 @@ const MainInformation = ({
                         <Controls>
                             <ToCart
                                 onClick={() => {
-                                    handleOpenModal('successInfo');
+                                    openModal('successInfo');
+                                    handleAddBook();
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик
                             </ToCart>
-                            <ToCart
-                                onClick={() => {
-                                    handleCheckout();
-                                }}
-                            >
+                            <ToCart onClick={handleCheckout}>
                                 Купити зараз
                             </ToCart>
                             <ToFavorite>
                                 <FavoriteBtn
                                     book={book}
-                                    isFavAlredy={isFavAlredy}
+                                    isFavAlready={isFavAlready}
+                                    onToggleFavorite={handleFavoriteToggle}
                                 />
                             </ToFavorite>
                         </Controls>

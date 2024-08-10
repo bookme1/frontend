@@ -3,29 +3,30 @@
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 
+
+
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+
+
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
-import {
-  ControlsContainer,
-  ControlsLink,
-  ControlsTitle,
-  SliderControls,
-  StyledWrapper,
-} from '../Categories/Categories.styles';
+import { ControlsContainer, ControlsLink, ControlsTitle, SliderControls, StyledWrapper } from '../Categories/Categories.styles';
+
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
   let token1 = localStorage.getItem('accessToken');
 
-  const fav = useGetUserBooksQuery({
-    accessToken: token1 ?? '',
-    type: BookType.Fav,
+  const fav = useGetFavoritesQuery({
+      accessToken: token1 ?? '',
+      type: BookType.Fav,
   });
 
   useEffect(() => {
@@ -45,7 +46,9 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
   if (books?.length) {
     booksMarkup = books.map(book => (
       <SwiperSlide key={book.id}>
-        <Card book={book} favorite={token === null ? favIdListArr : favorite} />
+        <Card
+          book={book}
+           />
       </SwiperSlide>
     ));
   }

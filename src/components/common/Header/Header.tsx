@@ -1,26 +1,49 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
+
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
-import { AccountLink, Avatar, Form, FromDesktop, HeaderButton, HeaderContainer, Logo, LogoContainer, NavItem, NavList, NavToTablet, SearchButton, SearchInput, StyledNavLink, StyledWrapper } from './Header.styles';
+
+import {
+    AccountLink,
+    Avatar,
+    Form,
+    FromDesktop,
+    HeaderButton,
+    HeaderContainer,
+    Logo,
+    LogoContainer,
+    NavItem,
+    NavList,
+    NavToTablet,
+    SearchButton,
+    SearchInput,
+    StyledNavLink,
+    StyledWrapper,
+} from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
-import { openModal, selectOpenModal, setModalContent, setModalStatus, useDispatch, useSelector } from '@/lib/redux';
+import {
+    openModal,
+    selectOpenModal,
+    setModalContent,
+    setModalStatus,
+    useDispatch,
+    useSelector,
+} from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
-
-
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
-
 
 interface HeartIconProps {
     hasFavorites: boolean;
@@ -45,17 +68,18 @@ const FavoriteCount = styled.span`
 `;
 
 const Header = ({ userData }: { userData: IUser | undefined }) => {
-    const getBooks = useGetBooksQuery('');
-    const booksArr = getBooks.data;
     const token =
         typeof window !== 'undefined'
             ? localStorage.getItem('accessToken')
             : null;
 
-    const { data: favoriteBooks } = useGetUserBooksQuery({
+    const { data: favoriteBooks, isLoading } = useGetFavoritesQuery({
         accessToken: token ?? '',
         type: BookType.Fav,
     });
+
+    const getBooks = useGetBooksQuery('');
+    const booksArr = getBooks.data;
 
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
@@ -140,20 +164,23 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!searchVal.current) {
-            return 0;
+            return;
         } else {
             const inputElement = searchVal.current as unknown;
             if (inputElement instanceof HTMLInputElement) {
                 window.location.replace(`/books/?q=${inputElement.value}`);
             } else {
-                return 0;
+                return;
             }
         }
-        return 0;
     };
 
     const favoriteCount = favoriteBooks?.length ?? 0;
     const hasFavorites = favoriteCount > 0;
+
+    useEffect(() => {
+        console.log('Favorite books count:', favoriteCount);
+    }, [favoriteCount]);
 
     return (
         <>
@@ -303,7 +330,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                 </NavToTablet>
             </HeaderContainer>
             {isOpen && <Modal setIsOpen={setIsOpen} />}
-            {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
         </>
     );
 };
