@@ -6,7 +6,7 @@ import { CardBought } from '@/components/common/CardBought';
 import { IOrderBook } from '@/lib/redux/features/order/types';
 
 export default function UserBooks({
-    accessToken,
+    accessToken = null,
 }: {
     accessToken: string | null;
 }) {

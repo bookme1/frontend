@@ -3,15 +3,24 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
 
-
-
-import { Author, AuthorsList, Controls, ImageContainer, InfoContainer, MainInfoContainer, Price, StyledImage, StyledWrapper, Title, ToCart, ToFavorite } from './MainInformation.styles';
+import {
+    Author,
+    AuthorsList,
+    Controls,
+    ImageContainer,
+    InfoContainer,
+    MainInfoContainer,
+    Price,
+    StyledImage,
+    StyledWrapper,
+    Title,
+    ToCart,
+    ToFavorite,
+} from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
@@ -19,16 +28,17 @@ import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddFavoriteMutation, useGetFavoritesQuery, useRemoveFavoriteMutation } from '@/lib/redux/features/user/userApi';
+import {
+    useAddFavoriteMutation,
+    useGetFavoritesQuery,
+    useRemoveFavoriteMutation,
+} from '@/lib/redux/features/user/userApi';
 import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
-
-
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
-
 
 const MainInformation = ({
     book,

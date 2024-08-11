@@ -124,6 +124,9 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     };
 
     const changePage = (page: string) => {
+        if (typeof window === 'undefined') {
+            return 0;
+        }
         const prevPage = document.querySelector(`[data-nav=${activePage}]`);
         const currentPage = document.querySelector(`[data-nav=${page}]`);
         prevPage?.classList.remove('active');
