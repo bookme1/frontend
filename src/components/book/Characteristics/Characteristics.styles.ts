@@ -88,11 +88,11 @@ export const ControlButton = styled.button`
       content: '';
       position: absolute;
       top: 50%;
-      left: 30%;
-      width: 50%;
-      height: 2px;
+      left: 50%;
+      width: 100%;
+      height: 3px;
       background-color: red;
-      transform: rotate(-45deg);
+      transform: translate(-50%, -50%) rotate(15deg);
       transform-origin: center;
     }
   }

@@ -1,8 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { Wrapper, visuallyHidden } from "@/styles/globals.styles";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Image from "next/image";
 
 export const ImageContainer = styled.div`
@@ -47,7 +46,7 @@ export const StyledImage = styled(Image)`
   }
 `;
 
-export const HeartStyles = styled(FaHeart)`
+export const HeartFillStyles = styled(FaHeart)`
   width: 24px;
   height: 24px;
   fill: var(--red);

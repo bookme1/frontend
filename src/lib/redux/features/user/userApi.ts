@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 import {
   IUser,
   getUserBookDTO,
@@ -8,6 +7,7 @@ import {
   signInDTO,
   signUpDTO,
   userBookDTO,
+  BookType,
 } from './types';
 
 export const userApi = createApi({
@@ -54,7 +54,7 @@ export const userApi = createApi({
       }),
     }),
     getData: builder.mutation<loginOutputDTO, string>({
-      //get user data by token
+      // Get user data by token
       query: token => ({
         url: 'api/user',
         method: 'GET',
@@ -67,7 +67,46 @@ export const userApi = createApi({
     // ################################
     // BOOK COLLECTIONS OF USER SECTION
     // ################################
+    getFavorites: builder.query<string[], { accessToken: string; type: BookType }>({
+            // Отримує улюблені книги користувача
+            query: ({ accessToken, type }) => ({
+                url: `api/user/books/${type}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }),
+        }),
 
+    addFavorite: builder.mutation<IUser, userBookDTO>({
+      // Add book to favorites
+      query: DTO => ({
+        url: 'api/user/books',
+        method: 'POST',
+        body: {
+          bookId: DTO.bookId,
+          type: 'Fav',
+        },
+        headers: {
+          Authorization: `Bearer ${DTO.accessToken}`,
+        },
+      }),
+    }),
+    removeFavorite: builder.mutation<IUser, userBookDTO>({
+      // Remove book from favorites
+      query: DTO => ({
+        url: 'api/user/books',
+        method: 'DELETE',
+        body: {
+          bookId: DTO.bookId,
+          type: 'Fav',
+        },
+        headers: {
+          Authorization: `Bearer ${DTO.accessToken}`,
+        },
+      }),
+    }),
+    /***************** */
     getUserBooks: builder.query<string[], getUserBookDTO>({
       // It adds 1 book to the cart or to favorites with help of 'type'
       query: DTO => ({
@@ -106,18 +145,20 @@ export const userApi = createApi({
         },
       }),
     }),
-    //updateBoughtBooks: builder.query<IUser, string>({}), //Unsure logic about adding new bought book. It should be very secure and has to be discussed with 'Elibri'
+    /**************** */
+
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const {
   useSignUpMutation,
   useSignInMutation,
   useGoogleAuthMutation,
   useRefreshTokenMutation,
   useGetDataMutation,
+  useGetFavoritesQuery,
+  useAddFavoriteMutation,
+  useRemoveFavoriteMutation,
   useAddBookQuery,
   useGetUserBooksQuery,
   useRemoveBookQuery,

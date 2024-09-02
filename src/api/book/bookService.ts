@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import Notiflix from 'notiflix';
 
-import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
-import { CreateOrderDTO } from '@/lib/redux/features/order/types';
+import { IBook } from '@/app/book/[id]/page.types';
+import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
 
 class BookService {
     private baseURL: string | undefined;
@@ -18,9 +18,7 @@ class BookService {
             url: `api/book/updateBooksFromServer`,
         });
         try {
-            const response = await instance.post(
-                `api/book/updateBooksFromServer`
-            );
+            await instance.post(`api/book/updateBooksFromServer`);
         } catch (error) {
             throw error;
         }
@@ -43,7 +41,11 @@ class BookService {
 
             const { data, signature } = response.data;
 
-            // Динамическая загрузка LiqPayCheckout
+            // Динамічна завантаження LiqPayCheckout
+            if (typeof window == 'undefined') {
+                return 0;
+            }
+
             const script = document.createElement('script');
             script.src = 'https://static.liqpay.ua/libjs/checkout.js';
             script.onload = () => {
@@ -52,7 +54,7 @@ class BookService {
                     data: data,
                     signature: signature,
                     embedTo: '#liqpay',
-                    mode: 'popup', // или 'embed'
+                    mode: 'popup', // або 'embed'
                 })
                     .on('liqpay.callback', async function (data: any) {
                         const ifPaid = await bookService.checkIfPaid(order_id);
@@ -106,7 +108,7 @@ class BookService {
                 }
             );
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -118,7 +120,7 @@ class BookService {
             const response = await axios.get(url);
             if (response.data.status == 'sandbox') return true;
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -131,21 +133,13 @@ class BookService {
     ) {
         const url = `${this.baseURL}/api/book/watermarking`;
         try {
-            const response = await axios.post(
-                url,
-                {
-                    formats,
-                    reference_number,
-                    order_id,
-                }
-                // {
-                //   headers: {
-                //     Authorization: `Bearer ${accessToken}`,
-                //   },
-                // }
-            );
+            const response = await axios.post(url, {
+                formats,
+                reference_number,
+                order_id,
+            });
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -154,19 +148,11 @@ class BookService {
     public async makeDelivery(order_id: string) {
         const url = `${this.baseURL}/api/book/deliver`;
         try {
-            const response = await axios.post(
-                url,
-                {
-                    transactionId: order_id,
-                }
-                // {
-                //   headers: {
-                //     Authorization: `Bearer ${accessToken}`,
-                //   },
-                // }
-            );
+            const response = await axios.post(url, {
+                transactionId: order_id,
+            });
 
-            return response.data; // Возможно, вам нужно вернуть что-то из ответа
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
             throw error;
         }
@@ -180,15 +166,23 @@ class BookService {
         reference_number: string,
         amount: number
     ) {
-        const orderedBooks = [
+        const orderedBooks: IOrderBook[] = [
             {
                 reference_number: reference_number,
                 ordered_formats: formats,
                 transaction_id: transactionId,
+                book: {
+                    id: 'sampleBookId',
+                    title: 'sampleBookTitle',
+                    // додайте інші властивості, які має IBook
+                } as IBook,
+                epubLink: 'sampleEpubLink',
+                mobiLink: 'sampleMobiLink',
+                pdfLink: 'samplePdfLink',
             },
         ];
 
-        const createOrderDTO = {
+        const createOrderDTO: CreateOrderDTO = {
             order_id: uuid,
             orderBooks: orderedBooks,
             amount: Number(amount),

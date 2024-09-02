@@ -1,6 +1,12 @@
+import { DefaultSession } from "next-auth";
+
 import { IBook } from '@/app/book/[id]/page.types';
 
 import { IOrderBook, Status } from '../order/types';
+
+export interface CustomSession extends DefaultSession {
+    accessToken?: string;
+}
 
 export enum Role {
     User = 'User',
@@ -72,3 +78,5 @@ export enum BookType {
     Fav = 'Fav',
     Cart = 'Cart',
 }
+
+export type UserResponse = IUser | loginOutputDTO | null;

@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
 
 import {
     AccountLink,
@@ -25,6 +26,7 @@ import {
 } from './Header.styles';
 import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
+import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
     openModal,
@@ -35,13 +37,47 @@ import {
     useSelector,
 } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import { IUser, Role } from '@/lib/redux/features/user/types';
+import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
+import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
 
+interface HeartIconProps {
+    hasFavorites: boolean;
+}
+
+const HeartIcon = styled.div<HeartIconProps>`
+    position: relative;
+    display: inline-block;
+    color: ${props => (props.hasFavorites ? 'red' : 'grey')};
+    cursor: pointer;
+`;
+
+const FavoriteCount = styled.span`
+    position: absolute;
+    top: -10px;
+    right: -22px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2em 0.6em;
+    font-size: 14px;
+`;
+
 const Header = ({ userData }: { userData: IUser | undefined }) => {
+    const token =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('accessToken')
+            : null;
+
+    const { data: favoriteBooks, isLoading } = useGetFavoritesQuery({
+        accessToken: token ?? '',
+        type: BookType.Fav,
+    });
+
     const getBooks = useGetBooksQuery('');
     const booksArr = getBooks.data;
 
@@ -61,14 +97,9 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         dispatch(setModalContent('Catalog'));
     };
 
-    // #############
-    // HANDLE EVENTS
-    // #############
-    const [addClick, setAddClick] = useState(false);
-    const modals = useSelector((state: any) => state.modals.modals);
-    const handleOpenModal = (modalName: string) => {
-        dispatch(openModal(modalName));
-        setAddClick(true);
+    const handleOpenModal = (content: string) => {
+        dispatch(setModalStatus(true));
+        dispatch(setModalContent(content));
     };
 
     const handleClick = () => {
@@ -93,6 +124,9 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     };
 
     const changePage = (page: string) => {
+        if (typeof window === 'undefined') {
+            return 0;
+        }
         const prevPage = document.querySelector(`[data-nav=${activePage}]`);
         const currentPage = document.querySelector(`[data-nav=${page}]`);
         prevPage?.classList.remove('active');
@@ -133,17 +167,23 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!searchVal.current) {
-            return 0;
+            return;
         } else {
             const inputElement = searchVal.current as unknown;
             if (inputElement instanceof HTMLInputElement) {
                 window.location.replace(`/books/?q=${inputElement.value}`);
             } else {
-                return 0;
+                return;
             }
         }
-        return 0;
     };
+
+    const favoriteCount = favoriteBooks?.length ?? 0;
+    const hasFavorites = favoriteCount > 0;
+
+    useEffect(() => {
+        console.log('Favorite books count:', favoriteCount);
+    }, [favoriteCount]);
 
     return (
         <>
@@ -195,7 +235,14 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         )}
                         <HeaderButton>
                             <AccountLink href="/favorite">
-                                <Icon name="heart" size={28} />
+                                <HeartIcon hasFavorites={hasFavorites}>
+                                    <Icon name="heart" size={28} />
+                                    {hasFavorites && (
+                                        <FavoriteCount>
+                                            {favoriteCount}
+                                        </FavoriteCount>
+                                    )}
+                                </HeartIcon>
                                 Обране
                             </AccountLink>
                         </HeaderButton>
@@ -285,8 +332,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                     </Wrapper>
                 </NavToTablet>
             </HeaderContainer>
-            {/*{isOpen && <Modal setIsOpen={setIsOpen} />}*/}
-            {/*{isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}*/}
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
         </>
     );
 };

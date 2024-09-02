@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import {BooksData, FiltersData, IBook, IGenre} from '@/app/book/[id]/page.types';
+import { BooksData, FiltersData, IBook, IGenre } from '@/app/book/[id]/page.types';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -54,6 +53,29 @@ export const bookApi = createApi({
         method: 'GET',
       }),
     }),
+    // #################
+    // FAVORITES INTERACTION
+    // #################
+    getFavorites: builder.query<IBook[], void>({
+      query: () => ({
+        url: 'api/book/favorites',
+        method: 'GET',
+      }),
+    }),
+    addFavorite: builder.mutation<{ message: string }, { bookId: string }>({
+      query: ({ bookId }) => ({
+        url: 'api/book/favorites',
+        method: 'POST',
+        body: { bookId },
+      }),
+    }),
+    removeFavorite: builder.mutation<{ message: string }, { bookId: string }>({
+      query: ({ bookId }) => ({
+        url: 'api/book/favorites',
+        method: 'DELETE',
+        body: { bookId },
+      }),
+    }),
   }),
 });
 
@@ -63,4 +85,7 @@ export const {
   useGetGenresQuery,
   useGetFilterBooksQuery,
   useGetFiltersQuery,
+  useGetFavoritesQuery,
+  useAddFavoriteMutation,
+  useRemoveFavoriteMutation,
 } = bookApi;

@@ -1,3 +1,4 @@
+// "use client";
 // import { ModalWindow, ModalContainer } from "./DesktopCatalog.styles";
 // import { Icon } from "../../common/Icon";
 //

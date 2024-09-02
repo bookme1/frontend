@@ -33,6 +33,12 @@ const MobileCard = ({ book }: { book: any }) => {
   }, {skip: addClick===false});
 
   const dispatch = useDispatch();
+
+// Додана функція для обробки обраних книг
+  const handleToggleFavorite = (isFav: boolean) => {
+    console.log(`Book ${book.id} is ${isFav ? 'added to' : 'removed from'} favorites`);
+  };
+
   const handleOpenModal = (modalName: string) => {
     dispatch(openModal(modalName));
     setAddClick(true);
@@ -54,7 +60,10 @@ const MobileCard = ({ book }: { book: any }) => {
         <BottomContainer>
           <Price>{book.price} ₴</Price>
           <Controls>
-            <FavoriteBtn book={book} isFavAlredy={false} />
+              <FavoriteBtn book={book}
+                isFavAlready={false}
+                onToggleFavorite={handleToggleFavorite}  // Переданий пропс onToggleFavorite
+              />
             <CartButton onClick={()=>{handleOpenModal('successInfo')}}>
               <Icon name="cart" size={24} color="#fff" />
             </CartButton>

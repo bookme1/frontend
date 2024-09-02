@@ -24,7 +24,7 @@ const BookFormat = ({ size }: { size: number }) => {
       <Icon name={imagePath} data-format={format.toUpperCase()} size={size} />
     );
   };
-  const bookFormats = ['EPUB', 'MOBI', 'PDF'];
+  const bookFormats = ['PDF', 'EPUB', 'MOBI'];
   const renderedImages = bookFormats.map(format =>
     renderBookFormatImage(format)
   );
