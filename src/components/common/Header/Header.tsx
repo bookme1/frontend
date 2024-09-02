@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
 
+import { log } from 'console';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -36,7 +37,8 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+// import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
 import { RootState } from '@/lib/redux/store';
@@ -78,8 +80,8 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         type: BookType.Fav,
     });
 
-    const getBooks = useGetBooksQuery('');
-    const booksArr = getBooks.data;
+    // const getBooks = useGetBooksQuery('');
+    // const booksArr = getBooks.data;
 
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
@@ -106,13 +108,34 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         setIsOpen(true);
     };
 
+    // const handleSearch = async (e: any) => {
+    //     if (e.target.value.length >= 2) {
+    //         setIsSearchListOpen(true);
+    //         const res = booksArr?.filter((book: any) =>
+    //             book.title.toLowerCase().includes(e.target.value)
+    //         );
+    //         setBooks(res);
+    //     } else {
+    //         setIsSearchListOpen(false);
+    //     }
+    // };
+
     const handleSearch = async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);
-            const res = booksArr?.filter((book: any) =>
-                book.title.toLowerCase().includes(e.target.value)
-            );
-            setBooks(res);
+            try {
+                const fetchedBooks = await getBooks({
+                    selectReferenceAndTitle: true, // get only book referenceNumber & title
+                });
+                const filteredBooks = fetchedBooks.filter((book: IBook) =>
+                    book.title
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
+                );
+                setBooks(filteredBooks);
+            } catch (error) {
+                console.error('Error during search:', error);
+            }
         } else {
             setIsSearchListOpen(false);
         }
