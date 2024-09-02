@@ -21,7 +21,7 @@ export const bookApi = createApi({
       query: (params) => {
         function createQueryString(params: { [x: string]: any; }) {
           const queryString = Object.keys(params)
-            .filter(key => params[key]) // Filter out keys with empty values
+            .filter(key => params[key]) 
             .map(key => `${key}=${params[key]}`)
             .join('&');
           return queryString;

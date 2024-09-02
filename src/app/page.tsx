@@ -40,7 +40,9 @@ export default function Home() {
             <Header userData={data} />
             <Hero />
             <Categories />
-            <SwiperList />
+            <SwiperList name='Популярне' />
+            <SwiperList value='authors' parametrData='Стівен Кінг' name='Стівена Кінга' />
+            <SwiperList value="genre" parametrData="наука" name='До школи' />
             <Footer />
             {modals.cart.isOpen && <Basket />}
             {modals.successInfo.isOpen && <SuccessInfo />}
