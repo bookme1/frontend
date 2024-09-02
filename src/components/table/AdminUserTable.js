@@ -1,5 +1,7 @@
 import React from 'react';
 import { useGetAllUsersQuery } from '@/lib/redux/features/admin/adminApi';
+import { RiAdminFill } from "react-icons/ri";
+import { FaUser } from "react-icons/fa";
 
 const AdminUserTable = () => {
   const { data: users, error, isLoading } = useGetAllUsersQuery();
@@ -7,11 +9,11 @@ const AdminUserTable = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading users</div>;
 
-    console.log({ users });
+    console.log( users);
 
   return (
       <div className="flex justify-center">
-  <div className="shadow-xl p-4 rounded-lg bg-white w-full max-w-4xl">
+  <div className="shadow-xl p-4 rounded-lg bg-white w-full">
     <p className="text-xl font-semibold mb-4 text-center">Зареєстровані користувачі</p>
           <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -32,6 +34,9 @@ const AdminUserTable = () => {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
               Created At
             </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
+              Verification
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -45,6 +50,9 @@ const AdminUserTable = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {new Date(user.createdAt).toLocaleDateString()}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap flex gap-2 justify-center items-center" >
+                {user.role} {user.role === "User" ? <FaUser /> : <RiAdminFill />}
               </td>
             </tr>
           ))}
