@@ -25,6 +25,7 @@ const initialState: BooksSliceState = {
     cart: { isOpen: false },
     catalog: { isOpen: false },
     successInfo: { isOpen: false },
+    filter: { isOpen: false },
   },
   openModal: false,
   modalContent: '',

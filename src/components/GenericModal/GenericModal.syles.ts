@@ -25,7 +25,7 @@ export const ModalContainer = styled.div<ModalContainerProps>`
   background-color: #fff;
   border-radius: 16px;
   overflow-y: scroll;
-  margin-left: ${props => (props.align === 'left' ? '0' : props.align === 'right' ? 'auto' : 'auto')};
+  margin-left: ${props => (props.align === 'left' ? '0' : props.align === 'right' ? 'auto' : '0')};
   margin-right: ${props => (props.align === 'left' ? 'auto' : props.align === 'right' ? '0' : 'auto')};
   left: ${props => (props.align === 'center' ? '50%' : 'initial')};
   transform: ${props => (props.align === 'center' ? 'translateX(-50%)' : 'none')};

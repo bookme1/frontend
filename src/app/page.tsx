@@ -13,7 +13,7 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+// import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
-import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
 import { IBook } from '@/app/book/[id]/page.types';
+import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
 
 class BookService {
     private baseURL: string | undefined;
@@ -42,6 +42,10 @@ class BookService {
             const { data, signature } = response.data;
 
             // Динамічна завантаження LiqPayCheckout
+            if (typeof window == 'undefined') {
+                return 0;
+            }
+
             const script = document.createElement('script');
             script.src = 'https://static.liqpay.ua/libjs/checkout.js';
             script.onload = () => {
@@ -56,11 +60,14 @@ class BookService {
                         const ifPaid = await bookService.checkIfPaid(order_id);
                         if (ifPaid) {
                             Notiflix.Notify.success('Дякуємо за покупку!');
-                            const result = await bookService.makeDelivery(order_id);
+                            const result =
+                                await bookService.makeDelivery(order_id);
                             console.log('RESULT');
                             console.log(result);
                             if (result == 'OK') {
-                                Notiflix.Notify.success('Книжки були доставлені до бібліотеки!');
+                                Notiflix.Notify.success(
+                                    'Книжки були доставлені до бібліотеки!'
+                                );
                             }
                         }
                     })
@@ -81,7 +88,10 @@ class BookService {
         }
     }
 
-    public async orderRequest(orderData: CreateOrderDTO, accessToken: string | null) {
+    public async orderRequest(
+        orderData: CreateOrderDTO,
+        accessToken: string | null
+    ) {
         const url = `${this.baseURL}/api/order`;
         try {
             const response = await axios.post(
@@ -116,17 +126,18 @@ class BookService {
         }
     }
 
-    public async makeWatermarking(formats: string, reference_number: string, order_id: string) {
+    public async makeWatermarking(
+        formats: string,
+        reference_number: string,
+        order_id: string
+    ) {
         const url = `${this.baseURL}/api/book/watermarking`;
         try {
-            const response = await axios.post(
-                url,
-                {
-                    formats,
-                    reference_number,
-                    order_id,
-                }
-            );
+            const response = await axios.post(url, {
+                formats,
+                reference_number,
+                order_id,
+            });
 
             return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
@@ -137,12 +148,9 @@ class BookService {
     public async makeDelivery(order_id: string) {
         const url = `${this.baseURL}/api/book/deliver`;
         try {
-            const response = await axios.post(
-                url,
-                {
-                    transactionId: order_id,
-                }
-            );
+            const response = await axios.post(url, {
+                transactionId: order_id,
+            });
 
             return response.data; // Можливо, вам потрібно повернути щось з відповіді
         } catch (error) {
@@ -150,7 +158,14 @@ class BookService {
         }
     }
 
-    public async makeOrder(accessToken: string | null, uuid: string, formats: string, transactionId: string, reference_number: string, amount: number) {
+    public async makeOrder(
+        accessToken: string | null,
+        uuid: string,
+        formats: string,
+        transactionId: string,
+        reference_number: string,
+        amount: number
+    ) {
         const orderedBooks: IOrderBook[] = [
             {
                 reference_number: reference_number,
@@ -160,10 +175,10 @@ class BookService {
                     id: 'sampleBookId',
                     title: 'sampleBookTitle',
                     // додайте інші властивості, які має IBook
-                } as IBook, 
+                } as IBook,
                 epubLink: 'sampleEpubLink',
                 mobiLink: 'sampleMobiLink',
-                pdfLink: 'samplePdfLink'
+                pdfLink: 'samplePdfLink',
             },
         ];
 

@@ -10,7 +10,13 @@ import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
 import { Icon } from '@/components/common/Icon';
 import { IUser } from '@/lib/redux/features/user/types';
 
-const NavLink = ({ href, children }: { href: any; children: any }) => {
+const NavLink = ({
+    href = null,
+    children = null,
+}: {
+    href: any;
+    children: any;
+}) => {
     const pathname = usePathname();
     const isActive = pathname === href;
 
