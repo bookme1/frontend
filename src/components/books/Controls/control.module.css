@@ -17,9 +17,15 @@
     width: 100%;
 }
 
-.computer__filter {
+.filter {
     display: none;
-    max-width: 230px;
+    max-width: 100%;
+}
+
+.filter.mobile {
+    display: block;
+    padding: 32px 16px;
+    border-radius: 0;
 }
 
 .products__section {
@@ -282,6 +288,12 @@
     .section {
         padding: 50px 0 40px;
     }
+    .filter {
+        max-width: 320px;
+    }
+    .filter.mobile {
+        padding: 48px 16px;
+    }
     .products__section {
         gap: 40px;
     }
@@ -330,8 +342,13 @@
     .section {
         padding: 32px 0 132px;
     }
-    .computer__filter {
+    .filter {
         display: block;
+        overflow-y: hidden;
+        max-width: 230px;
+    }
+    .filter.mobile {
+        display: none;
     }
     .products__section {
         gap: 32px;

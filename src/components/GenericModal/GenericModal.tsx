@@ -22,6 +22,7 @@ export const GenericModal = ({
         null
     );
 
+
     const handleCloseModal = (modalName: string) => {
         dispatch(closeModal(modalName));
     };
