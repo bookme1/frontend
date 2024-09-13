@@ -3,8 +3,8 @@
 import React, { useEffect } from 'react';
 
 import { FavList, Text } from './Favorite.styles';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
-import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
 
 import { Card } from '../common/Card';
 
@@ -44,11 +44,7 @@ const Favorite = ({ books }: { books: any }) => {
             ) : (
                 <FavList>
                     {favBooks?.map((book: any) => (
-                        <Card
-                            key={book.id}
-                            book={book}
-                            
-                        />
+                        <Card key={book.id} book={book} />
                     ))}
                 </FavList>
             )}

@@ -42,9 +42,9 @@ const Icons = () => {
                             y2="166.813"
                             fill="none"
                             stroke="#000"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="16"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="16"
                         ></line>
                         <line
                             x1="154.182"
@@ -53,9 +53,9 @@ const Icons = () => {
                             y2="189.607"
                             fill="none"
                             stroke="#000"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="16"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="16"
                         ></line>
                         <line
                             x1="101.73"
@@ -64,9 +64,9 @@ const Icons = () => {
                             y2="189.594"
                             fill="none"
                             stroke="#000"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="16"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="16"
                         ></line>
                         <line
                             x1="54.809"
@@ -75,16 +75,16 @@ const Icons = () => {
                             y2="166.971"
                             fill="none"
                             stroke="#000"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="16"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="16"
                         ></line>
                         <path
                             fill="none"
                             stroke="#A7A7A7"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="16"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="16"
                             d="M31.99943,104.87509C48.81193,125.68556,79.63353,152,128,152c48.36629,0,79.18784-26.31424,96.00039-47.12468"
                         ></path>
                     </symbol>
@@ -2726,8 +2726,8 @@ const Icons = () => {
                                 y2="98.5158"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#FF7750" />
-                                <stop offset="1" stop-color="#736856" />
+                                <stop stopColor="#FF7750" />
+                                <stop offset="1" stopColor="#736856" />
                             </linearGradient>
                             <linearGradient
                                 id="paint1_linear_2087_29327"
@@ -2737,8 +2737,8 @@ const Icons = () => {
                                 y2="29.2174"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#6C777A" />
-                                <stop offset="1" stop-color="#AEACB2" />
+                                <stop stopColor="#6C777A" />
+                                <stop offset="1" stopColor="#AEACB2" />
                             </linearGradient>
                             <linearGradient
                                 id="paint2_linear_2087_29327"
@@ -2748,8 +2748,8 @@ const Icons = () => {
                                 y2="26.3001"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#ABC5CF" />
-                                <stop offset="1" stop-color="#E9EDED" />
+                                <stop stopColor="#ABC5CF" />
+                                <stop offset="1" stopColor="#E9EDED" />
                             </linearGradient>
                             <linearGradient
                                 id="paint3_linear_2087_29327"
@@ -2759,8 +2759,8 @@ const Icons = () => {
                                 y2="105.087"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#B9BDC8" />
-                                <stop offset="1" stop-color="#DFDDE1" />
+                                <stop stopColor="#B9BDC8" />
+                                <stop offset="1" stopColor="#DFDDE1" />
                             </linearGradient>
                             <linearGradient
                                 id="paint4_linear_2087_29327"
@@ -2770,8 +2770,8 @@ const Icons = () => {
                                 y2="22.864"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="#BDBDBC" />
-                                <stop offset="1" stop-color="#E2DFE1" />
+                                <stop stopColor="#BDBDBC" />
+                                <stop offset="1" stopColor="#E2DFE1" />
                             </linearGradient>
                         </defs>
                     </symbol>

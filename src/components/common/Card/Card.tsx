@@ -2,16 +2,29 @@
 
 import { useEffect, useState } from 'react';
 
-
-
-import { Authors, BookFormatContainer, BottomContainer, BoxStyles, CardContainer, CardLink, CartButton, DescriptionContainer, ImageContainer, Price, Title } from './Card.styles';
+import {
+    Authors,
+    BookFormatContainer,
+    BottomContainer,
+    BoxStyles,
+    CardContainer,
+    CardLink,
+    CartButton,
+    DescriptionContainer,
+    ImageContainer,
+    Price,
+    Title,
+} from './Card.styles';
 import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
 import { BookFormat } from '@/components/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
+import {
+    useAddFavoriteMutation,
+    useGetFavoritesQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddFavoriteMutation, useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
 
 import { Icon } from '../Icon';
 
@@ -47,7 +60,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
         } else {
             setIsFavAlready(false);
         }
-    }, [favorites, id]); 
+    }, [favorites, id]);
 
     const handleAddBook = () => {
         addBook({

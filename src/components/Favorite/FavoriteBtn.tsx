@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-
-
+import {
+    useAddFavoriteMutation,
+    useRemoveFavoriteMutation,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '@/lib/redux/features/user/userApi';
 
-
-
-import { HeartFillStyles, HeartNotFillStyles } from '../book/MainInformation/MainInformation.styles';
-
+import {
+    HeartFillStyles,
+    HeartNotFillStyles,
+} from '../book/MainInformation/MainInformation.styles';
 
 const FavoriteBtn = ({
     book,
