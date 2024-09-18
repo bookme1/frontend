@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-
-
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '@/lib/redux/features/user/userApi';
+import {
+    useAddBookQuery,
+    useRemoveBookQuery,
+} from '@/lib/redux/features/user/userApi';
 
-
-
-import { HeartFillStyles, HeartNotFillStyles } from '../book/MainInformation/MainInformation.styles';
-
+import {
+    HeartFillStyles,
+    HeartNotFillStyles,
+} from '../book/MainInformation/MainInformation.styles';
 
 const FavoriteBtn = ({
     book,
@@ -22,23 +23,30 @@ const FavoriteBtn = ({
     onToggleFavorite: (isFav: boolean) => void;
 }) => {
     const [isFavorite, setIsFavorite] = useState(isFavAlready);
+    const [addToFavId, setAddToFavId] = useState<string>('');
+    const [removeFromFavId, setRemoveFromFavId] = useState<string>('');
     const token = localStorage.getItem('accessToken');
-    const [addFavorite] = useAddFavoriteMutation();
-    const [removeFavorite] = useRemoveFavoriteMutation();
 
     useEffect(() => {
         setIsFavorite(isFavAlready);
         console.log(`Favorite status updated from props: ${isFavAlready}`);
     }, [isFavAlready]);
 
+    useAddBookQuery({
+        accessToken: token || '',
+        bookId: addToFavId,
+        type: BookType.Fav,
+    });
+    useRemoveBookQuery({
+        accessToken: token || '',
+        bookId: removeFromFavId,
+        type: BookType.Fav,
+    });
+
     const handleFavoriteClick = async () => {
         if (token !== null) {
             try {
-                await addFavorite({
-                    accessToken: token,
-                    bookId: book.id,
-                    type: BookType.Fav,
-                });
+                setAddToFavId(book.id);
                 console.log(`Book added to favorites: ${book.id}`);
                 setIsFavorite(true);
                 onToggleFavorite(true);
@@ -60,11 +68,7 @@ const FavoriteBtn = ({
     const handleNotFavoriteClick = async () => {
         if (token !== null) {
             try {
-                await removeFavorite({
-                    accessToken: token,
-                    bookId: book.id,
-                    type: BookType.Fav,
-                });
+                setRemoveFromFavId(book.id);
                 console.log(`Book removed from favorites: ${book.id}`);
                 setIsFavorite(false);
                 onToggleFavorite(false);

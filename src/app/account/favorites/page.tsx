@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -14,6 +16,8 @@ import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
     const { data: books, refetch: refetchBooks } = useGetBooksQuery('');
+    console.log('books');
+    console.log(books);
 
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     const router = useRouter();

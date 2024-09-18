@@ -1,24 +1,32 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { FavList, Text } from './Favorite.styles';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
-import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+import { BookType } from '@/lib/redux/features/user/types';
+import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 import { Card } from '../common/Card';
 
 const Favorite = ({ books }: { books: any }) => {
     const token = localStorage.getItem('accessToken');
-
     const {
         data: favorites,
-        error,
         isLoading,
-    } = useGetFavoritesQuery({
-        accessToken: token ?? '',
-        type: BookType.Fav,
-    });
+        error,
+    } = useGetUserBooksQuery({ accessToken: token ?? '', type: BookType.Fav });
+    console.log('render with data');
+    console.log(favorites);
+    console.log('bucks');
+    console.log(books);
+    // const {
+    //     data: favorites,
+    //     error,
+    //     isLoading,
+    // } = useGetFavoritesQuery({
+    //     accessToken: token ?? '',
+    //     type: BookType.Fav,
+    // });
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading favorites</div>;
@@ -44,11 +52,7 @@ const Favorite = ({ books }: { books: any }) => {
             ) : (
                 <FavList>
                     {favBooks?.map((book: any) => (
-                        <Card
-                            key={book.id}
-                            book={book}
-                            
-                        />
+                        <Card key={book.id} book={book} />
                     ))}
                 </FavList>
             )}

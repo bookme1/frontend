@@ -2,16 +2,29 @@
 
 import { useEffect, useState } from 'react';
 
-
-
-import { Authors, BookFormatContainer, BottomContainer, BoxStyles, CardContainer, CardLink, CartButton, DescriptionContainer, ImageContainer, Price, Title } from './Card.styles';
+import {
+    Authors,
+    BookFormatContainer,
+    BottomContainer,
+    BoxStyles,
+    CardContainer,
+    CardLink,
+    CartButton,
+    DescriptionContainer,
+    ImageContainer,
+    Price,
+    Title,
+} from './Card.styles';
 import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
 import { BookFormat } from '@/components/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddFavoriteMutation, useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+import {
+    useAddBookQuery,
+    useGetUserBooksQuery,
+} from '@/lib/redux/features/user/userApi';
 
 import { Icon } from '../Icon';
 
@@ -24,14 +37,14 @@ const Card = ({ book }: { book: IBook | undefined }) => {
     const { title, url, price, author, id } = initialBook;
     lazyloadExp();
 
-    const [addBook, { isLoading }] = useAddFavoriteMutation();
+    const [favIdToAdd, setFavIdToAdd] = useState<string>('');
     const token =
         typeof window !== 'undefined'
             ? localStorage.getItem('accessToken')
             : null;
 
     // Отримання обраних книг
-    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
+    const { data: favorites, refetch: refetchFavorites } = useGetUserBooksQuery(
         {
             accessToken: token ?? '',
             type: BookType.Fav,
@@ -47,15 +60,13 @@ const Card = ({ book }: { book: IBook | undefined }) => {
         } else {
             setIsFavAlready(false);
         }
-    }, [favorites, id]); 
+    }, [favorites, id]);
 
-    const handleAddBook = () => {
-        addBook({
-            accessToken: token ?? '',
-            bookId: id ?? '',
-            type: BookType.Cart,
-        });
-    };
+    useAddBookQuery({
+        accessToken: token ?? '',
+        bookId: favIdToAdd,
+        type: BookType.Cart,
+    });
 
     const modals = useSelector((state: any) => state.modals.modals);
     const dispatch = useDispatch();
@@ -94,10 +105,10 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                             />
                             <CartButton
                                 onClick={() => {
-                                    handleAddBook();
+                                    setFavIdToAdd(id);
                                     handleOpenModal('successInfo');
                                 }}
-                                disabled={isLoading}
+                                //disabled={isLoading}
                             >
                                 <Icon name="cart" size={24} color="white" />
                             </CartButton>

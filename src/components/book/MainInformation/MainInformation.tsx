@@ -132,6 +132,8 @@ const MainInformation = ({
         if (transaction_id) {
             console.log('transaction successful');
         } else {
+            console.log(transaction_id);
+            console.log('oshibka');
             Notiflix.Notify.failure('Помилка при нанесенні вотермарки!');
             Notiflix.Notify.failure(
                 "Будь ласка, зв'яжіться з адміністратором сайту!"
