@@ -6,7 +6,6 @@ import {
     IBook,
     IGenre,
 } from '@/app/book/[id]/page.types';
-
 import { BookType, IUser, userBookDTO } from '../user/types';
 
 export const bookApi = createApi({
