@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { BookType } from '@/lib/redux/features/user/types';
 import {
-    useAddBookQuery,
-    useRemoveBookQuery,
-} from '@/lib/redux/features/user/userApi';
+    useAddFavoriteMutation,
+    useRemoveFavoriteMutation,
+} from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 import {
     HeartFillStyles,

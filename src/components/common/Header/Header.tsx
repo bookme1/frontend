@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TfiPanel } from 'react-icons/tfi';
 
-import { log } from 'console';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -37,6 +36,7 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 // import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';

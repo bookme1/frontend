@@ -7,8 +7,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
@@ -23,7 +23,7 @@ import {
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
     let token1 = localStorage.getItem('accessToken');
 
-    const fav = useGetUserBooksQuery({
+    const fav = useGetFavoritesQuery({
         accessToken: token1 ?? '',
         type: BookType.Fav,
     });

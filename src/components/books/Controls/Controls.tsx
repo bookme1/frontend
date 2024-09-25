@@ -3,27 +3,26 @@
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
-
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-
-
 import styles from './control.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import { useRouter } from 'next/navigation';
-import { GenericModal } from '@/components/GenericModal/GenericModal';
-import { useGetFilterBooksQuery, useGetFiltersQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    useGetFilterBooksQuery,
+    useGetFiltersQuery,
+} from '@/lib/redux/features/book/bookApi';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { CustomSession } from '@/lib/redux/features/user/types';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useGetFavoritesQuery } from '@/lib/redux/features/user/userApi';
+
 import Filter from '../Filter/Filter';
 
 const Controls = () => {
@@ -32,7 +31,7 @@ const Controls = () => {
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
-    const sortArray: string[] = ["Дорожче", "Дешевше", "За рейтингом"];
+    const sortArray: string[] = ['Дорожче', 'Дешевше', 'За рейтингом'];
     const searchParams = useSearchParams();
     const authors = decodeURIComponent(searchParams?.get('authors') || '');
     const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
@@ -61,8 +60,8 @@ const Controls = () => {
     const dispatch = useDispatch();
 
     const handleOpenModal = (modalName: string, event: React.MouseEvent) => {
-      event.preventDefault();
-      dispatch(openModal(modalName));
+        event.preventDefault();
+        dispatch(openModal(modalName));
     };
 
     const handleSortClick = (sortText: string) => {
@@ -148,12 +147,6 @@ const Controls = () => {
         router.push(currentUrl.toString());
     };
 
-    const handlePageChange = (pageNumber: number) => {
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('page', pageNumber.toString());
-        router.push(currentUrl.toString());
-    };
-
     const getPageNumbers = () => {
         const pageNumbers = [];
         const isMobile = window.innerWidth <= 748;
@@ -193,7 +186,7 @@ const Controls = () => {
 
         return pageNumbers;
     };
-    
+
     const token = session?.accessToken ?? localStorage.getItem('accessToken');
     const { data: favoriteBooks, refetch: refetchFavoriteBooks } =
         useGetFavoritesQuery({
@@ -214,13 +207,18 @@ const Controls = () => {
                 <Loading />
             ) : (
                 <section className={styles.section}>
-                    {isOpenModal.isOpen && 
-                        <GenericModal modalName='filter' align={window.innerWidth <= 748 ? 'center' : 'left'}>
-                            <div className={`${styles.filter} ${styles.mobile}`}>
+                    {isOpenModal.isOpen && (
+                        <GenericModal
+                            modalName="filter"
+                            align={window.innerWidth <= 748 ? 'center' : 'left'}
+                        >
+                            <div
+                                className={`${styles.filter} ${styles.mobile}`}
+                            >
                                 <Filter filtersData={filtersData} />
                             </div>
                         </GenericModal>
-                    }
+                    )}
                     <div className={styles.container}>
                         <div className={styles.wrapper}>
                             <div className={styles.computer__filter}>
@@ -379,10 +377,14 @@ const Controls = () => {
                                                                         isFavAlready={
                                                                             isFavAlredy
                                                                         }
-                                                                        onToggleFavorite={(isFav: boolean) => {
-        console.log(`Favorite status for book ${book.id} changed to: ${isFav}`);
-        // Додаткові дії при зміні статусу обраного
-    }}
+                                                                        onToggleFavorite={(
+                                                                            isFav: boolean
+                                                                        ) => {
+                                                                            console.log(
+                                                                                `Favorite status for book ${book.id} changed to: ${isFav}`
+                                                                            );
+                                                                            // Додаткові дії при зміні статусу обраного
+                                                                        }}
                                                                     />
                                                                     <button
                                                                         className={

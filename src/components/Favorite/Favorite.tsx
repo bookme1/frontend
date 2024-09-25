@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { FavList, Text } from './Favorite.styles';
-import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import { BookType, IUser } from '@/lib/redux/features/user/types';
 
 import { Card } from '../common/Card';
 

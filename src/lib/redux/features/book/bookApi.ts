@@ -6,6 +6,7 @@ import {
     IBook,
     IGenre,
 } from '@/app/book/[id]/page.types';
+import { BookType, IUser, userBookDTO } from '../user/types';
 
 export const bookApi = createApi({
     reducerPath: 'bookApi',
@@ -20,7 +21,7 @@ export const bookApi = createApi({
             query: () => ({
                 url: 'api/book',
                 method: 'GET',
-                // cacheTime: 24 * 60 * 60 * 1000,
+                cacheTime: 24 * 60 * 60 * 1000,
             }),
         }),
         getFilterBooks: builder.query<BooksData, any>({
@@ -62,27 +63,46 @@ export const bookApi = createApi({
         // #################
         // FAVORITES INTERACTION
         // #################
-        getFavorites: builder.query<IBook[], void>({
-            query: () => ({
-                url: 'api/book/favorites',
-                method: 'GET',
-            }),
-        }),
-        addFavorite: builder.mutation<{ message: string }, { bookId: string }>({
-            query: ({ bookId }) => ({
-                url: 'api/book/favorites',
-                method: 'POST',
-                body: { bookId },
-            }),
-        }),
-        removeFavorite: builder.mutation<
-            { message: string },
-            { bookId: string }
+        getFavorites: builder.query<
+            string[],
+            { accessToken: string; type: BookType }
         >({
-            query: ({ bookId }) => ({
-                url: 'api/book/favorites',
+            query: ({ accessToken, type }) => ({
+                url: `api/user/books/${type}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }),
+        }),
+
+        addFavorite: builder.mutation<IUser, userBookDTO>({
+            // Add book to favorites
+            query: DTO => ({
+                url: 'api/user/books',
+                method: 'POST',
+                body: {
+                    bookId: DTO.bookId,
+                    type: 'Fav',
+                },
+                headers: {
+                    Authorization: `Bearer ${DTO.accessToken}`,
+                },
+            }),
+        }),
+
+        removeFavorite: builder.mutation<IUser, userBookDTO>({
+            // Remove book from favorites
+            query: DTO => ({
+                url: 'api/user/books',
                 method: 'DELETE',
-                body: { bookId },
+                body: {
+                    bookId: DTO.bookId,
+                    type: 'Fav',
+                },
+                headers: {
+                    Authorization: `Bearer ${DTO.accessToken}`,
+                },
             }),
         }),
     }),

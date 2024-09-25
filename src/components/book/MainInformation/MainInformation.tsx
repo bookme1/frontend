@@ -27,12 +27,12 @@ import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
 import {
     useAddFavoriteMutation,
     useGetFavoritesQuery,
     useRemoveFavoriteMutation,
-} from '@/lib/redux/features/user/userApi';
+} from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
 

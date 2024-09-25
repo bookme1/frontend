@@ -20,11 +20,11 @@ import { IBook } from '@/app/book/[id]/page.types';
 import { BookFormat } from '@/components/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
 import {
-    useAddBookQuery,
-    useGetUserBooksQuery,
-} from '@/lib/redux/features/user/userApi';
+    useAddFavoriteMutation,
+    useGetFavoritesQuery,
+} from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 import { Icon } from '../Icon';
 
