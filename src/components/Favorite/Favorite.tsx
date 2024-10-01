@@ -1,57 +1,58 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FavList, Text } from './Favorite.styles';
+import { IBook } from '@/app/book/[id]/page.types';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
+import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../common/Card';
 
-const Favorite = ({ books }: { books: any }) => {
+const Favorite = ({ books }: { books: IBook[] }) => {
     const token = localStorage.getItem('accessToken');
+    const [favBooks, setFavBooks] = useState<IBook[]>([]);
+
     const {
         data: favorites,
-        isLoading,
         error,
-    } = useGetUserBooksQuery({ accessToken: token ?? '', type: BookType.Fav });
-    console.log('render with data');
-    console.log(favorites);
-    console.log('bucks');
-    console.log(books);
-    // const {
-    //     data: favorites,
-    //     error,
-    //     isLoading,
-    // } = useGetFavoritesQuery({
-    //     accessToken: token ?? '',
-    //     type: BookType.Fav,
-    // });
+        isLoading,
+    } = useGetFavoritesQuery({
+        accessToken: token ?? '',
+        type: BookType.Fav,
+    });
+
+    useEffect(() => {
+        if (favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            setFavBooks(favorites);
+        }
+    }, [favorites]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const favBooksFromStorage = localStorage.getItem('favorites');
+            if (favBooksFromStorage) {
+                const parsedBooks: IBook[] = JSON.parse(favBooksFromStorage);
+                setFavBooks(parsedBooks);
+            }
+        }
+    }, []);
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading favorites</div>;
 
-    const favoriteArr: string[] = favorites || [];
-
-    let favIdList: string[] = [];
-    if (typeof window !== 'undefined') {
-        const favIdListFromStorage = localStorage.getItem('favorites');
-        favIdList = favIdListFromStorage
-            ? JSON.parse(favIdListFromStorage)
-            : [];
-    }
-
-    const favBooks = books?.filter((book: any) =>
-        favoriteArr.includes(book.id)
+    const favUserBooks = books?.filter((book: IBook) =>
+        favBooks.some((favBook: IBook) => favBook.id === book.id)
     );
 
     return (
         <>
-            {favBooks?.length === 0 ? (
+            {favUserBooks?.length === 0 ? (
                 <Text>There are no favorite books here</Text>
             ) : (
                 <FavList>
-                    {favBooks?.map((book: any) => (
+                    {favUserBooks?.map((book: IBook) => (
                         <Card key={book.id} book={book} />
                     ))}
                 </FavList>

@@ -40,7 +40,6 @@ import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 // import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
 
@@ -75,7 +74,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
             ? localStorage.getItem('accessToken')
             : null;
 
-    const favoriteBooks = useGetUserBooksQuery({
+    const { data: favoriteBooks, isLoading } = useGetFavoritesQuery({
         accessToken: token ?? '',
         type: BookType.Fav,
     });
