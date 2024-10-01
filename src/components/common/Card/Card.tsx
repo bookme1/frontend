@@ -37,14 +37,14 @@ const Card = ({ book }: { book: IBook | undefined }) => {
     const { title, url, price, author, id } = initialBook;
     lazyloadExp();
 
-    const [favIdToAdd, setFavIdToAdd] = useState<string>('');
+    const [addBook, { isLoading }] = useAddFavoriteMutation();
     const token =
         typeof window !== 'undefined'
             ? localStorage.getItem('accessToken')
             : null;
 
     // Отримання обраних книг
-    const { data: favorites, refetch: refetchFavorites } = useGetUserBooksQuery(
+    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
         {
             accessToken: token ?? '',
             type: BookType.Fav,
@@ -62,11 +62,13 @@ const Card = ({ book }: { book: IBook | undefined }) => {
         }
     }, [favorites, id]);
 
-    useAddBookQuery({
-        accessToken: token ?? '',
-        bookId: favIdToAdd,
-        type: BookType.Cart,
-    });
+    const handleAddBook = () => {
+        addBook({
+            accessToken: token ?? '',
+            bookId: id ?? '',
+            type: BookType.Cart,
+        });
+    };
 
     const modals = useSelector((state: any) => state.modals.modals);
     const dispatch = useDispatch();
@@ -105,10 +107,10 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                             />
                             <CartButton
                                 onClick={() => {
-                                    setFavIdToAdd(id);
+                                    handleAddBook();
                                     handleOpenModal('successInfo');
                                 }}
-                                //disabled={isLoading}
+                                disabled={isLoading}
                             >
                                 <Icon name="cart" size={24} color="white" />
                             </CartButton>

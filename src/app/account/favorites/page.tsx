@@ -16,8 +16,6 @@ import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
     const { data: books, refetch: refetchBooks } = useGetBooksQuery('');
-    console.log('books');
-    console.log(books);
 
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     const router = useRouter();
@@ -62,7 +60,7 @@ export default function Home() {
       </button> */}
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={data.username} />
-            <Favorite books={books} />
+            <Favorite books={books || []} />
         </Wrapper>
     );
 }
