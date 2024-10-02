@@ -81,7 +81,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
     };
 
     return (
-        <>
+        <div style={{ height: 455 }}>
             <CardContainer>
                 <ImageContainer
                     className="lazyload"
@@ -118,7 +118,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                     </BottomContainer>
                 </DescriptionContainer>
             </CardContainer>
-        </>
+        </div>
     );
 };
 

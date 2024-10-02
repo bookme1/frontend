@@ -11,6 +11,7 @@
 
     @media screen and (min-width: 1280px) {
         padding: 40px 22px;
+        padding-top: 80px;
     }
 }
 
@@ -18,7 +19,6 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
     font-size: 18px;
     color: black;
     overflow-y: auto;
@@ -40,7 +40,17 @@
 
 .menuItem {
     cursor: pointer;
-    margin-bottom: 2px;
+    padding: 5px;
+    border-bottom: 1px solid #bababa;
+    font-variant-numeric: lining-nums;
+}
+
+.menuItemActive {
+    background-color: #d2d2d2;
+}
+
+.menuItem:last-of-type {
+    border: grey;
 }
 
 .menuItem:hover {
@@ -51,10 +61,10 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
     font-size: 18px;
     color: black;
-    overflow-y: auto; /* Add overflow-y to submenuColumn */
+    overflow-y: auto;
+    /* Add overflow-y to submenuColumn */
     height: 100%;
 
     &::-webkit-scrollbar {

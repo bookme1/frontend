@@ -42,7 +42,6 @@ export const CardContainer = styled.li`
         transition: opacity 0.2s ease-in;
     }
     &:hover {
-        height: 450px;
         .formats-hover {
             transform: translateY(0);
         }

@@ -1,19 +1,30 @@
-"use client";
-import { useEffect } from "react";
-import { CardList } from "../CardList";
-import { useGetFilterBooksQuery } from "@/lib/redux/features/book/bookApi";
+'use client';
 
-const SwiperList = ({ name, parametrData, value }: { name: string, parametrData?: string, value?: string }) => {
-  const { data } = useGetFilterBooksQuery({ [value ? value : ""]: parametrData });
+import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 
-  const booksArr = data?.books;
+import { CardList } from '../CardList';
 
-  if (!booksArr)
-    return <p>Книжок не знайдено :(</p>;
+const SwiperList = ({
+    name,
+    parametrData,
+    value,
+}: {
+    name: string;
+    parametrData?: string;
+    value?: string;
+}) => {
+    const { data } = useGetFilterBooksQuery({
+        [value ? value : '']: parametrData,
+    });
 
-  console.log(booksArr)
-  
-  return <CardList name={name} books={booksArr} />;
+    const booksArr = data?.books;
+
+    if (!booksArr)
+        return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
+
+    console.log(booksArr);
+
+    return <CardList name={name} books={booksArr} />;
 };
 
 export default SwiperList;

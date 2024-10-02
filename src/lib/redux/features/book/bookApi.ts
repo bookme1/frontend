@@ -50,13 +50,13 @@ export const bookApi = createApi({
         // FILTER INTERACTION
         // #################
         getGenres: builder.query<IGenre[], string>({
-            query: id => ({
+            query: () => ({
                 url: `api/filter`,
                 method: 'GET',
             }),
         }),
         getFilters: builder.query<FiltersData, string>({
-            query: id => ({
+            query: () => ({
                 url: `api/filter/filters`, // Endpoint will be changed after first deploy
                 method: 'GET',
             }),

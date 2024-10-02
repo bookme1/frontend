@@ -107,18 +107,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         setIsOpen(true);
     };
 
-    // const handleSearch = async (e: any) => {
-    //     if (e.target.value.length >= 2) {
-    //         setIsSearchListOpen(true);
-    //         const res = booksArr?.filter((book: any) =>
-    //             book.title.toLowerCase().includes(e.target.value)
-    //         );
-    //         setBooks(res);
-    //     } else {
-    //         setIsSearchListOpen(false);
-    //     }
-    // };
-
     const handleSearch = async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);

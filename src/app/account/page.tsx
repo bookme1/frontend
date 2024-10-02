@@ -14,7 +14,7 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
-export default function Home() {
+const Home = () => {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     const router = useRouter();
 
@@ -53,4 +53,6 @@ export default function Home() {
             </AccountContainer>
         </Wrapper>
     );
-}
+};
+
+export default Home;

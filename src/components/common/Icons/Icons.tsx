@@ -1,4 +1,16 @@
+import React, { useEffect, useState } from 'react';
+
 const Icons = () => {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
     return (
         <div>
             <svg

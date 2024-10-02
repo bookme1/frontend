@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import Link from 'next/link';
+
 import modalStyles from '@/components/Modals/MainModal/MainModal.module.css';
 import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
@@ -9,51 +11,62 @@ import { useGetGenresQuery } from '@/lib/redux/features/book/bookApi';
 interface IGenre {
     genre: string;
     count: number;
-    subgenres: string[]; // Масив рядків
+    subgenres: string[]; // Array of string
 }
 
 const Menu: React.FC<{
     onClose: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ onClose }) => {
     const dispatch = useDispatch();
-    const { data, isLoading } = useGetGenresQuery('');
+    let { data, isLoading } = useGetGenresQuery('');
+    if (!data?.length) data = [];
+
+    console.log('received data');
     console.log(data);
 
-    const [submenuData, setSubmenuData] = useState<string[]>([]); // Масив рядків
+    const [submenuData, setSubmenuData] = useState<IGenre[]>([]); // Array of strings
 
-    const handleMouseEnter = (subgenres: string[]) => {
-        setSubmenuData(subgenres);
+    const setActiveMenuItem = (index: string) => {
+        const menuItems = document.querySelectorAll(
+            "[data-active-handler='menu']"
+        );
+
+        menuItems.forEach(element => {
+            if (element.id != `menu-item-${index}`)
+                element.classList.remove(classes.menuItemActive);
+            else element.classList.add(classes.menuItemActive);
+        });
     };
 
-    const handleMouseLeave = () => {
-        setSubmenuData([]);
+    const handleMouseEnter = (subgenres: IGenre[], index: string) => {
+        setActiveMenuItem(index);
+        setSubmenuData(subgenres);
     };
 
     const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
         dispatch(setModalStatus(false));
         onClose(event);
     };
-
     return (
-        <div
-            className={classes.ai_content_wrapper}
-            onMouseLeave={handleMouseLeave}
-        >
-            {isLoading && <div>Loading...</div>}
+        <div className={classes.ai_content_wrapper}>
+            {isLoading && <div>Завантажуємо каталог...</div>}
             <ul className={classes.menuColumn}>
-                {data?.map((item, index) => (
+                {data.map((item, index) => (
                     <MenuItem
                         key={index}
                         item={item}
-                        onHover={() => handleMouseEnter(item.subgenres)}
+                        id={`menu-item-${index}`}
+                        onHover={() => handleMouseEnter(item.subgenres, index)}
                     />
                 ))}
             </ul>
             <ul className={classes.submenuColumn}>
                 {submenuData.map((subitem, index) => (
-                    <li key={index} className={classes.submenuItem}>
-                        {subitem}
-                    </li>
+                    <SubmenuItem
+                        key={index}
+                        item={subitem}
+                        id={`submenu-item-${index}`}
+                    />
                 ))}
             </ul>
             <button
@@ -68,13 +81,41 @@ const Menu: React.FC<{
 
 interface MenuItemProps {
     item: IGenre;
-    onHover: () => void;
+    onHover?: () => void;
+    id: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ item, onHover }) => {
+interface SubmenuItemProps {
+    item: IGenre;
+    id: string;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
     return (
-        <li className={classes.menuItem} onMouseEnter={onHover}>
+        <li
+            className={classes.menuItem}
+            onMouseEnter={onHover}
+            id={id}
+            data-active-handler="menu"
+        >
             {item.genre} ({item.count})
+        </li>
+    );
+};
+
+const SubmenuItem: React.FC<SubmenuItemProps> = ({ item, id }) => {
+    const dispatch = useDispatch();
+    return (
+        <li className={classes.menuItem} id={id}>
+            <Link
+                href={`/books?genre=${item.genre}`}
+                onClick={() => {
+                    dispatch(setModalStatus(false));
+                    console.log('hahaha');
+                }}
+            >
+                {item.genre} ({item.count})
+            </Link>
         </li>
     );
 };
