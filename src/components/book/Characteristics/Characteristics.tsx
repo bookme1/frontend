@@ -78,7 +78,7 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
                 </FullButton>
             </CharList>
             <Title>Опис</Title>
-            <ControlButtons>
+            {/* <ControlButtons>
                 <ControlButton className="active mobile">Сюжет</ControlButton>
                 <ControlButton className="mobile disabled ">
                     Читати уривок
@@ -86,7 +86,7 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
                 <ControlButton className="quote disabled ">
                     Цитати з книги
                 </ControlButton>
-            </ControlButtons>
+            </ControlButtons> */}
             <Description
                 className="description"
                 dangerouslySetInnerHTML={{

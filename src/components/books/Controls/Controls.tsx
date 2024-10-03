@@ -33,6 +33,7 @@ const Controls = () => {
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
     const sortArray: string[] = ['Дорожче', 'Дешевше', 'За рейтингом'];
     const searchParams = useSearchParams();
+    const q = decodeURIComponent(searchParams?.get('q') || '');
     const authors = decodeURIComponent(searchParams?.get('authors') || '');
     const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
     const maxPrice = decodeURIComponent(searchParams?.get('maxPrice') || '');
@@ -45,6 +46,7 @@ const Controls = () => {
     const router = useRouter();
 
     const { data: filterBooks, isLoading } = useGetFilterBooksQuery({
+        q,
         authors,
         minPrice,
         maxPrice,
@@ -55,7 +57,7 @@ const Controls = () => {
     });
 
     const { data: filtersData, isLoading: loaderFilter } =
-        useGetFiltersQuery('');
+        useGetFiltersQuery(q);
 
     const dispatch = useDispatch();
 

@@ -8,10 +8,15 @@ import classes from '@/components/main/DesktopCatalog/Menu.module.css';
 import { setModalStatus, useDispatch } from '@/lib/redux';
 import { useGetGenresQuery } from '@/lib/redux/features/book/bookApi';
 
+interface ISubgenre {
+    genre: string;
+    count: number;
+}
+
 interface IGenre {
     genre: string;
     count: number;
-    subgenres: string[]; // Array of string
+    children: ISubgenre[]; // Array of string
 }
 
 const Menu: React.FC<{
@@ -21,7 +26,7 @@ const Menu: React.FC<{
     let { data, isLoading } = useGetGenresQuery('');
     if (!data?.length) data = [];
 
-    console.log('received data');
+    console.log('received data GENRES');
     console.log(data);
 
     const [submenuData, setSubmenuData] = useState<IGenre[]>([]); // Array of strings
@@ -56,7 +61,7 @@ const Menu: React.FC<{
                         key={index}
                         item={item}
                         id={`menu-item-${index}`}
-                        onHover={() => handleMouseEnter(item.subgenres, index)}
+                        onHover={() => handleMouseEnter(item.children, index)}
                     />
                 ))}
             </ul>

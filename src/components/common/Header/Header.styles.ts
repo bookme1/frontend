@@ -134,7 +134,7 @@ export const NavToTablet = styled(ToTablet)`
   position: fixed;
   width: 100%;
   height: 64px;
-  bottom: 0;
+  top: 0;
   left: 0;
   background-color: var(--red);
   transition: transform 0.3s;

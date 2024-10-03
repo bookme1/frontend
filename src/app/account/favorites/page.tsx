@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { bookService } from '@/api/book/bookService';
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -41,7 +42,6 @@ export default function Home() {
     }
 
     if (!isAuthorized && !isLoading) {
-        // console.log('попався!');
         router.replace('/');
         return null;
     }
@@ -51,13 +51,14 @@ export default function Home() {
     return (
         <Wrapper>
             <Header userData={data} />
-            {/* <button
-        onClick={() => {
-          bookService.updateBooksFromServer();
-        }}
-      >
-        UPDATE
-      </button> */}
+            <button
+                style={{ width: 200, height: 80, backgroundColor: 'grey' }}
+                onClick={() => {
+                    bookService.updateBooksFromServer();
+                }}
+            >
+                UPDATE
+            </button>
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={data.username} />
             <Favorite books={books || []} />

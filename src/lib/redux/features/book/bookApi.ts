@@ -56,8 +56,8 @@ export const bookApi = createApi({
             }),
         }),
         getFilters: builder.query<FiltersData, string>({
-            query: () => ({
-                url: `api/filter/filters`, // Endpoint will be changed after first deploy
+            query: (q: string) => ({
+                url: `api/filter/filters?q=${q}`, // Endpoint will be changed after first deploy
                 method: 'GET',
             }),
         }),

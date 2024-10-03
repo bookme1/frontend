@@ -11,6 +11,18 @@ class BookService {
         this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
     }
 
+    public async refillQueue() {
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const instance = axios.create({
+            baseURL: BASE_URL,
+            url: `api/book/refillQueue`,
+        });
+        try {
+            return await instance.post(`api/book/refillQueue`);
+        } catch (error) {
+            throw error;
+        }
+    }
     public async updateBooksFromServer() {
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
         const instance = axios.create({
@@ -18,7 +30,7 @@ class BookService {
             url: `api/book/updateBooksFromServer`,
         });
         try {
-            await instance.post(`api/book/updateBooksFromServer`);
+            return await instance.post(`api/book/updateBooksFromServer`);
         } catch (error) {
             throw error;
         }
