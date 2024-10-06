@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 
+import particleStyles from './particle-animation.module.css';
+import { explode } from './particles';
 import {
     useAddFavoriteMutation,
     useRemoveFavoriteMutation,
@@ -22,17 +24,20 @@ const FavoriteBtn = ({
     isFavAlready: boolean;
     onToggleFavorite: (isFav: boolean) => void;
 }) => {
-    const [isFavorite, setIsFavorite] = useState(isFavAlready);
+    const [isFavorite, setIsFavorite] = useState<boolean>(isFavAlready);
     const token = localStorage.getItem('accessToken');
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
     useEffect(() => {
         setIsFavorite(isFavAlready);
-        console.log(`Favorite status updated from props: ${isFavAlready}`);
     }, [isFavAlready]);
 
-    const handleFavoriteClick = async () => {
+    const handleFavoriteClick = async (e: any) => {
+        setIsFavorite(true); // Change state on click
+        explode(e.pageX, e.pageY);
+        onToggleFavorite(true);
+
         if (token !== null) {
             try {
                 await addFavorite({
@@ -41,24 +46,26 @@ const FavoriteBtn = ({
                     type: BookType.Fav,
                 });
                 console.log(`Book added to favorites: ${book.id}`);
-                setIsFavorite(true);
-                onToggleFavorite(true);
             } catch (error) {
                 console.error('Error adding book to favorites', error);
+                setIsFavorite(false); // Back if error occured on backend
+                onToggleFavorite(false);
             }
         } else {
+            // operations with local storage
             let favorites: string[] = JSON.parse(
                 localStorage.getItem('favorites') || '[]'
             );
             favorites.push(book.id);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             console.log(`Book added to local favorites: ${book.id}`);
-            setIsFavorite(true);
-            onToggleFavorite(true);
         }
     };
 
     const handleNotFavoriteClick = async () => {
+        setIsFavorite(false); // Change state on click
+        onToggleFavorite(false);
+
         if (token !== null) {
             try {
                 await removeFavorite({
@@ -67,12 +74,13 @@ const FavoriteBtn = ({
                     type: BookType.Fav,
                 });
                 console.log(`Book removed from favorites: ${book.id}`);
-                setIsFavorite(false);
-                onToggleFavorite(false);
             } catch (error) {
                 console.error('Error removing book from favorites', error);
+                setIsFavorite(true); // Go back if error occured on backend
+                onToggleFavorite(true);
             }
         } else {
+            // Operations with local storage
             let favorites: string[] = JSON.parse(
                 localStorage.getItem('favorites') || '[]'
             );
@@ -82,19 +90,18 @@ const FavoriteBtn = ({
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 console.log(`Book removed from local favorites: ${book.id}`);
             }
-            setIsFavorite(false);
-            onToggleFavorite(false);
         }
     };
 
     return (
-        <>
-            {isFavorite ? (
-                <HeartFillStyles onClick={handleNotFavoriteClick} />
-            ) : (
-                <HeartNotFillStyles onClick={handleFavoriteClick} />
-            )}
-        </>
+        <div style={{ position: 'relative' }}>
+            <HeartNotFillStyles
+                onClick={
+                    !isFavorite ? handleFavoriteClick : handleNotFavoriteClick
+                }
+                className={!isFavorite ? particleStyles.heartFillAnimation : ''}
+            />
+        </div>
     );
 };
 

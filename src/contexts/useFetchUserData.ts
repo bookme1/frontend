@@ -1,6 +1,10 @@
 import { useCallback, useState } from 'react';
 
-import { IUser, loginOutputDTO, UserResponse } from "@/lib/redux/features/user/types.ts";
+import {
+    IUser,
+    UserResponse,
+    loginOutputDTO,
+} from '@/lib/redux/features/user/types.ts';
 
 // export interface loginOutputDTO {
 //     user: IUser;
@@ -17,7 +21,7 @@ import { IUser, loginOutputDTO, UserResponse } from "@/lib/redux/features/user/t
 //     role: Role;
 //     fav: string[];
 //     cart: string[];
-//     books: string[];    
+//     books: string[];
 // }
 
 // export enum Role {
@@ -93,6 +97,8 @@ const fetchUserData = async (
             }
         }
 
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         return null;
     } catch (error) {
         console.error('Error fetching user data:', error);
