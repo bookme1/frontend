@@ -10,10 +10,7 @@ import {
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
-import {
-    HeartFillStyles,
-    HeartNotFillStyles,
-} from '../book/MainInformation/MainInformation.styles';
+import { Heart } from '../book/MainInformation/MainInformation.styles';
 
 const FavoriteBtn = ({
     book,
@@ -95,7 +92,7 @@ const FavoriteBtn = ({
 
     return (
         <div style={{ position: 'relative' }}>
-            <HeartNotFillStyles
+            <Heart
                 onClick={
                     !isFavorite ? handleFavoriteClick : handleNotFavoriteClick
                 }
