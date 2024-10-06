@@ -9,23 +9,26 @@ import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../common/Card';
 
-const Favorite = ({ books }: { books: IBook[] }) => {
+const Favorite = () => {
     const token = localStorage.getItem('accessToken');
-    const [favBooks, setFavBooks] = useState<IBook[]>([]);
+    const [books, setBooks] = useState<IBook[]>([]);
 
     const {
         data: favorites,
         error,
         isLoading,
-    } = useGetFavoritesQuery({
-        accessToken: token ?? '',
-        type: BookType.Fav,
-    });
+    } = useGetFavoritesQuery(
+        {
+            accessToken: token ?? '',
+            type: BookType.Fav,
+        },
+        { skip: token == null }
+    );
 
     useEffect(() => {
         if (favorites) {
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            setFavBooks(favorites);
+            localStorage.setItem('favorites', JSON.stringify(favorites.fav));
+            setBooks(favorites.fav);
         }
     }, [favorites]);
 
@@ -34,25 +37,21 @@ const Favorite = ({ books }: { books: IBook[] }) => {
             const favBooksFromStorage = localStorage.getItem('favorites');
             if (favBooksFromStorage) {
                 const parsedBooks: IBook[] = JSON.parse(favBooksFromStorage);
-                setFavBooks(parsedBooks);
+                setBooks(parsedBooks);
             }
         }
     }, []);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading favorites</div>;
-
-    const favUserBooks = books?.filter((book: IBook) =>
-        favBooks.some((favBook: IBook) => favBook.id === book.id)
-    );
-
+    if (isLoading) return <div>Завантажуємо книжки...</div>;
+    if (error) return <div>Помилка при завантаженні книжок</div>;
+console.log("books", books)
     return (
         <>
-            {favUserBooks?.length === 0 ? (
-                <Text>There are no favorite books here</Text>
+            {!books || books.length === 0 ? (
+                <Text>У Вас поки що немає книжок</Text>
             ) : (
                 <FavList>
-                    {favUserBooks?.map((book: IBook) => (
+                    {books.map((book: IBook) => (
                         <Card key={book.id} book={book} />
                     ))}
                 </FavList>

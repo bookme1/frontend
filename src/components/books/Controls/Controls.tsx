@@ -300,12 +300,13 @@ const Controls = () => {
                                 <ul className={styles.products__list}>
                                     {filterBooks &&
                                         filterBooks.books.map((book: IBook) => {
-                                            const isFavAlredy = favoriteBooks
-                                                ? favoriteBooks.some(
-                                                      (fav: any) =>
-                                                          fav === book.id
-                                                  )
-                                                : false;
+                                            const isFavAlredy = false;
+                                            // const isFavAlredy = favoriteBooks
+                                            //     ? favoriteBooks.some(
+                                            //           (fav: any) =>
+                                            //               fav === book.id
+                                            //       )
+                                            //     : false;
 
                                             return (
                                                 <li
