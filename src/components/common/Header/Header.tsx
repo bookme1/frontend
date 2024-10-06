@@ -200,7 +200,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
             <HeaderContainer>
                 <StyledWrapper>
                     <LogoContainer>
-                        <Link href="/">
+                        <Link href="/" aria-label="Link to main page">
                             <Logo name="logo_black" />
                         </Link>
                     </LogoContainer>
@@ -225,7 +225,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             }}
                             ref={searchVal}
                         />
-                        <SearchButton type="submit">
+                        <SearchButton type="submit" aria-label="Search">
                             <Icon name="search" size={24} className="icon" />
                         </SearchButton>
                         {isSearchListOpen && <SearchList books={books} />}
@@ -285,6 +285,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         <NavList>
                             <NavItem>
                                 <StyledNavLink
+                                    aria-label="Main page"
                                     className="active"
                                     data-nav="main"
                                     onClick={() => {
@@ -297,6 +298,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             </NavItem>
                             <NavItem>
                                 <StyledNavLink
+                                    aria-label="Link to catalog"
                                     onClick={() => {
                                         changePage('catalog');
                                     }}
@@ -306,7 +308,10 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                 </StyledNavLink>
                             </NavItem>
                             <NavItem>
-                                <StyledNavLink data-nav="cart">
+                                <StyledNavLink
+                                    data-nav="cart"
+                                    aria-label="Link to cart"
+                                >
                                     <Icon
                                         name="cart"
                                         size={24}
@@ -317,7 +322,10 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                 </StyledNavLink>
                             </NavItem>
                             <NavItem>
-                                <StyledNavLink data-nav="like">
+                                <StyledNavLink
+                                    data-nav="like"
+                                    aria-label="Link to favorites"
+                                >
                                     <Icon
                                         name="heart"
                                         size={24}
@@ -328,7 +336,10 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                 </StyledNavLink>
                             </NavItem>
                             <NavItem>
-                                <StyledNavLink data-nav="account">
+                                <StyledNavLink
+                                    data-nav="account"
+                                    aria-label="Link to my account"
+                                >
                                     <Icon
                                         name="account"
                                         size={24}

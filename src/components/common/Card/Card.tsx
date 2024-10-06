@@ -87,7 +87,10 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                     className="lazyload"
                     style={{ ['--background-image' as string]: `url(${url})` }}
                 >
-                    <CardLink href={`/book/${id}`}></CardLink>
+                    <CardLink
+                        href={`/book/${id}`}
+                        aria-label="Book link"
+                    ></CardLink>
                 </ImageContainer>
                 <DescriptionContainer>
                     <Title>
@@ -106,6 +109,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                                 onToggleFavorite={handleFavoriteToggle}
                             />
                             <CartButton
+                                aria-label="Add"
                                 onClick={() => {
                                     handleAddBook();
                                     handleOpenModal('successInfo');
