@@ -18,7 +18,7 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
     return (
         <Providers>
-            <html className={raleway.className}>
+            <html className={raleway.className} lang="uk">
                 <head>
                     <meta charSet="UTF-8" />
                     <meta

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { useSearchParams } from 'next/navigation';
+
 import styles from './filterCheck.module.css';
 import { FilterCheckProps } from './filterCheck.types.ts';
 import { FiltersData } from '@/app/book/[id]/page.types';
+
 import { Icon } from '../common/Icon';
 
 export default function FilterCheck({
@@ -54,8 +57,9 @@ export default function FilterCheck({
         <form onSubmit={handleSubmit} className={styles.inputs__wrapper}>
             <h2 className={styles.title__filter}>{title}</h2>
             {filtersData && filtersData[parametrSearch].length > 5 && (
-                <label className={styles.search}>
+                <label className={styles.search} htmlFor={title}>
                     <input
+                        id={title}
                         type="text"
                         placeholder="Знайти"
                         value={searchParamsInput[parametrSearch].search}
@@ -95,11 +99,14 @@ export default function FilterCheck({
                         .slice(0, searchParamsInput[parametrSearch].more)
                         .map((item: string, index: number) => (
                             <li key={index} className={styles.item__checkbox}>
-                                <input
-                                    type="checkbox"
-                                    checked={isChecked(item)}
-                                    onChange={() => handleCheckboxChange(item)}
-                                />
+                                    <input
+                                        aria-label='Checkbox'
+                                        type="checkbox"
+                                        checked={isChecked(item)}
+                                        onChange={() =>
+                                            handleCheckboxChange(item)
+                                        }
+                                    />
                                 <p>{item}</p>
                             </li>
                         ))}

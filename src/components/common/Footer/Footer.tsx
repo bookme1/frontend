@@ -14,14 +14,14 @@ const Footer = () => {
             <TopSection>
                 <Container>
                     <div className="links">
-                        <Link href="#">
+                        <Link href="#"  aria-label='Link to home page'>
                             <Icon name="logo_white" width={176} height={40} />
                         </Link>
                         <div>
-                            <a href="#">
+                            <a href="#" aria-label="Link to Instagram">
                                 <Icon name="instagram" />
                             </a>
-                            <a href="#">
+                            <a href="#" aria-label="Link to Telegram">
                                 <Icon name="telegram" />
                             </a>
                         </div>
@@ -62,10 +62,10 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="mobile__navigation">
-                        <a href="">
+                        <a href="/" aria-label='Link to instagram'>
                             <Icon name="instagram" />
                         </a>
-                        <a href="">
+                        <a href="/" aria-label='Link to telegram'>
                             <Icon name="telegram" />
                         </a>
                     </div>
