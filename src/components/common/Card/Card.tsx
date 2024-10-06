@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import Notiflix from 'notiflix';
+
 import {
     Authors,
     BookFormatContainer,
@@ -44,40 +46,43 @@ const Card = ({ book }: { book: IBook | undefined }) => {
             : null;
 
     // Отримання обраних книг
-    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        }
-    );
-    const [isFavAlready, setIsFavAlready] = useState<boolean>(
-        favorites ? favorites.some((fav: any) => fav === id) : false
-    );
+    // const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
+    //     {
+    //         accessToken: token ?? '',
+    //         type: BookType.Fav,
+    //     }
+    // );
+    const [isFavAlready, setIsFavAlready] = useState<boolean>(false);
+    // favorites ? favorites.some((fav: any) => fav === id) : false
 
-    useEffect(() => {
-        if (favorites) {
-            setIsFavAlready(favorites.some((fav: any) => fav === id));
-        } else {
-            setIsFavAlready(false);
-        }
-    }, [favorites, id]);
+    // useEffect(() => {
+    //     if (favorites) {
+    //         setIsFavAlready(favorites.some((fav: any) => fav === id));
+    //     } else {
+    //         setIsFavAlready(false);
+    //     }
+    // }, [favorites, id]);
 
     const handleAddBook = () => {
+        if (!token || !id) {
+            Notiflix.Notify('Користувач не авторизований');
+            return;
+        }
+
         addBook({
-            accessToken: token ?? '',
-            bookId: id ?? '',
+            accessToken: token,
+            bookId: id,
             type: BookType.Cart,
         });
     };
 
-    const modals = useSelector((state: any) => state.modals.modals);
     const dispatch = useDispatch();
     const handleOpenModal = (modalName: string) => {
         dispatch(openModal(modalName));
     };
 
     const handleFavoriteToggle = () => {
-        refetchFavorites();
+        // refetchFavorites();
     };
 
     return (

@@ -1,10 +1,12 @@
 'use client';
 
+import { keyframes } from '@emotion/react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 import styled from '@emotion/styled';
 import Image from 'next/image';
 
+import { Icon } from '@/components/common/Icon';
 import { Wrapper, visuallyHidden } from '@/styles/globals.styles';
 
 export const ImageContainer = styled.div`
@@ -49,10 +51,30 @@ export const StyledImage = styled(Image)`
     }
 `;
 
-export const Heart = styled(FaRegHeart)`
+const fillHeart = keyframes`
+  0% {
+    fill: none;
+    stroke: red;
+  }
+  100% {
+    fill: red;
+    stroke: red;
+  }
+`;
+
+export const Heart = styled(Icon)`
     width: 24px;
     height: 24px;
     cursor: pointer;
+    stroke: red;
+    fill: none;
+    transition:
+        fill 0.4s ease,
+        stroke 0.4s ease;
+
+    &.heart-fill {
+        animation: ${fillHeart} 0.4s ease forwards;
+    }
 `;
 
 export const MainInfoContainer = styled.div`

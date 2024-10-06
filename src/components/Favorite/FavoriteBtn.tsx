@@ -1,16 +1,14 @@
 'use client';
 
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import particleStyles from './particle-animation.module.css';
+import { EmptyHeart, FilledHeart } from './Favorite.styles';
 import { explode } from './particles';
 import {
     useAddFavoriteMutation,
     useRemoveFavoriteMutation,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-
-import { Heart } from '../book/MainInformation/MainInformation.styles';
 
 const FavoriteBtn = ({
     book,
@@ -42,9 +40,7 @@ const FavoriteBtn = ({
                     bookId: book.id,
                     type: BookType.Fav,
                 });
-                console.log(`Book added to favorites: ${book.id}`);
             } catch (error) {
-                console.error('Error adding book to favorites', error);
                 setIsFavorite(false); // Back if error occured on backend
                 onToggleFavorite(false);
             }
@@ -70,9 +66,7 @@ const FavoriteBtn = ({
                     bookId: book.id,
                     type: BookType.Fav,
                 });
-                console.log(`Book removed from favorites: ${book.id}`);
             } catch (error) {
-                console.error('Error removing book from favorites', error);
                 setIsFavorite(true); // Go back if error occured on backend
                 onToggleFavorite(true);
             }
@@ -91,12 +85,26 @@ const FavoriteBtn = ({
     };
 
     return (
-        <div style={{ position: 'relative' }}>
-            <Heart
+        <div
+            style={{
+                position: 'relative',
+                width: 32,
+                height: 32,
+                cursor: 'pointer',
+            }}
+            title="Додати/прибрати з бажаних"
+        >
+            <FilledHeart
+                style={isFavorite ? undefined : { color: 'transparent' }}
+                className={isFavorite ? 'active' : ''}
                 onClick={
-                    !isFavorite ? handleFavoriteClick : handleNotFavoriteClick
+                    isFavorite ? handleNotFavoriteClick : handleFavoriteClick
                 }
-                className={!isFavorite ? particleStyles.heartFillAnimation : ''}
+            />
+            <EmptyHeart
+                onClick={
+                    isFavorite ? handleNotFavoriteClick : handleFavoriteClick
+                }
             />
         </div>
     );

@@ -65,7 +65,7 @@ export const bookApi = createApi({
         // FAVORITES INTERACTION
         // #################
         getFavorites: builder.query<
-            IBook[],
+            { id: number; fav: IBook[] },
             { accessToken: string; type: BookType }
         >({
             query: ({ accessToken, type }) => ({

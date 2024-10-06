@@ -1,2 +1,1 @@
-export * from "./modalsSlice";
-export * from "./selectors";
+export * from './modalsSlice';
