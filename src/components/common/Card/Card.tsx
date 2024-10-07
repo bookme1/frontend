@@ -73,7 +73,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                 >
                     <CardLink
                         href={`/book/${id}`}
-                        aria-label="Book link"
+                        aria-label="Перейти до інформації про книгу"
                     ></CardLink>
                 </ImageContainer>
                 <DescriptionContainer>
@@ -89,7 +89,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                         <BoxStyles className="hidden-buttons">
                             <FavoriteBtn book={book} />
                             <CartButton
-                                aria-label="Add"
+                                aria-label="Додати в улюблене"
                                 onClick={() => {
                                     handleAddBook();
                                     handleOpenModal('successInfo');

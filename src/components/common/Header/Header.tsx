@@ -233,7 +233,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         </ControlsContainer>
                     </ToTablet>
                     <LogoContainer>
-                        <Link href="/" aria-label="Link to main page">
+                        <Link href="/" aria-label="Перейти на головну сторінку">
                             <Logo name="logo_black" />
                         </Link>
                     </LogoContainer>
@@ -258,7 +258,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             }}
                             ref={searchVal}
                         />
-                        <SearchButton type="submit" aria-label="Search">
+                        <SearchButton type="submit" aria-label="Пошук">
                             <Icon name="search" size={24} className="icon" />
                         </SearchButton>
                         {isSearchListOpen && <SearchList books={books} />}
