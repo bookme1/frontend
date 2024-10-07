@@ -236,7 +236,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         </ControlsContainer>
                     </ToTablet>
                     <LogoContainer>
-                        <Link href="/">
+                        <Link href="/" aria-label="Link to main page">
                             <Logo name="logo_black" />
                         </Link>
                     </LogoContainer>
@@ -261,7 +261,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             }}
                             ref={searchVal}
                         />
-                        <SearchButton type="submit">
+                        <SearchButton type="submit" aria-label="Search">
                             <Icon name="search" size={24} className="icon" />
                         </SearchButton>
                         {isSearchListOpen && <SearchList books={books} />}

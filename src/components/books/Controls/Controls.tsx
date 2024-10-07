@@ -371,6 +371,7 @@ const Controls = () => {
                                                                         }
                                                                     />
                                                                     <button
+                                                                        aria-label="Basket"
                                                                         className={
                                                                             styles.button__basket
                                                                         }
@@ -399,7 +400,7 @@ const Controls = () => {
                                 </ul>
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>
-                                        <button
+                                        <button aria-label='Pagination'
                                             className={
                                                 styles.pagination__button_row
                                             }
@@ -412,7 +413,7 @@ const Controls = () => {
                                         </button>
                                         {getPageNumbers().map(
                                             (pageNumber, index) => (
-                                                <button
+                                                <button 
                                                     key={index}
                                                     className={`${styles.pagination__button_page} ${
                                                         pageNumber ===
@@ -440,7 +441,7 @@ const Controls = () => {
                                                 </button>
                                             )
                                         )}
-                                        <button
+                                        <button aria-label='Pagination'
                                             className={
                                                 styles.pagination__button_row
                                             }
