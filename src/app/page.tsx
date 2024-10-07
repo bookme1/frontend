@@ -48,7 +48,6 @@ export default function Home() {
             />
             <SwiperList value="genre" parametrData="наука" name="До школи" />
             <Footer />
-            {modals.cart.isOpen && <Basket />}
             {modals.successInfo.isOpen && <SuccessInfo />}
         </>
     );

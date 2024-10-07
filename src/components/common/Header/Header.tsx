@@ -37,7 +37,10 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    useGetFavoritesQuantityQuery,
+    useGetFavoritesQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 
@@ -51,7 +54,7 @@ interface HeartIconProps {
 const HeartIcon = styled.div<HeartIconProps>`
     position: relative;
     display: inline-block;
-    color: ${props => (props.hasFavorites ? 'red' : 'grey')};
+    color: ${props => (props.hasFavorites ? 'red' : '#505050')};
     cursor: pointer;
 `;
 
@@ -72,10 +75,12 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
             ? localStorage.getItem('accessToken')
             : null;
 
-    const { data: favoriteBooks, isLoading } = useGetFavoritesQuery({
+    const { data: favQuantity, isLoading } = useGetFavoritesQuantityQuery({
         accessToken: token ?? '',
         type: BookType.Fav,
     });
+    console.log('favorite books');
+    console.log(favQuantity);
 
     // const getBooks = useGetBooksQuery('');
     // const booksArr = getBooks.data;
@@ -83,7 +88,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-    const [activePage, setActivePage] = useState('main');
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
@@ -96,9 +100,9 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         dispatch(setModalContent('Catalog'));
     };
 
-    const handleOpenModal = (content: string) => {
-        dispatch(setModalStatus(true));
-        dispatch(setModalContent(content));
+    const handleCartModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Cart'));
     };
 
     const handleClick = () => {
@@ -165,8 +169,8 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         }
     };
 
-    const favoriteCount = favoriteBooks?.length ?? 0;
-    const hasFavorites = favoriteCount > 0;
+    const favoriteCount = favQuantity;
+    const hasFavorites = favQuantity && favQuantity > 0;
 
     useEffect(() => {
         console.log('Favorite books count:', favoriteCount);
@@ -199,10 +203,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                     }
                                 >
                                     <HeartIcon hasFavorites={hasFavorites}>
-                                        <IoMdHeartEmpty
-                                            color="black"
-                                            size={28}
-                                        />
+                                        <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>
                                                 {favoriteCount}
@@ -212,11 +213,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                     Обране
                                 </AccountLink>
                             </HeaderButton>
-                            <HeaderButton
-                                onClick={() => {
-                                    handleOpenModal('cart');
-                                }}
-                            >
+                            <HeaderButton onClick={handleCartModal}>
                                 <Icon name="cart" size={28} />
                                 Кошик
                             </HeaderButton>
@@ -289,10 +286,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                     }
                                 >
                                     <HeartIcon hasFavorites={hasFavorites}>
-                                        <IoMdHeartEmpty
-                                            color="black"
-                                            size={28}
-                                        />
+                                        <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>
                                                 {favoriteCount}
@@ -302,11 +296,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                     Обране
                                 </AccountLink>
                             </HeaderButton>
-                            <HeaderButton
-                                onClick={() => {
-                                    handleOpenModal('cart');
-                                }}
-                            >
+                            <HeaderButton onClick={handleCartModal}>
                                 <Icon name="cart" size={28} />
                                 Кошик
                             </HeaderButton>
