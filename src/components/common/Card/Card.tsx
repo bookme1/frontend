@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
+import Notiflix from 'notiflix';
+import { Notify } from 'notiflix';
+
 import {
     Authors,
     BookFormatContainer,
@@ -43,41 +46,22 @@ const Card = ({ book }: { book: IBook | undefined }) => {
             ? localStorage.getItem('accessToken')
             : null;
 
-    // Отримання обраних книг
-    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        }
-    );
-    const [isFavAlready, setIsFavAlready] = useState<boolean>(
-        favorites ? favorites.some((fav: any) => fav === id) : false
-    );
-
-    useEffect(() => {
-        if (favorites) {
-            setIsFavAlready(favorites.some((fav: any) => fav === id));
-        } else {
-            setIsFavAlready(false);
-        }
-    }, [favorites, id]);
-
     const handleAddBook = () => {
+        if (!token || !id) {
+            Notiflix.Notify('Користувач не авторизований');
+            return;
+        }
+
         addBook({
-            accessToken: token ?? '',
-            bookId: id ?? '',
+            accessToken: token,
+            bookId: id,
             type: BookType.Cart,
         });
     };
 
-    const modals = useSelector((state: any) => state.modals.modals);
     const dispatch = useDispatch();
     const handleOpenModal = (modalName: string) => {
         dispatch(openModal(modalName));
-    };
-
-    const handleFavoriteToggle = () => {
-        refetchFavorites();
     };
 
     return (
@@ -103,11 +87,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                     <BottomContainer>
                         <Price>{price}₴</Price>
                         <BoxStyles className="hidden-buttons">
-                            <FavoriteBtn
-                                book={book}
-                                isFavAlready={isFavAlready}
-                                onToggleFavorite={handleFavoriteToggle}
-                            />
+                            <FavoriteBtn book={book} />
                             <CartButton
                                 aria-label="Додати в улюблене"
                                 onClick={() => {

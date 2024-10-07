@@ -65,11 +65,24 @@ export const bookApi = createApi({
         // FAVORITES INTERACTION
         // #################
         getFavorites: builder.query<
-            IBook[],
+            { id: number; fav: IBook[]; cart: IBook[] },
             { accessToken: string; type: BookType }
         >({
             query: ({ accessToken, type }) => ({
                 url: `api/user/books/${type}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }),
+        }),
+
+        getFavoritesQuantity: builder.query<
+            number,
+            { accessToken: string; type: BookType }
+        >({
+            query: ({ accessToken, type }) => ({
+                url: `api/user/books/quantity/${type}`,
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -116,6 +129,7 @@ export const {
     useGetFilterBooksQuery,
     useGetFiltersQuery,
     useGetFavoritesQuery,
+    useGetFavoritesQuantityQuery,
     useAddFavoriteMutation,
     useRemoveFavoriteMutation,
 } = bookApi;

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { IoMdHeartEmpty } from 'react-icons/io';
 import { TfiPanel } from 'react-icons/tfi';
 
 import Link from 'next/link';
@@ -10,6 +11,7 @@ import styled from 'styled-components';
 import {
     AccountLink,
     Avatar,
+    ControlsContainer,
     Form,
     FromDesktop,
     HeaderButton,
@@ -23,25 +25,24 @@ import {
     SearchInput,
     StyledNavLink,
     StyledWrapper,
+    ToTablet,
 } from './Header.styles';
-import ScrollBehavior from './ScrollBehavior';
 import { IBook } from '@/app/book/[id]/page.types';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
-    openModal,
     selectOpenModal,
     setModalContent,
     setModalStatus,
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
-// import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    useGetFavoritesQuantityQuery,
+    useGetFavoritesQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
-import { RootState } from '@/lib/redux/store';
-import { Wrapper } from '@/styles/globals.styles';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
@@ -53,7 +54,7 @@ interface HeartIconProps {
 const HeartIcon = styled.div<HeartIconProps>`
     position: relative;
     display: inline-block;
-    color: ${props => (props.hasFavorites ? 'red' : 'grey')};
+    color: ${props => (props.hasFavorites ? 'red' : '#505050')};
     cursor: pointer;
 `;
 
@@ -74,10 +75,12 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
             ? localStorage.getItem('accessToken')
             : null;
 
-    const { data: favoriteBooks, isLoading } = useGetFavoritesQuery({
+    const { data: favQuantity, isLoading } = useGetFavoritesQuantityQuery({
         accessToken: token ?? '',
         type: BookType.Fav,
     });
+    console.log('favorite books');
+    console.log(favQuantity);
 
     // const getBooks = useGetBooksQuery('');
     // const booksArr = getBooks.data;
@@ -85,7 +88,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-    const [activePage, setActivePage] = useState('main');
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
@@ -98,9 +100,9 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         dispatch(setModalContent('Catalog'));
     };
 
-    const handleOpenModal = (content: string) => {
-        dispatch(setModalStatus(true));
-        dispatch(setModalContent(content));
+    const handleCartModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Cart'));
     };
 
     const handleClick = () => {
@@ -126,27 +128,6 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         } else {
             setIsSearchListOpen(false);
         }
-    };
-
-    const handleCatalog = (e: any) => {
-        e.preventDefault();
-        setIsCatalogOpen(prev => !prev);
-    };
-
-    const changePage = (page: string) => {
-        if (typeof window === 'undefined') {
-            return 0;
-        }
-        const prevPage = document.querySelector(`[data-nav=${activePage}]`);
-        const currentPage = document.querySelector(`[data-nav=${page}]`);
-        prevPage?.classList.remove('active');
-        currentPage?.classList.add('active');
-        if (page === 'catalog') {
-            setIsCatalogOpen(true);
-        } else if (activePage === 'catalog') {
-            setIsCatalogOpen(false);
-        }
-        setActivePage(page);
     };
 
     useEffect(() => {
@@ -188,8 +169,8 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         }
     };
 
-    const favoriteCount = favoriteBooks?.length ?? 0;
-    const hasFavorites = favoriteCount > 0;
+    const favoriteCount = favQuantity;
+    const hasFavorites = favQuantity && favQuantity > 0;
 
     useEffect(() => {
         console.log('Favorite books count:', favoriteCount);
@@ -199,6 +180,58 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
         <>
             <HeaderContainer>
                 <StyledWrapper>
+                    <ToTablet>
+                        <ControlsContainer>
+                            {userData ? (
+                                ''
+                            ) : (
+                                <HeaderButton
+                                    onClick={() => {
+                                        handleClick();
+                                    }}
+                                >
+                                    <Icon name="account" size={28} />
+                                    Увійти
+                                </HeaderButton>
+                            )}
+                            <HeaderButton>
+                                <AccountLink
+                                    href={
+                                        userData
+                                            ? '/account/favorites'
+                                            : '/favorite' // wtf?? it should be only 1 naming
+                                    }
+                                >
+                                    <HeartIcon hasFavorites={hasFavorites}>
+                                        <IoMdHeartEmpty size={28} />
+                                        {hasFavorites && (
+                                            <FavoriteCount>
+                                                {favoriteCount}
+                                            </FavoriteCount>
+                                        )}
+                                    </HeartIcon>
+                                    Обране
+                                </AccountLink>
+                            </HeaderButton>
+                            <HeaderButton onClick={handleCartModal}>
+                                <Icon name="cart" size={28} />
+                                Кошик
+                            </HeaderButton>
+                            {userData ? (
+                                <Avatar>
+                                    <AccountLink href="/account"></AccountLink>
+                                </Avatar>
+                            ) : (
+                                ''
+                            )}
+                            {(userData?.role === Role.Moderator ||
+                                userData?.role === Role.Admin) && (
+                                <a href="/admin">
+                                    <TfiPanel size={40} color="#000" />
+                                </a>
+                            )}
+                        </ControlsContainer>
+                    </ToTablet>
                     <LogoContainer>
                         <Link href="/" aria-label="Перейти на головну сторінку">
                             <Logo name="logo_black" />
@@ -231,127 +264,58 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         {isSearchListOpen && <SearchList books={books} />}
                     </Form>
                     <FromDesktop>
-                        {userData ? (
-                            ''
-                        ) : (
-                            <HeaderButton
-                                onClick={() => {
-                                    handleClick();
-                                }}
-                            >
-                                <Icon name="account" size={28} />
-                                Увійти
+                        <ControlsContainer>
+                            {userData ? (
+                                ''
+                            ) : (
+                                <HeaderButton
+                                    onClick={() => {
+                                        handleClick();
+                                    }}
+                                >
+                                    <Icon name="account" size={28} />
+                                    Увійти
+                                </HeaderButton>
+                            )}
+                            <HeaderButton>
+                                <AccountLink
+                                    href={
+                                        userData
+                                            ? '/account/favorites'
+                                            : '/favorite' // wtf?? it should be only 1 naming
+                                    }
+                                >
+                                    <HeartIcon hasFavorites={hasFavorites}>
+                                        <IoMdHeartEmpty size={28} />
+                                        {hasFavorites && (
+                                            <FavoriteCount>
+                                                {favoriteCount}
+                                            </FavoriteCount>
+                                        )}
+                                    </HeartIcon>
+                                    Обране
+                                </AccountLink>
                             </HeaderButton>
-                        )}
-                        <HeaderButton>
-                            <AccountLink href="/favorite">
-                                <HeartIcon hasFavorites={hasFavorites}>
-                                    <Icon name="heart" size={28} />
-                                    {hasFavorites && (
-                                        <FavoriteCount>
-                                            {favoriteCount}
-                                        </FavoriteCount>
-                                    )}
-                                </HeartIcon>
-                                Обране
-                            </AccountLink>
-                        </HeaderButton>
-                        <HeaderButton
-                            onClick={() => {
-                                handleOpenModal('cart');
-                            }}
-                        >
-                            <Icon name="cart" size={28} />
-                            Кошик
-                        </HeaderButton>
-                        {userData ? (
-                            <Avatar>
-                                <AccountLink href="/account"></AccountLink>
-                            </Avatar>
-                        ) : (
-                            ''
-                        )}
-                        {(userData?.role === Role.Moderator ||
-                            userData?.role === Role.Admin) && (
-                            <a href="/admin">
-                                <TfiPanel size={40} color="#000" />
-                            </a>
-                        )}
+                            <HeaderButton onClick={handleCartModal}>
+                                <Icon name="cart" size={28} />
+                                Кошик
+                            </HeaderButton>
+                            {userData ? (
+                                <Avatar>
+                                    <AccountLink href="/account"></AccountLink>
+                                </Avatar>
+                            ) : (
+                                ''
+                            )}
+                            {(userData?.role === Role.Moderator ||
+                                userData?.role === Role.Admin) && (
+                                <a href="/admin">
+                                    <TfiPanel size={40} color="#000" />
+                                </a>
+                            )}
+                        </ControlsContainer>
                     </FromDesktop>
                 </StyledWrapper>
-                <NavToTablet className="scrollable_nav">
-                    <ScrollBehavior />
-                    <Wrapper>
-                        <NavList>
-                            <NavItem>
-                                <StyledNavLink
-                                    aria-label="Перейти на головну сторінку"
-                                    className="active"
-                                    data-nav="main"
-                                    onClick={() => {
-                                        changePage('main');
-                                    }}
-                                >
-                                    Головна
-                                    <Icon name="main_page" size={24} />
-                                </StyledNavLink>
-                            </NavItem>
-                            <NavItem>
-                                <StyledNavLink
-                                    aria-label="Перейти до каталогу"
-                                    onClick={() => {
-                                        changePage('catalog');
-                                    }}
-                                    data-nav="catalog"
-                                >
-                                    <Icon name="catalog" size={24} />
-                                </StyledNavLink>
-                            </NavItem>
-                            <NavItem>
-                                <StyledNavLink
-                                    data-nav="cart"
-                                    aria-label="Перейти до корзини"
-                                >
-                                    <Icon
-                                        name="cart"
-                                        size={24}
-                                        onClick={() => {
-                                            changePage('cart');
-                                        }}
-                                    />
-                                </StyledNavLink>
-                            </NavItem>
-                            <NavItem>
-                                <StyledNavLink
-                                    data-nav="like"
-                                    aria-label="Перейти в улюблене"
-                                >
-                                    <Icon
-                                        name="heart"
-                                        size={24}
-                                        onClick={() => {
-                                            changePage('like');
-                                        }}
-                                    />
-                                </StyledNavLink>
-                            </NavItem>
-                            <NavItem>
-                                <StyledNavLink
-                                    data-nav="account"
-                                    aria-label="Перейти в мій акаунт"
-                                >
-                                    <Icon
-                                        name="account"
-                                        size={24}
-                                        onClick={() => {
-                                            changePage('account');
-                                        }}
-                                    />
-                                </StyledNavLink>
-                            </NavItem>
-                        </NavList>
-                    </Wrapper>
-                </NavToTablet>
             </HeaderContainer>
             {isOpen && <Modal setIsOpen={setIsOpen} />}
         </>

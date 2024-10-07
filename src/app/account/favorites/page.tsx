@@ -1,23 +1,16 @@
 'use client';
-
-import { useEffect, useMemo, useState } from 'react';
-
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-
-import { bookService } from '@/api/book/bookService';
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
 import useFetchUserData from '@/contexts/useFetchUserData';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
-    const { data: books, refetch: refetchBooks } = useGetBooksQuery('');
-
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     const router = useRouter();
 
@@ -30,12 +23,6 @@ export default function Home() {
     }, [fetchUserData]);
 
     const isAuthorized = useMemo(() => !!userData, [userData]);
-
-    useEffect(() => {
-        if (isAuthorized) {
-            refetchBooks();
-        }
-    }, [isAuthorized, refetchBooks]);
 
     if (isLoading) {
         return <Loading />;
@@ -51,17 +38,9 @@ export default function Home() {
     return (
         <Wrapper>
             <Header userData={data} />
-            <button
-                style={{ width: 200, height: 80, backgroundColor: 'grey' }}
-                onClick={() => {
-                    bookService.updateBooksFromServer();
-                }}
-            >
-                UPDATE
-            </button>
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={data.username} />
-            <Favorite books={books || []} />
+            <Favorite />
         </Wrapper>
     );
 }

@@ -5,7 +5,6 @@ import React, { ReactNode } from 'react';
 import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 
-import AiButton from '@/components/AiButton/AiButton';
 import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper/ModalAiContainerWrapper';
 import { Icons } from '@/components/common/Icons';
 import { Providers } from '@/lib/providers';
@@ -31,7 +30,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 </head>
                 <body className="bg-main">
                     <main>{children}</main>
-                    <AiButton />
+                    {/* <AiButton /> */}
                     <ModalAiContainerWrapper />
                     <div id="modal-root"></div>
                 </body>

@@ -41,7 +41,6 @@ export default function Home() {
             <Header userData={data} />
             <Favorite books={books || []} />
             <Footer />
-            {modals.cart.isOpen && <Basket />}
         </>
     );
 }

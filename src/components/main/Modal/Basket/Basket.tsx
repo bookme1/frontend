@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 import {
     Author,
@@ -17,14 +15,9 @@ import {
     Title,
     Trash,
 } from './Basket.styles';
-import { IBook as IBookFromPage } from '@/app/book/[id]/page.types';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import {
-    useGetUserBooksQuery,
-    useRemoveBookQuery,
-} from '@/lib/redux/features/user/userApi';
 
 // Імпортуємо з абсолютним шляхом
 
@@ -38,69 +31,29 @@ interface IBook {
 
 const Basket: React.FC = () => {
     const token = localStorage.getItem('accessToken');
+    const [books, setBooks] = useState<IBook[]>([]);
 
-    const { data: cartData } = useGetUserBooksQuery({
-        accessToken: token ?? '',
-        type: BookType.Cart,
-    });
-
-    const { data: booksData } = useGetBooksQuery('');
-
-    const [cartBooksArr, setCartBooksArr] = useState<IBook[]>([]);
-    const [sum, setSum] = useState<number | null>(null);
-    const [delClick, setDelClick] = useState<boolean>(false);
-    const [removeId, setRemoveId] = useState<string | undefined>();
-
-    useEffect(() => {
-        if (cartData && booksData) {
-            const filteredBooks: IBook[] = (booksData as IBookFromPage[])
-                .filter((book: IBookFromPage) => cartData.includes(book.id))
-                .map(book => ({
-                    id: book.id,
-                    title: book.title,
-                    author: book.author,
-                    price: book.price.toString(), // Перетворення number на string
-                    url: book.url,
-                }));
-            setCartBooksArr(filteredBooks);
-        }
-    }, [cartData, booksData, delClick]);
-
-    useEffect(() => {
-        if (cartBooksArr.length > 0) {
-            const totalSum: number = cartBooksArr.reduce(
-                (acc, book) => acc + parseFloat(book.price),
-                0
-            );
-            setSum(totalSum);
-        }
-    }, [cartBooksArr]);
-
-    const cartCheck = Array.isArray(cartData) && cartData.length > 0;
-
-    const removeCartBook = useRemoveBookQuery(
+    const {
+        data: cart,
+        error,
+        isLoading,
+    } = useGetFavoritesQuery(
         {
             accessToken: token ?? '',
-            bookId: removeId ?? '',
             type: BookType.Cart,
         },
-        {
-            skip: delClick === false,
-        }
+        { skip: token == null }
     );
 
-    const handleDelFromCart = (id: string) => {
-        setRemoveId(id);
-        setDelClick(true);
-    };
-
     return (
-        <GenericModal modalName="cart" align="right">
+        <div>
             <Container>
                 <Text>Кошик</Text>
                 <ListBox>
-                    {cartCheck &&
-                        cartBooksArr.map(book => (
+                    {cart &&
+                        !isLoading &&
+                        cart.cart.length > 0 &&
+                        cart.cart.map(book => (
                             <ItemBox key={book.id}>
                                 <StyledImage
                                     src={book.url}
@@ -116,9 +69,9 @@ const Basket: React.FC = () => {
                                     <Price>{book.price}</Price>
                                 </DataBox>
                                 <Trash
-                                    onClick={() => {
-                                        handleDelFromCart(book.id);
-                                    }}
+                                // onClick={() => {
+                                //     handleDelFromCart(book.id);
+                                // }}
                                 />
                             </ItemBox>
                         ))}
@@ -126,12 +79,12 @@ const Basket: React.FC = () => {
                 <FooterBox>
                     <SpanBox>
                         <Text>Всього:</Text>
-                        <Text>{sum} &#x20B4;</Text>
+                        <Text>{4} &#x20B4;</Text>
                     </SpanBox>
                     <CartBtn>Оформити замовлення</CartBtn>
                 </FooterBox>
             </Container>
-        </GenericModal>
+        </div>
     );
 };
 

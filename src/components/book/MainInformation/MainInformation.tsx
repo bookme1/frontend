@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
@@ -27,13 +26,7 @@ import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
-import {
-    useAddFavoriteMutation,
-    useGetFavoritesQuery,
-    useRemoveFavoriteMutation,
-} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { RootState } from '@/lib/redux/store';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
@@ -51,9 +44,6 @@ const MainInformation = ({
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
-    const dispatch = useDispatch();
-
-    const [addBook, { isLoading }] = useAddFavoriteMutation(); //1
 
     const token =
         typeof window !== 'undefined'
@@ -63,48 +53,24 @@ const MainInformation = ({
     const router = usePathname();
     const id = router?.split('/').pop();
 
-    // Отримання обраних книг
-    const { data: favorites, refetch: refetchFavorites } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        }
-    );
-
-    const [isFavAlready, setIsFavAlready] = useState<boolean>(
-        favorites ? favorites.some((fav: any) => fav === id) : false
-    );
-
-    useEffect(() => {
-        if (favorites) {
-            setIsFavAlready(favorites.some((fav: any) => fav === id));
-        } else {
-            setIsFavAlready(false);
-        }
-    }, [favorites, id]);
-
     useEffect(() => {
         if (book?.url) {
             setImageLoaded(true);
         }
     }, [book?.url]);
 
-    const handleFavoriteToggle = () => {
-        refetchFavorites();
-    };
-
     const handleAddBook = () => {
-        addBook({
-            accessToken: token ?? '',
-            bookId: book.id ?? '',
-            type: BookType.Cart,
-        })
-            .then(() => {
-                console.log('Book added to cart');
-            })
-            .catch(error => {
-                console.error('Error adding book to cart', error);
-            });
+        // addBook({
+        //     accessToken: token ?? '',
+        //     bookId: book.id ?? '',
+        //     type: BookType.Cart,
+        // })
+        //     .then(() => {
+        //         console.log('Book added to cart');
+        //     })
+        //     .catch((error: unknown) => {
+        //         console.error('Error adding book to cart', error);
+        //     });
     };
 
     const handleCheckout = async () => {
@@ -201,11 +167,7 @@ const MainInformation = ({
                                 Купити зараз
                             </ToCart>
                             <ToFavorite>
-                                <FavoriteBtn
-                                    book={book}
-                                    isFavAlready={isFavAlready}
-                                    onToggleFavorite={handleFavoriteToggle}
-                                />
+                                <FavoriteBtn book={book} />
                             </ToFavorite>
                         </Controls>
                         <Formats
