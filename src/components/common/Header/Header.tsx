@@ -200,7 +200,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
             <HeaderContainer>
                 <StyledWrapper>
                     <LogoContainer>
-                        <Link href="/" aria-label="Link to main page">
+                        <Link href="/" aria-label="Перейти на головну сторінку">
                             <Logo name="logo_black" />
                         </Link>
                     </LogoContainer>
@@ -225,7 +225,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             }}
                             ref={searchVal}
                         />
-                        <SearchButton type="submit" aria-label="Search">
+                        <SearchButton type="submit" aria-label="Пошук">
                             <Icon name="search" size={24} className="icon" />
                         </SearchButton>
                         {isSearchListOpen && <SearchList books={books} />}
@@ -285,7 +285,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                         <NavList>
                             <NavItem>
                                 <StyledNavLink
-                                    aria-label="Main page"
+                                    aria-label="Перейти на головну сторінку"
                                     className="active"
                                     data-nav="main"
                                     onClick={() => {
@@ -298,7 +298,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             </NavItem>
                             <NavItem>
                                 <StyledNavLink
-                                    aria-label="Link to catalog"
+                                    aria-label="Перейти до каталогу"
                                     onClick={() => {
                                         changePage('catalog');
                                     }}
@@ -310,7 +310,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             <NavItem>
                                 <StyledNavLink
                                     data-nav="cart"
-                                    aria-label="Link to cart"
+                                    aria-label="Перейти до корзини"
                                 >
                                     <Icon
                                         name="cart"
@@ -324,7 +324,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             <NavItem>
                                 <StyledNavLink
                                     data-nav="like"
-                                    aria-label="Link to favorites"
+                                    aria-label="Перейти в улюблене"
                                 >
                                     <Icon
                                         name="heart"
@@ -338,7 +338,7 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                             <NavItem>
                                 <StyledNavLink
                                     data-nav="account"
-                                    aria-label="Link to my account"
+                                    aria-label="Перейти в мій акаунт"
                                 >
                                     <Icon
                                         name="account"

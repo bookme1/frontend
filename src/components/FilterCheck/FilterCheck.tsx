@@ -100,7 +100,7 @@ export default function FilterCheck({
                         .map((item: string, index: number) => (
                             <li key={index} className={styles.item__checkbox}>
                                     <input
-                                        aria-label='Checkbox'
+                                        aria-label='Обрати категорію'
                                         type="checkbox"
                                         checked={isChecked(item)}
                                         onChange={() =>
