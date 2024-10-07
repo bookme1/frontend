@@ -300,14 +300,6 @@ const Controls = () => {
                                 <ul className={styles.products__list}>
                                     {filterBooks &&
                                         filterBooks.books.map((book: IBook) => {
-                                            const isFavAlredy = false;
-                                            // const isFavAlredy = favoriteBooks
-                                            //     ? favoriteBooks.some(
-                                            //           (fav: any) =>
-                                            //               fav === book.id
-                                            //       )
-                                            //     : false;
-
                                             return (
                                                 <li
                                                     key={book.id}
@@ -377,17 +369,6 @@ const Controls = () => {
                                                                         book={
                                                                             book
                                                                         }
-                                                                        isFavAlready={
-                                                                            isFavAlredy
-                                                                        }
-                                                                        onToggleFavorite={(
-                                                                            isFav: boolean
-                                                                        ) => {
-                                                                            console.log(
-                                                                                `Favorite status for book ${book.id} changed to: ${isFav}`
-                                                                            );
-                                                                            // Додаткові дії при зміні статусу обраного
-                                                                        }}
                                                                     />
                                                                     <button
                                                                         className={

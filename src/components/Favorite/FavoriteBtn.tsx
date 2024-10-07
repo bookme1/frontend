@@ -2,38 +2,43 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Notiflix from 'notiflix';
+
 import { EmptyHeart, FilledHeart } from './Favorite.styles';
 import { explode } from './particles';
+import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,
     useRemoveFavoriteMutation,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
-const FavoriteBtn = ({
-    book,
-    isFavAlready,
-    onToggleFavorite,
-}: {
-    book: any;
-    isFavAlready: boolean;
-    onToggleFavorite: (isFav: boolean) => void;
-}) => {
-    const [isFavorite, setIsFavorite] = useState<boolean>(isFavAlready);
+const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
+    const [isFav, setIsFav] = useState<boolean>(false);
     const token = localStorage.getItem('accessToken');
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
+    // Check if it was already changed
     useEffect(() => {
-        setIsFavorite(isFavAlready);
-    }, [isFavAlready]);
+        if (localStorage && book?.id) {
+            const json = localStorage.getItem('favorites');
+            if (json) {
+                const favBooks = JSON.parse(json);
+                if (favBooks && Array.isArray(favBooks)) {
+                    const isFavorite = favBooks.some(fav => fav.id === book.id);
+                    // console.log('book: ' + book.title + ' is ' + isFavorite);
+                    setIsFav(isFavorite);
+                }
+            }
+        }
+    }, [book]);
 
     const handleFavoriteClick = async (e: any) => {
-        setIsFavorite(true); // Change state on click
+        setIsFav(true); // Change state on click
         explode(e.pageX, e.pageY);
-        onToggleFavorite(true);
 
-        if (token !== null) {
+        if (token !== null && book) {
             try {
                 await addFavorite({
                     accessToken: token,
@@ -41,25 +46,28 @@ const FavoriteBtn = ({
                     type: BookType.Fav,
                 });
             } catch (error) {
-                setIsFavorite(false); // Back if error occured on backend
-                onToggleFavorite(false);
+                setIsFav(false); // Back if error occured on backend
+                Notiflix.Notify.failure(
+                    'Помилка при зміні стану книги. Помилка #1002'
+                );
             }
-        } else {
+        }
+
+        // In all situations, add book to local storage
+        if (book) {
             // operations with local storage
-            let favorites: string[] = JSON.parse(
+            let favorites: IBook[] = JSON.parse(
                 localStorage.getItem('favorites') || '[]'
             );
-            favorites.push(book.id);
+            favorites.push(book);
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            console.log(`Book added to local favorites: ${book.id}`);
         }
     };
 
     const handleNotFavoriteClick = async () => {
-        setIsFavorite(false); // Change state on click
-        onToggleFavorite(false);
+        setIsFav(false); // Change state on click
 
-        if (token !== null) {
+        if (token !== null && book) {
             try {
                 await removeFavorite({
                     accessToken: token,
@@ -67,19 +75,24 @@ const FavoriteBtn = ({
                     type: BookType.Fav,
                 });
             } catch (error) {
-                setIsFavorite(true); // Go back if error occured on backend
-                onToggleFavorite(true);
+                setIsFav(true); // Go back if error occured on backend
+                Notiflix.Notify.failure(
+                    'Помилка при зміні стану книги. Помилка #1003'
+                );
             }
-        } else {
+        }
+        // In all situations, take book to local storage
+        if (book) {
             // Operations with local storage
-            let favorites: string[] = JSON.parse(
+            let favorites: IBook[] = JSON.parse(
                 localStorage.getItem('favorites') || '[]'
             );
-            const index = favorites.indexOf(book.id);
+            const index = favorites.findIndex(
+                favBook => favBook.id === book.id
+            );
             if (index !== -1) {
                 favorites.splice(index, 1);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
-                console.log(`Book removed from local favorites: ${book.id}`);
             }
         }
     };
@@ -95,16 +108,12 @@ const FavoriteBtn = ({
             title="Додати/прибрати з бажаних"
         >
             <FilledHeart
-                style={isFavorite ? undefined : { color: 'transparent' }}
-                className={isFavorite ? 'active' : ''}
-                onClick={
-                    isFavorite ? handleNotFavoriteClick : handleFavoriteClick
-                }
+                style={isFav ? undefined : { color: 'transparent' }}
+                className={isFav ? 'active' : ''}
+                onClick={isFav ? handleNotFavoriteClick : handleFavoriteClick}
             />
             <EmptyHeart
-                onClick={
-                    isFavorite ? handleNotFavoriteClick : handleFavoriteClick
-                }
+                onClick={isFav ? handleNotFavoriteClick : handleFavoriteClick}
             />
         </div>
     );
