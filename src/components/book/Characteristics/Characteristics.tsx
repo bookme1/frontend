@@ -67,16 +67,16 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
                         </CharValue>
                     </CharItem>
                 )}
-                <FullButton
-                    onClick={() => {
-                        setIsFull(prev => !prev);
-                    }}
-                >
-                    {isFull ? 'Сховати ' : 'Показати '}
-                    всі характеристики{' '}
-                    <FullIcon className="full_icon_char" name="arrow_down" />
-                </FullButton>
             </CharList>
+            <FullButton
+                onClick={() => {
+                    setIsFull(prev => !prev);
+                }}
+            >
+                {isFull ? 'Сховати ' : 'Показати '}
+                всі характеристики{' '}
+                <FullIcon className="full_icon_char" name="arrow_down" />
+            </FullButton>
             <Title>Опис</Title>
             {/* <ControlButtons>
                 <ControlButton className="active mobile">Сюжет</ControlButton>
