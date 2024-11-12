@@ -371,7 +371,7 @@ const Controls = () => {
                                                                         }
                                                                     />
                                                                     <button
-                                                                        aria-label="Basket"
+                                                                        aria-label="Корзина"
                                                                         className={
                                                                             styles.button__basket
                                                                         }
@@ -401,7 +401,7 @@ const Controls = () => {
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>
                                         <button
-                                            aria-label="Pagination"
+                                            aria-label="Пагінація"
                                             className={
                                                 styles.pagination__button_row
                                             }
@@ -443,7 +443,7 @@ const Controls = () => {
                                             )
                                         )}
                                         <button
-                                            aria-label="Pagination"
+                                            aria-label="Пагінація"
                                             className={
                                                 styles.pagination__button_row
                                             }

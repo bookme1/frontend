@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
+import { A11y, Navigation } from 'swiper/modules';
 
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -66,11 +66,16 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
                 slidesPerView={1}
                 loop={true}
                 spaceBetween={16}
-                modules={[Navigation]}
+                modules={[Navigation, A11y]}
                 className="mySwiper"
                 navigation={{
                     nextEl: `.arrow-right-${name}`,
                     prevEl: `.arrow-left-${name}`,
+                }}
+                a11y={{
+                    enabled: true,
+                    prevSlideMessage: 'Попередній слайд',
+                    nextSlideMessage: 'Наступний слайд',
                 }}
                 breakpoints={{
                     // when window width is >= 768px

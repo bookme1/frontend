@@ -14,7 +14,7 @@ export const BookFormatContainer = styled.div`
     transition: opacity 0.15s ease-in-out;
 `;
 
-export const CardContainer = styled.li`
+export const CardContainer = styled.div`
     margin: 2px 0;
     width: 230px;
     height: 400px;

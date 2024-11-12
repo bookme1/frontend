@@ -14,14 +14,20 @@ const Footer = () => {
             <TopSection>
                 <Container>
                     <div className="links">
-                        <Link href="#"  aria-label='Link to home page'>
+                        <Link href="#" aria-label="Перейти на головну сторінку">
                             <Icon name="logo_white" width={176} height={40} />
                         </Link>
                         <div>
-                            <a href="#" aria-label="Link to Instagram">
+                            <a
+                                href="#"
+                                aria-label="Перейти на інстаграм сторінку"
+                            >
                                 <Icon name="instagram" />
                             </a>
-                            <a href="#" aria-label="Link to Telegram">
+                            <a
+                                href="#"
+                                aria-label="Перейти на телеграм сторінку"
+                            >
                                 <Icon name="telegram" />
                             </a>
                         </div>
@@ -62,10 +68,10 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="mobile__navigation">
-                        <a href="/" aria-label='Link to instagram'>
+                        <a href="/" aria-label="Перейти на інстаграм сторінку">
                             <Icon name="instagram" />
                         </a>
-                        <a href="/" aria-label='Link to telegram'>
+                        <a href="/" aria-label="Перейти на телеграм сторінку">
                             <Icon name="telegram" />
                         </a>
                     </div>
