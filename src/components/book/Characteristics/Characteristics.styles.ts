@@ -21,7 +21,8 @@ export const CharList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
+  
 `;
 
 export const CharItem = styled.li`
@@ -50,6 +51,7 @@ export const FullButton = styled.button`
   border-radius: 8px;
   border: 1px solid var(--gray_dark);
   font-weight: 700;
+  margin-bottom: 48px;
   @media (min-width: 768px) {
     width: 332px;
   }
