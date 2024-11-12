@@ -100,6 +100,76 @@ class BookService {
         }
     }
 
+    public async makeCartCheckout(accessToken: string) {
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const instance = axios.create({
+            baseURL: BASE_URL,
+        });
+
+        try {
+            const response = await instance.post(
+                `/api/book/cart-checkout`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            const { data, signature, order_id } = response.data;
+
+            // Динамічна завантаження LiqPayCheckout
+            if (typeof window == 'undefined') {
+                return 0;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://static.liqpay.ua/libjs/checkout.js';
+            script.onload = () => {
+                // @ts-ignore
+                LiqPayCheckout.init({
+                    data: data,
+                    signature: signature,
+                    embedTo: '#liqpay',
+                    mode: 'popup', // або 'embed'
+                })
+                    .on('liqpay.callback', async function (data: any) {
+                        console.log('idk if paid, there is the data', data);
+                        const ifPaid = await bookService.checkIfPaid(
+                            data.order_id
+                        );
+                        if (ifPaid) {
+                            Notiflix.Notify.success('Дякуємо за покупку!');
+                            const result =
+                                await bookService.makeDelivery(order_id);
+                            console.log('RESULT');
+                            console.log(result);
+                            if (result == 'OK') {
+                                Notiflix.Notify.success(
+                                    'Книжки були доставлені до бібліотеки!'
+                                );
+                            }
+                        }
+                    })
+                    .on('liqpay.ready', function (data: any) {
+                        // ready
+                        console.log('ready');
+                    })
+                    .on('liqpay.close', function (data: any) {
+                        // close
+                        console.log('closed');
+                        Notiflix.Notify.failure('Оплата була скасована.');
+                    });
+            };
+            document.body.appendChild(script);
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     public async orderRequest(
         orderData: CreateOrderDTO,
         accessToken: string | null
@@ -162,6 +232,19 @@ class BookService {
         try {
             const response = await axios.post(url, {
                 transactionId: order_id,
+            });
+
+            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async makeCartWatermarking(order_id: string) {
+        const url = `${this.baseURL}/api/book/cart-watermarking`;
+        try {
+            const response = await axios.post(url, {
+                order_id,
             });
 
             return response.data; // Можливо, вам потрібно повернути щось з відповіді

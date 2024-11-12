@@ -190,11 +190,11 @@ const Controls = () => {
     };
 
     const token = session?.accessToken ?? localStorage.getItem('accessToken');
-    const { data: favoriteBooks, refetch: refetchFavoriteBooks } =
-        useGetFavoritesQuery({
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        });
+    // const { data: favoriteBooks, refetch: refetchFavoriteBooks } =
+    //     useGetFavoritesQuery({
+    //         accessToken: token ?? '',
+    //         type: BookType.Fav,
+    //     });
 
     const handlePageChange = (newPageTeest: number) => {
         newPage = newPageTeest;
@@ -400,7 +400,8 @@ const Controls = () => {
                                 </ul>
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>
-                                        <button aria-label='Pagination'
+                                        <button
+                                            aria-label="Pagination"
                                             className={
                                                 styles.pagination__button_row
                                             }
@@ -413,7 +414,7 @@ const Controls = () => {
                                         </button>
                                         {getPageNumbers().map(
                                             (pageNumber, index) => (
-                                                <button 
+                                                <button
                                                     key={index}
                                                     className={`${styles.pagination__button_page} ${
                                                         pageNumber ===
@@ -441,7 +442,8 @@ const Controls = () => {
                                                 </button>
                                             )
                                         )}
-                                        <button aria-label='Pagination'
+                                        <button
+                                            aria-label="Pagination"
                                             className={
                                                 styles.pagination__button_row
                                             }

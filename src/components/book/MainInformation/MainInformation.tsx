@@ -26,6 +26,7 @@ import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
+import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
@@ -59,18 +60,23 @@ const MainInformation = ({
         }
     }, [book?.url]);
 
-    const handleAddBook = () => {
-        // addBook({
-        //     accessToken: token ?? '',
-        //     bookId: book.id ?? '',
-        //     type: BookType.Cart,
-        // })
-        //     .then(() => {
-        //         console.log('Book added to cart');
-        //     })
-        //     .catch((error: unknown) => {
-        //         console.error('Error adding book to cart', error);
-        //     });
+    const [addCart] = useAddCartMutation();
+
+    const handleAddBook = async () => {
+        if (token !== null && book) {
+            try {
+                await addCart({
+                    accessToken: token,
+                    bookId: book.id,
+                    type: BookType.Cart,
+                });
+                Notiflix.Notify.success('Книга успішно додана до кошика!');
+            } catch (error) {
+                Notiflix.Notify.failure(
+                    'Помилка при додаванні книги до кошика. Помилка #2001'
+                );
+            }
+        }
     };
 
     const handleCheckout = async () => {
@@ -131,7 +137,6 @@ const MainInformation = ({
     };
 
     const authorsMarkup = getAuthorsMarkup(book.author);
-
     return (
         <>
             <StyledWrapper>
@@ -157,7 +162,7 @@ const MainInformation = ({
                         <Controls>
                             <ToCart
                                 onClick={() => {
-                                    openModal('successInfo');
+                                    openModal('cart');
                                     handleAddBook();
                                 }}
                             >

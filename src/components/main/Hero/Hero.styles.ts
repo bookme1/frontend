@@ -2,9 +2,6 @@
 
 import styled from '@emotion/styled';
 
-import desktopHero from '@/assets/main/hero_desktop.webp';
-import mobileHero from '@/assets/main/hero_mobile.webp';
-import tabletHero from '@/assets/main/hero_tablet.webp';
 import { Wrapper, visuallyHidden } from '@/styles/globals.styles';
 
 import { Icon } from '../../common/Icon';
@@ -84,29 +81,16 @@ export const ImageContainer = styled.div`
     width: 100%;
     margin: 0 auto;
     height: 420px;
-    background-image: url(${mobileHero.src});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    position: relative;
     border-radius: 20px;
     padding-top: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     @media (min-width: 768px) {
         width: 481px;
         height: 438px;
-        background-image: url(${tabletHero.src});
-        display: block;
-        padding-top: 54px;
-        padding-left: 54px;
     }
     @media (min-width: 1280px) {
         width: 944px;
         height: 480px;
-        background-image: url(${desktopHero.src});
-        padding-top: 150px;
-        padding-left: 80px;
     }
 `;
 
@@ -115,9 +99,11 @@ export const HeroTitle = styled.h1`
     font-size: 32px;
     font-weight: 700;
     line-height: 140%;
-    width: 50%;
+    position: absolute;
+    top: 150px;
+    left: 80px;
+    /* transform: translate(-50%, 50%); */
     @media (min-width: 768px) {
-        width: 100%;
         margin-left: 0;
         margin-bottom: 8px;
     }
@@ -127,6 +113,9 @@ export const HeroTitle = styled.h1`
 `;
 
 export const HeroDescription = styled.p`
+    position: absolute;
+    top: 214px;
+    left: 80px;
     @media (max-width: 767.5px) {
         ${visuallyHidden}
     }
@@ -149,6 +138,11 @@ export const CatalogButton = styled.a`
     font-weight: 700;
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     cursor: pointer;
+    &.inSlider {
+        position: absolute;
+        top: 310px;
+        left: 80px;
+    }
 
     :hover {
         background-color: #e62e2e;

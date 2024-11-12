@@ -119,6 +119,52 @@ export const bookApi = createApi({
                 },
             }),
         }),
+
+        // #################
+        // CART INTERACTION
+        // #################
+        getCart: builder.query<
+            { id: number; cart: IBook[] },
+            { accessToken: string; type: BookType.Cart }
+        >({
+            query: ({ accessToken, type }) => ({
+                url: `api/user/books/${type}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }),
+        }),
+
+        addCart: builder.mutation<IUser, userBookDTO>({
+            // Add book to favorites
+            query: DTO => ({
+                url: 'api/user/books',
+                method: 'POST',
+                body: {
+                    bookId: DTO.bookId,
+                    type: 'Cart',
+                },
+                headers: {
+                    Authorization: `Bearer ${DTO.accessToken}`,
+                },
+            }),
+        }),
+
+        removeCart: builder.mutation<IUser, userBookDTO>({
+            // Remove book from favorites
+            query: DTO => ({
+                url: 'api/user/books',
+                method: 'DELETE',
+                body: {
+                    bookId: DTO.bookId,
+                    type: 'Cart',
+                },
+                headers: {
+                    Authorization: `Bearer ${DTO.accessToken}`,
+                },
+            }),
+        }),
     }),
 });
 
@@ -128,8 +174,13 @@ export const {
     useGetGenresQuery,
     useGetFilterBooksQuery,
     useGetFiltersQuery,
+    //Fav
     useGetFavoritesQuery,
     useGetFavoritesQuantityQuery,
     useAddFavoriteMutation,
     useRemoveFavoriteMutation,
+    //Cart
+    useGetCartQuery,
+    useAddCartMutation,
+    useRemoveCartMutation,
 } = bookApi;

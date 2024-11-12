@@ -99,15 +99,19 @@ export default function FilterCheck({
                         .slice(0, searchParamsInput[parametrSearch].more)
                         .map((item: string, index: number) => (
                             <li key={index} className={styles.item__checkbox}>
-                                    <input
-                                        aria-label='Checkbox'
-                                        type="checkbox"
-                                        checked={isChecked(item)}
-                                        onChange={() =>
-                                            handleCheckboxChange(item)
-                                        }
-                                    />
-                                <p>{item}</p>
+                                <input
+                                    aria-label="Checkbox"
+                                    type="checkbox"
+                                    checked={isChecked(item)}
+                                    onChange={() => handleCheckboxChange(item)}
+                                />
+                                <button
+                                    onClick={() => {
+                                        handleCheckboxChange(item);
+                                    }}
+                                >
+                                    {item}
+                                </button>
                             </li>
                         ))}
             </ul>

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import {
     CatalogButton,
     HeroDescription,
@@ -11,8 +13,18 @@ import {
     NavLink,
     NavList,
 } from './Hero.styles';
+import desktopHero from '@/assets/main/hero_desktop.webp';
+import mobileHero from '@/assets/main/hero_mobile.webp';
+import tabletHero from '@/assets/main/hero_tablet.webp';
 
 const Hero = () => {
+    const getHeroImage = () => {
+        const width = window.innerWidth;
+        if (width < 480) return mobileHero.src;
+        if (width < 768) return tabletHero.src;
+        return desktopHero.src;
+    };
+
     return (
         <HeroSection>
             <HeroWrapper>
@@ -60,12 +72,26 @@ const Hero = () => {
                     </NavList>
                 </NavContainer>
                 <ImageContainer>
+                    <Image
+                        src={getHeroImage()}
+                        alt="Hero Image"
+                        loading="eager"
+                        layout="responsive"
+                        width={1280}
+                        height={720}
+                        style={{
+                            borderRadius: '20px',
+                            objectFit: 'cover',
+                        }}
+                    />
                     <HeroTitle>Українські книжки</HeroTitle>
                     <HeroDescription>
                         Книги, що змінюють світ, тепер доступні для всього
                         світу!
                     </HeroDescription>
-                    <CatalogButton href="/books">До каталогу</CatalogButton>
+                    <CatalogButton className="inSlider" href="/books">
+                        До каталогу
+                    </CatalogButton>
                 </ImageContainer>
             </HeroWrapper>
         </HeroSection>

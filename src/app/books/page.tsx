@@ -7,7 +7,6 @@ import { Controls } from '@/components/books/Controls';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import Basket from '@/components/main/Modal/Basket/Basket';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';

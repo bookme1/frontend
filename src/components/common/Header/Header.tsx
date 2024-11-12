@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { IoMdHeartEmpty } from 'react-icons/io';
-import { TfiPanel } from 'react-icons/tfi';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -18,12 +17,8 @@ import {
     HeaderContainer,
     Logo,
     LogoContainer,
-    NavItem,
-    NavList,
-    NavToTablet,
     SearchButton,
     SearchInput,
-    StyledNavLink,
     StyledWrapper,
     ToTablet,
 } from './Header.styles';
@@ -37,15 +32,22 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-import {
-    useGetFavoritesQuantityQuery,
-    useGetFavoritesQuery,
-} from '@/lib/redux/features/book/bookApi';
+import { useGetFavoritesQuantityQuery } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
+
+const IoMdHeartEmpty = dynamic(
+    () => import('react-icons/io').then(mod => mod.IoMdHeartEmpty),
+    { ssr: false }
+);
+
+const TfiPanel = dynamic(
+    () => import('react-icons/tfi').then(mod => mod.TfiPanel),
+    { ssr: false }
+);
 
 interface HeartIconProps {
     hasFavorites: boolean;

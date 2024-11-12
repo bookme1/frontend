@@ -1,20 +1,23 @@
-"use client";
-import React from "react";
-import Sourcedata from "@/data/sourceData.json";
-import { Chart, CategoryScale, defaults } from "chart.js/auto";
-import { Bar, Doughnut } from "react-chartjs-2";
+'use client';
+
+import React from 'react';
+import { Bar, Doughnut } from 'react-chartjs-2';
+
+import { CategoryScale, Chart, defaults } from 'chart.js/auto';
+
+import Sourcedata from '@/data/sourceData.json';
 
 Chart.register(CategoryScale);
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
 const Chartjsbar = () => {
-  return (
-    <>
-      {" "}
-      <div className="flex gap-20  justify-end mr-20">
-        <div className="w-6/12 h-96 shadow-2xl rounded-xl">
-          <Bar
+    return (
+        <>
+            {' '}
+            <div className="flex gap-20  justify-end mr-20">
+                <div className="w-6/12 h-96 shadow-2xl rounded-xl">
+                    {/* <Bar
             data={{
               labels: Sourcedata.map((data) => data.label),
               datasets: [
@@ -57,11 +60,11 @@ const Chartjsbar = () => {
                 },
               ],
             }}
-          />
-        </div>
-      </div>
-    </>
-  );
+          /> */}
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default Chartjsbar;
