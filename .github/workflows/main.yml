@@ -1,11 +1,15 @@
+# .github/workflows/deploy-frontend.yml
+
 on:
     push:
         branches:
             - main
-name: 🚀 Deploy website on push
+
+name: 🚀 Deploy Frontend on Push
+
 jobs:
-    web-deploy:
-        name: 🎉 Deploy
+    frontend-deploy:
+        name: 🎉 Deploy Frontend
         runs-on: ubuntu-latest
         steps:
             - name: 🚚 Get latest code
@@ -16,14 +20,23 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: 🔨 Build Project
+            - name: 🔨 Build Frontend Project
               run: |
                   npm install
                   npm run build
 
-            - name: 📂 Sync files
+            # Frontend deploy in /bookme/client
+            - name: 📂 Deploy Frontend to /bookme/client
               uses: SamKirkland/FTP-Deploy-Action@v4.3.5
               with:
                   server: ${{ secrets.FTP_SERVER }}
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
+                  local-dir: ./out
+                  server-dir: /bookme/client
+
+            # Сopy frontend code from /bookme/client into /public_html
+            - name: 🔄 Copy Frontend to /public_html
+              run: |
+                  sudo apt-get install lftp -y
+                  lftp -e "mirror -R /bookme/client /public_html; bye" -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }}

@@ -5,10 +5,10 @@
     "private": true,
     "homepage": "https://bookme.kyiv.ua",
     "scripts": {
-        "dev": "node server.js",
+        "dev": "next dev",
         "build": "next build",
         "export": "next build && next export",
-        "start": "NODE_ENV=production node server.js",
+        "start": "next start",
         "lint": "next lint"
     },
     "dependencies": {
