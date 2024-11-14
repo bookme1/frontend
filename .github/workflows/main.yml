@@ -29,16 +29,19 @@ jobs:
             - name: Prepare Deployable Files
               run: |
                   mkdir deploy
-                  git archive HEAD | tar -x -C deploy  # Copies files tracked by git, excluding .gitignore files
+                  cp -r .next deploy/.next  # Copy the .next folder to deploy
+                  cp -r public deploy/public  # Copy the public folder, if needed
+                  cp package.json deploy/  # Copy package.json if needed for runtime
+                  cp .env deploy/  # Copy .env if needed in deployment
 
-            # Frontend deploy in /bookme/client
+            # Deploy frontend in /bookme/client
             - name: 📂 Deploy Frontend to /bookme/client
               uses: SamKirkland/FTP-Deploy-Action@v4.3.5
               with:
                   server: ${{ secrets.FTP_SERVER }}
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
-                  local-dir: ./deploy/.next/ # Deploy from the prepared deploy directory
+                  local-dir: ./deploy/ # Deploy from the prepared deploy directory
                   server-dir: /client/
 
             # Sync frontend files from /bookme/client to /public_html, without deleting ignored files
@@ -47,5 +50,5 @@ jobs:
                   sudo apt-get install lftp -y
                   lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
                   set ssl:verify-certificate no;
-                  mirror -R --only-newer --delete deploy/ /public_html;  # Sync with --delete to remove old files
+                  mirror -R --only-newer --delete /bookme/client /public_html;  # Sync with --delete to remove old files
                   bye"
