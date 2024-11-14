@@ -39,7 +39,7 @@ jobs:
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
                   local-dir: ./deploy/.next/ # Deploy from the prepared deploy directory
-                  server-dir: /bookme/client/
+                  server-dir: /client/
 
             # Sync frontend files from /bookme/client to /public_html, without deleting ignored files
             - name: 🔄 Sync Frontend to /public_html
