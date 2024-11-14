@@ -25,6 +25,12 @@ jobs:
                   npm install
                   npm run build
 
+            # Prepare deployable files, excluding files in .gitignore
+            - name: Prepare Deployable Files
+              run: |
+                  mkdir deploy
+                  git archive HEAD | tar -x -C deploy  # Copies files tracked by git, excluding .gitignore files
+
             # Frontend deploy in /bookme/client
             - name: 📂 Deploy Frontend to /bookme/client
               uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -32,16 +38,13 @@ jobs:
                   server: ${{ secrets.FTP_SERVER }}
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
-                  local-dir: ./.next/
-                  server-dir: /client/
+                  local-dir: ./deploy/.next/ # Deploy from the prepared deploy directory
+                  server-dir: /bookme/client/
 
-            # Сopy frontend code from /bookme/client into /public_html
-            - name: 🔄 Copy Frontend to /public_html
+            # Sync frontend files from /bookme/client to /public_html, without deleting ignored files
+            - name: 🔄 Sync Frontend to /public_html
               run: |
                   sudo apt-get install lftp -y
                   lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
-                  rm -r /client;
-                  mkdir -p /client;
-                  mirror -R ./.next/ /client/;
-                  mirror -R /client /public_html;
+                  mirror -R --only-newer --delete deploy/ /public_html;  # Sync with --delete to remove old files
                   bye"
