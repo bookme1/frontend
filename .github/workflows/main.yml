@@ -37,11 +37,11 @@ jobs:
 
             # Сopy frontend code from /bookme/client into /public_html
             - name: 🔄 Copy Frontend to /public_html
-  run: |
-    sudo apt-get install lftp -y
-    lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
-    rm -r /bookme/client;
-    mkdir -p /bookme/client;
-    mirror -R ./out/ /bookme/client/;
-    mirror -R /bookme/client /public_html;
-    bye"
+              run: |
+                  sudo apt-get install lftp -y
+                  lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
+                  rm -r /bookme/client;
+                  mkdir -p /bookme/client;
+                  mirror -R ./out/ /bookme/client/;
+                  mirror -R /bookme/client /public_html;
+                  bye"
