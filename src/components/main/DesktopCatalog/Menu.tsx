@@ -2,22 +2,12 @@ import React, { useState } from 'react';
 
 import Link from 'next/link';
 
+import { IGenre } from '@/app/book/[id]/page.types';
 import modalStyles from '@/components/Modals/MainModal/MainModal.module.css';
 import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
 import { setModalStatus, useDispatch } from '@/lib/redux';
 import { useGetGenresQuery } from '@/lib/redux/features/book/bookApi';
-
-interface ISubgenre {
-    genre: string;
-    count: number;
-}
-
-interface IGenre {
-    genre: string;
-    count: number;
-    children: ISubgenre[]; // Array of string
-}
 
 const Menu: React.FC<{
     onClose: (event?: React.MouseEvent<HTMLButtonElement>) => void;
@@ -31,7 +21,7 @@ const Menu: React.FC<{
 
     const [submenuData, setSubmenuData] = useState<IGenre[]>([]); // Array of strings
 
-    const setActiveMenuItem = (index: string) => {
+    const setActiveMenuItem = (index: number) => {
         const menuItems = document.querySelectorAll(
             "[data-active-handler='menu']"
         );
@@ -43,9 +33,12 @@ const Menu: React.FC<{
         });
     };
 
-    const handleMouseEnter = (subgenres: IGenre[], index: string) => {
+    const handleMouseEnter = (
+        subgenres: IGenre[] | undefined,
+        index: number
+    ) => {
         setActiveMenuItem(index);
-        setSubmenuData(subgenres);
+        setSubmenuData(subgenres || []);
     };
 
     const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,7 +54,7 @@ const Menu: React.FC<{
                         key={index}
                         item={item}
                         id={`menu-item-${index}`}
-                        onHover={() => handleMouseEnter(item.children, index)}
+                        onHover={() => handleMouseEnter(item.subgenres, index)}
                     />
                 ))}
             </ul>

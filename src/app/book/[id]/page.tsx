@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { IBook } from './page.types';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { MainInformation } from '@/components/book/MainInformation';
-import { SliderLastBooks } from '@/components/book/SliderLastBooks';
+// import { SliderLastBooks } from '@/components/book/SliderLastBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
@@ -98,7 +98,7 @@ export default function Home() {
             )}
 
             {/* <Reviews /> */}
-            <SliderLastBooks />
+            {/* <SliderLastBooks /> */}
             <Footer />
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}

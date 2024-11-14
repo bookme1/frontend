@@ -204,7 +204,11 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                             : '/favorite' // wtf?? it should be only 1 naming
                                     }
                                 >
-                                    <HeartIcon hasFavorites={hasFavorites}>
+                                    <HeartIcon
+                                        hasFavorites={
+                                            hasFavorites ? true : false
+                                        }
+                                    >
                                         <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>
@@ -287,7 +291,11 @@ const Header = ({ userData }: { userData: IUser | undefined }) => {
                                             : '/favorite' // wtf?? it should be only 1 naming
                                     }
                                 >
-                                    <HeartIcon hasFavorites={hasFavorites}>
+                                    <HeartIcon
+                                        hasFavorites={
+                                            hasFavorites ? true : false
+                                        }
+                                    >
                                         <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>

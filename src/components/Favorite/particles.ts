@@ -1,17 +1,32 @@
-// particlesAlgorithm.js (или .ts)
-const colors = ['#ffc000', '#ff3b3b', '#ff8400'];
-const heartColor = '#ff0000';
-const hearts = 15;
+// particlesAlgorithm.ts
+const colors: string[] = ['#ffc000', '#ff3b3b', '#ff8400'];
+const heartColor: string = '#ff0000';
+const hearts: number = 15;
 
-export const explode = (x: number, y: number) => {
-    let particles = [];
-    let ratio = window.devicePixelRatio;
-    let c = document.createElement('canvas');
+interface Particle {
+    x: number;
+    y: number;
+    size: number;
+    color: string;
+    rotation: number;
+    speed: number;
+    friction: number;
+    opacity: number;
+    yVel: number;
+    gravity: number;
+}
+
+export const explode = (x: number, y: number): void => {
+    let particles: Particle[] = [];
+    let ratio: number = window.devicePixelRatio;
+    let c: HTMLCanvasElement = document.createElement('canvas');
     let ctx = c.getContext('2d');
 
+    if (!ctx) return; // Проверка на случай, если контекст не поддерживается
+
     c.style.position = 'absolute';
-    c.style.left = x - 100 + 'px';
-    c.style.top = y - 100 + 'px';
+    c.style.left = `${x - 100}px`;
+    c.style.top = `${y - 100}px`;
     c.style.pointerEvents = 'none';
     c.style.width = '200px';
     c.style.height = '200px';
@@ -40,12 +55,17 @@ export const explode = (x: number, y: number) => {
     setTimeout(() => document.body.removeChild(c), 1000);
 };
 
-const render = (particles, ctx, width, height) => {
+const render = (
+    particles: Particle[],
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number
+): void => {
     requestAnimationFrame(() => render(particles, ctx, width, height));
     ctx.clearRect(0, 0, width, height);
 
     // Рендеринг сердечек
-    particles.forEach(h => {
+    particles.forEach((h: Particle) => {
         h.x += h.speed * Math.cos((h.rotation * Math.PI) / 180);
         h.y += h.speed * Math.sin((h.rotation * Math.PI) / 180);
         h.opacity -= 0.01;
@@ -62,7 +82,12 @@ const render = (particles, ctx, width, height) => {
     });
 };
 
-const drawHeart = (ctx, x, y, size) => {
+const drawHeart = (
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    size: number
+): void => {
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.bezierCurveTo(
@@ -77,9 +102,5 @@ const drawHeart = (ctx, x, y, size) => {
     ctx.fill();
 };
 
-const r = (a: number, b: number, c?: boolean) =>
-    parseFloat(
-        (Math.random() * ((a ? a : 1) - (b ? b : 0)) + (b ? b : 0)).toFixed(
-            c ? c : 0
-        )
-    );
+const r = (a: number, b: number, c?: boolean): number =>
+    parseFloat((Math.random() * (a - b) + b).toFixed(c ? 0 : 2));

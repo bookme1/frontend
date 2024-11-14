@@ -55,7 +55,7 @@ export default function Home() {
     // Run the update when `isUpdating` changes
     useEffect(() => {
         if (isUpdating) {
-            runUpdatingBooks(responsesMarkup);
+            runUpdatingBooks();
         }
     }, [isUpdating]);
 
@@ -155,7 +155,7 @@ export default function Home() {
                 break;
             }
 
-            setBooksUpdated(prev => prev + Number(res.updated));
+            setBooksUpdated(prev => prev + Number(res.data.updated));
         }
     };
 
