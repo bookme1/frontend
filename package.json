@@ -2,8 +2,9 @@
     "name": "bookme",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://bookme.kyiv.ua",
     "scripts": {
-        "dev": "next dev",
+        "dev": "node server.js",
         "build": "next build",
         "export": "next build && next export",
         "start": "NODE_ENV=production node server.js",
