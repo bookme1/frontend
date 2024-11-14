@@ -32,7 +32,8 @@ jobs:
                   cp -r .next deploy/.next  # Copy the .next folder to deploy
                   cp -r public deploy/public  # Copy the public folder, if needed
                   cp package.json deploy/  # Copy package.json if needed for runtime
-                  cp .env deploy/  # Copy .env if needed in deployment
+                  # Copy .env if it exists
+                  if [ -f .env ]; then cp .env deploy/; fi
 
             # Deploy frontend in /bookme/client
             - name: 📂 Deploy Frontend to /bookme/client
