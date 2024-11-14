@@ -46,5 +46,6 @@ jobs:
               run: |
                   sudo apt-get install lftp -y
                   lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
+                  set ssl:verify-certificate no;
                   mirror -R --only-newer --delete deploy/ /public_html;  # Sync with --delete to remove old files
                   bye"
