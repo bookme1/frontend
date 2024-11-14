@@ -32,7 +32,7 @@ jobs:
                   server: ${{ secrets.FTP_SERVER }}
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
-                  local-dir: ./out/
+                  local-dir: ./.next/
                   server-dir: /bookme/client/
 
             # Сopy frontend code from /bookme/client into /public_html
