@@ -22,7 +22,6 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 # Set proper permissions
-RUN mkdir .next
 RUN chown -R node:node .next
 
 USER node
