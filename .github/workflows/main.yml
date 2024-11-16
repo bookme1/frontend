@@ -41,11 +41,18 @@ jobs:
               run: |
                   docker save my-frontend:latest | ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "docker load"
 
-            # Step 7: Restart container on server
+            # Step 7: Add .env
+            - name: 🔑 Add .env file to server
+              run: |
+                  ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
+                  echo '${{ secrets.ENV_FILE }}' > /home/adminmykhailo/bookme/client/.env
+                  "
+
+            # Step 8: Restart container on server
             - name: 🔄 Restart Docker Container
               run: |
                   ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
                   docker stop frontend-container || true &&
                   docker rm frontend-container || true &&
-                  docker run -d --name frontend-container -p 8080:3000 my-frontend:latest
+                  docker run -d --env-file /home/adminmykhailo/bookme/client/.env --name frontend-container -p 8080:3000 my-frontend:latest
                   "
