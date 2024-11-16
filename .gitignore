@@ -41,7 +41,6 @@ next-env.d.ts
 .env
 *.xml
 .env
-Dockerfile
 compose.yml
 docker-compose.yaml
 
