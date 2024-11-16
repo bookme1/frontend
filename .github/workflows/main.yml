@@ -23,6 +23,7 @@ jobs:
 
             - name: Add server to known_hosts
               run: |
+                  mkdir -p ~/.ssh
                   ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
             # Step 3: Connect through SSH
