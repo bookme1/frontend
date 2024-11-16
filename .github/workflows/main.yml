@@ -51,5 +51,5 @@ jobs:
                   sudo apt-get install lftp -y
                   lftp -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" ${{ secrets.FTP_SERVER }} -e "
                   set ssl:verify-certificate no;
-                  mirror -R --only-newer --delete /bookme/client /public_html;  # Sync with --delete to remove old files
+                  mirror -R --only-newer --delete /client /public_html;  # Sync with --delete to remove old files
                   bye"
