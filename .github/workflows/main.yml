@@ -1,11 +1,9 @@
-# .github/workflows/deploy-frontend.yml
+name: 🚀 Deploy Frontend on Push
 
 on:
     push:
         branches:
             - main
-
-name: 🚀 Deploy Frontend on Push
 
 jobs:
     frontend-deploy:
@@ -21,27 +19,33 @@ jobs:
               run: |
                   docker build -t my-frontend:latest .
 
+            # Step 3: Add server to known_hosts
             - name: Add server to known_hosts
               run: |
                   mkdir -p ~/.ssh
                   ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-            # Step 3: Connect through SSH
+            # Step 4: Set up SSH for secure connection
             - name: 🔑 Set up SSH
               uses: webfactory/ssh-agent@v0.5.3
               with:
                   ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-            # Step 4: Load Docker image on server
+            # Step 5: Check Docker on server
+            - name: 🐳 Verify Docker on Server
+              run: |
+                  ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "docker --version"
+
+            # Step 6: Load Docker image on server
             - name: 🚀 Push Docker Image to server
               run: |
                   docker save my-frontend:latest | ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "docker load"
 
-            # Step 5: Restart container on server
+            # Step 7: Restart container on server
             - name: 🔄 Restart Docker Container
               run: |
                   ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
                   docker stop frontend-container || true &&
                   docker rm frontend-container || true &&
-                  docker run -d --name frontend-container -p 80:3000 my-frontend:latest
+                  docker run -d --name frontend-container -p 8080:3000 my-frontend:latest
                   "
