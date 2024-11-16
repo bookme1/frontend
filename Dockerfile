@@ -1,9 +1,6 @@
 # Stage 1: Build the application
 FROM node:18 AS builder
 
-# Install libc6-compat for compatibility
-RUN apk add --no-cache libc6-compat
-
 WORKDIR /app
 
 # Install dependencies
