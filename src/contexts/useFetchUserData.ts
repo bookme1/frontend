@@ -42,12 +42,15 @@ const fetchUserData = async (
         }
 
         if (accessToken) {
-            const response = await fetch(`/api/user`, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
 
             if (response.ok) {
                 const data = await response.json();
@@ -57,7 +60,7 @@ const fetchUserData = async (
 
         if (refreshToken) {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL}/api/auth/refresh`,
+                `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/auth/refresh`,
                 {
                     method: 'GET',
                     headers: {
@@ -77,12 +80,15 @@ const fetchUserData = async (
                     refreshData.tokens.refreshToken
                 );
 
-                const userResponse = await fetch(`/api/user`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${refreshData.tokens.accessToken}`,
-                    },
-                });
+                const userResponse = await fetch(
+                    `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${refreshData.tokens.accessToken}`,
+                        },
+                    }
+                );
 
                 if (userResponse.ok) {
                     const data = await userResponse.json();

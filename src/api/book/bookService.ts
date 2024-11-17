@@ -8,11 +8,11 @@ class BookService {
     private baseURL: string | undefined;
 
     constructor() {
-        this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
     }
 
     public async refillQueue() {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
             url: `api/book/refillQueue`,
@@ -24,7 +24,7 @@ class BookService {
         }
     }
     public async updateBooksFromServer() {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
             url: `api/book/updateBooksFromServer`,
@@ -37,7 +37,7 @@ class BookService {
     }
 
     public async makeTestCheckout(amount: number, order_id: string) {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
         });
@@ -101,7 +101,7 @@ class BookService {
     }
 
     public async makeCartCheckout(accessToken: string) {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
         });

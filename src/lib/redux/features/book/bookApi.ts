@@ -12,7 +12,7 @@ import { BookType, IUser, userBookDTO } from '../user/types';
 export const bookApi = createApi({
     reducerPath: 'bookApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL,
+        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
     }),
     endpoints: builder => ({
         // #################
