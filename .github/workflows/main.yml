@@ -45,7 +45,7 @@ jobs:
             - name: 🔑 Add .env file to server
               run: |
                   ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
-                  echo '${{ secrets.ENV_FILE }}' > /home/adminmykhailo/bookme/client/.env
+                  echo '${{ secrets.ENV_FILE }}' > /home/adminmykhailo/bookme/client/.env.production
                   "
 
             # Step 8: Restart container on server
