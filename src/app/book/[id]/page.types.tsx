@@ -31,5 +31,5 @@ export interface FiltersData {
 export interface IGenre {
     count: number;
     genre: string;
-    subgenres?: IGenre[];
+    children?: IGenre[];
 }

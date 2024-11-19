@@ -25,7 +25,6 @@ const Menu: React.FC<{
         const menuItems = document.querySelectorAll(
             "[data-active-handler='menu']"
         );
-
         menuItems.forEach(element => {
             if (element.id != `menu-item-${index}`)
                 element.classList.remove(classes.menuItemActive);
@@ -54,7 +53,7 @@ const Menu: React.FC<{
                         key={index}
                         item={item}
                         id={`menu-item-${index}`}
-                        onHover={() => handleMouseEnter(item.subgenres, index)}
+                        onHover={() => handleMouseEnter(item.children, index)}
                     />
                 ))}
             </ul>
