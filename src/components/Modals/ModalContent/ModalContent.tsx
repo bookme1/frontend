@@ -1,4 +1,5 @@
 import AiContent from '@/components/Modals/ModalContent/AiContent/AiContent';
+import BurgerModal from '@/components/main/BurgerModal/BurgerModal';
 import Menu from '@/components/main/DesktopCatalog/Menu.tsx';
 import Basket from '@/components/main/Modal/Basket/Basket';
 import {
@@ -20,6 +21,8 @@ const ModalContent = () => {
             return <AiContent onClose={handleCloseModal} />;
         case 'Catalog':
             return <Menu onClose={handleCloseModal} />;
+        case 'Burger':
+            return <BurgerModal onClose={handleCloseModal} />;
         case 'Cart':
             return <Basket />;
         default:

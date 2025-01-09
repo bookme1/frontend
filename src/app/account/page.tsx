@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 
 import { AccountContainer } from './page.style';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
@@ -32,7 +32,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!isLoading && !isAuthorized) {
-            router.replace('/');
+            router.replace('http://localhost:3000/');
         }
     }, [isLoading, isAuthorized, router]);
 
@@ -45,7 +45,7 @@ const Home = () => {
 
     return (
         <Wrapper>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             <BreadCrumbs name="акаунт" />
             <AccountContainer>
                 <LeftMenu username={data?.username} />

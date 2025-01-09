@@ -1,5 +1,4 @@
 import { signOut } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
@@ -8,7 +7,6 @@ import { usePathname } from 'next/navigation';
 
 import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
 import { Icon } from '@/components/common/Icon';
-import { IUser } from '@/lib/redux/features/user/types';
 
 const NavLink = ({
     href = null,

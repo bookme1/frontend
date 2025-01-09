@@ -19,15 +19,12 @@ import {
     useGetFilterBooksQuery,
     useGetFiltersQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { CustomSession } from '@/lib/redux/features/user/types';
-import { BookType } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
 
 const Controls = () => {
     const { data: session } = useSession() as { data: CustomSession | null };
-    const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
@@ -205,7 +202,7 @@ const Controls = () => {
 
     return (
         <>
-            {isLoading && loaderFilter && isLoadingImage ? (
+            {isLoading && loaderFilter ? (
                 <Loading />
             ) : (
                 <section className={styles.section}>
@@ -276,22 +273,29 @@ const Controls = () => {
                                         </div>
                                     </div>
                                     <ul className={styles.information__list}>
-                                        {sortArray.map((text, index) => (
-                                            <li key={index}>
-                                                <button
-                                                    onClick={() =>
-                                                        handleSortClick(text)
-                                                    }
-                                                    className={
-                                                        text === selectedSort
-                                                            ? styles.open
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {text}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {sortArray.map((text, index) => {
+                                            console.log('what is that');
+                                            console.log(text);
+                                            return (
+                                                <li key={index}>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleSortClick(
+                                                                text
+                                                            )
+                                                        }
+                                                        className={
+                                                            text ===
+                                                            selectedSort
+                                                                ? styles.open
+                                                                : undefined
+                                                        }
+                                                    >
+                                                        {text}
+                                                    </button>
+                                                </li>
+                                            );
+                                        })}
                                     </ul>
                                     <p className={styles.information__quantity}>
                                         {quantityRange}
@@ -300,6 +304,8 @@ const Controls = () => {
                                 <ul className={styles.products__list}>
                                     {filterBooks &&
                                         filterBooks.books.map((book: IBook) => {
+                                            console.log('building');
+                                            console.log(book);
                                             return (
                                                 <li
                                                     key={book.id}
@@ -315,11 +321,6 @@ const Controls = () => {
                                                             height={288}
                                                             className={
                                                                 styles.products__img
-                                                            }
-                                                            onLoad={() =>
-                                                                setIsLoadingImage(
-                                                                    false
-                                                                )
                                                             }
                                                             src={book.url}
                                                             alt={book.title}

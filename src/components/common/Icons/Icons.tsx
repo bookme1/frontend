@@ -1820,6 +1820,33 @@ const Icons = () => {
                             fill="white"
                         />
                     </symbol>
+                    <symbol
+                        id="burger"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                    >
+                        <path
+                            d="M26.6667 9.3335L5.33342 9.3335"
+                            stroke="#FF3333"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                        />
+                        <path
+                            d="M26.6667 16L5.33342 16"
+                            stroke="#FF3333"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                        />
+                        <path
+                            d="M26.6667 22.6665L5.33342 22.6665"
+                            stroke="#FF3333"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                        />
+                    </symbol>
+
                     <symbol id="mobi" width="29" height="35">
                         <g transform="matrix(0.1 0 0 0.1 0 0)">
                             <path

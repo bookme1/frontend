@@ -22,7 +22,7 @@ import { lazyloadExp } from './lazyload';
 import { IBook } from '@/app/book/[id]/page.types';
 import { BookFormat } from '@/components/BookFormat';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
-import { openModal, useDispatch, useSelector } from '@/lib/redux';
+import { openModal, useDispatch } from '@/lib/redux';
 import {
     useAddFavoriteMutation,
     useGetFavoritesQuery,
@@ -89,7 +89,7 @@ const Card = ({ book }: { book: IBook | undefined }) => {
                         <BoxStyles className="hidden-buttons">
                             <FavoriteBtn book={book} />
                             <CartButton
-                                aria-label="Додати в улюблене"
+                                aria-label="Додати в кошик"
                                 onClick={() => {
                                     handleAddBook();
                                     handleOpenModal('successInfo');

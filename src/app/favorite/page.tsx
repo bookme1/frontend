@@ -37,7 +37,7 @@ export default function Home() {
 
     return (
         <>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             <Favorite />
             <Footer />
         </>

@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 
-import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
@@ -27,14 +26,12 @@ export default function Home() {
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);
-    if (isLoading) {
-        console.log("I'm loading dude");
-    }
+
     const data = userData as IUser;
 
     return (
         <>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             <Hero />
             <Categories />
             <SwiperList name="Популярне" />

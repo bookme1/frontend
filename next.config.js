@@ -3,13 +3,7 @@ const nextConfig = {
     output: 'standalone',
     images: {
         formats: ['image/webp'],
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'platform.elibri.com.ua',
-                port: '',
-            },
-        ],
+        domains: ['platform.elibri.com.ua'],
     },
     async headers() {
         return [
@@ -26,4 +20,4 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

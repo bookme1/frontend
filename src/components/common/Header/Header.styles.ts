@@ -47,6 +47,10 @@ export const Form = styled.form`
     }
 `;
 
+export const FlexRow = styled.div`
+    display: flex;
+`;
+
 export const SearchInput = styled.input`
     border: 1px solid var(--gray_border);
     width: 100%;
@@ -56,6 +60,10 @@ export const SearchInput = styled.input`
         color: var(--gray_dark);
         font-size: 18px;
         font-weight: 600;
+    }
+
+    @media (max-width: 767.5px) {
+        height: 40px;
     }
 `;
 
@@ -84,6 +92,30 @@ export const SearchButton = styled.button`
     :active .icon {
         color: white;
     }
+
+    @media (max-width: 767.5px) {
+        height: 40px;
+        padding: 7px 14px;
+
+        // active styles
+        background-color: var(--red);
+        border-color: red;
+        .icon {
+            color: white;
+        }
+    }
+`;
+
+export const BurgerButton = styled.button`
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+
+    border: 1px solid var(--red);
 `;
 
 export const LogoContainer = styled.div`

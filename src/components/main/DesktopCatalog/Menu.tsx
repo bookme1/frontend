@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ContentLoader from 'react-content-loader';
 
 import Link from 'next/link';
 
@@ -46,26 +47,88 @@ const Menu: React.FC<{
     };
     return (
         <div className={classes.ai_content_wrapper}>
-            {isLoading && <div>Завантажуємо каталог...</div>}
-            <ul className={classes.menuColumn}>
-                {data.map((item, index) => (
-                    <MenuItem
-                        key={index}
-                        item={item}
-                        id={`menu-item-${index}`}
-                        onHover={() => handleMouseEnter(item.children, index)}
-                    />
-                ))}
-            </ul>
-            <ul className={classes.submenuColumn}>
-                {submenuData.map((subitem, index) => (
-                    <SubmenuItem
-                        key={index}
-                        item={subitem}
-                        id={`submenu-item-${index}`}
-                    />
-                ))}
-            </ul>
+            {isLoading ? (
+                <ul className={classes.menuColumn}>
+                    <ContentLoader
+                        viewBox="0 0 400 300"
+                        width={400}
+                        height={300}
+                    >
+                        <rect
+                            x="0"
+                            y="0"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                        <rect
+                            x="0"
+                            y="50"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                        <rect
+                            x="0"
+                            y="100"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                        <rect
+                            x="0"
+                            y="150"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                        <rect
+                            x="0"
+                            y="200"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                        <rect
+                            x="0"
+                            y="250"
+                            rx="5"
+                            ry="5"
+                            width="444"
+                            height="40"
+                        />
+                    </ContentLoader>
+                </ul>
+            ) : (
+                <>
+                    <ul className={classes.menuColumn}>
+                        {data.map((item, index) => (
+                            <MenuItem
+                                key={index}
+                                item={item}
+                                id={`menu-item-${index}`}
+                                onHover={() =>
+                                    handleMouseEnter(item.children, index)
+                                }
+                            />
+                        ))}
+                    </ul>
+                    <ul className={classes.submenuColumn}>
+                        {submenuData.map((subitem, index) => (
+                            <SubmenuItem
+                                key={index}
+                                item={subitem}
+                                id={`submenu-item-${index}`}
+                            />
+                        ))}
+                    </ul>
+                </>
+            )}
             <button
                 className={modalStyles['close-button']}
                 onClick={handleCloseModal}

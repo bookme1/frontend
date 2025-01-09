@@ -1,6 +1,9 @@
 'use client';
+
 import { useEffect, useMemo } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -37,7 +40,7 @@ export default function Home() {
 
     return (
         <Wrapper>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={data.username} />
             <Favorite />

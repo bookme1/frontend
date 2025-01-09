@@ -92,7 +92,7 @@ export const userApi = createApi({
                 },
             }),
         }),
-        removeBook: builder.query<IUser, userBookDTO>({
+        removeBook: builder.mutation<IUser, userBookDTO>({
             // It removes 1 book from the cart or from favorites with help of 'type'
             query: DTO => ({
                 url: 'api/user/books',
@@ -118,5 +118,5 @@ export const {
     useGetDataMutation,
     useAddBookQuery,
     useGetUserBooksQuery,
-    useRemoveBookQuery,
+    useRemoveBookMutation,
 } = userApi;

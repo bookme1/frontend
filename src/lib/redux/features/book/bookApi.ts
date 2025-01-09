@@ -97,7 +97,7 @@ export const bookApi = createApi({
                 method: 'POST',
                 body: {
                     bookId: DTO.bookId,
-                    type: 'Fav',
+                    type: DTO.type,
                 },
                 headers: {
                     Authorization: `Bearer ${DTO.accessToken}`,
@@ -150,21 +150,6 @@ export const bookApi = createApi({
                 },
             }),
         }),
-
-        removeCart: builder.mutation<IUser, userBookDTO>({
-            // Remove book from favorites
-            query: DTO => ({
-                url: 'api/user/books',
-                method: 'DELETE',
-                body: {
-                    bookId: DTO.bookId,
-                    type: 'Cart',
-                },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
-            }),
-        }),
     }),
 });
 
@@ -182,5 +167,4 @@ export const {
     //Cart
     useGetCartQuery,
     useAddCartMutation,
-    useRemoveCartMutation,
 } = bookApi;

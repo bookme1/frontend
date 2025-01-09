@@ -30,7 +30,7 @@ export default function Home() {
     const data = userData as IUser;
     return (
         <>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             <BreadCrumbs name="Каталог" />
             <Controls />
             <Footer />

@@ -81,7 +81,7 @@ export default function Home() {
 
     return (
         <>
-            <Header userData={data} />
+            <Header userData={data} isLoading={isLoading} />
             {book && <BreadCrumbs name={book.title} />}
             {book && (
                 <MainInformation

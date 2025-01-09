@@ -15,6 +15,23 @@
     }
 }
 
+.burger_content_wrapper {
+    position: relative;
+    display: flex;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 120px);
+    padding: 10px;
+    background-color: var(--white);
+    color: var(--text_main);
+    gap: 20px;
+    border-radius: 24px;
+
+    @media screen and (min-width: 1280px) {
+        padding: 40px 22px;
+        padding-top: 80px;
+    }
+}
+
 .menuColumn {
     width: 50%;
     display: flex;

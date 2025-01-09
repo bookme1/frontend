@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import Image from 'next/image';
-import Notiflix from 'notiflix';
 import { Notify } from 'notiflix';
 
 import {
@@ -21,8 +20,10 @@ import {
 } from './Basket.styles';
 import { bookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
+import { setModalStatus, useDispatch } from '@/lib/redux';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
+import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
 import { CatalogButton } from '../../Hero/Hero.styles';
 
@@ -37,6 +38,9 @@ interface IBook {
 const Basket: React.FC = () => {
     const token = localStorage.getItem('accessToken');
     const [books, setBooks] = useState<IBook[]>([]);
+    const dispatch = useDispatch();
+
+    const [removeBook] = useRemoveBookMutation();
 
     const {
         data: cart,
@@ -63,6 +67,10 @@ const Basket: React.FC = () => {
         //     return;
         // }
         const accessToken = localStorage.getItem('accessToken');
+
+        // Close modal, in order not to mix z-indexes
+        dispatch(setModalStatus(false));
+
         const data = await bookService.makeCartCheckout(accessToken || '');
 
         const watermarking_response = await bookService.makeCartWatermarking(
@@ -133,9 +141,13 @@ const Basket: React.FC = () => {
                                             <Price>{book.price}</Price>
                                         </DataBox>
                                         <Trash
-                                        // onClick={() => {
-                                        //     handleDelFromCart(book.id);
-                                        // }}
+                                            onClick={() => {
+                                                removeBook({
+                                                    type: BookType.Cart,
+                                                    bookId: book.id,
+                                                    accessToken: token || '',
+                                                });
+                                            }}
                                         />
                                     </ItemBox>
                                 ))}
