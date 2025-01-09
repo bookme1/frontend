@@ -8,7 +8,7 @@ export const Container = styled(Wrapper)`
 	gap: 12px;
 	align-items: center;
 	justify-content: center;
-	padding-bottom: 48px;
+	/* margin-bottom: 48px; */
 
 	@media (min-width: 768px) {
 		gap: 16px;
