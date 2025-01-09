@@ -2,64 +2,50 @@
 
 import { useEffect } from 'react';
 
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
+import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
-import {
-  useGetFiltersQuery,
-  useGetGenresQuery,
-} from '@/lib/redux/features/book/bookApi';
-import { BookType } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('accessToken');
-  }
+    const modals = useSelector((state: any) => state.modals.modals);
 
-  if (!token) token = '1';
-  const getBooks = useGetUserBooksQuery({
-    accessToken: token,
-    type: BookType.Fav,
-  });
+    //User authorization
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
 
-  useEffect(() => {
-    getBooks;
-  }, []);
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
 
-  // Пример стягивания жанров для Димы. В обьекте genres так же есть много полезных проперти, например состояние загрузки для лоадера. После применения удалить с этого файла
-  const genres = useGetGenresQuery('');
+            fetchUserData(storedAccessToken, storedRefreshToken);
+        }
+    }, [fetchUserData]);
+    if (isLoading) {
+        console.log("I'm loading dude");
+    }
+    const data = userData as IUser;
 
-  // useEffect(() => {
-  //   console.log("Genres");
-  //   console.log(genres.data);
-  // }, [genres]);
-
-  // Стягивание всех фильтров для отображения в маркапе на странице с фильтрами
-
-  const filters = useGetFiltersQuery('');
-
-  // useEffect(() => {
-  //   console.log("Filters");
-  //   console.log(filters.data);
-  // }, [filters]);
-  const modals = useSelector((state: any) => state.modals.modals);
-
-  return (
-    <>
-      <Header />
-      <Hero />
-      <Categories />
-      <SwiperList />
-
-      <Footer />
-
-      {modals.successInfo.isOpen && <SuccessInfo />}
-    </>
-  );
+    return (
+        <>
+            <Header userData={data} />
+            <Hero />
+            <Categories />
+            <SwiperList name="Популярне" />
+            <SwiperList
+                value="authors"
+                parametrData="Стівен Кінг"
+                name="Стівена Кінга"
+            />
+            <SwiperList value="genre" parametrData="наука" name="До школи" />
+            <Footer />
+            {modals.successInfo.isOpen && <SuccessInfo />}
+        </>
+    );
 }

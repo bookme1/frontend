@@ -1,1 +1,1 @@
-export { default as SliderLastBooks } from "./SliderLastBooks";
+// export { default as SliderLastBooks } from "./SliderLastBooks";

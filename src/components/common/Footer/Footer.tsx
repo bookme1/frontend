@@ -1,23 +1,33 @@
-import { BottomSection, Container, TopSection } from "./Footer.styles";
-import { Icon } from "../Icon";
-import Link from "next/link";
+import Link from 'next/link';
+
+import { BottomSection, Container, TopSection } from './Footer.styles';
+
+import { Icon } from '../Icon';
 
 const Footer = () => {
     const footer = {
-        "first": ["Акції", "Комплекти", "Магазин BookMe"],
-        "second": ["Блог", "Дитячі", "Доставка/Оплата"]
-    };    
+        first: ['Акції', 'Комплекти', 'Магазин BookMe'],
+        second: ['Блог', 'Дитячі', 'Умови використання сайту'],
+    };
     return (
         <footer>
             <TopSection>
                 <Container>
                     <div className="links">
-                        <Link href="#"><Icon name="logo_white" width={176} height={40} /></Link>
+                        <Link href="#" aria-label="Перейти на головну сторінку">
+                            <Icon name="logo_white" width={176} height={40} />
+                        </Link>
                         <div>
-                            <a href="#">
+                            <a
+                                href="#"
+                                aria-label="Перейти на інстаграм сторінку"
+                            >
                                 <Icon name="instagram" />
                             </a>
-                            <a href="#">
+                            <a
+                                href="#"
+                                aria-label="Перейти на телеграм сторінку"
+                            >
                                 <Icon name="telegram" />
                             </a>
                         </div>
@@ -26,10 +36,10 @@ const Footer = () => {
                         <h3>Каталог</h3>
                         <div>
                             <ul>
-                                {footer.first.map((text) => {
+                                {footer.first.map(text => {
                                     return (
                                         <li key={text}>
-                                            <Link href="#">
+                                            <Link href="conditions-of-use">
                                                 {text}
                                                 <Icon
                                                     name="arrow_right"
@@ -41,7 +51,7 @@ const Footer = () => {
                                 })}
                             </ul>
                             <ul>
-                                {footer.second.map((text) => {
+                                {footer.second.map(text => {
                                     return (
                                         <li key={text}>
                                             <Link href="#">
@@ -58,10 +68,10 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="mobile__navigation">
-                        <a href="">
+                        <a href="/" aria-label="Перейти на інстаграм сторінку">
                             <Icon name="instagram" />
                         </a>
-                        <a href="">
+                        <a href="/" aria-label="Перейти на телеграм сторінку">
                             <Icon name="telegram" />
                         </a>
                     </div>

@@ -1,213 +1,202 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
 import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-  Author,
-  AuthorsList,
-  Controls,
-  ImageContainer,
-  InfoContainer,
-  MainInfoContainer,
-  Price,
-  StyledWrapper,
-  Title,
-  ToCart,
-  ToFavorite,
-  StyledImage,
+    Author,
+    AuthorsList,
+    Controls,
+    ImageContainer,
+    InfoContainer,
+    MainInfoContainer,
+    Price,
+    StyledImage,
+    StyledWrapper,
+    Title,
+    ToCart,
+    ToFavorite,
 } from './MainInformation.styles';
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
-import useAuthStatus from '@/components/hooks/useAuthStatus';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import { openModal, useDispatch } from '@/lib/redux';
+import { openModal } from '@/lib/redux';
+import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { useAddBookQuery, useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
 import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
-import Image from 'next/image';
 
 const MainInformation = ({
-  book,
-  characteristics,
+    book,
+    characteristics,
+    isAuthorized,
 }: {
-  book: IBook;
-  characteristics: ICharacteristics;
+    book: IBook;
+    characteristics: ICharacteristics;
+    isAuthorized: boolean;
 }) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+    const token =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('accessToken')
+            : null;
 
-  useEffect(() => {
-    if (book?.url) {
-      setImageLoaded(true);
-    }
-  }, [book?.url]);
+    const router = usePathname();
+    const id = router?.split('/').pop();
 
-  const [addClick, setAddClick] = useState(false);
-  let token;
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem('accessToken');
-  }
- 
-  const addCardBook = useAddBookQuery({
-    accessToken: token ?? "",
-    bookId: book.id ?? "",
-    type: BookType.Cart,
-  }, {skip: addClick===false});
+    useEffect(() => {
+        if (book?.url) {
+            setImageLoaded(true);
+        }
+    }, [book?.url]);
 
-  const modals = useSelector((state: any) => state.modals.modals);
-  const dispatch = useDispatch();
-  const handleOpenModal = (modalName: string) => {
-    dispatch(openModal(modalName));
-    setAddClick(true)
-  };
-  const router = usePathname();
-  const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
+    const [addCart] = useAddCartMutation();
 
-  const id = router?.split('/').pop();
+    const handleAddBook = async () => {
+        if (token !== null && book) {
+            try {
+                await addCart({
+                    accessToken: token,
+                    bookId: book.id,
+                    type: BookType.Cart,
+                });
+                Notiflix.Notify.success('Книга успішно додана до кошика!');
+            } catch (error) {
+                Notiflix.Notify.failure(
+                    'Помилка при додаванні книги до кошика. Помилка #2001'
+                );
+            }
+        }
+    };
 
+    const handleCheckout = async () => {
+        if (checkedFormats.length === 0) {
+            Notiflix.Notify.failure(
+                'Оберіть формати книг, які ви хочете придбати!'
+            );
+            return;
+        }
+        if (!isAuthorized) {
+            Notiflix.Notify.failure(
+                'Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!'
+            );
+            return;
+        }
+        const order_id = uuidv4();
+        const accessToken = localStorage.getItem('accessToken');
+        bookService.makeTestCheckout(book.price, order_id);
 
+        const transaction_id = await bookService.makeWatermarking(
+            checkedFormats.join(','),
+            book.referenceNumber,
+            order_id
+        );
+        if (transaction_id) {
+            console.log('transaction successful');
+        } else {
+            console.log(transaction_id);
+            console.log('oshibka');
+            Notiflix.Notify.failure('Помилка при нанесенні вотермарки!');
+            Notiflix.Notify.failure(
+                "Будь ласка, зв'яжіться з адміністратором сайту!"
+            );
+        }
 
-  const fav = useGetUserBooksQuery({
-    accessToken: token ?? '',
-    type: BookType.Fav,
-  });
+        await bookService.makeOrder(
+            accessToken,
+            order_id,
+            checkedFormats.join(','),
+            transaction_id,
+            book.referenceNumber,
+            book.price
+        );
+    };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      fav;
-    }
-  }, [fav]);
+    const aviableFormats = [false, false, false];
 
-  const favorite = fav.data;
+    if (book.formatMobi) aviableFormats[1] = true;
+    if (book.formatPdf) aviableFormats[0] = true;
+    if (book.formatEpub) aviableFormats[2] = true;
 
-  const screenWidth = useWindowSize().width;
-  const getAuthorsMarkup = (authors: string) => {
-    if (authors === undefined) return;
-    const authorsArr = authors.split(',');
-    return authorsArr.map(author => {
-      return <Author key={author}>{author}</Author>;
-    });
-  };
-  const authorsMarkup = getAuthorsMarkup(book.author);
+    const screenWidth = useWindowSize().width;
 
-  let isFavAlredy = false;
-  if (Array.isArray(favorite)) {
-    isFavAlredy = favorite?.some((fav: any) => fav === id);
-  }
+    const getAuthorsMarkup = (authors: string) => {
+        if (authors === undefined) return;
+        const authorsArr = authors.split(',');
+        return authorsArr.map(author => <Author key={author}>{author}</Author>);
+    };
 
-  //Test if user logged in. If logged in -> checkout can be
-  const { userLoggedData, isLoading } = useAuthStatus(); // Используем новый хук
-
-  async function handleCheckout() {
-    if (checkedFormats.length == 0) {
-      Notiflix.Notify.failure('Оберіть формати книг, які ви хочете придбати!');
-      return;
-    }
-    if (!userLoggedData) {
-      Notiflix.Notify.failure(
-        'Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!'
-      );
-      return;
-    }
-    const order_id = uuidv4();
-    const accessToken = localStorage.getItem('accessToken');
-    bookService.makeTestCheckout(book.price, order_id);
-
-    const transaction_id = await bookService.makeWatermarking(
-      checkedFormats.join(','),
-      book.referenceNumber,
-      order_id
+    const authorsMarkup = getAuthorsMarkup(book.author);
+    return (
+        <>
+            <StyledWrapper>
+                <ImageContainer>
+                    {imageLoaded && book?.url && (
+                        <StyledImage
+                            src={
+                                book.url.startsWith('http')
+                                    ? book.url
+                                    : `/${book.url}`
+                            }
+                            alt={book.title}
+                            width={250}
+                            height={330}
+                        />
+                    )}
+                </ImageContainer>
+                <InfoContainer>
+                    <MainInfoContainer>
+                        <Title>{book?.title}</Title>
+                        <AuthorsList>{authorsMarkup}</AuthorsList>
+                        <Price>{book?.price} ₴</Price>
+                        <Controls>
+                            <ToCart
+                                onClick={() => {
+                                    openModal('cart');
+                                    handleAddBook();
+                                }}
+                            >
+                                <Icon name="cart" size={28} />В кошик
+                            </ToCart>
+                            <ToCart onClick={handleCheckout}>
+                                Купити зараз
+                            </ToCart>
+                            <ToFavorite>
+                                <FavoriteBtn book={book} />
+                            </ToFavorite>
+                        </Controls>
+                        <Formats
+                            setChecked={setCheckedFormats}
+                            pdf={aviableFormats[0]}
+                            mobi={aviableFormats[1]}
+                            epub={aviableFormats[2]}
+                        />
+                    </MainInfoContainer>
+                    {screenWidth &&
+                        (screenWidth < 768 || screenWidth >= 1280) && (
+                            <Characteristics
+                                characteristics={characteristics}
+                            />
+                        )}
+                </InfoContainer>
+            </StyledWrapper>
+            {screenWidth && screenWidth >= 768 && screenWidth < 1280 && (
+                <Wrapper>
+                    <Characteristics characteristics={characteristics} />
+                </Wrapper>
+            )}
+        </>
     );
-    if (transaction_id) {
-      console.log('transaction successful');
-    }
-    const res = await bookService.makeOrder(
-      accessToken,
-      order_id,
-      checkedFormats.join(','),
-      transaction_id,
-      book.referenceNumber
-    );
-  }
-
-  const aviableFormats = [false, false, false];
-
-  if (book.formatMobi) aviableFormats[1] = true;
-  if (book.formatPdf) aviableFormats[0] = true;
-  if (book.formatEpub) aviableFormats[2] = true;
-
-
-  return (
-    <>
-      <StyledWrapper>
-        <ImageContainer
-          // style={{ ['--background-image' as string]: `url(${book?.url})` }}
-        >
-          {imageLoaded && book?.url && (
-            <StyledImage
-              src={book.url.startsWith('http') ? book.url : `/${book.url}`}
-              alt={book.title}
-              width={250}
-              height={330}
-              
-            />
-          )}
-        </ImageContainer>
-        <InfoContainer>
-          <MainInfoContainer>
-            <Title>{book?.title}</Title>
-            <AuthorsList>{authorsMarkup}</AuthorsList>
-            <Price>{book?.price} ₴</Price>
-            <Controls>
-              <ToCart
-                onClick={() => {
-                  handleOpenModal('successInfo');
-                }}
-              >
-                <Icon name="cart" size={28} />В кошик
-              </ToCart>
-              <ToCart
-                onClick={() => {
-                  handleCheckout();
-                }}
-              >
-                Купити зараз
-              </ToCart>
-              <ToFavorite>
-                <FavoriteBtn book={book} isFavAlredy={isFavAlredy} />
-              </ToFavorite>
-            </Controls>
-            <Formats
-              setChecked={setCheckedFormats}
-              pdf={aviableFormats[0]}
-              mobi={aviableFormats[1]}
-              epub={aviableFormats[2]}
-            />
-          </MainInfoContainer>
-          {screenWidth && (screenWidth < 768 || screenWidth >= 1280) && (
-            <Characteristics characteristics={characteristics} />
-          )}
-        </InfoContainer>
-      </StyledWrapper>
-      {screenWidth && screenWidth >= 768 && screenWidth < 1280 && (
-        <Wrapper>
-          <Characteristics characteristics={characteristics} />
-        </Wrapper>
-      )}
-    </>
-  );
 };
 
 export default MainInformation;

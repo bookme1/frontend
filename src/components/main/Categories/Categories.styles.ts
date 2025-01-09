@@ -55,7 +55,7 @@ export const SliderControls = styled.div`
   justify-content: space-between;
 `;
 
-export const ControlsTitle = styled.h3`
+export const ControlsTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
 `;

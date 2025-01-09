@@ -2,12 +2,12 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-display: flex;
-gap: 16px;
+  display: flex;
+  gap: 16px;
 `;
 
 export const BooksQuantity = styled.p`
-  margin-top: 24px;
+  padding-top: 32px;
   margin-bottom: 20px;
   color: var(--gray);
   font-size: 20px;

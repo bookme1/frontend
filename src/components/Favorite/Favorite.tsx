@@ -1,88 +1,63 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FavList, Text } from './Favorite.styles';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
-import { useGetUserBooksQuery } from '@/lib/redux/features/user/userApi';
+import { IBook } from '@/app/book/[id]/page.types';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../common/Card';
 
-const Favorite = ({ books }: { books: any }) => {
-  // let token:any;
-  // if (typeof window !== 'undefined') {
-  //   const token = localStorage.getItem('accessToken');
-  // }
+const Favorite = () => {
+    const token = localStorage.getItem('accessToken');
+    const [books, setBooks] = useState<IBook[]>([]);
 
-  const token = localStorage.getItem('accessToken');
+    const {
+        data: favorites,
+        error,
+        isLoading,
+    } = useGetFavoritesQuery(
+        {
+            accessToken: token ?? '',
+            type: BookType.Fav,
+        },
+        { skip: token == null }
+    );
 
-  const fav = useGetUserBooksQuery({
-    accessToken: token ?? '',
-    type: BookType.Fav,
-  });
+    useEffect(() => {
+        if (favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites.fav));
+            setBooks(favorites.fav);
+        }
+    }, [favorites]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      fav;
-    }
-  }, [fav]);
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const favBooksFromStorage = localStorage.getItem('favorites');
+            if (favBooksFromStorage) {
+                const parsedBooks: IBook[] = JSON.parse(favBooksFromStorage);
+                setBooks(parsedBooks);
+            }
+        }
+    }, []);
 
-  const favorite = fav.data;
-
-  let favoriteArr: string[] = [];
-
-  favorite?.map(data => favoriteArr.push(data));
-  // if (typeof favorite === 'object') {
-
-  // } else {
-  //   favoriteArr = [];
-  // }
-
-  console.log(favorite);
-  console.log(favoriteArr);
-
-  let favIdList: any;
-  if (typeof window !== 'undefined') {
-    favIdList = localStorage.getItem('favorites');
-  }
-
-  // let favIdListArr: IUser[] = [];
-
-  // if (typeof favorite === 'string') {
-  //   favIdListArr = Object.values(favIdList);
-  // } else {
-  //   favIdListArr = [];
-  // }
-
-  const favIdListArr = JSON.parse(favIdList);
-
-  let favBooks: any = [];
-  if (token === null) {
-    favBooks = books?.filter((book: any) => favIdList?.includes(book.id));
-  } else {
-    if (!Array.isArray(favBooks)) {
-      console.warn('Array of favorite books is not an array');
-    }
-    favBooks = books?.filter((book: any) => favoriteArr?.includes(book.id));
-  }
-
-  return (
-    <>
-      {favBooks?.length === 0 ? (
-        <Text>There are no favorite books here</Text>
-      ) : (
-        <FavList>
-          {favBooks?.map((book: any) => (
-            <Card
-              key={book.id}
-              book={book}
-              favorite={token === null ? favIdListArr : favoriteArr}
-            />
-          ))}
-        </FavList>
-      )}
-    </>
-  );
+    if (isLoading) return <div>Завантажуємо книжки...</div>;
+    if (error) return <div>Помилка при завантаженні книжок</div>;
+console.log("books", books)
+    return (
+        <>
+            {!books || books.length === 0 ? (
+                <Text>У Вас поки що немає книжок</Text>
+            ) : (
+                <FavList>
+                    {books.map((book: IBook) => (
+                        <Card key={book.id} book={book} />
+                    ))}
+                </FavList>
+            )}
+        </>
+    );
 };
 
 export default Favorite;

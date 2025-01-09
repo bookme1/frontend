@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Backdrop, Modal } from './Modal.styles';
 import { ITheme } from '@/app/reading/[bookId]/page';

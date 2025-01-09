@@ -21,7 +21,8 @@ export const CharList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
+  
 `;
 
 export const CharItem = styled.li`
@@ -50,6 +51,7 @@ export const FullButton = styled.button`
   border-radius: 8px;
   border: 1px solid var(--gray_dark);
   font-weight: 700;
+  margin-bottom: 48px;
   @media (min-width: 768px) {
     width: 332px;
   }
@@ -63,19 +65,41 @@ export const ControlButtons = styled.div`
   margin-bottom: 24px;
 `;
 
-export const ControlButton = styled.button`
+export const ControlButton = styled.button`  
   padding: 10px 0;
   text-align: center;
   background-color: var(--gray_border);
   border-radius: 8px;
   color: white;
   font-size: 20px;
+  position: relative; /* Added for the strike-through line */
+  flex: 1;
+  max-width: 163px; /* Ensure the buttons have a max-width */
+  white-space: nowrap; /* Prevent text from wrapping */
+
   &.active {
     background-color: var(--red);
+  } 
+
+  &.disabled {
+    border-color: #9f9f9f;
+    background-color: #9f9f9f;
+    color: #ececec;
+    cursor: not-allowed; /* Optional: To indicate it's not clickable */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 3px;
+      background-color: red;
+      transform: translate(-50%, -50%) rotate(15deg);
+      transform-origin: center;
+    }
   }
 
-  &.mobile {
-    width: 163px;
+  &.mobile {    
     @media (min-width: 1280px) {
       width: max-content;
     }

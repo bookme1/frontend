@@ -1,314 +1,335 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
 
 import {
-  AccountLink,
-  Avatar,
-  Form,
-  FromDesktop,
-  HeaderButton,
-  HeaderContainer,
-  Logo,
-  LogoContainer,
-  NavItem,
-  NavList,
-  NavToTablet,
-  SearchButton,
-  SearchInput,
-  StyledNavLink,
-  StyledWrapper,
+    AccountLink,
+    Avatar,
+    ControlsContainer,
+    Form,
+    FromDesktop,
+    HeaderButton,
+    HeaderContainer,
+    Logo,
+    LogoContainer,
+    SearchButton,
+    SearchInput,
+    StyledWrapper,
+    ToTablet,
 } from './Header.styles';
-import ScrollBehavior from './ScrollBehavior';
-import useUserLoginData from './loginFunc';
 import { IBook } from '@/app/book/[id]/page.types';
-import { DesktopCatalog } from '@/components/main/DesktopCatalog';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import {
-  useGetDataMutation,
-  useGoogleAuthMutation,
-} from '@/lib/redux/features/user/userApi';
-import { Wrapper } from '@/styles/globals.styles';
+    selectOpenModal,
+    setModalContent,
+    setModalStatus,
+    useDispatch,
+    useSelector,
+} from '@/lib/redux';
+import { useGetFavoritesQuantityQuery } from '@/lib/redux/features/book/bookApi';
+import { getBooks } from '@/lib/redux/features/book/bookRequests';
+import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
 
-const Header = () => {
-  const getBooks = useGetBooksQuery('');
+const IoMdHeartEmpty = dynamic(
+    () => import('react-icons/io').then(mod => mod.IoMdHeartEmpty),
+    { ssr: false }
+);
 
-  const booksArr = getBooks.data;
+const TfiPanel = dynamic(
+    () => import('react-icons/tfi').then(mod => mod.TfiPanel),
+    { ssr: false }
+);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
-  const [isSearchListOpen, setIsSearchListOpen] = useState(false);
-  const [userLoggedData, setUserLoggedData] = useState<any>(null);
-  const [activePage, setActivePage] = useState('main');
-  const searchVal = useRef<HTMLInputElement | null>(null);
-  const [books, setBooks] = useState<IBook[] | undefined>();
-  const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
-  const router = useSearchParams();
+interface HeartIconProps {
+    hasFavorites: boolean;
+}
 
-  // #############
-  // HANDLE EVENTS
-  // #############
-  const handleClick = () => {
-    setIsOpen(true);
-  };
+const HeartIcon = styled.div<HeartIconProps>`
+    position: relative;
+    display: inline-block;
+    color: ${props => (props.hasFavorites ? 'red' : '#505050')};
+    cursor: pointer;
+`;
 
-  const handleSearch = async (e: any) => {
-    if (e.target.value.length >= 2) {
-      setIsSearchListOpen(true);
-      const res = booksArr?.filter((book: any) =>
-        book.title.toLowerCase().includes(e.target.value)
-      );
-      setBooks(res);
-    } else {
-      setIsSearchListOpen(false);
-    }
-  };
+const FavoriteCount = styled.span`
+    position: absolute;
+    top: -10px;
+    right: -22px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2em 0.6em;
+    font-size: 14px;
+`;
 
-  const handleCatalog = (e: any) => {
-    e.preventDefault();
-    setIsCatalogOpen(prev => !prev);
-  };
+const Header = ({ userData }: { userData: IUser | undefined }) => {
+    const token =
+        typeof window !== 'undefined'
+            ? localStorage.getItem('accessToken')
+            : null;
 
-  const changePage = (page: string) => {
-    const prevPage = document.querySelector(`[data-nav=${activePage}]`);
-    const currentPage = document.querySelector(`[data-nav=${page}]`);
-    prevPage?.classList.remove('active');
-    currentPage?.classList.add('active');
-    if (page === 'catalog') {
-      setIsCatalogOpen(true);
-    } else if (activePage === 'catalog') {
-      setIsCatalogOpen(false);
-    }
-    setActivePage(page);
-  };
+    const { data: favQuantity, isLoading } = useGetFavoritesQuantityQuery({
+        accessToken: token ?? '',
+        type: BookType.Fav,
+    });
+    console.log('favorite books');
+    console.log(favQuantity);
 
-  useEffect(() => {
-    const q = router?.get('q');
-    if (q) {
-      if (searchVal.current) {
-        searchVal.current.value = q;
-      }
-    }
-  }, [router]);
+    // const getBooks = useGetBooksQuery('');
+    // const booksArr = getBooks.data;
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-  }, [isOpen]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+    const [isSearchListOpen, setIsSearchListOpen] = useState(false);
+    const searchVal = useRef<HTMLInputElement | null>(null);
+    const [books, setBooks] = useState<IBook[] | undefined>();
+    const router = useSearchParams();
 
-  useEffect(() => {
-    if (isCatalogOpen) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-  }, [isCatalogOpen]);
+    const dispatch = useDispatch();
+    const modalOpen = useSelector(selectOpenModal);
 
-  // ---------------------------------
-  // Check if user authorized by google
-  // ---------------------------------
-  const [googleSignIn, { data, error, isLoading }] = useGoogleAuthMutation();
-  const { data: session, status: sessionStatus } = useSession();
-  const [getdata, { data: getDataData, error: error1, isLoading: isLoading1 }] =
-    useGetDataMutation();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session && session.user?.email) {
-          const { email, name } = session.user;
-          if (name) await googleSignIn({ email, name });
-        }
-      } catch (error) {
-        console.error('Error during Google Sign-In:', error);
-      } finally {
-        setLoading(false); // Устанавливаем loading в false после загрузки данных
-      }
+    const handleModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Catalog'));
     };
 
-    if (sessionStatus === 'authenticated' && loading) {
-      fetchData();
-    }
-  }, [session, sessionStatus, googleSignIn, loading]); // Исправляем зависимости
+    const handleCartModal = () => {
+        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalContent('Cart'));
+    };
 
-  useEffect(() => {
-    if (data) {
-      setUserLoggedData(data);
-      localStorage.setItem('accessToken', data.tokens.accessToken);
-      localStorage.setItem('refreshToken', data.tokens.refreshToken);
-    }
-  }, [data]);
+    const handleClick = () => {
+        setIsOpen(true);
+    };
 
-  const { userData, error: userLoginError } = useUserLoginData(session);
+    const handleSearch = async (e: any) => {
+        if (e.target.value.length >= 2) {
+            setIsSearchListOpen(true);
+            try {
+                const fetchedBooks = await getBooks({
+                    selectReferenceAndTitle: true, // get only book referenceNumber & title
+                });
+                const filteredBooks = fetchedBooks.filter((book: IBook) =>
+                    book.title
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
+                );
+                setBooks(filteredBooks);
+            } catch (error) {
+                console.error('Error during search:', error);
+            }
+        } else {
+            setIsSearchListOpen(false);
+        }
+    };
 
-  useEffect(() => {
-    if (userData) {
-      // console.log(userData);
-      setUserLoggedData(userData);
-    }
-  }, [userData]);
+    useEffect(() => {
+        const q = router?.get('q');
+        if (q) {
+            if (searchVal.current) {
+                searchVal.current.value = q;
+            }
+        }
+    }, [router]);
 
-  const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!searchVal.current) {
-      return 0;
-    } else {
-      const inputElement = searchVal.current as unknown;
-      if (inputElement instanceof HTMLInputElement) {
-        window.location.replace(`/books/?q=${inputElement.value}`);
-      } else {
-        return 0;
-      }
-    }
-    return 0;
-  };
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+    }, [isOpen]);
 
-  return (
-    <>
-      <HeaderContainer>
-        <StyledWrapper>
-          <LogoContainer>
-            <Link href="/">
-              <Logo name="logo_black" />
-            </Link>
-          </LogoContainer>
-          <FromDesktop>
-            <CatalogButton
-              type="submit"
-              onClick={handleCatalog}
-              className="z-10"
-            >
-              Каталог
-            </CatalogButton>
-          </FromDesktop>
-          <Form
-            onSubmit={e => {
-              handleSubmitSearch(e);
-            }}
-          >
-            <SearchInput
-              placeholder="Знайти"
-              onChange={e => {
-                handleSearch(e);
-              }}
-              ref={searchVal}
-            />
-            <SearchButton type="submit">
-              <Icon name="search" size={24} className="icon" />
-            </SearchButton>
-            {isSearchListOpen && <SearchList books={books} />}
-          </Form>
-          <FromDesktop>
-            {userLoggedData ? (
-              ''
-            ) : (
-              <HeaderButton
-                onClick={() => {
-                  handleClick();
-                }}
-              >
-                <Icon name="account" size={28} />
-                Увійти
-              </HeaderButton>
-            )}
-            <HeaderButton>
-              <AccountLink href="/favorite">
-                <Icon name="heart" size={28} />
-                Обране
-              </AccountLink>
-            </HeaderButton>
-            <HeaderButton>
-              <Icon name="cart" size={28} />
-              Кошик
-            </HeaderButton>
-            {userLoggedData ? (
-              <Avatar>
-                <AccountLink href="/account"></AccountLink>
-              </Avatar>
-            ) : (
-              ''
-            )}
-          </FromDesktop>
-        </StyledWrapper>
-        <NavToTablet className="scrollable_nav">
-          <ScrollBehavior />
-          <Wrapper>
-            <NavList>
-              <NavItem>
-                <StyledNavLink
-                  className="active"
-                  data-nav="main"
-                  onClick={() => {
-                    changePage('main');
-                  }}
-                >
-                  Головна
-                  <Icon name="main_page" size={24} />
-                </StyledNavLink>
-              </NavItem>
-              <NavItem>
-                <StyledNavLink
-                  onClick={() => {
-                    changePage('catalog');
-                  }}
-                  data-nav="catalog"
-                >
-                  <Icon name="catalog" size={24} />
-                </StyledNavLink>
-              </NavItem>
-              <NavItem>
-                <StyledNavLink data-nav="cart">
-                  <Icon
-                    name="cart"
-                    size={24}
-                    onClick={() => {
-                      changePage('cart');
-                    }}
-                  />
-                </StyledNavLink>
-              </NavItem>
-              <NavItem>
-                <StyledNavLink data-nav="like">
-                  <Icon
-                    name="heart"
-                    size={24}
-                    onClick={() => {
-                      changePage('like');
-                    }}
-                  />
-                </StyledNavLink>
-              </NavItem>
-              <NavItem>
-                <StyledNavLink data-nav="account">
-                  <Icon
-                    name="account"
-                    size={24}
-                    onClick={() => {
-                      changePage('account');
-                    }}
-                  />
-                </StyledNavLink>
-              </NavItem>
-            </NavList>
-          </Wrapper>
-        </NavToTablet>
-      </HeaderContainer>
-      {isOpen && <Modal setIsOpen={setIsOpen} />}
-      {isCatalogOpen && <DesktopCatalog setIsOpen={setIsCatalogOpen} />}
-    </>
-  );
+    useEffect(() => {
+        if (isCatalogOpen) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+    }, [isCatalogOpen]);
+
+    const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!searchVal.current) {
+            return;
+        } else {
+            const inputElement = searchVal.current as unknown;
+            if (inputElement instanceof HTMLInputElement) {
+                window.location.replace(`/books/?q=${inputElement.value}`);
+            } else {
+                return;
+            }
+        }
+    };
+
+    const favoriteCount = favQuantity;
+    const hasFavorites = favQuantity && favQuantity > 0;
+
+    useEffect(() => {
+        console.log('Favorite books count:', favoriteCount);
+    }, [favoriteCount]);
+
+    return (
+        <>
+            <HeaderContainer>
+                <StyledWrapper>
+                    <ToTablet>
+                        <ControlsContainer>
+                            {userData ? (
+                                ''
+                            ) : (
+                                <HeaderButton
+                                    onClick={() => {
+                                        handleClick();
+                                    }}
+                                >
+                                    <Icon name="account" size={28} />
+                                    Увійти
+                                </HeaderButton>
+                            )}
+                            <HeaderButton>
+                                <AccountLink
+                                    href={
+                                        userData
+                                            ? '/account/favorites'
+                                            : '/favorite' // wtf?? it should be only 1 naming
+                                    }
+                                >
+                                    <HeartIcon
+                                        hasFavorites={
+                                            hasFavorites ? true : false
+                                        }
+                                    >
+                                        <IoMdHeartEmpty size={28} />
+                                        {hasFavorites && (
+                                            <FavoriteCount>
+                                                {favoriteCount}
+                                            </FavoriteCount>
+                                        )}
+                                    </HeartIcon>
+                                    Обране
+                                </AccountLink>
+                            </HeaderButton>
+                            <HeaderButton onClick={handleCartModal}>
+                                <Icon name="cart" size={28} />
+                                Кошик
+                            </HeaderButton>
+                            {userData ? (
+                                <Avatar>
+                                    <AccountLink href="/account"></AccountLink>
+                                </Avatar>
+                            ) : (
+                                ''
+                            )}
+                            {(userData?.role === Role.Moderator ||
+                                userData?.role === Role.Admin) && (
+                                <a href="/admin">
+                                    <TfiPanel size={40} color="#000" />
+                                </a>
+                            )}
+                        </ControlsContainer>
+                    </ToTablet>
+                    <LogoContainer>
+                        <Link href="/" aria-label="Перейти на головну сторінку">
+                            <Logo name="logo_black" />
+                        </Link>
+                    </LogoContainer>
+                    <FromDesktop>
+                        <CatalogButton
+                            type="submit"
+                            onClick={handleModal}
+                            className="z-10"
+                        >
+                            Категорії
+                        </CatalogButton>
+                    </FromDesktop>
+                    <Form
+                        onSubmit={e => {
+                            handleSubmitSearch(e);
+                        }}
+                    >
+                        <SearchInput
+                            placeholder="Знайти"
+                            onChange={e => {
+                                handleSearch(e);
+                            }}
+                            ref={searchVal}
+                        />
+                        <SearchButton type="submit" aria-label="Пошук">
+                            <Icon name="search" size={24} className="icon" />
+                        </SearchButton>
+                        {isSearchListOpen && <SearchList books={books} />}
+                    </Form>
+                    <FromDesktop>
+                        <ControlsContainer>
+                            {userData ? (
+                                ''
+                            ) : (
+                                <HeaderButton
+                                    onClick={() => {
+                                        handleClick();
+                                    }}
+                                >
+                                    <Icon name="account" size={28} />
+                                    Увійти
+                                </HeaderButton>
+                            )}
+                            <HeaderButton>
+                                <AccountLink
+                                    href={
+                                        userData
+                                            ? '/account/favorites'
+                                            : '/favorite' // wtf?? it should be only 1 naming
+                                    }
+                                >
+                                    <HeartIcon
+                                        hasFavorites={
+                                            hasFavorites ? true : false
+                                        }
+                                    >
+                                        <IoMdHeartEmpty size={28} />
+                                        {hasFavorites && (
+                                            <FavoriteCount>
+                                                {favoriteCount}
+                                            </FavoriteCount>
+                                        )}
+                                    </HeartIcon>
+                                    Обране
+                                </AccountLink>
+                            </HeaderButton>
+                            <HeaderButton onClick={handleCartModal}>
+                                <Icon name="cart" size={28} />
+                                Кошик
+                            </HeaderButton>
+                            {userData ? (
+                                <Avatar>
+                                    <AccountLink href="/account"></AccountLink>
+                                </Avatar>
+                            ) : (
+                                ''
+                            )}
+                            {(userData?.role === Role.Moderator ||
+                                userData?.role === Role.Admin) && (
+                                <a href="/admin">
+                                    <TfiPanel size={40} color="#000" />
+                                </a>
+                            )}
+                        </ControlsContainer>
+                    </FromDesktop>
+                </StyledWrapper>
+            </HeaderContainer>
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
+        </>
+    );
 };
 
 export default Header;
