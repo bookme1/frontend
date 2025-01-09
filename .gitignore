@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.prettierrc
+.env
+*.xml
+.env
+compose.yml
+docker-compose.yaml
+
+certificates
+*storybook.log
