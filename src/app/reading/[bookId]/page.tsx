@@ -1,15 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { NavItem, Rendition } from 'epubjs';
+import { useRouter } from 'next/router';
 
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { BookContent } from '@/components/bookReading/bookContent/BookContent';
 import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
 import PageTurner from '@/components/bookReading/pageTurner/PageTurner';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
+import useFetchUserData from '@/contexts/useFetchUserData';
 import { ReactReader } from '@/lib/reader';
+import { IUser } from '@/lib/redux/features/user/types';
 
 import '../../../styles/fonts';
 
@@ -106,9 +110,36 @@ export default function Home() {
         }
     }, [fontFamily]);
 
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
+            if (storedAccessToken && storedRefreshToken) {
+                fetchUserData(storedAccessToken, storedRefreshToken);
+            }
+        }
+    }, [fetchUserData]);
+
+    const isAuthorized = useMemo(() => !!userData, [userData]);
+
+    useEffect(() => {
+        if (!isLoading && !isAuthorized) {
+            router.replace('http://localhost:3000/');
+        }
+    }, [isLoading, isAuthorized, router]);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    const data = userData as IUser;
+
     return (
         <>
-            <Header />
+            <Header userData={userData || undefined} isLoading={isLoading} />
             <BookHeader chapterName={chapter} bookTitle={title} />
             <BookContent>
                 <ReactReader
