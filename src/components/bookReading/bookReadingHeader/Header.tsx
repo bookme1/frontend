@@ -1,17 +1,22 @@
-import { Icon } from '@/components/common/Icon';
 import { HeaderWrapper } from './Header.styles';
+import { Icon } from '@/components/common/Icon';
 
-export default function BookHeader() {
-	return (
-		<HeaderWrapper>
-			<header className='reading-header'>
-				<p className="library">Бібліотека</p>
-				<Icon name="arrow_right" width={24} height={24}/>
-				<p className="title">Майстер і Маргарита</p>
-			</header>
-			<div className='chapter'>
-				<h3>Усвідомленість. Як знайти гармонію в нашому шаленому світі</h3>
-			</div>
-		</HeaderWrapper>
-	);
+type Props = {
+  chapterName: string | undefined;
+  bookTitle: string;
+};
+
+export default function BookHeader({ chapterName, bookTitle }: Props) {
+  return (
+    <HeaderWrapper>
+      <header className="reading-header">
+        <p className="library">Бібліотека</p>
+        <Icon name="arrow_right" width={24} height={24} />
+        <p className="title">{bookTitle}</p>
+      </header>
+      <div className="chapter">
+        <h3>{chapterName}</h3>
+      </div>
+    </HeaderWrapper>
+  );
 }
