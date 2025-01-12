@@ -2,7 +2,7 @@
 import { Icon } from "@/components/common/Icon";
 import { Wrapper } from "@/styles/globals.styles";
 import styled from "@emotion/styled";
-import { MobileCard } from "../MobileCard";
+import { Card } from "@/components/common/Card";
 
 const BooksQuantity = styled.p`
   margin-top: 24px;
@@ -50,10 +50,6 @@ const Controls = () => {
           </ControlButton>
         </ControlsContainer>
       </Wrapper>
-      <MobileCard />
-      <MobileCard />
-      <MobileCard />
-      <MobileCard />
     </>
   );
 };

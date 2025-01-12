@@ -1,1 +1,1 @@
-export { default as MobileCard } from "./MobileCard";
+// export { default as MobileCard } from "./MobileCard";
