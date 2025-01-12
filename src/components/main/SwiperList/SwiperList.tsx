@@ -1,16 +1,30 @@
-"use client";
+'use client';
 
-import { CardList } from "../CardList";
+import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 
-import { useSelector } from "react-redux";
-import { selectBooks } from "@/lib/redux";
+import { CardList } from '../CardList';
 
-const SwiperList = () => {
-  const booksArr = useSelector(selectBooks);
+const SwiperList = ({
+    name,
+    parametrData,
+    value,
+}: {
+    name: string;
+    parametrData?: string;
+    value?: string;
+}) => {
+    const { data } = useGetFilterBooksQuery({
+        [value ? value : '']: parametrData,
+    });
 
-  const name = "Популярне";
+    const booksArr = data?.books;
 
-  return <CardList name={name} books={booksArr} />;
+    if (!booksArr)
+        return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
+
+    console.log(booksArr);
+
+    return <CardList name={name} books={booksArr} />;
 };
 
 export default SwiperList;

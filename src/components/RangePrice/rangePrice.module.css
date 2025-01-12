@@ -1,0 +1,24 @@
+.range__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.range__wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.range__wrapper form label {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.range__wrapper form label input {
+    padding: 10px !important;
+    text-align: center;
+    font-weight: 600 !important;
+}

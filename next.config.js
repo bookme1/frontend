@@ -1,18 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async headers() {
-    return [
-      {
-        source: "/favicon.ico",
-        headers: [
-          {
-            key: "Link",
-            value: "/favicon.ico",
-          },
-        ],
-      },
-    ];
-  },
+    output: 'standalone',
+    images: {
+        formats: ['image/webp'],
+        domains: ['platform.elibri.com.ua'],
+    },
+    async headers() {
+        return [
+            {
+                source: '/favicon.ico',
+                headers: [
+                    {
+                        key: 'Link',
+                        value: '/favicon.ico',
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 module.exports = nextConfig;

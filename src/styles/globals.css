@@ -8,9 +8,15 @@
     --blue: #0597E8;
     --gray: #6E646D;
     --gray_dark: #505050;
-    --gray_border: #A7A7A7;
+    --gray_border: #A7A7A7;body {
+    position: relative;
+}
     --gray_search: #f4f4f4;
     --beige: #FCDDC9;
+    --color-footer-bottom: #606060;
+    --white: #fff;
+    --ai-button-bg-color: #121212;
+    --ai-button-text-color: #FFFFFF;
 }
 
 .bg-main {
@@ -29,3 +35,63 @@ body.modal-open {
 .scroll-up .scrollable_nav {
     transform: none;
 }
+
+.ai-open-button {
+    position: fixed;
+    bottom: 3%;
+    right: 1%;
+    display: inline-flex;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: 8px;
+    color: var(--ai-button-text-color);
+    background: var(--ai-button-bg-color);
+    z-index: 9;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.for_light_theme {
+    --primary-background-color: #ffffff;
+    --text-color: #1F171E;
+    --title-color: #1F171E;
+    --arrow-btn-bgcolor: #ffffff;
+    --arrow-btn-bgcolor-hover:  #f4f4f4;
+    --filter-btn-bgcolor: #A7A7A7;
+    --btn-text-color:  #1F171E;
+}
+
+.for_dark_theme {
+    --primary-background-color: #1F171E;
+    --text-color: #E1CDC1;
+    --title-color: #F6E7DE;
+    --arrow-btn-bgcolor: #505050;
+    --arrow-btn-bgcolor-hover:  #2b2828;
+    --filter-btn-bgcolor: #505050;
+    --btn-text-color: #ffffff;
+
+}
+
+.for_beige_theme{
+    --primary-background-color: #FFFBF5;
+    --text-color: #1F171E;
+    --title-color: #1F171E;
+    --arrow-btn-bgcolor:  #FFE6C0;
+    --arrow-btn-bgcolor-hover:  #f4f4f4;
+    --filter-btn-bgcolor: #A7A7A7;
+    --btn-text-color: #505050;
+
+}
+
+

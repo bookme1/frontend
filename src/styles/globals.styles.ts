@@ -2,15 +2,17 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 343px;
-  margin: 0 auto;
-  @media (min-width: 768px) {
-    width: 728px;
-  }
-
-  @media (min-width: 1280px) {
-    width: 1214px;
-  }
+    margin: 0 auto;
+    padding: 0 10px;
+    @media (min-width: 363px) {
+        width: 363px;
+    }
+    @media (min-width: 748px) {
+        width: 748px;
+    }
+    @media (min-width: 1234px) {
+        width: 1234px;
+    }
 `;
 
 export const visuallyHidden = `

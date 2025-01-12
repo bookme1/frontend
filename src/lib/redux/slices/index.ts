@@ -1,1 +1,1 @@
-export * from "./booksSlice";
+export * from "./modalsSlice";

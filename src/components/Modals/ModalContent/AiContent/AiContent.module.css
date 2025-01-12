@@ -1,0 +1,139 @@
+.ai_content_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+  width: 100vw;
+  height: 100dvh;
+  padding: 20px;
+
+  color: #fff;
+  background: #1d1d1d;
+
+  gap: 20px;
+  z-index: 1000;
+
+  @media screen and (min-width: 768px) {
+    border-radius: 24px 0 0 24px;
+    width: 65vw;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 640px;
+  }
+}
+
+.ai-content-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ai-content-header_title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+  }
+}
+.ai-content-header_subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+}
+
+.ai-content-description {
+  text-align: center;
+  font-family: Raleway, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 16px 8px;
+
+  color: #1d1d1d;
+  border-radius: 16px;
+  background: #fcddc9;
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+
+    padding: 16px 21px;
+
+
+  }
+}
+
+.ai-content-body {
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+  padding: 20px;
+  border-radius: 24px;
+  background: #fcddc9;
+}
+
+.message-form-block {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 92px;
+  padding: 20px;
+
+  background: #fff;
+}
+
+.message-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.message-form input {
+  flex-grow: 1;
+
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+
+  color:#000000;
+  background: #fff;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.message-form input:focus,
+.message-form input:focus-visible {
+  outline: none;
+}
+
+.button-send-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+
+  padding: 8px;
+  background: var(--red) !important;
+  border-radius: 8px;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+}

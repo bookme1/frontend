@@ -1,13 +1,15 @@
-"use client";
-import styled from "@emotion/styled";
-import management from "@/assets/categories/management.webp";
-import leader from "@/assets/categories/leader.webp";
-import brain from "@/assets/categories/brain.webp";
-import svitok from "@/assets/categories/svitok.webp";
-import puzzle from "@/assets/categories/puzzle.webp";
-import kid from "@/assets/categories/kid.webp";
-import english from "@/assets/categories/english.webp";
-import { Wrapper } from "@/styles/globals.styles";
+'use client';
+
+import styled from '@emotion/styled';
+
+import brain from '@/assets/categories/brain.webp';
+import english from '@/assets/categories/english.webp';
+import kid from '@/assets/categories/kid.webp';
+import leader from '@/assets/categories/leader.webp';
+import management from '@/assets/categories/management.webp';
+import puzzle from '@/assets/categories/puzzle.webp';
+import svitok from '@/assets/categories/svitok.webp';
+import { Wrapper } from '@/styles/globals.styles';
 
 export const SwiperWrapper = styled.div``;
 
@@ -22,7 +24,7 @@ export const IconContainer = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 120px;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
   background-image: url(${management.src});
   &.leader {
     background-image: url(${leader.src});
@@ -53,7 +55,7 @@ export const SliderControls = styled.div`
   justify-content: space-between;
 `;
 
-export const ControlsTitle = styled.h3`
+export const ControlsTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
 `;
@@ -63,7 +65,7 @@ export const ControlsLink = styled.a`
   height: 40px;
   border-radius: 100px;
   opacity: 0.9;
-  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,10 +86,10 @@ export const ControlsContainer = styled.div`
 export const StyledWrapper = styled(Wrapper)`
   margin-bottom: 80px;
   @media (min-width: 768px) {
-    margin-bottom: 120px;
+    margin-bottom: 68px;
   }
   @media (min-width: 1280px) {
-    margin-bottom: 132px;
+    margin-bottom: 80px;
   }
   .swiper-container {
     margin-top: 50px;
@@ -104,4 +106,8 @@ export const StyledWrapper = styled(Wrapper)`
     top: 0;
     right: 0;
   }
+`;
+
+export const CardWrapper = styled.div`
+  height: 452px;
 `;

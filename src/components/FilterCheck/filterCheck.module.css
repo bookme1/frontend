@@ -1,0 +1,90 @@
+.inputs__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list__checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.search {
+    position: relative;
+}
+
+.item__checkbox input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    outline: none;
+    cursor: pointer;
+}
+
+.item__checkbox input[type='checkbox']:checked {
+    background-color: #f33;
+    border: none;
+}
+
+.item__checkbox input[type='checkbox']:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 11px;
+    background: url('data:image/svg+xml;utf8,<svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 4.56667L7.23913 9.5L13.5 1.5" stroke="white" stroke-width="1.5" stroke-linecap="round" /></svg>')
+    no-repeat center center;
+    transform: translate(-50%, -50%);
+}
+
+.item__checkbox p {
+    font-weight: 500;
+    font-size: 18px;
+    color: #505050;
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item__checkbox:hover input[type='checkbox'],
+.item__checkbox input[type='checkbox']:hover,
+.item__checkbox label:hover ~ input[type='checkbox'] {
+    background-color: #a7a7a7;
+}
+
+.button__more {
+    font-weight: 500;
+    font-size: 18px;
+    color: #f33;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button__clear {
+    position: absolute;
+    right: 24px;
+    top: 15px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.button__clear:hover {
+    transform: scale(1.1);
+}

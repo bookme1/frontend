@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Times New Roman';
+  src: url('/fonts/times-new-roman.woff2') format('woff2'),
+       url('/fonts/times-new-roman.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Vivaldi';
+  src: url('/fonts/vivaldi.woff2') format('woff2'),
+       url('/fonts/vivaldi.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+0400-04FF;
+}

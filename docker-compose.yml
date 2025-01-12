@@ -1,0 +1,49 @@
+networks:
+  bookme_network:
+    driver: bridge
+
+
+x-common-config: &common
+  restart: unless-stopped
+  networks:
+    - bookme_network
+
+
+services:
+  proxy:
+    container_name: proxy
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    <<: [ *common ]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./certs:/etc/nginx/certs:ro"
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    <<: [ *common ]
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+      
+  backend:
+    container_name: backend
+    build:
+      context: ../backend
+    <<: [ *common ]
+    expose:
+      - "5050"
+    env_file:
+      - ../backend/.env

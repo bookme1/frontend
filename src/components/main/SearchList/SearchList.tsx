@@ -1,29 +1,16 @@
-"use client";
-import styled from "@emotion/styled";
-import { SearchItem } from "../SearchItem";
+'use client';
 
-const SearchListContainer = styled.div`
-  position: absolute;
-  top: 49px;
-  left: 0;
-  margin: 0 auto;
-  width: 430px;
-  border: 1px solid var(--gray_border);
-  z-index: 10;
-`;
+import { SearchListContainer, SearchListList } from './SearchList.styles';
+import { IBook } from '@/app/book/[id]/page.types';
 
-const SearchListList = styled.ul``;
+import { SearchItem } from '../SearchItem';
 
-interface IBook {
-  id: string;
-  title: string;
-  url: string;
-  price: number;
-  author: string;
-}
+const SearchList = ({ books }: { books: IBook[] | undefined }) => {
+  if (!books) {
+    return <p>Error while fetching books</p>;
+  }
 
-const SearchList = ({ books }: { books: IBook[] }) => {
-  const searchMarkup = books.map((book) => (
+  const searchMarkup = books.map(book => (
     <SearchItem key={book.title} title={book.title} id={book.id} />
   ));
   return (

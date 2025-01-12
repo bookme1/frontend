@@ -1,27 +1,48 @@
-"use client";
-import { Categories } from "@/components/main/Categories";
-import { Footer } from "@/components/common/Footer";
-import { Header } from "@/components/common/Header";
-import { Hero } from "@/components/main/Hero";
-import { SwiperList } from "@/components/main/SwiperList";
-import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { fetchAllBooks } from "@/lib/redux";
-import { useEffect } from "react";
+'use client';
+
+import { useEffect } from 'react';
+
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
+import { Categories } from '@/components/main/Categories';
+import { Hero } from '@/components/main/Hero';
+import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
+import { SwiperList } from '@/components/main/SwiperList';
+import useFetchUserData from '@/contexts/useFetchUserData';
+import { useSelector } from '@/lib/redux';
+import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAllBooks());
-  }, [dispatch]);
+    const modals = useSelector((state: any) => state.modals.modals);
 
-  return (
-    <>
-      <Header />
-      <Hero />
-      <Categories />
-      <SwiperList />
-      <Footer />
-    </>
-  );
+    //User authorization
+    const { userData, isLoading, fetchUserData } = useFetchUserData();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedAccessToken = localStorage.getItem('accessToken');
+            const storedRefreshToken = localStorage.getItem('refreshToken');
+
+            fetchUserData(storedAccessToken, storedRefreshToken);
+        }
+    }, [fetchUserData]);
+
+    const data = userData as IUser;
+
+    return (
+        <>
+            <Header userData={data} isLoading={isLoading} />
+            <Hero />
+            <Categories />
+            <SwiperList name="Популярне" />
+            <SwiperList
+                value="authors"
+                parametrData="Стівен Кінг"
+                name="Стівена Кінга"
+            />
+            <SwiperList value="genre" parametrData="наука" name="До школи" />
+            <Footer />
+            {modals.successInfo.isOpen && <SuccessInfo />}
+        </>
+    );
 }

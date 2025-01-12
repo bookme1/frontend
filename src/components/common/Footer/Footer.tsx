@@ -1,98 +1,93 @@
-import {
-  NavContainer,
-  NavList,
-  NavItem,
-  NavLink,
-  NavIcon,
-  CatalogButton,
-} from "../../main/Hero/Hero.styles";
+import Link from 'next/link';
 
-import {
-  FooterSection,
-  StyledWrapper,
-  Logo,
-  NavDescription,
-  BottomContainer,
-  SocialLinksContainer,
-  SocialLinkItem,
-  SocialLink,
-  TechLinksContainer,
-  TechLinkItem,
-  TechLink,
-} from "./Footer.styles";
-import { Icon } from "../Icon";
+import { BottomSection, Container, TopSection } from './Footer.styles';
+
+import { Icon } from '../Icon';
 
 const Footer = () => {
-  return (
-    <FooterSection>
-      <StyledWrapper>
-        <Logo name="logo_white" />
-        <NavContainer>
-          <NavDescription>Каталог</NavDescription>
-          <NavList>
-            <NavItem>
-              <NavLink className="accent footer">Акції</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="footer">
-                Блог Bookme
-                <NavIcon name="arrow_right" className="icon" size={24} />
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="footer">
-                Блог Bookme
-                <NavIcon name="arrow_right" className="icon" size={24} />
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="footer">
-                Комплекти
-                <NavIcon name="arrow_right" className="icon" size={24} />
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="footer">
-                Блог <NavIcon name="arrow_right" className="icon" size={24} />
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="footer">
-                Доставка і оплата
-                <NavIcon name="arrow_right" className="icon" size={24} />
-              </NavLink>
-            </NavItem>
-          </NavList>
-        </NavContainer>
-        <CatalogButton className="footer">До каталогу</CatalogButton>
-      </StyledWrapper>
-      <BottomContainer>
-        <SocialLinksContainer>
-          <SocialLinkItem>
-            <SocialLink href="https://www.instagram.com/chervyak.ua/">
-              <Icon name="instagram" />
-            </SocialLink>
-          </SocialLinkItem>
-          <SocialLinkItem>
-            <SocialLink href="https://www.instagram.com/chervyak.ua/">
-              <Icon name="telegram" />
-            </SocialLink>
-          </SocialLinkItem>
-        </SocialLinksContainer>
-        <TechLinksContainer>
-          <TechLinkItem>
-            <TechLink>Privacy</TechLink>
-          </TechLinkItem>
-          <TechLinkItem>
-            <TechLink>Attribution</TechLink>
-          </TechLinkItem>
-          <TechLinkItem>
-            <TechLink>©2024 — Copyright</TechLink>
-          </TechLinkItem>
-        </TechLinksContainer>
-      </BottomContainer>
-    </FooterSection>
-  );
+    const footer = {
+        first: ['Акції', 'Комплекти', 'Магазин BookMe'],
+        second: ['Блог', 'Дитячі', 'Умови використання сайту'],
+    };
+    return (
+        <footer>
+            <TopSection>
+                <Container>
+                    <div className="links">
+                        <Link href="#" aria-label="Перейти на головну сторінку">
+                            <Icon name="logo_white" width={176} height={40} />
+                        </Link>
+                        <div>
+                            <a
+                                href="#"
+                                aria-label="Перейти на інстаграм сторінку"
+                            >
+                                <Icon name="instagram" />
+                            </a>
+                            <a
+                                href="#"
+                                aria-label="Перейти на телеграм сторінку"
+                            >
+                                <Icon name="telegram" />
+                            </a>
+                        </div>
+                    </div>
+                    <div className="navigation">
+                        <h3>Каталог</h3>
+                        <div>
+                            <ul>
+                                {footer.first.map(text => {
+                                    return (
+                                        <li key={text}>
+                                            <Link href="conditions-of-use">
+                                                {text}
+                                                <Icon
+                                                    name="arrow_right"
+                                                    width={24}
+                                                />
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <ul>
+                                {footer.second.map(text => {
+                                    return (
+                                        <li key={text}>
+                                            <Link href="#">
+                                                {text}
+                                                <Icon
+                                                    name="arrow_right"
+                                                    width={24}
+                                                />
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="mobile__navigation">
+                        <a href="/" aria-label="Перейти на інстаграм сторінку">
+                            <Icon name="instagram" />
+                        </a>
+                        <a href="/" aria-label="Перейти на телеграм сторінку">
+                            <Icon name="telegram" />
+                        </a>
+                    </div>
+                </Container>
+            </TopSection>
+            <BottomSection>
+                <Container>
+                    <ul>
+                        <li>Attribution</li>
+                        <li>©2023— Copyright</li>
+                        <li>Privacy</li>
+                    </ul>
+                </Container>
+            </BottomSection>
+        </footer>
+    );
 };
 
 export default Footer;
