@@ -1,18 +1,21 @@
+/* Card.module.css */
+
 .cardContainer {
     margin: 2px 0;
     width: 230px;
+    height: 400px;
     border-radius: 10px;
     list-style: none;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
+    position: relative;
     overflow: hidden;
     background-color: #fff;
-    transition: transform 0.3s ease;
+    transition: height 0.3s ease, transform 0.3s ease;
 }
 
 .cardContainer:hover {
     transform: scale(1.02);
+    height: 450px;
 }
 
 .imageContainer {
@@ -20,6 +23,8 @@
     height: 288px;
     background-position: center;
     background-size: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .cardLink {
@@ -34,16 +39,33 @@
 
 .title {
     font-size: 18px;
-    line-height: 1.4;
     font-weight: 700;
     margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
 }
 
 .authors {
     color: var(--gray, #757575);
     font-size: 15px;
-    line-height: 1.4;
     margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bookFormatContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.cardContainer:hover .bookFormatContainer {
+    opacity: 1;
 }
 
 .bottomContainer {
@@ -63,7 +85,6 @@
     gap: 16px;
 }
 
-.heartButton,
 .cartButton {
     width: 44px;
     height: 44px;
@@ -81,6 +102,7 @@
     .cardContainer {
         flex-direction: row;
         width: 100%;
+        height: auto;
         margin-bottom: 16px;
     }
 
@@ -96,11 +118,11 @@
     .title {
         font-size: 16px;
         margin-bottom: 8px;
+        -webkit-line-clamp: 1;
     }
 
     .authors {
         font-size: 14px;
-        margin-bottom: 6px;
     }
 
     .price {
@@ -111,9 +133,27 @@
         gap: 12px;
     }
 
-    .heartButton,
     .cartButton {
         width: 36px;
         height: 36px;
+    }
+
+    .desktop-favorite {
+        display: none;
+    }
+
+    .mobile-favorite {
+        display: flex;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .mobile-favorite {
+        display: none;
+    }
+
+    .desktop-favorite {
+        display: flex;
     }
 }
