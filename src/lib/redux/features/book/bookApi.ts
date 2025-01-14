@@ -14,6 +14,8 @@ export const bookApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
     }),
+
+    
     endpoints: builder => ({
         // #################
         // BOOKS INTERACTION

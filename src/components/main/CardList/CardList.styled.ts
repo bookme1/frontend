@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { Wrapper } from '@/styles/globals.styles.ts';
+import { SwiperSlide } from 'swiper/react';
 
 export const StyledWrapper = styled(Wrapper)`
   height: 550px;
@@ -27,4 +28,12 @@ export const StyledWrapper = styled(Wrapper)`
     top: 0;
     right: 0;
   }
+`;
+
+export const SwiperStyle = styled(SwiperSlide)`
+max-width: 230px;
+display: flex;
+justify-content: center;
+align-items: center;
+
 `;

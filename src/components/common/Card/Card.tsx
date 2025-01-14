@@ -49,11 +49,11 @@ const Card = ({ book }: CardProps) => {
                     </a>
                 </h2>
                 <p className={styles.authors}>{author}</p>
-                <div
+                {/* <div
                     className={`${styles.bookFormatContainer} ${styles.desktopFavorite}`}
                 >
                     <FavoriteBtn book={book} />
-                </div>
+                </div> */}
                 <div className={styles.bottomContainer}>
                     <p className={styles.price}>{price} ₴</p>
                     <div className={styles.controls}>

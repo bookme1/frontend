@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
+import { BookItem } from '@/components/book/Item';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
@@ -19,6 +20,7 @@ import {
     SliderControls,
     StyledWrapper,
 } from '../Categories/Categories.styles';
+import { SwiperStyle } from './CardList.styled';
 
 const CardList = ({ name, books }: { name: string; books: any[] }) => {
     let token1 = localStorage.getItem('accessToken');
@@ -44,9 +46,10 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
     let booksMarkup;
     if (books?.length) {
         booksMarkup = books.map(book => (
-            <SwiperSlide key={book.id}>
+            <SwiperStyle key={book.id}>
                 <Card book={book} />
-            </SwiperSlide>
+                {/* <BookItem key={book.id} book={book} /> */}
+            </SwiperStyle>
         ));
     }
     return (

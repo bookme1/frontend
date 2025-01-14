@@ -1,0 +1,127 @@
+.products__img {
+    position: relative !important;
+    left: 0 !important;
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    background-position: center;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+}
+
+.products__item {
+    flex-basis: 100%;
+    transition: all 0.25s ease;
+    background: #fff;
+}
+
+.products__item:hover {
+    transform: scale(1.025);
+}
+
+.products__item a {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    gap: 16px;
+}
+
+.products__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.products__wrapper_information {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.products__title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 207px;
+}
+
+.products__author {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #6e646d;
+    max-width: 207px;
+}
+
+.products__wrapper_functionality {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.products__wrapper_functionality span {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.products__wrapper_button {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: all 0.25s ease;
+}
+
+.products__wrapper_button svg:hover {
+    fill: #ff3333;
+}
+
+.button__basket {
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background-color: #ff3333;
+    transition: all 0.25s ease;
+}
+
+.button__basket:hover {
+    background-color: #e21c1c;
+}
+
+.products__item {
+    flex-basis: calc((100% - 2 * 16px) / 3);
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+    background: #fff;
+    border-radius: 10px;
+}
+
+@media (min-width: 363px) {
+}
+
+@media (min-width: 748px) {
+    .products__item a {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .products__img {
+        height: 288px;
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .products__wrapper {
+        padding: 0 12px 12px;
+    }
+}
+
+@media (min-width: 1234px) {
+    .products__item {
+        flex-basis: calc((100% - 3 * 16px) / 4);
+    }
+}

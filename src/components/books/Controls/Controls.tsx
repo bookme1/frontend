@@ -3,14 +3,13 @@
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
-import Image from 'next/image';
-import Link from 'next/link';
+
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
-import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
@@ -22,6 +21,7 @@ import {
 import { CustomSession } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
+import { BookItem } from '@/components/book/Item';
 
 const Controls = () => {
     const { data: session } = useSession() as { data: CustomSession | null };
@@ -200,9 +200,20 @@ const Controls = () => {
         router.push(currentUrl.toString());
     };
 
+    const [filtersLoaded, setFiltersLoaded] = useState(false);
+    const [booksLoaded, setBooksLoaded] = useState(false);
+
+    useEffect(() => {
+        setFiltersLoaded(true);
+
+        setTimeout(() => {
+            setBooksLoaded(true);
+        }, 2000);
+    }, []);
+
     return (
         <>
-            {isLoading && loaderFilter ? (
+            {isLoading && loaderFilter && !booksLoaded ? (
                 <Loading />
             ) : (
                 <section className={styles.section}>
@@ -223,243 +234,169 @@ const Controls = () => {
                             <div className={styles.computer__filter}>
                                 <Filter filtersData={filtersData} />
                             </div>
-                            <div className={styles.products__section}>
-                                <div className={styles.information}>
-                                    <div
-                                        className={styles.information__buttons}
-                                    >
-                                        <button
-                                            className={styles.button__filter}
+                            {booksLoaded && (
+                                <div className={styles.products__section}>
+                                    <div className={styles.information}>
+                                        <div
+                                            className={
+                                                styles.information__buttons
+                                            }
                                         >
-                                            <Icon
-                                                size={24}
-                                                name="icon-filter"
-                                            />
-                                            Фільтр{' '}
-                                            <Icon size={12} name="icon-close" />
-                                        </button>
-                                        <div>
                                             <button
-                                                className={`${styles.button__sort} ${isOpenChoice && styles.open}`}
-                                                onClick={() =>
-                                                    setIsOpenChoice(
-                                                        !isOpenChoice
-                                                    )
+                                                className={
+                                                    styles.button__filter
                                                 }
                                             >
-                                                <Icon name="icon-choice" />
-                                                {selectedSort}
+                                                <Icon
+                                                    size={24}
+                                                    name="icon-filter"
+                                                />
+                                                Фільтр{' '}
+                                                <Icon
+                                                    size={12}
+                                                    name="icon-close"
+                                                />
                                             </button>
-                                            {isOpenChoice && (
-                                                <ul>
-                                                    {sortArray.map(
-                                                        (text, index) => (
-                                                            <li key={index}>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        handleSortClick(
-                                                                            text
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    {text}
-                                                                </button>
-                                                            </li>
+                                            <div>
+                                                <button
+                                                    className={`${styles.button__sort} ${isOpenChoice && styles.open}`}
+                                                    onClick={() =>
+                                                        setIsOpenChoice(
+                                                            !isOpenChoice
                                                         )
-                                                    )}
-                                                </ul>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <ul className={styles.information__list}>
-                                        {sortArray.map((text, index) => {
-                                            console.log('what is that');
-                                            console.log(text);
-                                            return (
-                                                <li key={index}>
-                                                    <button
-                                                        onClick={() =>
-                                                            handleSortClick(
-                                                                text
-                                                            )
-                                                        }
-                                                        className={
-                                                            text ===
-                                                            selectedSort
-                                                                ? styles.open
-                                                                : undefined
-                                                        }
-                                                    >
-                                                        {text}
-                                                    </button>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                    <p className={styles.information__quantity}>
-                                        {quantityRange}
-                                    </p>
-                                </div>
-                                <ul className={styles.products__list}>
-                                    {filterBooks &&
-                                        filterBooks.books.map((book: IBook) => {
-                                            console.log('building');
-                                            console.log(book);
-                                            return (
-                                                <li
-                                                    key={book.id}
-                                                    className={
-                                                        styles.products__item
                                                     }
                                                 >
-                                                    <Link
-                                                        href={`book/${book.id}`}
-                                                    >
-                                                        <Image
-                                                            width={230}
-                                                            height={288}
-                                                            className={
-                                                                styles.products__img
-                                                            }
-                                                            src={book.url}
-                                                            alt={book.title}
-                                                        />
-                                                        <div
-                                                            className={
-                                                                styles.products__wrapper
-                                                            }
-                                                        >
-                                                            <div
-                                                                className={
-                                                                    styles.products__wrapper_information
-                                                                }
-                                                            >
-                                                                <p
-                                                                    className={
-                                                                        styles.products__title
-                                                                    }
-                                                                >
-                                                                    {book.title}
-                                                                </p>
-                                                                <p
-                                                                    className={
-                                                                        styles.products__author
-                                                                    }
-                                                                >
-                                                                    {book.author !==
-                                                                    ''
-                                                                        ? book.author
-                                                                        : 'Немає автора'}
-                                                                </p>
-                                                            </div>
-                                                            <div
-                                                                className={
-                                                                    styles.products__wrapper_functionality
-                                                                }
-                                                            >
-                                                                <span>
-                                                                    {book.price}
-                                                                </span>
-                                                                <div
-                                                                    className={
-                                                                        styles.products__wrapper_button
-                                                                    }
-                                                                >
-                                                                    <FavoriteBtn
-                                                                        book={
-                                                                            book
-                                                                        }
-                                                                    />
+                                                    <Icon name="icon-choice" />
+                                                    {selectedSort}
+                                                </button>
+                                                {isOpenChoice && (
+                                                    <ul>
+                                                        {sortArray.map(
+                                                            (text, index) => (
+                                                                <li key={index}>
                                                                     <button
-                                                                        aria-label="Корзина"
-                                                                        className={
-                                                                            styles.button__basket
-                                                                        }
-                                                                        onClick={e =>
-                                                                            handleOpenModal(
-                                                                                'successInfo',
-                                                                                e
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                            handleSortClick(
+                                                                                text
                                                                             )
                                                                         }
                                                                     >
-                                                                        <Icon
-                                                                            name="basket"
-                                                                            size={
-                                                                                24
-                                                                            }
-                                                                            color="#fff"
-                                                                        />
+                                                                        {text}
                                                                     </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                </ul>
-                                {totalPages > 1 && (
-                                    <div className={styles.pagination}>
-                                        <button
-                                            aria-label="Пагінація"
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <ul
+                                            className={styles.information__list}
+                                        >
+                                            {sortArray.map((text, index) => {
+                                                return (
+                                                    <li key={index}>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleSortClick(
+                                                                    text
+                                                                )
+                                                            }
+                                                            className={
+                                                                text ===
+                                                                selectedSort
+                                                                    ? styles.open
+                                                                    : undefined
+                                                            }
+                                                        >
+                                                            {text}
+                                                        </button>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                        <p
                                             className={
-                                                styles.pagination__button_row
-                                            }
-                                            disabled={Number(page) < 2}
-                                            onClick={() =>
-                                                arrowPageNavigation('minus')
+                                                styles.information__quantity
                                             }
                                         >
-                                            <Icon name="icon-Alt-Arrow-Left" />
-                                        </button>
-                                        {getPageNumbers().map(
-                                            (pageNumber, index) => (
-                                                <button
-                                                    key={index}
-                                                    className={`${styles.pagination__button_page} ${
-                                                        pageNumber ===
-                                                        Number(newPage)
-                                                            ? styles.active
-                                                            : ''
-                                                    }`}
-                                                    onClick={() =>
-                                                        typeof pageNumber ===
-                                                        'number'
-                                                            ? handlePageChange(
-                                                                  pageNumber
-                                                              )
-                                                            : pointsPageNavigation(
-                                                                  index >
-                                                                      Number(
-                                                                          newPage
-                                                                      )
-                                                                      ? 'forward'
-                                                                      : 'back'
-                                                              )
-                                                    }
-                                                >
-                                                    {pageNumber}
-                                                </button>
-                                            )
-                                        )}
-                                        <button
-                                            aria-label="Пагінація"
-                                            className={
-                                                styles.pagination__button_row
-                                            }
-                                            disabled={
-                                                Number(page) > totalPages - 1
-                                            }
-                                            onClick={() =>
-                                                arrowPageNavigation('plus')
-                                            }
-                                        >
-                                            <Icon name="icon-Alt-Arrow-Right" />
-                                        </button>
+                                            {quantityRange}
+                                        </p>
                                     </div>
-                                )}
-                            </div>
+                                    <ul className={styles.products__list}>
+                                        {filterBooks &&
+                                            filterBooks.books.map(
+                                                (book: IBook) => {
+                                                    return (
+                                                      <BookItem key={book.id} book={book} />
+                                                    );
+                                                }
+                                            )}
+                                    </ul>
+                                    {totalPages > 1 && (
+                                        <div className={styles.pagination}>
+                                            <button
+                                                aria-label="Пагінація"
+                                                className={
+                                                    styles.pagination__button_row
+                                                }
+                                                disabled={Number(page) < 2}
+                                                onClick={() =>
+                                                    arrowPageNavigation('minus')
+                                                }
+                                            >
+                                                <Icon name="icon-Alt-Arrow-Left" />
+                                            </button>
+                                            {getPageNumbers().map(
+                                                (pageNumber, index) => (
+                                                    <button
+                                                        key={index}
+                                                        className={`${styles.pagination__button_page} ${
+                                                            pageNumber ===
+                                                            Number(newPage)
+                                                                ? styles.active
+                                                                : ''
+                                                        }`}
+                                                        onClick={() =>
+                                                            typeof pageNumber ===
+                                                            'number'
+                                                                ? handlePageChange(
+                                                                      pageNumber
+                                                                  )
+                                                                : pointsPageNavigation(
+                                                                      index >
+                                                                          Number(
+                                                                              newPage
+                                                                          )
+                                                                          ? 'forward'
+                                                                          : 'back'
+                                                                  )
+                                                        }
+                                                    >
+                                                        {pageNumber}
+                                                    </button>
+                                                )
+                                            )}
+                                            <button
+                                                aria-label="Пагінація"
+                                                className={
+                                                    styles.pagination__button_row
+                                                }
+                                                disabled={
+                                                    Number(page) >
+                                                    totalPages - 1
+                                                }
+                                                onClick={() =>
+                                                    arrowPageNavigation('plus')
+                                                }
+                                            >
+                                                <Icon name="icon-Alt-Arrow-Right" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </section>

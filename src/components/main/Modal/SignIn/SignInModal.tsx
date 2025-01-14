@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Notiflix from 'notiflix';
 
+import { Notify } from '@/components/Notify';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -27,9 +28,16 @@ const SignInModal = ({
     const [showPassword, setShowPassword] = useState(false);
     const [signIn, { data, error, isLoading }] = useSignInMutation();
 
+    const [notifyVisible, setNotifyVisible] = useState(false);
+    const [notifyText, setNotifyText] = useState('');
+    const [notifyType, setNotifyType] = useState('');
+
     useEffect(() => {
         if (data) {
-            Notiflix.Notify.success('Вхід успішний!');
+            // Notiflix.Notify.success('Вхід успішний!');
+            setNotifyVisible(true);
+            setNotifyText('Вхід успішний!');
+            setNotifyType('success');
             localStorage.setItem('accessToken', data.tokens.accessToken);
             localStorage.setItem('refreshToken', data.tokens.refreshToken);
             window.location.replace('/account');
@@ -38,7 +46,10 @@ const SignInModal = ({
 
     useEffect(() => {
         if (error) {
-            Notiflix.Notify.failure('Невірний імейл або пароль!');
+            // Notiflix.Notify.failure('Невірний імейл або пароль!');
+            setNotifyVisible(true);
+            setNotifyText('Невірний імейл або пароль!');
+            setNotifyType('error');
         }
     }, [error]);
 
@@ -48,7 +59,10 @@ const SignInModal = ({
             await signIn({ email, password });
         } catch (err: any) {
             console.error('Error while logging in', err);
-            Notiflix.Notify.failure('Помилка при вході в аккаунт ', err.status);
+            // Notiflix.Notify.failure('Помилка при вході в аккаунт ', err.status);
+            setNotifyVisible(true);
+            setNotifyText(`Невірний імейл або пароль!, ${err.status}`);
+            setNotifyType('error');
         }
     };
 
@@ -84,6 +98,9 @@ const SignInModal = ({
                         onClick={() => setShowPassword(!showPassword)}
                     />
                 </div>
+                {notifyVisible && (
+                    <Notify text={notifyText} duration={5} type={notifyType} />
+                )}
                 <SubmitButton type="submit">Увійти</SubmitButton>
             </Form>
             <Description className="google">

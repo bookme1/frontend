@@ -91,9 +91,6 @@ const Header = ({
         type: BookType.Fav,
     });
 
-    console.log('favorite books');
-    console.log(favQuantity);
-
     // const getBooks = useGetBooksQuery('');
     // const booksArr = getBooks.data;
 
@@ -185,7 +182,7 @@ const Header = ({
     const hasFavorites = favQuantity && favQuantity > 0;
 
     useEffect(() => {
-        console.log('Favorite books count:', favoriteCount);
+        // console.log('Favorite books count:', favoriteCount);
     }, [favoriteCount]);
 
     const handleBurgerButton = () => {
@@ -307,11 +304,7 @@ const Header = ({
                                             : '/favorite' // wtf?? it should be only 1 naming
                                     }
                                 >
-                                    <HeartIcon
-                                        hasFavorites={
-                                            hasFavorites ? true : false
-                                        }
-                                    >
+                                    <HeartIcon hasFavorites={hasFavorites}>
                                         <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>

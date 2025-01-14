@@ -1830,20 +1830,20 @@ const Icons = () => {
                         <path
                             d="M26.6667 9.3335L5.33342 9.3335"
                             stroke="#FF3333"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
                         />
                         <path
                             d="M26.6667 16L5.33342 16"
                             stroke="#FF3333"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
                         />
                         <path
                             d="M26.6667 22.6665L5.33342 22.6665"
                             stroke="#FF3333"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
                         />
                     </symbol>
 

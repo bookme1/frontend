@@ -22,7 +22,7 @@ const SwiperList = ({
     if (!booksArr)
         return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
 
-    console.log(booksArr);
+
 
     return <CardList name={name} books={booksArr} />;
 };
