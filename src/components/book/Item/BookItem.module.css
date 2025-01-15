@@ -1,4 +1,4 @@
-.products__img {
+.img {
     position: relative !important;
     left: 0 !important;
     width: 120px;
@@ -9,17 +9,17 @@
     border-radius: 2px;
 }
 
-.products__item {
+.item {
     flex-basis: 100%;
     transition: all 0.25s ease;
     background: #fff;
 }
 
-.products__item:hover {
+.item:hover {
     transform: scale(1.025);
 }
 
-.products__item a {
+.item a {
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -27,27 +27,27 @@
     gap: 16px;
 }
 
-.products__wrapper {
+.wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
     flex-grow: 1;
 }
 
-.products__wrapper_information {
+.information {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.products__title {
+.title {
     font-weight: 700;
     font-size: 18px;
     line-height: 1.4;
     max-width: 207px;
 }
 
-.products__author {
+.author {
     font-weight: 500;
     font-size: 15px;
     line-height: 1.4;
@@ -55,14 +55,14 @@
     max-width: 207px;
 }
 
-.products__wrapper_functionality {
+.functionality {
     margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.products__wrapper_functionality span {
+.functionality span {
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
     font-size: 20px;
@@ -70,18 +70,18 @@
     text-align: center;
 }
 
-.products__wrapper_button {
+.button {
     display: flex;
     align-items: center;
     gap: 24px;
     transition: all 0.25s ease;
 }
 
-.products__wrapper_button svg:hover {
+.button svg:hover {
     fill: #ff3333;
 }
 
-.button__basket {
+.basket {
     border-radius: 4px;
     padding: 10px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -89,39 +89,30 @@
     transition: all 0.25s ease;
 }
 
-.button__basket:hover {
+.basket:hover {
     background-color: #e21c1c;
 }
 
-.products__item {
+.item {
     flex-basis: calc((100% - 2 * 16px) / 3);
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     background: #fff;
     border-radius: 10px;
 }
 
-@media (min-width: 363px) {
-}
-
 @media (min-width: 748px) {
-    .products__item a {
+    .item a {
         flex-direction: column;
         gap: 8px;
     }
 
-    .products__img {
+    .img {
         height: 288px;
         width: 100%;
         border-radius: 10px 10px 0 0;
     }
 
-    .products__wrapper {
+    .wrapper {
         padding: 0 12px 12px;
-    }
-}
-
-@media (min-width: 1234px) {
-    .products__item {
-        flex-basis: calc((100% - 3 * 16px) / 4);
     }
 }

@@ -21,7 +21,8 @@ import {
 import { CustomSession } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
-import { BookItem } from '@/components/book/Item';
+import BookItem from '@/components/book/Item/BookItem';
+
 
 const Controls = () => {
     const { data: session } = useSession() as { data: CustomSession | null };
