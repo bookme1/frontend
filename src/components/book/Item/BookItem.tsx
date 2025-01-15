@@ -5,7 +5,7 @@ import styles from './BookItem.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 
-const BookItem = ({ book }: any) => {
+const BookItem = ({ book, handleOpenModal }: any) => {
     return (
         <li key={book.id} className={styles.products__item}>
             <Link href={`book/${book.id}`}>

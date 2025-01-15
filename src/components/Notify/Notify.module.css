@@ -1,5 +1,5 @@
 .popup {
-    position: fixed;
+    position: relative;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
@@ -12,6 +12,9 @@
     text-align: center;
     opacity: 1;
     animation: fadeOut forwards;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .error {

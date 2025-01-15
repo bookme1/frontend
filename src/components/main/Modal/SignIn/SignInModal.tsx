@@ -1,9 +1,7 @@
 import { signIn as googleSignIn } from 'next-auth/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import Notiflix from 'notiflix';
-
-import { Notify } from '@/components/Notify';
+import Notify from '@/components/Notify/Notify';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -18,6 +16,14 @@ import {
     Title,
 } from '../Modal.styles';
 
+type NotificationType = 'error' | 'information' | 'success';
+
+interface NotificationState {
+    isVisible: boolean;
+    text: string;
+    type: NotificationType;
+}
+
 const SignInModal = ({
     setType,
 }: {
@@ -28,16 +34,24 @@ const SignInModal = ({
     const [showPassword, setShowPassword] = useState(false);
     const [signIn, { data, error, isLoading }] = useSignInMutation();
 
-    const [notifyVisible, setNotifyVisible] = useState(false);
-    const [notifyText, setNotifyText] = useState('');
-    const [notifyType, setNotifyType] = useState('');
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
 
     useEffect(() => {
         if (data) {
-            // Notiflix.Notify.success('Вхід успішний!');
-            setNotifyVisible(true);
-            setNotifyText('Вхід успішний!');
-            setNotifyType('success');
+            updateNotification({
+                isVisible: true,
+                text: 'Вхід успішний!',
+                type: 'success',
+            });
+
             localStorage.setItem('accessToken', data.tokens.accessToken);
             localStorage.setItem('refreshToken', data.tokens.refreshToken);
             window.location.replace('/account');
@@ -46,10 +60,11 @@ const SignInModal = ({
 
     useEffect(() => {
         if (error) {
-            // Notiflix.Notify.failure('Невірний імейл або пароль!');
-            setNotifyVisible(true);
-            setNotifyText('Невірний імейл або пароль!');
-            setNotifyType('error');
+            updateNotification({
+                isVisible: true,
+                text: 'Невірний імейл або пароль!',
+                type: 'error',
+            });
         }
     }, [error]);
 
@@ -58,11 +73,12 @@ const SignInModal = ({
         try {
             await signIn({ email, password });
         } catch (err: any) {
+            updateNotification({
+                isVisible: true,
+                text: 'Невірний імейл або пароль!, ${err.status}',
+                type: 'error',
+            });
             console.error('Error while logging in', err);
-            // Notiflix.Notify.failure('Помилка при вході в аккаунт ', err.status);
-            setNotifyVisible(true);
-            setNotifyText(`Невірний імейл або пароль!, ${err.status}`);
-            setNotifyType('error');
         }
     };
 
@@ -98,8 +114,12 @@ const SignInModal = ({
                         onClick={() => setShowPassword(!showPassword)}
                     />
                 </div>
-                {notifyVisible && (
-                    <Notify text={notifyText} duration={5} type={notifyType} />
+                {notification.isVisible && (
+                    <Notify
+                        text={notification.text}
+                        duration={5}
+                        type={notification.type}
+                    />
                 )}
                 <SubmitButton type="submit">Увійти</SubmitButton>
             </Form>

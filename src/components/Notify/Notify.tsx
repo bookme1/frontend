@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import s from './Notify.module.css';
+import style from './Notify.module.css';
 
 type MessageType = 'error' | 'information' | 'success';
 
@@ -23,7 +23,7 @@ const Notify: React.FC<MessagePopupProps> = ({ text, duration, type }) => {
 
     return (
         <div
-            className={`${s.popup} ${s[type]}`}
+            className={`${style.popup} ${style[type]}`}
             style={{ animationDuration: `${duration}s` }}
         >
             {text}

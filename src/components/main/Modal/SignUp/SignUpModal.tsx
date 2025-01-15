@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import Notiflix from 'notiflix';
-
 import {
     Agreement,
     AgreementLink,
@@ -9,7 +7,7 @@ import {
     RoleCheckbox,
     RoleCheckboxLabel,
 } from './SignUpModal.styles';
-import { Notify } from '@/components/Notify';
+import Notify from '@/components/Notify/Notify';
 import { Icon } from '@/components/common/Icon';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
@@ -23,6 +21,14 @@ import {
     Title,
 } from '../Modal.styles';
 
+type NotificationType = 'error' | 'information' | 'success';
+
+interface NotificationState {
+    isVisible: boolean;
+    text: string;
+    type: NotificationType;
+}
+
 const SignUpModal = ({
     setType,
 }: {
@@ -35,34 +41,39 @@ const SignUpModal = ({
     const [isAuthor, setIsAuthor] = useState(false);
     const [signUp, { data, error, isLoading }] = useSignUpMutation();
 
-    const [notifyVisible, setNotifyVisible] = useState(false);
-    const [notifyText, setNotifyText] = useState('');
-    const [notifyType, setNotifyType] = useState('');
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const role = isAuthor ? 'Author' : 'User';
             await signUp({ username: name, email, password, role }).unwrap();
-            // Notiflix.Notify.success('Реєстрація успішна!');
-            // Notiflix.Notify.warning(
-            //     'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі'
-            // );
 
-            setNotifyVisible(true);
-            setNotifyText('Реєстрація успішна!');
-            setNotifyType('success');
+            updateNotification({
+                isVisible: true,
+                text: 'Реєстрація успішна!',
+                type: 'success',
+            });
 
-            setNotifyVisible(true);
-            setNotifyText(
-                'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі'
-            );
-            setNotifyType('information');
+            updateNotification({
+                isVisible: true,
+                text: 'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі',
+                type: 'information',
+            });
         } catch (err: any) {
-            // Notiflix.Notify.warning('Помилка при реєстрації', err.status);
-            setNotifyVisible(true);
-            setNotifyText(`Помилка при реєстрації ${err.status}`);
-            setNotifyType('error');
+            updateNotification({
+                isVisible: true,
+                text: 'Помилка при реєстрації ${err.status}',
+                type: 'error',
+            });
             console.error('Error while registering', err);
         }
     };
@@ -115,6 +126,13 @@ const SignUpModal = ({
                         Реєстрація як автор
                     </RoleCheckboxLabel>
                 </CheckboxContainer>
+                {notification.isVisible && (
+                    <Notify
+                        text={notification.text}
+                        duration={5}
+                        type={notification.type}
+                    />
+                )}
                 <SubmitButton type="submit">Зареєструватись</SubmitButton>
             </Form>
             <Agreement>
@@ -131,9 +149,6 @@ const SignUpModal = ({
                     Вхід
                 </ChangeModalButton>
             </Description>
-            {notifyVisible && (
-                <Notify text={notifyText} duration={5} type={notifyType} />
-            )}
         </ModalContent>
     );
 };

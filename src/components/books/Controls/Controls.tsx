@@ -329,7 +329,7 @@ const Controls = () => {
                                             filterBooks.books.map(
                                                 (book: IBook) => {
                                                     return (
-                                                      <BookItem key={book.id} book={book} />
+                                                      <BookItem key={book.id} book={book} handleOpenModal={handleOpenModal}/>
                                                     );
                                                 }
                                             )}
