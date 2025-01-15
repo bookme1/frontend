@@ -33,7 +33,7 @@ const SignInModal = ({
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [signIn, { data, error, isLoading }] = useSignInMutation();
-
+  
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
         text: '',
@@ -72,6 +72,10 @@ const SignInModal = ({
         e.preventDefault();
         try {
             await signIn({ email, password });
+            sessionStorage.setItem(
+                'userCredentials',
+                JSON.stringify({ email, password })
+            );
         } catch (err: any) {
             updateNotification({
                 isVisible: true,
