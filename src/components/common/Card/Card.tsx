@@ -5,7 +5,6 @@ import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { useDispatch } from '@/lib/redux';
 import { openModal } from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
 
 import { Icon } from '../Icon';
 
@@ -49,11 +48,6 @@ const Card = ({ book }: CardProps) => {
                     </a>
                 </h2>
                 <p className={styles.authors}>{author}</p>
-                {/* <div
-                    className={`${styles.bookFormatContainer} ${styles.desktopFavorite}`}
-                >
-                    <FavoriteBtn book={book} />
-                </div> */}
                 <div className={styles.bottomContainer}>
                     <p className={styles.price}>{price} ₴</p>
                     <div className={styles.controls}>

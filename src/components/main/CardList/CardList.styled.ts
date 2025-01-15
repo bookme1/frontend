@@ -35,5 +35,5 @@ max-width: 230px;
 display: flex;
 justify-content: center;
 align-items: center;
-
+padding-bottom: 20px;
 `;
