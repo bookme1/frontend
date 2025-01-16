@@ -59,11 +59,11 @@ export default function Home() {
         }
     }, [fetchUserData]);
 
-    const dataUserUatorized = userData || (dataOfUser as IUser);
+    const dataUserAutorized = userData || (dataOfUser as IUser);
 
     return (
         <>
-            <Header userData={dataUserUatorized} isLoading={isLoading} />
+            <Header userData={dataUserAutorized} isLoading={isLoading} />
             <Hero />
             <Categories />
             <SwiperList name="Популярне" />

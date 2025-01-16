@@ -8,6 +8,7 @@ import {
     RoleCheckboxLabel,
 } from './SignUpModal.styles';
 import Notify from '@/components/Notify/Notify';
+import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
@@ -20,14 +21,6 @@ import {
     SubmitButton,
     Title,
 } from '../Modal.styles';
-
-type NotificationType = 'error' | 'information' | 'success';
-
-interface NotificationState {
-    isVisible: boolean;
-    text: string;
-    type: NotificationType;
-}
 
 const SignUpModal = ({
     setType,

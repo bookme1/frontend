@@ -8,11 +8,7 @@ import { openModal } from '@/lib/redux';
 
 import { Icon } from '../Icon';
 
-interface CardProps {
-    book: IBook;
-}
-
-const Card = ({ book }: CardProps) => {
+const Card: React.FC<{ book: IBook }> = ({ book }) => {
     const { title, url, price, author, id } = book;
     const dispatch = useDispatch();
     const token =

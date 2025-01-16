@@ -2,6 +2,7 @@ import { signIn as googleSignIn } from 'next-auth/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Notify from '@/components/Notify/Notify';
+import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -16,14 +17,6 @@ import {
     Title,
 } from '../Modal.styles';
 
-type NotificationType = 'error' | 'information' | 'success';
-
-interface NotificationState {
-    isVisible: boolean;
-    text: string;
-    type: NotificationType;
-}
-
 const SignInModal = ({
     setType,
 }: {
@@ -33,7 +26,7 @@ const SignInModal = ({
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [signIn, { data, error, isLoading }] = useSignInMutation();
-  
+
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
         text: '',

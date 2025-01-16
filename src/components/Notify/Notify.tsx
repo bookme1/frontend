@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import style from './Notify.module.css';
+import { NotifyType } from './NotifyType';
 
-type MessageType = 'error' | 'information' | 'success';
+
 
 interface MessagePopupProps {
     text: string;
     duration: number; 
-    type: MessageType;
+    type: NotifyType;
 }
 
 const Notify: React.FC<MessagePopupProps> = ({ text, duration, type }) => {
