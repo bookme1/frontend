@@ -1,13 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCodePullRequest } from 'react-icons/fa6';
-import { GrUpdate } from "react-icons/gr";
+import { GrUpdate } from 'react-icons/gr';
+
 import Image from 'next/image';
+
 import Gear from '@/assets/account/gear.png';
+
 import { Icon } from '../common/Icon';
 
+
 const Webstatistics = () => {
+
     return (
         <>
             <div className="w-max">
@@ -62,11 +67,16 @@ const Webstatistics = () => {
                         </button>
                     </li>
                     <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+                        <button
+                            className="flex gap-2 justify-center items-center "
+                        >
                             <Icon name="album" />
-                            <p className="hover:text-green-900 text-gray-300">
+                            <a
+                                href="/admin/booksets"
+                                className="hover:text-green-900"
+                            >
                                 Набори
-                            </p>
+                            </a>
                         </button>
                     </li>
                     <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
