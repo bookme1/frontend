@@ -9,6 +9,7 @@ import { Hero } from '@/components/main/Hero';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
 import useFetchUserData from '@/contexts/useFetchUserData';
+import { getCookie } from '@/components/Cookie/Cookie';
 import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
@@ -23,7 +24,7 @@ export default function Home() {
 
     const { userData, isLoading, fetchUserData } = useFetchUserData();
 
-    const handleSubmit = async (storedUser: string | null) => {
+    const authUserFromSession = async (storedUser: string | null) => {
         if (!storedUser) return;
         try {
             const parsedUser = JSON.parse(storedUser);
@@ -46,14 +47,14 @@ export default function Home() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedUser = sessionStorage.getItem('userCredentials');
-            handleSubmit(storedUser);
+            authUserFromSession(storedUser);
         }
     }, []);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
 
             fetchUserData(storedAccessToken, storedRefreshToken);
         }

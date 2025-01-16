@@ -10,6 +10,7 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types.ts';
+import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
@@ -25,8 +26,8 @@ export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);
