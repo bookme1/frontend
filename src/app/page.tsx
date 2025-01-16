@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
@@ -9,8 +10,8 @@ import { Hero } from '@/components/main/Hero';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
 import useFetchUserData from '@/contexts/useFetchUserData';
-import { getCookie } from '@/components/Cookie/Cookie';
 import { useSelector } from '@/lib/redux';
+import { useGetBookSetQuery } from '@/lib/redux/features/book/booksetApi';
 import { IUser } from '@/lib/redux/features/user/types';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -20,9 +21,24 @@ export default function Home() {
 
     const [signIn] = useSignInMutation();
 
-    //User authorization
-
     const { userData, isLoading, fetchUserData } = useFetchUserData();
+
+    const {
+        data: booksets,
+        isError,
+        isSuccess,
+        refetch,
+    } = useGetBookSetQuery();
+
+    useEffect(() => {
+        if (isSuccess) {
+            console.log('Данные успешно загружены:', booksets);
+        }
+        if (isError) {
+            console.log('Произошла ошибка, повторяем запрос...');
+            refetch();
+        }
+    }, [isSuccess, booksets, isError, refetch]);
 
     const authUserFromSession = async (storedUser: string | null) => {
         if (!storedUser) return;
@@ -67,13 +83,31 @@ export default function Home() {
             <Header userData={dataUserAutorized} isLoading={isLoading} />
             <Hero />
             <Categories />
-            <SwiperList name="Популярне" />
-            <SwiperList
-                value="authors"
-                parametrData="Стівен Кінг"
-                name="Стівена Кінга"
-            />
-            <SwiperList value="genre" parametrData="наука" name="До школи" />
+            {booksets && (
+                <>
+                    <SwiperList
+                        name={booksets[0]?.title}
+                        bookset={booksets[0].books}
+                        id={booksets[0].id}
+                    />
+                    <SwiperList
+                        // value="authors"
+                        // parametrData="Стівен Кінг"
+                        // name="Стівена Кінга"
+                        name={booksets[1]?.title}
+                        bookset={booksets[1].books}
+                        id={booksets[1].id}
+                    />
+                    <SwiperList
+                        // value="genre"
+                        // parametrData="наука"
+                        // name="До школи"
+                        name={booksets[2]?.title}
+                        bookset={booksets[2].books}
+                        id={booksets[2].id}
+                    />
+                </>
+            )}
             <Footer />
             {modals.successInfo.isOpen && <SuccessInfo />}
         </>

@@ -3,15 +3,15 @@
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
-
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
-
+import { getCookie } from '@/components/Cookie/Cookie';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
+import BookItem from '@/components/book/Item/BookItem';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import {
@@ -21,11 +21,8 @@ import {
 import { CustomSession } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
-import BookItem from '@/components/book/Item/BookItem';
-
 
 const Controls = () => {
-    const { data: session } = useSession() as { data: CustomSession | null };
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
@@ -53,7 +50,6 @@ const Controls = () => {
         genre,
         page,
     });
-
     const { data: filtersData, isLoading: loaderFilter } =
         useGetFiltersQuery(q);
 
@@ -186,13 +182,6 @@ const Controls = () => {
 
         return pageNumbers;
     };
-
-    const token = session?.accessToken ?? localStorage.getItem('accessToken');
-    // const { data: favoriteBooks, refetch: refetchFavoriteBooks } =
-    //     useGetFavoritesQuery({
-    //         accessToken: token ?? '',
-    //         type: BookType.Fav,
-    //     });
 
     const handlePageChange = (newPageTeest: number) => {
         newPage = newPageTeest;
@@ -330,7 +319,13 @@ const Controls = () => {
                                             filterBooks.books.map(
                                                 (book: IBook) => {
                                                     return (
-                                                      <BookItem key={book.id} book={book} handleOpenModal={handleOpenModal}/>
+                                                        <BookItem
+                                                            key={book.id}
+                                                            book={book}
+                                                            handleOpenModal={
+                                                                handleOpenModal
+                                                            }
+                                                        />
                                                     );
                                                 }
                                             )}
