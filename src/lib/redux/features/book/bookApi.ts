@@ -20,7 +20,7 @@ export const bookApi = createApi({
         // #################
         // BOOKS INTERACTION
         // #################
-        getBooks: builder.query<IBook[], any>({
+        getBooks: builder.query<IBook[], void>({
             query: () => ({
                 url: 'api/book',
                 method: 'GET',

@@ -48,7 +48,7 @@ export default function Home() {
         return <div>Доступ закритий.</div>;
 
     const _data = userData as IUser;
-console.log(userData)
+
     return (
         <>
             <Headerstatistics username={_data.username} />

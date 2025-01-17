@@ -24,7 +24,7 @@ export const booksetApi = createApi({
             }),
         }),
 
-        deleteBookSet: builder.mutation<void, string>({
+        deleteBookSet: builder.mutation<void, number>({
             query: (id) => ({
                 url: `/api/bookset/${id}`,
                 method: 'DELETE',

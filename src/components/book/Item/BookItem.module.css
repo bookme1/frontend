@@ -10,6 +10,7 @@
 }
 
 .item {
+    position: relative;
     flex-basis: 100%;
     transition: all 0.25s ease;
     background: #fff;
@@ -115,4 +116,16 @@
     .wrapper {
         padding: 0 12px 12px;
     }
+}
+
+.addBooksetBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 100;
+    padding: 15px;
+    border: 1px solid;
+    color: #fff;
+    background-color: #ff3333;
+    border-radius: 10px;
 }

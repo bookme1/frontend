@@ -5,9 +5,22 @@ import styles from './BookItem.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 
-const BookItem = ({ book, handleOpenModal }: any) => {
+const BookItem = ({
+    book,
+    handleOpenModal,
+    isPlusVisible,
+    handleAddToBooksetList,
+}: any) => {
     return (
         <li key={book.id} className={styles.item}>
+            {isPlusVisible && (
+                <button
+                    onClick={() => handleAddToBooksetList(book)}
+                    className={styles.addBooksetBtn}
+                >
+                    Add to bookset
+                </button>
+            )}
             <Link href={`/book/${book.id}`}>
                 <Image
                     src={book.url}
@@ -22,6 +35,7 @@ const BookItem = ({ book, handleOpenModal }: any) => {
                         height: 'auto',
                     }}
                 />
+
                 <div className={styles.wrapper}>
                     <div className={styles.information}>
                         <p className={styles.title}>{book.title}</p>
