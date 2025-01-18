@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import Notiflix from 'notiflix';
-
 import {
     Agreement,
     AgreementLink,
@@ -9,6 +7,8 @@ import {
     RoleCheckbox,
     RoleCheckboxLabel,
 } from './SignUpModal.styles';
+import Notify from '@/components/Notify/Notify';
+import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
@@ -34,17 +34,39 @@ const SignUpModal = ({
     const [isAuthor, setIsAuthor] = useState(false);
     const [signUp, { data, error, isLoading }] = useSignUpMutation();
 
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const role = isAuthor ? 'Author' : 'User';
             await signUp({ username: name, email, password, role }).unwrap();
-            Notiflix.Notify.success('Реєстрація успішна!');
-            Notiflix.Notify.warning(
-                'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі'
-            );
+
+            updateNotification({
+                isVisible: true,
+                text: 'Реєстрація успішна!',
+                type: 'success',
+            });
+
+            updateNotification({
+                isVisible: true,
+                text: 'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі',
+                type: 'information',
+            });
         } catch (err: any) {
-            Notiflix.Notify.warning('Помилка при реєстрації', err.status);
+            updateNotification({
+                isVisible: true,
+                text: 'Помилка при реєстрації ${err.status}',
+                type: 'error',
+            });
             console.error('Error while registering', err);
         }
     };
@@ -97,6 +119,13 @@ const SignUpModal = ({
                         Реєстрація як автор
                     </RoleCheckboxLabel>
                 </CheckboxContainer>
+                {notification.isVisible && (
+                    <Notify
+                        text={notification.text}
+                        duration={5}
+                        type={notification.type}
+                    />
+                )}
                 <SubmitButton type="submit">Зареєструватись</SubmitButton>
             </Form>
             <Agreement>

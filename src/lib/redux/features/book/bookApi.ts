@@ -14,11 +14,13 @@ export const bookApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
     }),
+
+    
     endpoints: builder => ({
         // #################
         // BOOKS INTERACTION
         // #################
-        getBooks: builder.query<IBook[], any>({
+        getBooks: builder.query<IBook[], void>({
             query: () => ({
                 url: 'api/book',
                 method: 'GET',

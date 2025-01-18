@@ -11,6 +11,7 @@ import { Webstatistics } from '@/components/Webstatistics';
 import { Icon } from '@/components/common/Icon';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { IUser, Role } from '@/lib/redux/features/user/types';
+import { getCookie } from '@/components/Cookie/Cookie';
 
 interface RequestResponseTemplate {
     status: number;
@@ -37,8 +38,8 @@ export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);

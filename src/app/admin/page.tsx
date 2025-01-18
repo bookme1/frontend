@@ -13,13 +13,14 @@ import { Webstatistics } from '@/components/Webstatistics';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useGetUserStatisticQuery } from '@/lib/redux/features/admin/adminApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
+import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const token = localStorage.getItem('accessToken');
+            const token = getCookie('accessToken');
             setAccessToken(token);
         }
     }, []);
@@ -36,8 +37,8 @@ export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);

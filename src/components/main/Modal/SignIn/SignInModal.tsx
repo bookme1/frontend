@@ -1,8 +1,9 @@
 import { signIn as googleSignIn } from 'next-auth/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import Notiflix from 'notiflix';
-
+import { setCookie } from '@/components/Cookie/Cookie';
+import Notify from '@/components/Notify/Notify';
+import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -27,18 +28,57 @@ const SignInModal = ({
     const [showPassword, setShowPassword] = useState(false);
     const [signIn, { data, error, isLoading }] = useSignInMutation();
 
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
+
     useEffect(() => {
         if (data) {
-            Notiflix.Notify.success('Вхід успішний!');
-            localStorage.setItem('accessToken', data.tokens.accessToken);
-            localStorage.setItem('refreshToken', data.tokens.refreshToken);
+            updateNotification({
+                isVisible: true,
+                text: 'Вхід успішний!',
+                type: 'success',
+            });
+
+            setCookie(
+                'accessToken',
+                data.tokens.accessToken,
+                3 * 24 * 60 * 60,
+                {
+                    path: '/',
+                    secure: true,
+                    sameSite: 'strict',
+                }
+            );
+
+            setCookie(
+                'refreshToken',
+                data.tokens.refreshToken,
+                30 * 24 * 60 * 60,
+                {
+                    path: '/',
+                    secure: true,
+                    sameSite: 'strict',
+                }
+            );
+
             window.location.replace('/account');
         }
     }, [data]);
 
     useEffect(() => {
         if (error) {
-            Notiflix.Notify.failure('Невірний імейл або пароль!');
+            updateNotification({
+                isVisible: true,
+                text: 'Невірний імейл або пароль!',
+                type: 'error',
+            });
         }
     }, [error]);
 
@@ -46,9 +86,17 @@ const SignInModal = ({
         e.preventDefault();
         try {
             await signIn({ email, password });
+            sessionStorage.setItem(
+                'userCredentials',
+                JSON.stringify({ email, password })
+            );
         } catch (err: any) {
+            updateNotification({
+                isVisible: true,
+                text: 'Невірний імейл або пароль!, ${err.status}',
+                type: 'error',
+            });
             console.error('Error while logging in', err);
-            Notiflix.Notify.failure('Помилка при вході в аккаунт ', err.status);
         }
     };
 
@@ -84,6 +132,13 @@ const SignInModal = ({
                         onClick={() => setShowPassword(!showPassword)}
                     />
                 </div>
+                {notification.isVisible && (
+                    <Notify
+                        text={notification.text}
+                        duration={5}
+                        type={notification.type}
+                    />
+                )}
                 <SubmitButton type="submit">Увійти</SubmitButton>
             </Form>
             <Description className="google">

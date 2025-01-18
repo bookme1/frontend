@@ -17,11 +17,11 @@ export const GenericModal = ({
     align?: 'left' | 'center' | 'right';
 }) => {
     const dispatch = useDispatch();
-    const isOpen = useSelector((state: any) => state.modals[modalName]?.isOpen);
+    const isOpen = useSelector((state: any) => state.modals?.modals[modalName]?.isOpen);
     const [modalElement, setModalElement] = useState<HTMLDivElement | null>(
         null
     );
-
+ 
 
     const handleCloseModal = (modalName: string) => {
         dispatch(closeModal(modalName));

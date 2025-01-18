@@ -1,0 +1,197 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form {
+    position: relative;
+    padding: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    height: 100%;
+    overflow: auto;
+    max-height: 80vh;
+}
+
+.booksList {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+}
+
+.pagination {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination button {
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+    background: #fff;
+    border-radius: 100%;
+}
+
+.pagination__button_row {
+    padding: 10px;
+    transition: all 0.25s ease;
+}
+
+.pagination__button_row:hover {
+    fill: #ff3333;
+}
+
+.pagination__button_page {
+    font-family: 'Raleway', sans-serif;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color: #a7a7a7;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.pagination__button_page.active {
+    color: #ff3333;
+}
+
+.pagination__button_page:hover {
+    color: #ff3333;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+    background: white;
+
+    padding: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.submitBtn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #ff3333;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.input {
+    border: 1px solid var(--gray_border);
+    
+    padding: 12px 0px 12px 24px;
+    border-radius: 8px;
+    ::placeholder {
+        color: var(--gray_dark);
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    @media (max-width: 767.5px) {
+        height: 40px;
+    }
+}
+
+.createBooksetBtn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #ff3333;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.booksetContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.searchInput {
+    border: 1px solid var(--gray_border);
+    width: 100%;
+    padding: 12px 0px 12px 24px;
+    border-radius: 8px;
+    ::placeholder {
+        color: var(--gray_dark);
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    @media (max-width: 767.5px) {
+        height: 40px;
+    }
+}
+
+.searchBtn {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: var(--gray_search);
+    color: black;
+    /* position: absolute; */
+    top: 0;
+    right: 0;
+    padding: 12px 28px;
+    border-top: 1px solid var(--gray_border);
+    border-right: 1px solid var(--gray_border);
+    border-bottom: 1px solid var(--gray_border);
+    transition:
+        background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out;
+    :active {
+        background-color: var(--red);
+        border-color: red;
+    }
+    .icon {
+        transition: color 0.15s ease-in-out;
+    }
+    :active .icon {
+        color: white;
+    }
+
+    @media (max-width: 767.5px) {
+        height: 40px;
+        padding: 7px 14px;
+        background-color: var(--red);
+        border-color: red;
+        .icon {
+            color: white;
+        }
+    }
+}
+
+.SearchContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

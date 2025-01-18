@@ -13,6 +13,8 @@ import {
 
 import { adminApi } from './features/admin/adminApi';
 import { bookApi } from './features/book/bookApi';
+
+import { booksetApi } from './features/book/booksetApi';
 import { userApi } from './features/user/userApi';
 
 /* Instruments */
@@ -24,7 +26,8 @@ export const reduxStore = configureStore({
     getDefaultMiddleware()
       .concat(userApi.middleware)
       .concat(bookApi.middleware)
-      .concat(adminApi.middleware),
+      .concat(adminApi.middleware)
+      .concat(booksetApi.middleware),
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
 export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector;

@@ -45,3 +45,4 @@ compose.yml
 docker-compose.yaml
 
 certificates
+*storybook.log

@@ -19,8 +19,9 @@ import {
     SliderControls,
     StyledWrapper,
 } from '../Categories/Categories.styles';
+import { SwiperStyle } from './CardList.styled';
 
-const CardList = ({ name, books }: { name: string; books: any[] }) => {
+const CardList = ({ name, books, id }: { name: string; books: any[], id:number }) => {
     let token1 = localStorage.getItem('accessToken');
 
     const fav = useGetFavoritesQuery({
@@ -44,20 +45,23 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
     let booksMarkup;
     if (books?.length) {
         booksMarkup = books.map(book => (
-            <SwiperSlide key={book.id}>
+            <SwiperStyle key={book.id}>
                 <Card book={book} />
-            </SwiperSlide>
+                {/* <BookItem key={book.id} book={book} /> */}
+            </SwiperStyle>
         ));
     }
+
+ 
     return (
         <StyledWrapper>
             <SliderControls>
                 <ControlsTitle>{name}</ControlsTitle>
                 <ControlsContainer>
-                    <ControlsLink className={`arrow-left-${name} arrow`}>
+                    <ControlsLink className={`arrow-left-${id} arrow`}>
                         <Icon name="arrow_left" size={24} />
                     </ControlsLink>
-                    <ControlsLink className={`arrow-right-${name} arrow`}>
+                    <ControlsLink className={`arrow-right-${id} arrow`}>
                         <Icon name="arrow_right" size={24} />
                     </ControlsLink>
                 </ControlsContainer>
@@ -69,8 +73,8 @@ const CardList = ({ name, books }: { name: string; books: any[] }) => {
                 modules={[Navigation, A11y]}
                 className="mySwiper"
                 navigation={{
-                    nextEl: `.arrow-right-${name}`,
-                    prevEl: `.arrow-left-${name}`,
+                    nextEl: `.arrow-right-${id}`,
+                    prevEl: `.arrow-left-${id}`,
                 }}
                 a11y={{
                     enabled: true,

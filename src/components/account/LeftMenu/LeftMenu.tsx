@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
+import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
 
 const NavLink = ({
@@ -59,8 +60,7 @@ export default function LeftMenu({
                 <button
                     onClick={() => {
                         signOut();
-                        localStorage.removeItem('refreshToken');
-                        localStorage.removeItem('accessToken');
+                        deleteCookies(['accessToken', 'refreshToken']);
                     }}
                     className="flex items-center"
                 >

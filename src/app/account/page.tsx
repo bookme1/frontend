@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { AccountContainer } from './page.style';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
@@ -11,6 +11,7 @@ import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
 import useFetchUserData from '@/contexts/useFetchUserData';
+import { getCookie } from '@/components/Cookie/Cookie';
 import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
@@ -20,8 +21,8 @@ const Home = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             if (storedAccessToken && storedRefreshToken) {
                 fetchUserData(storedAccessToken, storedRefreshToken);
             }
