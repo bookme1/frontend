@@ -18,7 +18,7 @@ import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {
-    const getBooks = useGetBooksQuery('');
+    const getBooks = useGetBooksQuery();
     useEffect(() => {
         getBooks;
     });
