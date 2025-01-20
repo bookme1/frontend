@@ -16,9 +16,10 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types';
+import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
-    const getBooks = useGetBooksQuery('');
+    const getBooks = useGetBooksQuery();
     useEffect(() => {
         getBooks;
     });
@@ -65,8 +66,8 @@ export default function Home() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);

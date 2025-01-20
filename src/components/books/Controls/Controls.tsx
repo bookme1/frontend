@@ -26,7 +26,7 @@ const Controls = () => {
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
-    const sortArray: string[] = ['Дорожче', 'Дешевше', 'За рейтингом'];
+    const sortArray: string[] = ['За релевантності', 'Новинки'];
     const searchParams = useSearchParams();
     const q = decodeURIComponent(searchParams?.get('q') || '');
     const authors = decodeURIComponent(searchParams?.get('authors') || '');
