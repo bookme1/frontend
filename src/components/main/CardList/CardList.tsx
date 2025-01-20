@@ -8,19 +8,11 @@ import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
 import style from './CardList.module.css';
-import { SwiperStyle } from './CardList.styled';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
-import {
-    ControlsContainer,
-    ControlsLink,
-    ControlsTitle,
-    SliderControls,
-    StyledWrapper,
-} from '../Categories/Categories.styles';
 
 const CardList = ({
     name,
@@ -61,26 +53,40 @@ const CardList = ({
         ));
     }
 
+    const width = window.innerWidth;
+    let setLoop = true;
+    let isChevronVisible = true;
+
+    if (width >= 768 && books.length < 3) {
+        setLoop = false;
+        isChevronVisible = false;
+    } else if (width >= 1280 && books.length < 5) {
+        setLoop = false;
+        isChevronVisible = false;
+    }
+
     return (
         <div className={style.wrapper}>
             <div className={style.sliderControls}>
                 <h2 className={style.controlsTitle}>{name}</h2>
-                <div className={style.controlsContainer}>
-                    <a
-                        className={`arrow-left-${id} arrow ${style.controlsLink}`}
-                    >
-                        <Icon name="arrow_left" size={24} />
-                    </a>
-                    <a
-                        className={`arrow-right-${id} arrow ${style.controlsLink}`}
-                    >
-                        <Icon name="arrow_right" size={24} />
-                    </a>
-                </div>
+                {isChevronVisible && (
+                    <div className={style.controlsContainer}>
+                        <a
+                            className={`arrow-left-${id} arrow ${style.controlsLink}`}
+                        >
+                            <Icon name="arrow_left" size={24} />
+                        </a>
+                        <a
+                            className={`arrow-right-${id} arrow ${style.controlsLink}`}
+                        >
+                            <Icon name="arrow_right" size={24} />
+                        </a>
+                    </div>
+                )}
             </div>
             <Swiper
                 slidesPerView={1}
-                loop={true}
+                loop={setLoop}
                 spaceBetween={16}
                 modules={[Navigation, A11y]}
                 className="mySwiper"

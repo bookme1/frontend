@@ -83,31 +83,17 @@ export default function Home() {
             <Header userData={dataUserAutorized} isLoading={isLoading} />
             <Hero />
             <Categories />
-            {booksets && (
-                <>
-                    <SwiperList
-                        name={booksets[0]?.title}
-                        bookset={booksets[0].books}
-                        id={booksets[0].id}
-                    />
-                    <SwiperList
-                        // value="authors"
-                        // parametrData="Стівен Кінг"
-                        // name="Стівена Кінга"
-                        name={booksets[1]?.title}
-                        bookset={booksets[1].books}
-                        id={booksets[1].id}
-                    />
-                    <SwiperList
-                        // value="genre"
-                        // parametrData="наука"
-                        // name="До школи"
-                        name={booksets[2]?.title}
-                        bookset={booksets[2].books}
-                        id={booksets[2].id}
-                    />
-                </>
-            )}
+            {
+                booksets &&
+                    booksets.map(bookset => (
+                        <SwiperList
+                            key={bookset.id}
+                            name={bookset.title}
+                            bookset={bookset.books}
+                            id={bookset.id}
+                        />
+                    ))
+            }
             <Footer />
             {modals.successInfo.isOpen && <SuccessInfo />}
         </>
