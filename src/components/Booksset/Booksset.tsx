@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -7,10 +6,7 @@ import { useRouter } from 'next/navigation';
 import style from './Booksset.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
 import { openModal, useDispatch } from '@/lib/redux';
-import {
-    useGetBooksQuery,
-    useGetFilterBooksQuery,
-} from '@/lib/redux/features/book/bookApi';
+import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import {
     useCreateBookSetMutation,
@@ -366,9 +362,9 @@ const Booksset = ({ userID }: { userID: number }) => {
                     </div>
                     <div className={style.booksList}>
                         {filterBooks &&
-                            filterBooks.books.map(book => (
+                            filterBooks.books.map((book, index) => (
                                 <BookItem
-                                key={book.id}
+                                    key={index}
                                     book={book}
                                     isPlusVisible={true}
                                     handleAddToBooksetList={

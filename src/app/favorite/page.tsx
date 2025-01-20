@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
@@ -10,7 +11,6 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types.ts';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);

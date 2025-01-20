@@ -35,8 +35,8 @@ export default function Home() {
             console.log('Данные успешно загружены:', booksets);
         }
         if (isError) {
-            console.log('Произошла ошибка, повторяем запрос...');
-            refetch();
+            console.warn('Error while fetching booksets...');
+            // refetch();
         }
     }, [isSuccess, booksets, isError, refetch]);
 

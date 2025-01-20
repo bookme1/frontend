@@ -304,7 +304,9 @@ const Header = ({
                                             : '/favorite' // wtf?? it should be only 1 naming
                                     }
                                 >
-                                    <HeartIcon hasFavorites={hasFavorites}>
+                                    <HeartIcon
+                                        hasFavorites={hasFavorites || false}
+                                    >
                                         <IoMdHeartEmpty size={28} />
                                         {hasFavorites && (
                                             <FavoriteCount>
