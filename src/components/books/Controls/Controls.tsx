@@ -10,11 +10,9 @@ import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
+import { useFetchForFilter } from '@/components/hooks/useFetchForFilter';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import {
-    useGetFilterBooksQuery,
-    useGetFiltersQuery,
-} from '@/lib/redux/features/book/bookApi';
+import { useGetFiltersQuery } from '@/lib/redux/features/book/bookApi';
 
 import Filter from '../Filter/Filter';
 
@@ -25,14 +23,14 @@ const Controls = ({ fetchForFilter }: any) => {
     const sortArray: string[] = ['Новинки', 'За релевантності'];
     const searchParams = useSearchParams();
     const q = decodeURIComponent(searchParams?.get('q') || '');
-    const authors = decodeURIComponent(searchParams?.get('authors') || '');
-    const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
-    const maxPrice = decodeURIComponent(searchParams?.get('maxPrice') || '');
-    const publishers = decodeURIComponent(
-        searchParams?.get('publishers') || ''
-    );
-    const languages = decodeURIComponent(searchParams?.get('languages') || '');
-    const genre = decodeURIComponent(searchParams?.get('genre') || '');
+    // const authors = decodeURIComponent(searchParams?.get('authors') || '');
+    // const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
+    // const maxPrice = decodeURIComponent(searchParams?.get('maxPrice') || '');
+    // const publishers = decodeURIComponent(
+    //     searchParams?.get('publishers') || ''
+    // );
+    // const languages = decodeURIComponent(searchParams?.get('languages') || '');
+    // const genre = decodeURIComponent(searchParams?.get('genre') || '');
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
@@ -48,7 +46,7 @@ const Controls = ({ fetchForFilter }: any) => {
     // });
     const { data: filtersData, isLoading } = useGetFiltersQuery(q);
 
-    const filterBooks = fetchForFilter();
+    const { filterBooks } = useFetchForFilter();
 
     const dispatch = useDispatch();
 

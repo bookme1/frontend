@@ -10,6 +10,7 @@ import { Controls } from '@/components/books/Controls';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
+import { useFetchForFilter } from '@/components/hooks/useFetchForFilter';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
@@ -33,45 +34,11 @@ export default function Home() {
     }
     const data = userData as IUser;
 
-    const fetchForFilter = () => {
-        const searchParams = useSearchParams();
-        const q = decodeURIComponent(searchParams?.get('q') || '');
-        const authors = decodeURIComponent(searchParams?.get('authors') || '');
-        const minPrice = decodeURIComponent(
-            searchParams?.get('minPrice') || ''
-        );
-        const maxPrice = decodeURIComponent(
-            searchParams?.get('maxPrice') || ''
-        );
-        const publishers = decodeURIComponent(
-            searchParams?.get('publishers') || ''
-        );
-        const languages = decodeURIComponent(
-            searchParams?.get('languages') || ''
-        );
-        const genre = decodeURIComponent(searchParams?.get('genre') || '');
-        const page = decodeURIComponent(searchParams?.get('page') || '');
-
-        const { data: filterBooks, isLoading } = useGetFilterBooksQuery({
-            q,
-            authors,
-            minPrice,
-            maxPrice,
-            publishers,
-            languages,
-            genre,
-            page,
-        });
-
-        return filterBooks;
-        isLoading;
-    };
-
     return (
         <>
             <Header userData={data} isLoading={isLoading} />
             <BreadCrumbs name="Каталог" />
-            <Controls fetchForFilter={fetchForFilter} />
+            <Controls />
             <Footer />
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}

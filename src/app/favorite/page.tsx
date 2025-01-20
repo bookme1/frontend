@@ -15,7 +15,7 @@ import { getCookie } from '@/components/Cookie/Cookie';
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
     //Books fetching
-    const getBooks = useGetBooksQuery('');
+    const getBooks = useGetBooksQuery();
     useEffect(() => {
         getBooks;
     });

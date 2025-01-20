@@ -368,6 +368,7 @@ const Booksset = ({ userID }: { userID: number }) => {
                         {filterBooks &&
                             filterBooks.books.map(book => (
                                 <BookItem
+                                key={book.id}
                                     book={book}
                                     isPlusVisible={true}
                                     handleAddToBooksetList={
