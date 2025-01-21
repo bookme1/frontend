@@ -19,13 +19,13 @@ const Footer = () => {
                         </Link>
                         <div>
                             <a
-                                href="#"
+                                href="https://www.instagram.com/chervyak.ua/"
                                 aria-label="Перейти на інстаграм сторінку"
                             >
                                 <Icon name="instagram" />
                             </a>
                             <a
-                                href="#"
+                                href="https://t.me/bookmeua"
                                 aria-label="Перейти на телеграм сторінку"
                             >
                                 <Icon name="telegram" />
@@ -68,10 +68,16 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="mobile__navigation">
-                        <a href="/" aria-label="Перейти на інстаграм сторінку">
+                        <a
+                            href="https://www.instagram.com/chervyak.ua/"
+                            aria-label="Перейти на інстаграм сторінку"
+                        >
                             <Icon name="instagram" />
                         </a>
-                        <a href="/" aria-label="Перейти на телеграм сторінку">
+                        <a
+                            href="https://t.me/bookmeua"
+                            aria-label="Перейти на телеграм сторінку"
+                        >
                             <Icon name="telegram" />
                         </a>
                     </div>

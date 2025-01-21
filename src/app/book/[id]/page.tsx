@@ -65,9 +65,7 @@ export default function Home() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
 

@@ -6,21 +6,19 @@ import axios from 'axios';
 import crypto from 'crypto';
 
 import { Item, ItemData, ItemTitle, PingList, Title } from './page.style';
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Webstatistics } from '@/components/Webstatistics';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { IUser, Role } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     //User authorization
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
     if (isLoading) {

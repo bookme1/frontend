@@ -15,7 +15,6 @@ import { BookType } from '@/lib/redux/features/user/types';
 
 const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [isFav, setIsFav] = useState<boolean>(false);
-    const token = localStorage.getItem('accessToken');
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
@@ -38,10 +37,9 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
         setIsFav(true); // Change state on click
         explode(e.pageX, e.pageY);
 
-        if (token !== null && book) {
+        if (book) {
             try {
                 await addFavorite({
-                    accessToken: token,
                     bookId: book.id,
                     type: BookType.Fav,
                 });
@@ -67,10 +65,9 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const handleNotFavoriteClick = async () => {
         setIsFav(false); // Change state on click
 
-        if (token !== null && book) {
+        if (book) {
             try {
                 await removeFavorite({
-                    accessToken: token,
                     bookId: book.id,
                     type: BookType.Fav,
                 });

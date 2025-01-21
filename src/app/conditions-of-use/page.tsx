@@ -8,15 +8,12 @@ import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { IUser } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
     if (isLoading) {

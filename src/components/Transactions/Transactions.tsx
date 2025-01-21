@@ -5,21 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { useGetAllTransactionsQuery } from '@/lib/redux/features/admin/adminApi';
 
 const Transactions: React.FC = () => {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [amountFilter, setAmountFilter] = useState<string>('all');
     const [sortOrder, setSortOrder] = useState<string>('desc'); // Додаємо стан для зберігання напрямку сортування
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const token = localStorage.getItem('accessToken');
-            setAccessToken(token);
-        }
-    }, []);
-
-    const { data, error, isLoading } = useGetAllTransactionsQuery(accessToken, {
-        skip: accessToken === null,
-    });
+    const { data, error, isLoading } = useGetAllTransactionsQuery('');
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error occurred</div>;

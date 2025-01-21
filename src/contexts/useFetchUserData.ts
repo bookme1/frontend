@@ -1,17 +1,9 @@
 import { useCallback, useState } from 'react';
 
-import {
-    IUser,
-    UserResponse,
-    loginOutputDTO,
-} from '@/lib/redux/features/user/types.ts';
+import { IUser } from '@/lib/redux/features/user/types.ts';
 
 // export interface loginOutputDTO {
 //     user: IUser;
-//     tokens: {
-//         accessToken: string;
-//         refreshToken: string;
-//     };
 // }
 
 // export interface IUser {
@@ -32,74 +24,49 @@ import {
 
 // type UserResponse = IUser | loginOutputDTO | null;
 
-const fetchUserData = async (
-    accessToken: string | null,
-    refreshToken: string | null
-): Promise<UserResponse> => {
+const fetchUserData = async (): Promise<IUser | null> => {
     try {
-        if (!accessToken && !refreshToken) {
-            return null;
-        }
-
-        if (accessToken) {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                return data;
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
+            {
+                method: 'GET',
+                credentials: 'include', // Give cookies in request
             }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            return data as IUser;
         }
 
-        if (refreshToken) {
-            const response = await fetch(
+        if (response.status === 401) {
+            // If access token is expired, call refresh
+            const refreshResponse = await fetch(
                 `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/auth/refresh`,
                 {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${refreshToken}`,
-                    },
+                    method: 'POST',
+                    credentials: 'include', // Take refresh with cookies
                 }
             );
 
-            if (response.ok) {
-                const refreshData = await response.json();
-                localStorage.setItem(
-                    'accessToken',
-                    refreshData.tokens.accessToken
-                );
-                localStorage.setItem(
-                    'refreshToken',
-                    refreshData.tokens.refreshToken
-                );
-
+            if (refreshResponse.ok) {
+                // After accessed update -> try to take user data
                 const userResponse = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
                     {
                         method: 'GET',
-                        headers: {
-                            Authorization: `Bearer ${refreshData.tokens.accessToken}`,
-                        },
+                        credentials: 'include', // cookies with updated tokens
                     }
                 );
 
                 if (userResponse.ok) {
-                    const data = await userResponse.json();
-                    return data;
+                    const userData = await userResponse.json();
+                    return userData as IUser;
                 }
             }
         }
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        return null;
+        return null; // If token updating didn't help
     } catch (error) {
         console.error('Error fetching user data:', error);
         return null;
@@ -108,27 +75,20 @@ const fetchUserData = async (
 
 const useFetchUserData = () => {
     const [userData, setUserData] = useState<IUser | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const fetchUserDataCallback = useCallback(
-        async (accessToken: string | null, refreshToken: string | null) => {
-            setIsLoading(true);
-            const data = await fetchUserData(accessToken, refreshToken);
+    const fetchUserDataCallback = useCallback(async () => {
+        setIsLoading(true);
+        const data = await fetchUserData();
 
-            if (data) {
-                if ('user' in data) {
-                    setUserData(data.user);
-                } else {
-                    setUserData(data);
-                }
-            } else {
-                setUserData(null);
-            }
+        if (data) {
+            setUserData(data);
+        } else {
+            setUserData(null);
+        }
 
-            setIsLoading(false);
-        },
-        []
-    );
+        setIsLoading(false);
+    }, []);
 
     return { userData, isLoading, fetchUserData: fetchUserDataCallback };
 };

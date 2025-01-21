@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
+import { SwiperStyle } from './CardList.styled';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
@@ -19,13 +20,18 @@ import {
     SliderControls,
     StyledWrapper,
 } from '../Categories/Categories.styles';
-import { SwiperStyle } from './CardList.styled';
 
-const CardList = ({ name, books, id }: { name: string; books: any[], id:number }) => {
-    let token1 = localStorage.getItem('accessToken');
-
+const CardList = ({
+    name,
+    books,
+    id,
+}: {
+    name: string;
+    books: any[];
+    id: number;
+}) => {
     const fav = useGetFavoritesQuery({
-        accessToken: token1 ?? '',
+        accessToken: '',
         type: BookType.Fav,
     });
 
@@ -39,7 +45,6 @@ const CardList = ({ name, books, id }: { name: string; books: any[], id:number }
     if (typeof window !== 'undefined') {
         favIdList = localStorage.getItem('favorites');
     }
-    const token = localStorage.getItem('accessToken');
     const favIdListArr = JSON.parse(favIdList);
 
     let booksMarkup;
@@ -52,7 +57,6 @@ const CardList = ({ name, books, id }: { name: string; books: any[], id:number }
         ));
     }
 
- 
     return (
         <StyledWrapper>
             <SliderControls>

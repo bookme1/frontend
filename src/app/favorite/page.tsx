@@ -26,9 +26,7 @@ export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
     if (isLoading) {

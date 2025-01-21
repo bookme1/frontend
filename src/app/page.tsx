@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { getCookie } from '@/components/Cookie/Cookie';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
@@ -13,13 +12,14 @@ import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBookSetQuery } from '@/lib/redux/features/book/booksetApi';
 import { IUser } from '@/lib/redux/features/user/types';
-import { useSignInMutation } from '@/lib/redux/features/user/userApi';
+
+// import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
     const [dataOfUser, setDataOfUser] = useState<IUser | null>(null);
 
-    const [signIn] = useSignInMutation();
+    // const [signIn] = useSignInMutation();
 
     const { userData, isLoading, fetchUserData } = useFetchUserData();
 
@@ -40,43 +40,39 @@ export default function Home() {
         }
     }, [isSuccess, booksets, isError, refetch]);
 
-    const authUserFromSession = async (storedUser: string | null) => {
-        if (!storedUser) return;
-        try {
-            const parsedUser = JSON.parse(storedUser);
-            if (parsedUser.email && parsedUser.password) {
-                // Попытка авторизации
-                const response = await signIn({
-                    email: parsedUser.email,
-                    password: parsedUser.password,
-                });
-                if (response && response.data) {
-                    const { tokens, user } = response.data;
-                    setDataOfUser(user);
-                }
-            }
-        } catch (err: any) {
-            console.error('Error while logging in', err);
-        }
-    };
+    // const authUserFromSession = async (storedUser: string | null) => {
+    //     if (!storedUser) return;
+    //     try {
+    //         const parsedUser = JSON.parse(storedUser);
+    //         if (parsedUser.email && parsedUser.password) {
+    //             // Попытка авторизации
+    //             const response = await signIn({
+    //                 email: parsedUser.email,
+    //                 password: parsedUser.password,
+    //             });
+    //             if (response && response.data) {
+    //                 const { user } = response.data;
+    //                 setDataOfUser(user);
+    //             }
+    //         }
+    //     } catch (err: any) {
+    //         console.error('Error while logging in', err);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     if (typeof window !== 'undefined') {
+    //         const storedUser = sessionStorage.getItem('userCredentials');
+    //         authUserFromSession(storedUser);
+    //     }
+    // }, []);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedUser = sessionStorage.getItem('userCredentials');
-            authUserFromSession(storedUser);
-        }
+        fetchUserData();
     }, []);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-
-            fetchUserData(storedAccessToken, storedRefreshToken);
-        }
-    }, [fetchUserData]);
-
     const dataUserAutorized = userData || (dataOfUser as IUser);
+    console.log('userdata', dataUserAutorized);
 
     return (
         <>

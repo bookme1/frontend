@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { ChartStyle } from '@/app/admin/page.style';
 import { Chartjs } from '@/components/Chartjs';
 import { Chartjsbr } from '@/components/Chartjsbar';
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Transactions } from '@/components/Transactions';
@@ -13,33 +14,19 @@ import { Webstatistics } from '@/components/Webstatistics';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useGetUserStatisticQuery } from '@/lib/redux/features/admin/adminApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const token = getCookie('accessToken');
-            setAccessToken(token);
-        }
-    }, []);
-
     const {
         data,
         error,
         isLoading: isStatLoading,
-    } = useGetUserStatisticQuery(accessToken, {
-        skip: accessToken === null,
-    });
+    } = useGetUserStatisticQuery();
 
     //User authorization
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
     if (isLoading) {

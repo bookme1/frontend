@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Controls } from '@/components/books/Controls';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
@@ -11,7 +12,6 @@ import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import useFetchUserData from '@/contexts/useFetchUserData';
 import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const modals = useSelector((state: any) => state.modals.modals);
@@ -20,9 +20,7 @@ export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
+            fetchUserData();
         }
     }, [fetchUserData]);
     if (isLoading) {

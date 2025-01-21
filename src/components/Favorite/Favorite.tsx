@@ -10,20 +10,16 @@ import { BookType } from '@/lib/redux/features/user/types';
 import { Card } from '../common/Card';
 
 const Favorite = () => {
-    const token = localStorage.getItem('accessToken');
     const [books, setBooks] = useState<IBook[]>([]);
 
     const {
         data: favorites,
         error,
         isLoading,
-    } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        },
-        { skip: token == null }
-    );
+    } = useGetFavoritesQuery({
+        accessToken: '',
+        type: BookType.Fav,
+    });
 
     useEffect(() => {
         if (favorites) {
@@ -44,7 +40,7 @@ const Favorite = () => {
 
     if (isLoading) return <div>Завантажуємо книжки...</div>;
     if (error) return <div>Помилка при завантаженні книжок</div>;
-console.log("books", books)
+    console.log('books', books);
     return (
         <>
             {!books || books.length === 0 ? (

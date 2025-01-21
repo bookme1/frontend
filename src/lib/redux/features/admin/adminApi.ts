@@ -14,14 +14,14 @@ export const adminApi = createApi({
         // BOOKS INTERACTION
         // #################
 
-        getUserStatistic: builder.query<userStatisticDTO, string | null>({
-            query: (accessToken: string | null) => ({
+        getUserStatistic: builder.query<userStatisticDTO, void>({
+            query: () => ({
                 url: 'api/admin/getUserStatistic',
                 method: 'GET',
                 cacheTime: 24 * 60 * 60 * 1000, // 1 day duration between requests
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                // headers: {
+                //     Authorization: `Bearer ${accessToken}`,
+                // },
             }),
         }),
 

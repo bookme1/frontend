@@ -30,9 +30,10 @@ export const userApi = createApi({
         signIn: builder.mutation<loginOutputDTO, signInDTO>({
             // Login into account, if verified, otherwise sends email + no token
             query: DTO => ({
-                url: 'api/auth/email/login',
+                url: 'api/auth/login',
                 method: 'POST',
                 body: DTO,
+                credentials: 'include',
             }),
         }),
         googleAuth: builder.mutation<loginOutputDTO, googleAuthDTO>({
@@ -43,14 +44,13 @@ export const userApi = createApi({
                 body: DTO,
             }),
         }),
-        refreshToken: builder.mutation<loginOutputDTO, string>({
+        refreshToken: builder.mutation<loginOutputDTO, void>({
             // Refresh user tokens by refresh token
-            query: token => ({
+            query: () => ({
                 url: 'api/auth/refresh',
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                method: 'POST',
+                body: {},
+                credentials: 'include',
             }),
         }),
         getData: builder.mutation<loginOutputDTO, string>({
@@ -73,9 +73,9 @@ export const userApi = createApi({
             query: DTO => ({
                 url: `api/user/books/${DTO.type}`,
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
+                // headers: {
+                //     Authorization: `Bearer ${DTO.accessToken}`,
+                // },
             }),
         }),
         addBook: builder.query<IUser, userBookDTO>({
@@ -87,9 +87,6 @@ export const userApi = createApi({
                     bookId: DTO.bookId,
                     type: DTO.type,
                 },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
             }),
         }),
         removeBook: builder.mutation<IUser, userBookDTO>({
@@ -100,9 +97,6 @@ export const userApi = createApi({
                 body: {
                     bookId: DTO.bookId,
                     type: DTO.type,
-                },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
                 },
             }),
         }),

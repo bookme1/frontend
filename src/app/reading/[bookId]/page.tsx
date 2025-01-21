@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { NavItem, Rendition } from 'epubjs';
 import { useRouter } from 'next/router';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { BookContent } from '@/components/bookReading/bookContent/BookContent';
 import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
@@ -16,7 +17,6 @@ import { ReactReader } from '@/lib/reader';
 import { IUser } from '@/lib/redux/features/user/types';
 
 import '../../../styles/fonts';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export type ITheme = 'light' | 'dark' | 'beige';
 
@@ -116,11 +116,7 @@ export default function Home() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            if (storedAccessToken && storedRefreshToken) {
-                fetchUserData(storedAccessToken, storedRefreshToken);
-            }
+            fetchUserData();
         }
     }, [fetchUserData]);
 
