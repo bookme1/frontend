@@ -21,7 +21,7 @@ const Hero = () => {
     const getHeroImage = () => {
         const width = window.innerWidth;
         if (width < 480) return mobileHero.src;
-        if (width < 768) return tabletHero.src;
+        if (width < 769) return tabletHero.src;
         return desktopHero.src;
     };
 
@@ -76,9 +76,7 @@ const Hero = () => {
                         src={getHeroImage()}
                         alt="Hero Image"
                         loading="eager"
-                        layout="responsive"
-                        width={1280}
-                        height={720}
+                        fill
                         style={{
                             borderRadius: '20px',
                             objectFit: 'cover',
