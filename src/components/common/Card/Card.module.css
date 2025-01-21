@@ -11,6 +11,8 @@
     overflow: hidden;
     background-color: #fff;
     transition: height 0.3s ease, transform 0.3s ease;
+
+    padding-bottom: 20px;
 }
 
 .cardContainer:hover {
@@ -108,6 +110,13 @@
 
 /* 📱 Mobile Adaptation */
 @media (max-width: 768px) {
+
+    .cardContainer:hover {
+        transform: scale(1.02);
+        height: auto;
+    }
+
+
     .cardContainer {
         flex-direction: row;
         width: 230px;

@@ -100,15 +100,24 @@ export const HeroTitle = styled.h1`
     font-weight: 700;
     line-height: 140%;
     position: absolute;
-    top: 150px;
-    left: 80px;
+    top: 50px;
+    left: 28px;
+    width: 251px;
     /* transform: translate(-50%, 50%); */
     @media (min-width: 768px) {
         margin-left: 0;
-        margin-bottom: 8px;
+        /* margin-bottom: 8px; */
+        width: 297px;
+
+        top: 65px;
+        left: 54px;
     }
     @media (min-width: 1280px) {
         font-size: 40px;
+        width: 372px;
+
+        left: 80px;
+        top: 150px;
     }
 `;
 
@@ -116,19 +125,30 @@ export const HeroDescription = styled.p`
     position: absolute;
     top: 214px;
     left: 80px;
-    @media (max-width: 767.5px) {
+    @media (max-width: 767px) {
         ${visuallyHidden}
+
+    }
+    @media (min-width: 768px) {
+        top: 117px;
+        left: 54px;
     }
     width: 302px;
     color: var(--gray);
     margin-bottom: 187px;
     @media (min-width: 1280px) {
         font-size: 20px;
-        margin-bottom: 40px;
+        /* margin-bottom: 40px; */
+        left: 80px;
+        top: 208px;
     }
 `;
 
 export const CatalogButton = styled.a`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 54px;
     background-color: var(--red);
@@ -140,8 +160,16 @@ export const CatalogButton = styled.a`
     cursor: pointer;
     &.inSlider {
         position: absolute;
-        top: 310px;
-        left: 80px;
+        top: 396px;
+        left: 0;
+        @media (min-width: 768px) {
+            top: 300px;
+            left: 54px;
+        }
+        @media (min-width: 1280px) {
+            top: 300px;
+            left: 80px;
+        }
     }
 
     :hover {
@@ -151,6 +179,7 @@ export const CatalogButton = styled.a`
         background-color: #cc2929;
     }
     @media (min-width: 768px) {
+
         width: 163px;
         height: 46px;
         border-radius: 8px;

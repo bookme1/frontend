@@ -1,0 +1,75 @@
+.wrapper {
+    margin: 0 auto;
+    padding: 30px 10px;
+    @media (min-width: 363px) {
+        width: 363px;
+        /* height: 600px; */
+    }
+    @media (min-width: 748px) {
+        width: 748px;
+        height: 600px;
+    }
+    @media (min-width: 1234px) {
+        width: 1234px;
+        height: 600px;
+    }
+}
+
+.swiper-container {
+    margin-top: 50px;
+}
+
+.swiper-button-prev {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.swiper-button-next {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.sliderControls {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.controlsTitle {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.controlsLink {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    opacity: 0.9;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    :hover {
+        background-color: #e6e6e6;
+    }
+    :active {
+        background-color: #cccccc;
+    }
+}
+
+.controlsContainer {
+    display: flex;
+    gap: 64px;
+    justify-content: flex-end;
+}
+
+.swiperStyle {
+    max-width: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}

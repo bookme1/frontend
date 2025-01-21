@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Favorite } from '@/components/Favorite';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -15,17 +16,20 @@ import { Wrapper } from '@/styles/globals.styles';
 
 export default function Home() {
     const { userData, isLoading, fetchUserData } = useFetchUserData();
+
     const router = useRouter();
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedAccessToken = localStorage.getItem('accessToken');
-            const storedRefreshToken = localStorage.getItem('refreshToken');
+            const storedAccessToken = getCookie('accessToken');
+            const storedRefreshToken = getCookie('refreshToken');
             fetchUserData(storedAccessToken, storedRefreshToken);
         }
     }, [fetchUserData]);
 
-    const isAuthorized = useMemo(() => !!userData, [userData]);
+    const isAuthorized = useMemo(() => {
+        return !isLoading && !!userData;
+    }, [isLoading, userData]);
 
     if (isLoading) {
         return <Loading />;

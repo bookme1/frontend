@@ -7,21 +7,22 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
+import style from './CardList.module.css';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
-import {
-    ControlsContainer,
-    ControlsLink,
-    ControlsTitle,
-    SliderControls,
-    StyledWrapper,
-} from '../Categories/Categories.styles';
-import { SwiperStyle } from './CardList.styled';
 
-const CardList = ({ name, books, id }: { name: string; books: any[], id:number }) => {
+const CardList = ({
+    name,
+    books,
+    id,
+}: {
+    name: string;
+    books: any[];
+    id: number;
+}) => {
     let token1 = localStorage.getItem('accessToken');
 
     const fav = useGetFavoritesQuery({
@@ -45,30 +46,47 @@ const CardList = ({ name, books, id }: { name: string; books: any[], id:number }
     let booksMarkup;
     if (books?.length) {
         booksMarkup = books.map(book => (
-            <SwiperStyle key={book.id}>
+            <SwiperSlide key={book.id} className={style.swiperStyle}>
                 <Card book={book} />
                 {/* <BookItem key={book.id} book={book} /> */}
-            </SwiperStyle>
+            </SwiperSlide>
         ));
     }
 
- 
+    const width = window.innerWidth;
+    let setLoop = true;
+    let isChevronVisible = true;
+
+    if (width >= 768 && books.length < 3) {
+        setLoop = false;
+        isChevronVisible = false;
+    } else if (width >= 1280 && books.length < 5) {
+        setLoop = false;
+        isChevronVisible = false;
+    }
+
     return (
-        <StyledWrapper>
-            <SliderControls>
-                <ControlsTitle>{name}</ControlsTitle>
-                <ControlsContainer>
-                    <ControlsLink className={`arrow-left-${id} arrow`}>
-                        <Icon name="arrow_left" size={24} />
-                    </ControlsLink>
-                    <ControlsLink className={`arrow-right-${id} arrow`}>
-                        <Icon name="arrow_right" size={24} />
-                    </ControlsLink>
-                </ControlsContainer>
-            </SliderControls>
+        <div className={style.wrapper}>
+            <div className={style.sliderControls}>
+                <h2 className={style.controlsTitle}>{name}</h2>
+                {isChevronVisible && (
+                    <div className={style.controlsContainer}>
+                        <a
+                            className={`arrow-left-${id} arrow ${style.controlsLink}`}
+                        >
+                            <Icon name="arrow_left" size={24} />
+                        </a>
+                        <a
+                            className={`arrow-right-${id} arrow ${style.controlsLink}`}
+                        >
+                            <Icon name="arrow_right" size={24} />
+                        </a>
+                    </div>
+                )}
+            </div>
             <Swiper
                 slidesPerView={1}
-                loop={true}
+                loop={setLoop}
                 spaceBetween={16}
                 modules={[Navigation, A11y]}
                 className="mySwiper"
@@ -96,7 +114,7 @@ const CardList = ({ name, books, id }: { name: string; books: any[], id:number }
             >
                 {booksMarkup || ''}
             </Swiper>
-        </StyledWrapper>
+        </div>
     );
 };
 

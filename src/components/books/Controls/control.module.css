@@ -30,10 +30,12 @@
 
 .products__section {
     width: 100%;
+    /* width: 826px; */
     display: flex;
     flex-direction: column;
     gap: 48px;
 }
+
 
 .information {
     display: flex;
@@ -123,12 +125,7 @@
     background-color: #e21c1c;
 }
 
-.products__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-bottom: 32px;
-}
+
 
 .pagination {
     display: flex;
