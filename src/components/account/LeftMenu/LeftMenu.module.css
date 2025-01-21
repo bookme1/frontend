@@ -1,0 +1,49 @@
+.section {
+    margin: 0 auto;
+    width: 230px;
+    height: 685px;
+    padding: 40px 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+    float: left;
+
+    a:active {
+        color: red;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 18px;
+
+    a {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    &.account {
+        margin-bottom: 48px;
+    }
+    &.exit {
+        margin-top: 80px;
+    }
+
+    a.active {
+        color: var(--red);
+        font-weight: bold;
+    }
+}
+
+.userName{
+    font-size: 18px;
+    font-weight: bold;
+}

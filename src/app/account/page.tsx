@@ -42,7 +42,7 @@ const Home = () => {
     }
 
     const data = userData as IUser;
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getCookie('accessToken');
 
     return (
         <Wrapper>

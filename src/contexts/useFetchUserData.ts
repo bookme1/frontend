@@ -71,11 +71,11 @@ const fetchUserData = async (
 
             if (response.ok) {
                 const refreshData = await response.json();
-                localStorage.setItem(
+                sessionStorage.setItem(
                     'accessToken',
                     refreshData.tokens.accessToken
                 );
-                localStorage.setItem(
+                sessionStorage.setItem(
                     'refreshToken',
                     refreshData.tokens.refreshToken
                 );
@@ -97,8 +97,8 @@ const fetchUserData = async (
             }
         }
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('refreshToken');
         return null;
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -109,6 +109,8 @@ const fetchUserData = async (
 const useFetchUserData = () => {
     const [userData, setUserData] = useState<IUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+
 
     const fetchUserDataCallback = useCallback(
         async (accessToken: string | null, refreshToken: string | null) => {
