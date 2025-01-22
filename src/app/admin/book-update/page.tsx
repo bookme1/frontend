@@ -5,13 +5,13 @@ import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
 import { bookService } from '@/api/book/bookService';
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Webstatistics } from '@/components/Webstatistics';
 import { Icon } from '@/components/common/Icon';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { IUser, Role } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 interface RequestResponseTemplate {
     status: number;

@@ -11,7 +11,7 @@ import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Transactions } from '@/components/Transactions';
 import { Webdata } from '@/components/Webdata';
 import { Webstatistics } from '@/components/Webstatistics';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { useGetUserStatisticQuery } from '@/lib/redux/features/admin/adminApi';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 

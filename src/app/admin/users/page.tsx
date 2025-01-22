@@ -8,7 +8,7 @@ import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Webstatistics } from '@/components/Webstatistics';
 import AdminUserTable from '@/components/table/AdminUserTable';
 // Імпорт нового компоненту
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 
 export default function Home() {

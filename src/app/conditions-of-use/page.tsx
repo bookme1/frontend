@@ -6,7 +6,7 @@ import { ConditionsOfUse } from '@/components/ConditionsOfUse';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { IUser } from '@/lib/redux/features/user/types';
 
 export default function Home() {

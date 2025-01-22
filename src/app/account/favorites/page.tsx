@@ -9,7 +9,7 @@ import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Header } from '@/components/common/Header';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 

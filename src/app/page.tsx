@@ -1,44 +1,36 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import { fetchUserData } from '@/contexts/fetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBookSetQuery } from '@/lib/redux/features/book/booksetApi';
 import { IUser } from '@/lib/redux/features/user/types';
 
 // import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
-export default function Home() {
-    const modals = useSelector((state: any) => state.modals.modals);
-    const [dataOfUser, setDataOfUser] = useState<IUser | null>(null);
+export default async function Home() {
+    // const modals = useSelector((state: any) => state.modals.modals);
 
-    // const [signIn] = useSignInMutation();
+    const user = await fetchUserData();
+    // const {
+    //     data: booksets,
+    //     isError,
+    //     isSuccess,
+    //     refetch,
+    // } = useGetBookSetQuery();
 
-    const { userData, isLoading, fetchUserData } = useFetchUserData();
-
-    const {
-        data: booksets,
-        isError,
-        isSuccess,
-        refetch,
-    } = useGetBookSetQuery();
-
-    useEffect(() => {
-        if (isSuccess) {
-            console.log('Данные успешно загружены:', booksets);
-        }
-        if (isError) {
-            console.warn('Error while fetching booksets...');
-            // refetch();
-        }
-    }, [isSuccess, booksets, isError, refetch]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         console.log('Данные успешно загружены:', booksets);
+    //     }
+    //     if (isError) {
+    //         console.warn('Error while fetching booksets...');
+    //         // refetch();
+    //     }
+    // }, [isSuccess, booksets, isError, refetch]);
 
     // const authUserFromSession = async (storedUser: string | null) => {
     //     if (!storedUser) return;
@@ -60,26 +52,12 @@ export default function Home() {
     //     }
     // };
 
-    // useEffect(() => {
-    //     if (typeof window !== 'undefined') {
-    //         const storedUser = sessionStorage.getItem('userCredentials');
-    //         authUserFromSession(storedUser);
-    //     }
-    // }, []);
-
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    const dataUserAutorized = userData || (dataOfUser as IUser);
-    console.log('userdata', dataUserAutorized);
-
     return (
         <>
-            <Header userData={dataUserAutorized} isLoading={isLoading} />
+            <Header userData={user} isLoading={false} />
             <Hero />
             <Categories />
-            {booksets && (
+            {/* {booksets && (
                 <>
                     <SwiperList
                         name={booksets[0]?.title}
@@ -103,9 +81,9 @@ export default function Home() {
                         id={booksets[2].id}
                     />
                 </>
-            )}
+            )} */}
             <Footer />
-            {modals.successInfo.isOpen && <SuccessInfo />}
+            {/* {modals.successInfo.isOpen && <SuccessInfo />} */}
         </>
     );
 }

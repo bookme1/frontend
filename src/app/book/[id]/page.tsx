@@ -12,7 +12,7 @@ import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { useSelector } from '@/lib/redux';
 import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { IUser } from '@/lib/redux/features/user/types';

@@ -78,7 +78,7 @@ const Header = ({
     userData,
     isLoading,
 }: {
-    userData: IUser | undefined;
+    userData: IUser | null;
     isLoading: boolean;
 }) => {
     const token =

@@ -1,15 +1,16 @@
 'use client';
-import Booksset from '@/components/Booksset/Booksset';
-import style from './page.module.css'
-import { getCookie } from "@/components/Cookie/Cookie";
-import { Headerstatistics } from "@/components/Headerstatistics";
-import { Loading } from "@/components/SERVICE_PAGES/Loading";
-import { Webstatistics } from "@/components/Webstatistics";
-import useFetchUserData from "@/contexts/useFetchUserData";
-import { useGetUserStatisticQuery } from "@/lib/redux/features/admin/adminApi";
-import { IUser, Role } from "@/lib/redux/features/user/types";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from 'react';
+
+import style from './page.module.css';
+import Booksset from '@/components/Booksset/Booksset';
+import { getCookie } from '@/components/Cookie/Cookie';
+import { Headerstatistics } from '@/components/Headerstatistics';
+import { Loading } from '@/components/SERVICE_PAGES/Loading';
+import { Webstatistics } from '@/components/Webstatistics';
+import useFetchUserData from '@/contexts/fetchUserData';
+import { useGetUserStatisticQuery } from '@/lib/redux/features/admin/adminApi';
+import { IUser, Role } from '@/lib/redux/features/user/types';
 
 export default function Home() {
     const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -54,10 +55,8 @@ export default function Home() {
             <Headerstatistics username={_data.username} />
             <div className={style.container}>
                 <Webstatistics />
-                <Booksset userID={userData.id}/>
+                <Booksset userID={userData.id} />
             </div>
-
- 
         </>
     );
 }

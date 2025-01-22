@@ -12,7 +12,7 @@ import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
 import PageTurner from '@/components/bookReading/pageTurner/PageTurner';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { ReactReader } from '@/lib/reader';
 import { IUser } from '@/lib/redux/features/user/types';
 

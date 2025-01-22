@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
+import { getCookie } from '@/components/Cookie/Cookie';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { ModalAddBook } from '@/components/Modaladdbook';
 import { ModalDelete } from '@/components/Modaldelete';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Webstatistics } from '@/components/Webstatistics';
 import { Icon } from '@/components/common/Icon';
-import useFetchUserData from '@/contexts/useFetchUserData';
+import useFetchUserData from '@/contexts/fetchUserData';
 import { IUser, Role } from '@/lib/redux/features/user/types';
-import { getCookie } from '@/components/Cookie/Cookie';
 
 export default function Home() {
     const [showModal, setShowModal] = useState(false);
