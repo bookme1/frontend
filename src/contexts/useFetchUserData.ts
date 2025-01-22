@@ -2,28 +2,6 @@ import { useCallback, useState } from 'react';
 
 import { IUser } from '@/lib/redux/features/user/types.ts';
 
-// export interface loginOutputDTO {
-//     user: IUser;
-// }
-
-// export interface IUser {
-//     id: number;
-//     username: string | null;
-//     email: string | null;
-//     role: Role;
-//     fav: string[];
-//     cart: string[];
-//     books: string[];
-// }
-
-// export enum Role {
-//     User,
-//     Moderator,
-//     Admin,
-// }
-
-// type UserResponse = IUser | loginOutputDTO | null;
-
 const fetchUserData = async (): Promise<IUser | null> => {
     try {
         const response = await fetch(
@@ -72,6 +50,27 @@ const fetchUserData = async (): Promise<IUser | null> => {
         return null;
     }
 };
+// export interface loginOutputDTO {
+//     user: IUser;
+// }
+
+// export interface IUser {
+//     id: number;
+//     username: string | null;
+//     email: string | null;
+//     role: Role;
+//     fav: string[];
+//     cart: string[];
+//     books: string[];
+// }
+
+// export enum Role {
+//     User,
+//     Moderator,
+//     Admin,
+// }
+
+// type UserResponse = IUser | loginOutputDTO | null;
 
 const useFetchUserData = () => {
     const [userData, setUserData] = useState<IUser | null>(null);
