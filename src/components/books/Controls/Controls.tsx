@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
@@ -8,7 +7,6 @@ import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
-import { getCookie } from '@/components/Cookie/Cookie';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import BookItem from '@/components/book/Item/BookItem';
@@ -18,11 +16,15 @@ import {
     useGetFilterBooksQuery,
     useGetFiltersQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { CustomSession } from '@/lib/redux/features/user/types';
+import { FiltersResponse } from '@/lib/redux/features/book/types';
 
 import Filter from '../Filter/Filter';
 
-const Controls = () => {
+interface ControlsProps {
+    filtersData: FiltersResponse | null;
+}
+
+const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
     const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
@@ -50,8 +52,8 @@ const Controls = () => {
         genre,
         page,
     });
-    const { data: filtersData, isLoading: loaderFilter } =
-        useGetFiltersQuery(q);
+    // const { data: filtersData, isLoading: loaderFilter } =
+    //     useGetFiltersQuery(q);
 
     const dispatch = useDispatch();
 
@@ -190,20 +192,9 @@ const Controls = () => {
         router.push(currentUrl.toString());
     };
 
-    const [filtersLoaded, setFiltersLoaded] = useState(false);
-    const [booksLoaded, setBooksLoaded] = useState(false);
-
-    useEffect(() => {
-        setFiltersLoaded(true);
-
-        setTimeout(() => {
-            setBooksLoaded(true);
-        }, 2000);
-    }, []);
-
     return (
         <>
-            {isLoading && loaderFilter && !booksLoaded ? (
+            {isLoading ? (
                 <Loading />
             ) : (
                 <section className={styles.section}>
@@ -224,7 +215,7 @@ const Controls = () => {
                             <div className={styles.computer__filter}>
                                 <Filter filtersData={filtersData} />
                             </div>
-                            {booksLoaded && (
+                            {
                                 <div className={styles.products__section}>
                                     <div className={styles.information}>
                                         <div
@@ -392,7 +383,7 @@ const Controls = () => {
                                         </div>
                                     )}
                                 </div>
-                            )}
+                            }
                         </div>
                     </div>
                 </section>

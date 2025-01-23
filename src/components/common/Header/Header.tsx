@@ -76,11 +76,14 @@ export const FavoriteCount = styled.span`
 
 const Header = ({
     userData,
-    isLoading,
+    
 }: {
     userData: IUser | null;
-    isLoading: boolean;
+    
 }) => {
+
+const isLoading = false
+
     const token =
         typeof window !== 'undefined'
             ? localStorage.getItem('accessToken')

@@ -57,3 +57,12 @@ export type BookSetResponse = {
         formatEpub: string;
     }[];
 };
+
+export type FiltersResponse = {
+    authors: string[];
+    publishers: string[];
+    genres: string[];
+    languages: string[];
+    minPrice: number;
+    maxPrice: number;
+}

@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 
 import { IUser } from '@/lib/redux/features/user/types.ts';
 
+
 export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = headers();
 
