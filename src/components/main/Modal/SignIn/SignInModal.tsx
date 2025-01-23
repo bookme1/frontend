@@ -1,4 +1,3 @@
-import { signIn as googleSignIn } from 'next-auth/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Notify from '@/components/Notify/Notify';
@@ -123,7 +122,8 @@ const SignInModal = ({
             </Description>
             <GoogleBtn
                 onClick={() => {
-                    googleSignIn();
+                    window.location.href =
+                        'http://localhost:5050/api/auth/signin/google';
                 }}
             >
                 <Icon name="google" size="24" />
