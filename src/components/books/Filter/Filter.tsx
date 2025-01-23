@@ -9,7 +9,11 @@ import RangePrice from '@/components/RangePrice/RangePrice';
 
 import searchParamsInputData from '../../../data/searchParams.json';
 
-const Filter = ({ filtersData }: { filtersData: FiltersData | undefined }) => {
+const Filter = ({
+    filtersData,
+}: {
+    filtersData: FiltersData | undefined | null;
+}) => {
     const [searchParamsInput, setSearchParamsInput] = useState(
         searchParamsInputData
     );

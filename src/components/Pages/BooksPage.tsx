@@ -11,7 +11,7 @@ import { IUser } from '@/lib/redux/features/user/types';
 
 interface HomePageProps {
     user: IUser | null;
-    filtersData: FiltersResponse | null;
+    filtersData: FiltersResponse | undefined | null;
 }
 
 const BooksPage: React.FC<HomePageProps> = ({ user, filtersData }) => {

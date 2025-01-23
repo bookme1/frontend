@@ -1,10 +1,10 @@
-import { FiltersResponse } from '@/lib/redux/features/book/types';
+import { BookSetRequest } from '@/lib/redux/features/book/types';
 
-export async function fetchFilters(q: string): Promise<FiltersResponse | null | undefined> {
+export async function fetchBooksets(): Promise<BookSetRequest[] | null> {
 
     try {
         let response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/filter/filters?q=${q}`,
+            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/bookset`,
             {
                 method: 'GET',
                 cache: 'no-cache',

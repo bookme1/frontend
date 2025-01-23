@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -12,16 +12,13 @@ import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import BookItem from '@/components/book/Item/BookItem';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import {
-    useGetFilterBooksQuery,
-    useGetFiltersQuery,
-} from '@/lib/redux/features/book/bookApi';
+import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
 
 import Filter from '../Filter/Filter';
 
 interface ControlsProps {
-    filtersData: FiltersResponse | null;
+    filtersData: FiltersResponse | undefined | null;
 }
 
 const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
@@ -52,8 +49,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
         genre,
         page,
     });
-    // const { data: filtersData, isLoading: loaderFilter } =
-    //     useGetFiltersQuery(q);
 
     const dispatch = useDispatch();
 

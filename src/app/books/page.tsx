@@ -5,9 +5,6 @@ import { fetchUserData } from '@/contexts/fetchUserData';
 export default async function Home() {
     const user = await fetchUserData();
     const filters = await fetchFilters('');
-    return (
-        <>
-            <BooksPage user={user} filtersData={filters} />
-        </>
-    );
+
+    return <BooksPage user={user} filtersData={filters} />;
 }
