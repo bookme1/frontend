@@ -13,7 +13,7 @@ import { Header } from '@/components/common/Header';
 import { ReactReader } from '@/lib/reader';
 import { IUser } from '@/lib/redux/features/user/types';
 
-import '../../../styles/fonts';
+import '../../styles/fonts';
 
 export type ITheme = 'light' | 'dark' | 'beige';
 

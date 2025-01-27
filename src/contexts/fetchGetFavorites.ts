@@ -1,9 +1,10 @@
 import { headers } from 'next/headers';
 
 import { BookType } from '@/lib/redux/features/user/types.ts';
+import { IBook } from '@/app/book/[id]/page.types';
 
 
-export async function fetchGetFavorites(type: BookType.Fav): Promise<number| null> {
+export async function fetchGetFavorites(type: BookType.Fav): Promise<IBook[] | null> {
     const requestHeaders = headers();
 
     // Take cookies from headers
