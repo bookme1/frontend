@@ -8,19 +8,20 @@ import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
 import { useSelector } from '@/lib/redux';
 import { BookSetRequest } from '@/lib/redux/features/book/types';
-import { IUser } from '@/lib/redux/features/user/types';
+import { BookType, IUser } from '@/lib/redux/features/user/types';
 
 interface HomePageProps {
     user: IUser | null;
     booksets: BookSetRequest[] | null;
+    favQuantity: number | null;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ user, booksets }) => {
+const HomePage: React.FC<HomePageProps> = ({ user, booksets, favQuantity }) => {
     const modals = useSelector((state: any) => state.modals.modals);
 
     return (
         <>
-            <Header userData={user} />
+            <Header userData={user} favQuantity={favQuantity} />
             <Hero />
             <Categories />
             {booksets &&

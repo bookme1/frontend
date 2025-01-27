@@ -29,7 +29,7 @@ const NavLink = ({
 export default function LeftMenu({
     username = 'Гість',
 }: {
-    username: string | null;
+    username: string | null | undefined;
 }) {
     return (
         <Section>

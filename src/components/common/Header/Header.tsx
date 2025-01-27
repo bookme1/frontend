@@ -35,9 +35,9 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-import { useGetFavoritesQuantityQuery } from '@/lib/redux/features/book/bookApi';
+
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
-import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
+import {  IUser, Role } from '@/lib/redux/features/user/types';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
@@ -76,23 +76,22 @@ export const FavoriteCount = styled.span`
 
 const Header = ({
     userData,
-    
+    favQuantity,
 }: {
     userData: IUser | null;
-    
+    favQuantity: number | null;
 }) => {
-
-const isLoading = false
+    const isLoading = false;
 
     const token =
         typeof window !== 'undefined'
             ? localStorage.getItem('accessToken')
             : null;
 
-    const { data: favQuantity } = useGetFavoritesQuantityQuery({
-        accessToken: token ?? '',
-        type: BookType.Fav,
-    });
+    // const { data: favQuantity } = useGetFavoritesQuantityQuery({
+    //     accessToken: token ?? '',
+    //     type: BookType.Fav,
+    // });
 
     // const getBooks = useGetBooksQuery('');
     // const booksArr = getBooks.data;
@@ -184,9 +183,7 @@ const isLoading = false
     const favoriteCount = favQuantity;
     const hasFavorites = favQuantity && favQuantity > 0;
 
-    useEffect(() => {
-        // console.log('Favorite books count:', favoriteCount);
-    }, [favoriteCount]);
+
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));

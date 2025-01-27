@@ -15,7 +15,7 @@ export const bookApi = createApi({
         baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
     }),
 
-    
+
     endpoints: builder => ({
         // #################
         // BOOKS INTERACTION

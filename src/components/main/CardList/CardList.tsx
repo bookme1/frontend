@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -39,13 +39,13 @@ const CardList = ({
         fav;
     });
 
-    const favorite = fav.data;
+    // const favorite = fav.data;
 
-    let favIdList: any;
-    if (typeof window !== 'undefined') {
-        favIdList = localStorage.getItem('favorites');
-    }
-    const favIdListArr = JSON.parse(favIdList);
+    // let favIdList: any;
+    // if (typeof window !== 'undefined') {
+    //     favIdList = localStorage.getItem('favorites');
+    // }
+    // const favIdListArr = JSON.parse(favIdList) && null;
 
     let booksMarkup;
     if (books?.length) {

@@ -1,44 +1,12 @@
-'use client';
+import FavoritePage from '@/components/Pages/FavoritePage';
+import { fetchGetFavorites } from '@/contexts/fetchGetFavorites';
+import { fetchGetFavoritesQuantity } from '@/contexts/fetchGetFavoritesQuantity';
+import { fetchUserData } from '@/contexts/fetchUserData';
+import { BookType } from '@/lib/redux/features/user/types';
 
-import React, { useEffect } from 'react';
-
-import { getCookie } from '@/components/Cookie/Cookie';
-import { Favorite } from '@/components/Favorite';
-import { Loading } from '@/components/SERVICE_PAGES/Loading';
-import { Footer } from '@/components/common/Footer';
-import { Header } from '@/components/common/Header';
-import useFetchUserData from '@/contexts/fetchUserData';
-import { useSelector } from '@/lib/redux';
-import { useGetBooksQuery } from '@/lib/redux/features/book/bookApi';
-import { IUser } from '@/lib/redux/features/user/types.ts';
-
-export default function Home() {
-    const modals = useSelector((state: any) => state.modals.modals);
-    //Books fetching
-    const getBooks = useGetBooksQuery();
-    useEffect(() => {
-        getBooks;
-    });
-
-    const books = getBooks.data;
-
-    //User authorization
-    const { userData, isLoading, fetchUserData } = useFetchUserData();
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            fetchUserData();
-        }
-    }, [fetchUserData]);
-    if (isLoading) {
-        return <Loading />;
-    }
-    const data = userData as IUser;
-
-    return (
-        <>
-            <Header userData={data} isLoading={isLoading} />
-            <Favorite />
-            <Footer />
-        </>
-    );
+export default async function Home() {
+    const user = await fetchUserData();
+    const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
+    const favBooks = await fetchGetFavorites(BookType.Fav);
+    return <FavoritePage user={user} favQuantity={favQuantity} favBooks={favBooks} />;
 }
