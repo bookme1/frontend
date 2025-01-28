@@ -1,5 +1,6 @@
 'use client';
 
+import { IBook } from '@/app/book/[id]/page.types';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
@@ -10,37 +11,20 @@ import { Wrapper } from '@/styles/globals.styles';
 interface AccountFavProps {
     user: IUser | null;
     favQuantity: number | null;
+    favBooks: IBook[] | null | undefined;
 }
 
-export const AccountFav: React.FC<AccountFavProps> = ({ user, favQuantity }) => {
-    // const { userData, isLoading, fetchUserData } = useFetchUserData();
-    // const router = useRouter();
-
-    // useEffect(() => {
-    //     if (typeof window !== 'undefined') {
-    //         fetchUserData();
-    //     }
-    // }, [fetchUserData]);
-
-    // const isAuthorized = useMemo(() => !!userData, [userData]);
-
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
-
-    // if (!isAuthorized && !isLoading) {
-    //     router.replace('/');
-    //     return null;
-    // }
-
-    // const data = userData as IUser;
-
+export const AccountFav: React.FC<AccountFavProps> = ({
+    user,
+    favQuantity,
+    favBooks,
+}) => {
     return (
         <Wrapper>
-            <Header userData={user} favQuantity={favQuantity}/>
+            <Header userData={user} favQuantity={favQuantity} />
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={user?.username} />
-            <Favorite />
+            <Favorite favBooks={favBooks} isAutorized={user ? true : false} />
         </Wrapper>
     );
 };

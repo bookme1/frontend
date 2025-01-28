@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -11,12 +10,11 @@ import { IBook } from '@/app/book/[id]/page.types';
 import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
+import BookItem from '@/components/book/Item/BookItem';
 import { Icon } from '@/components/common/Icon';
-import { useFetchForFilter } from '@/components/hooks/useFetchForFilter';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
-import { useGetFiltersQuery } from '@/lib/redux/features/book/bookApi';
 
 import Filter from '../Filter/Filter';
 
@@ -25,22 +23,20 @@ interface ControlsProps {
 }
 
 const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
-    const [selectedSort, setSelectedSort] = useState<string>('За рейтингом');
-const Controls = ({ fetchForFilter }: any) => {
     const [selectedSort, setSelectedSort] = useState<string>('Новинки');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
     const sortArray: string[] = ['Новинки', 'За релевантності'];
     const searchParams = useSearchParams();
     const q = decodeURIComponent(searchParams?.get('q') || '');
-    // const authors = decodeURIComponent(searchParams?.get('authors') || '');
-    // const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
-    // const maxPrice = decodeURIComponent(searchParams?.get('maxPrice') || '');
-    // const publishers = decodeURIComponent(
-    //     searchParams?.get('publishers') || ''
-    // );
-    // const languages = decodeURIComponent(searchParams?.get('languages') || '');
-    // const genre = decodeURIComponent(searchParams?.get('genre') || '');
+    const authors = decodeURIComponent(searchParams?.get('authors') || '');
+    const minPrice = decodeURIComponent(searchParams?.get('minPrice') || '');
+    const maxPrice = decodeURIComponent(searchParams?.get('maxPrice') || '');
+    const publishers = decodeURIComponent(
+        searchParams?.get('publishers') || ''
+    );
+    const languages = decodeURIComponent(searchParams?.get('languages') || '');
+    const genre = decodeURIComponent(searchParams?.get('genre') || '');
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
@@ -194,7 +190,6 @@ const Controls = ({ fetchForFilter }: any) => {
 
     return (
         <>
-            {isLoading ? (
             {isLoading && filterBooks ? (
                 <Loading />
             ) : (

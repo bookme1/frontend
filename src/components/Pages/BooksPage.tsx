@@ -12,14 +12,19 @@ import { IUser } from '@/lib/redux/features/user/types';
 interface HomePageProps {
     user: IUser | null;
     filtersData: FiltersResponse | undefined | null;
+    favQuantity: number | null;
 }
 
-const BooksPage: React.FC<HomePageProps> = ({ user, filtersData }) => {
+const BooksPage: React.FC<HomePageProps> = ({
+    user,
+    filtersData,
+    favQuantity,
+}) => {
     const modals = useSelector((state: any) => state.modals.modals);
 
     return (
         <>
-            <Header userData={user} />
+            <Header userData={user} favQuantity={favQuantity} />
             <BreadCrumbs name="Каталог" />
             <Controls filtersData={filtersData} />
             <Footer />

@@ -1,6 +1,6 @@
 import { FiltersResponse } from '@/lib/redux/features/book/types';
 
-export async function fetchFilters(q: string): Promise<FiltersResponse | null | undefined> {
+export async function fetchFilters(q: string): Promise<FiltersResponse | null | undefined > {
 
     try {
         let response = await fetch(

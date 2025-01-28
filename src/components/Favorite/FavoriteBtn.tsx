@@ -18,6 +18,8 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
+   
+
     // Check if it was already changed
     useEffect(() => {
         if (localStorage && book?.id) {
