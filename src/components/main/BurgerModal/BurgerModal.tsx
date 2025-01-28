@@ -23,13 +23,8 @@ const BurgerModal: React.FC<{
         onClose(event);
     };
 
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
-
     const { data: favQuantity } = useGetFavoritesQuantityQuery({
-        accessToken: token ?? '',
+        accessToken: '',
         type: BookType.Fav,
     });
 

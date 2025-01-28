@@ -1,7 +1,5 @@
-import { signIn as googleSignIn } from 'next-auth/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { setCookie } from '@/components/Cookie/Cookie';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
@@ -45,28 +43,6 @@ const SignInModal = ({
                 text: 'Вхід успішний!',
                 type: 'success',
             });
-
-            setCookie(
-                'accessToken',
-                data.tokens.accessToken,
-                3 * 24 * 60 * 60,
-                {
-                    path: '/',
-                    secure: true,
-                    sameSite: 'strict',
-                }
-            );
-
-            setCookie(
-                'refreshToken',
-                data.tokens.refreshToken,
-                30 * 24 * 60 * 60,
-                {
-                    path: '/',
-                    secure: true,
-                    sameSite: 'strict',
-                }
-            );
 
             window.location.replace('/account');
         }
@@ -146,7 +122,8 @@ const SignInModal = ({
             </Description>
             <GoogleBtn
                 onClick={() => {
-                    googleSignIn();
+                    window.location.href =
+                        'http://localhost:5050/api/auth/signin/google';
                 }}
             >
                 <Icon name="google" size="24" />

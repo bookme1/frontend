@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import styles from './filter.module.css';
+import { FiltersData } from '@/app/book/[id]/page.types';
 import FilterCheck from '@/components/FilterCheck/FilterCheck';
 import RangePrice from '@/components/RangePrice/RangePrice';
-import searchParamsInputData from '../../../data/searchParams.json';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FiltersData } from '@/app/book/[id]/page.types';
 
-const Filter = ({ filtersData }: {filtersData: FiltersData | undefined}) => {
-    const [searchParamsInput, setSearchParamsInput] = useState(searchParamsInputData);
+import searchParamsInputData from '../../../data/searchParams.json';
+
+const Filter = ({
+    filtersData,
+}: {
+    filtersData: FiltersData | undefined | null;
+}) => {
+    const [searchParamsInput, setSearchParamsInput] = useState(
+        searchParamsInputData
+    );
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const updateURL = (updates: {[key: string]: string | undefined;}) => {
+    const updateURL = (updates: { [key: string]: string | undefined }) => {
         if (searchParams) {
-            const current = new URLSearchParams(Array.from(searchParams.entries()));
+            const current = new URLSearchParams(
+                Array.from(searchParams.entries())
+            );
             current.set('page', '1');
             Object.entries(updates).forEach(([key, value]) => {
                 if (value !== null && value !== undefined && value !== '') {
@@ -23,7 +34,7 @@ const Filter = ({ filtersData }: {filtersData: FiltersData | undefined}) => {
                 }
             });
             const search = current.toString();
-            const query = search ? `?${search}` : "";
+            const query = search ? `?${search}` : '';
             router.push(`${window.location.pathname}${query}`);
         }
     };
@@ -31,7 +42,10 @@ const Filter = ({ filtersData }: {filtersData: FiltersData | undefined}) => {
         <div className={styles.general__wrapper}>
             {filtersData && (
                 <>
-                    <RangePrice filtersData={filtersData} updateURL={updateURL} />
+                    <RangePrice
+                        filtersData={filtersData}
+                        updateURL={updateURL}
+                    />
                     <FilterCheck
                         filtersData={filtersData}
                         searchParamsInput={searchParamsInput}

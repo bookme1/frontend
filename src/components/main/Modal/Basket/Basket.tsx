@@ -36,8 +36,7 @@ interface IBook {
 }
 
 const Basket: React.FC = () => {
-    const token = localStorage.getItem('accessToken');
-    const [books, setBooks] = useState<IBook[]>([]);
+    // const [books, setBooks] = useState<IBook[]>([]);
     const dispatch = useDispatch();
 
     const [removeBook] = useRemoveBookMutation();
@@ -46,13 +45,10 @@ const Basket: React.FC = () => {
         data: cart,
         error,
         isLoading,
-    } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Cart,
-        },
-        { skip: token == null }
-    );
+    } = useGetFavoritesQuery({
+        accessToken: '',
+        type: BookType.Cart,
+    });
 
     const cartSum = cart?.cart.reduce(
         (total, book) => total + Number(book.price),
@@ -145,7 +141,6 @@ const Basket: React.FC = () => {
                                                 removeBook({
                                                     type: BookType.Cart,
                                                     bookId: book.id,
-                                                    accessToken: token || '',
                                                 });
                                             }}
                                         />

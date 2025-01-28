@@ -4,54 +4,44 @@ import React, { useEffect, useState } from 'react';
 
 import { FavList, Text } from './Favorite.styles';
 import { IBook } from '@/app/book/[id]/page.types';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
-import { BookType } from '@/lib/redux/features/user/types';
 
 import { Card } from '../common/Card';
 
-const Favorite = () => {
-    const token = localStorage.getItem('accessToken');
+interface FavoriteProps {
+    favBooks: IBook[] | null | undefined;
+    isAutorized: boolean;
+}
+
+const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
     const [books, setBooks] = useState<IBook[]>([]);
 
-    const {
-        data: favorites,
-        error,
-        isLoading,
-    } = useGetFavoritesQuery(
-        {
-            accessToken: token ?? '',
-            type: BookType.Fav,
-        },
-        { skip: token == null }
-    );
-
     useEffect(() => {
-        if (favorites) {
-            localStorage.setItem('favorites', JSON.stringify(favorites.fav));
-            setBooks(favorites.fav);
+        if (favBooks) {
+            localStorage.setItem('favorites', JSON.stringify(favBooks));
+            setBooks(favBooks);
         }
-    }, [favorites]);
+    }, [favBooks]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const favBooksFromStorage = localStorage.getItem('favorites');
-            if (favBooksFromStorage) {
+            if (favBooksFromStorage && !isAutorized) {
                 const parsedBooks: IBook[] = JSON.parse(favBooksFromStorage);
                 setBooks(parsedBooks);
             }
+            return;
         }
-    }, []);
+    }, [isAutorized]);
 
-    if (isLoading) return <div>Завантажуємо книжки...</div>;
-    if (error) return <div>Помилка при завантаженні книжок</div>;
-console.log("books", books)
+    let favoriteBooksList = favBooks;
+    if (!favBooks) favoriteBooksList = books;
     return (
         <>
-            {!books || books.length === 0 ? (
+            {!favoriteBooksList || favoriteBooksList.length === 0 ? (
                 <Text>У Вас поки що немає книжок</Text>
             ) : (
                 <FavList>
-                    {books.map((book: IBook) => (
+                    {favoriteBooksList?.map((book: IBook) => (
                         <Card key={book.id} book={book} />
                     ))}
                 </FavList>

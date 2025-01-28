@@ -1,53 +1,10 @@
-'use client';
+import {AccountFav} from '@/components/Pages/AccountFav';
+import { fetchGetFavoritesQuantity } from '@/contexts/fetchGetFavoritesQuantity';
+import { fetchUserData } from '@/contexts/fetchUserData';
+import { BookType } from '@/lib/redux/features/user/types';
 
-import { useEffect, useMemo } from 'react';
-
-import { useRouter } from 'next/navigation';
-
-import { getCookie } from '@/components/Cookie/Cookie';
-import { Favorite } from '@/components/Favorite';
-import { Loading } from '@/components/SERVICE_PAGES/Loading';
-import { LeftMenu } from '@/components/account/LeftMenu';
-import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Header } from '@/components/common/Header';
-import useFetchUserData from '@/contexts/useFetchUserData';
-import { IUser } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
-
-export default function Home() {
-    const { userData, isLoading, fetchUserData } = useFetchUserData();
-
-    const router = useRouter();
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedAccessToken = getCookie('accessToken');
-            const storedRefreshToken = getCookie('refreshToken');
-            fetchUserData(storedAccessToken, storedRefreshToken);
-        }
-    }, [fetchUserData]);
-
-    const isAuthorized = useMemo(() => {
-        return !isLoading && !!userData;
-    }, [isLoading, userData]);
-
-    if (isLoading) {
-        return <Loading />;
-    }
-
-    if (!isAuthorized && !isLoading) {
-        router.replace('/');
-        return null;
-    }
-
-    const data = userData as IUser;
-
-    return (
-        <Wrapper>
-            <Header userData={data} isLoading={isLoading} />
-            <BreadCrumbs name="акаунт" />
-            <LeftMenu username={data.username} />
-            <Favorite />
-        </Wrapper>
-    );
+export default async function Home() {
+    const user = await fetchUserData();
+    const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
+    return <AccountFav user={user}  favQuantity={favQuantity}/>;
 }

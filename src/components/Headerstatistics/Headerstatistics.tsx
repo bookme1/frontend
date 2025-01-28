@@ -10,7 +10,11 @@ import { LogoContainer } from './Headerstatistics.style';
 import { Logo } from '../common/Header/Header.styles';
 import { Icon } from '../common/Icon';
 
-const Headerstatistics = ({ username }: { username: string | null }) => {
+const Headerstatistics = ({
+    username,
+}: {
+    username: string | null | undefined;
+}) => {
     return (
         <>
             <div>

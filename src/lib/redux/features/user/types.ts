@@ -1,12 +1,6 @@
-import { DefaultSession } from "next-auth";
-
 import { IBook } from '@/app/book/[id]/page.types';
 
-import { IOrderBook, Status } from '../order/types';
-
-export interface CustomSession extends DefaultSession {
-    accessToken?: string;
-}
+import { Status } from '../order/types';
 
 export enum Role {
     User = 'User',
@@ -44,10 +38,6 @@ export interface OrderBook {
 
 export interface loginOutputDTO {
     user: IUser;
-    tokens: {
-        accessToken: string;
-        refreshToken: string;
-    };
 }
 
 export interface signInDTO {
@@ -66,13 +56,11 @@ export interface googleAuthDTO {
 }
 
 export interface userBookDTO {
-    accessToken: string;
     type: BookType;
     bookId: string;
 }
 
 export interface getUserBookDTO {
-    accessToken: string;
     type: BookType;
 }
 
