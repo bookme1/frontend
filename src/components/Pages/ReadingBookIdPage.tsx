@@ -74,12 +74,12 @@ const updateFontFamily = (rendition: Rendition, fontFamily: string) => {
 
 interface ReadingBookIdPageProps {
     user: IUser | null;
-    favQuantity: number | null;
+  
 }
 
 const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({
     user,
-    favQuantity,
+    
 }) => {
     const [page, setPage] = useState<number>(0);
     const rendition = useRef<Rendition | undefined>(undefined);
@@ -125,7 +125,6 @@ const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({
 
     return (
         <>
-            <Header userData={user} favQuantity={favQuantity} />
             <BookHeader chapterName={chapter} bookTitle={title} />
             <BookContent>
                 <ReactReader
@@ -167,7 +166,6 @@ const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({
                     setTheme={setTheme}
                 />
             </BookContent>
-            <Footer />
         </>
     );
 };

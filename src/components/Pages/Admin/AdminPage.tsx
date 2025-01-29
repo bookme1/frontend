@@ -3,7 +3,6 @@
 import { ChartStyle } from '@/app/admin/page.style';
 import { Chartjs } from '@/components/Chartjs';
 import { Chartjsbr } from '@/components/Chartjsbar';
-import { Headerstatistics } from '@/components/Headerstatistics';
 import { Transactions } from '@/components/Transactions';
 import { Webdata } from '@/components/Webdata';
 import { Webstatistics } from '@/components/Webstatistics';
@@ -16,31 +15,11 @@ interface AdminPageProps {
 }
 
 const AdminPage: React.FC<AdminPageProps> = ({ user, userStatistic }) => {
-    // const {
-    //     data,
-    //     error,
-    //     isLoading: isStatLoading,
-    // } = useGetUserStatisticQuery();
-
-    //User authorization
-    // const { userData, isLoading, fetchUserData } = useFetchUserData();
-    // useEffect(() => {
-    //     if (typeof window !== 'undefined') {
-    //         fetchUserData();
-    //     }
-    // }, [fetchUserData]);
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
-
-    // if (isStatLoading) return <div>Loading...</div>;
-    // if (error) return <div>Error occurred</div>;
     if (user?.role != Role.Moderator && user?.role != Role.Admin)
         return <div>Доступ закритий.</div>;
 
     return (
         <>
-            <Headerstatistics username={user?.username} />
             <div className="flex flex-row mt-10">
                 <Webstatistics />
                 <div className="w-auto h-auto">

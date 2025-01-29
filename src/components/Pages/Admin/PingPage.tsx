@@ -18,10 +18,10 @@ import {
 } from '../../../app/admin/ping/page.style';
 
 interface PingPageProps {
-    user: IUser | null;
+
 }
 
-const PingPage: React.FC<PingPageProps> = ({ user }) => {
+const PingPage: React.FC<PingPageProps> = () => {
     const mockData = [
         {
             status: 200,
@@ -95,7 +95,7 @@ const PingPage: React.FC<PingPageProps> = ({ user }) => {
 
     return (
         <>
-            <Headerstatistics username={user?.username} />
+          
             <div className="flex gap-10">
                 <div className="flex flex-row mt-10">
                     <Webstatistics />

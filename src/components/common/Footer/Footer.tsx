@@ -10,7 +10,7 @@ const Footer = () => {
         second: ['Блог', 'Дитячі', 'Умови використання сайту'],
     };
     return (
-        <footer>
+        <footer style={{}}>
             <TopSection>
                 <Container>
                     <div className="links">

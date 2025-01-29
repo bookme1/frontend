@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import { Headerstatistics } from '@/components/Headerstatistics';
 import { ModalAddBook } from '@/components/Modaladdbook';
 import { ModalDelete } from '@/components/Modaldelete';
 import { Webstatistics } from '@/components/Webstatistics';
@@ -22,7 +21,6 @@ const BooksPage: React.FC<BooksPageProps> = ({ user }) => {
 
     return (
         <>
-            <Headerstatistics username={user?.username} />
             <div className="flex mt-10 gap-16 ">
                 <Webstatistics />
                 <div className=" w-3/4 h-3/6 rounded-2xl  border-slate-900 shadow-2xl py-3 text-green-900  ">
