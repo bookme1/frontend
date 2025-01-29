@@ -1,11 +1,15 @@
+import { IUser } from '@/lib/redux/features/user/types.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 
 interface UserState {
   favoriteBooks: string[];
+  userData: IUser;
 }
 
 const initialState: UserState = {
   favoriteBooks: [],
+  userData: {} as IUser,
 };
 
 const userSlice = createSlice({
@@ -20,9 +24,13 @@ const userSlice = createSlice({
     removeFavoriteBook(state, action: PayloadAction<string>) {
       state.favoriteBooks = state.favoriteBooks.filter(id => id !== action.payload);
     },
+
+    addUserData(state, action: PayloadAction<IUser>) {
+      state.userData = action.payload;
+    },
   },
 });
 
-export const { addFavoriteBook, removeFavoriteBook } = userSlice.actions;
+export const { addFavoriteBook, removeFavoriteBook, addUserData } = userSlice.actions;
 
 export default userSlice.reducer;

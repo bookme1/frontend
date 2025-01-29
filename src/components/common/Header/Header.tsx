@@ -38,6 +38,7 @@ import {
 } from '@/lib/redux';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { IUser, Role } from '@/lib/redux/features/user/types';
+import { addUserData } from '@/lib/redux/features/user/userSlice';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
@@ -63,7 +64,7 @@ export const HeartIcon = styled.div<HeartIconProps>`
     cursor: pointer;
 `;
 
-export const FavoriteCount = styled.span`
+export const FavoriteCount = styled.div`
     position: absolute;
     top: -10px;
     right: -22px;
@@ -83,19 +84,6 @@ const Header = ({
 }) => {
     const isLoading = false;
 
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
-
-    // const { data: favQuantity } = useGetFavoritesQuantityQuery({
-    //     accessToken: token ?? '',
-    //     type: BookType.Fav,
-    // });
-
-    // const getBooks = useGetBooksQuery('');
-    // const booksArr = getBooks.data;
-
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -104,6 +92,13 @@ const Header = ({
     const router = useSearchParams();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (userData) {
+            dispatch(addUserData(userData));
+        }
+    }, [dispatch, userData]);
+
     const modalOpen = useSelector(selectOpenModal);
 
     const handleModal = () => {
@@ -180,8 +175,7 @@ const Header = ({
         }
     };
 
-    const favoriteCount = favQuantity;
-    const hasFavorites = favQuantity && favQuantity > 0;
+    const hasFavorites = favQuantity ? favQuantity : null;
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));
@@ -313,16 +307,18 @@ const Header = ({
                                         href={
                                             userData
                                                 ? '/account/favorites'
-                                                : '/favorite' // wtf?? it should be only 1 naming
+                                                : '/favorite'
                                         }
                                     >
                                         <HeartIcon
-                                            hasFavorites={hasFavorites || false}
+                                            hasFavorites={
+                                                hasFavorites ? true : false
+                                            }
                                         >
                                             <IoMdHeartEmpty size={28} />
                                             {hasFavorites && (
                                                 <FavoriteCount>
-                                                    {favoriteCount}
+                                                    {favQuantity}
                                                 </FavoriteCount>
                                             )}
                                         </HeartIcon>

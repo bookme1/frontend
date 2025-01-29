@@ -18,8 +18,6 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
-   
-
     // Check if it was already changed
     useEffect(() => {
         if (localStorage && book?.id) {
@@ -28,7 +26,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                 const favBooks = JSON.parse(json);
                 if (favBooks && Array.isArray(favBooks)) {
                     const isFavorite = favBooks.some(fav => fav.id === book.id);
-                    // console.log('book: ' + book.title + ' is ' + isFavorite);
+
                     setIsFav(isFavorite);
                 }
             }
@@ -36,7 +34,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     }, [book]);
 
     const handleFavoriteClick = async (e: any) => {
-        setIsFav(true); // Change state on click
+        setIsFav(true);
         explode(e.pageX, e.pageY);
 
         if (book) {
@@ -46,7 +44,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     type: BookType.Fav,
                 });
             } catch (error) {
-                setIsFav(false); // Back if error occured on backend
+                setIsFav(false);
                 Notiflix.Notify.failure(
                     'Помилка при зміні стану книги. Помилка #1002'
                 );

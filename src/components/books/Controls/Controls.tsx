@@ -20,6 +20,7 @@ import Filter from '../Filter/Filter';
 
 interface ControlsProps {
     filtersData: FiltersResponse | undefined | null;
+
 }
 
 const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
@@ -292,6 +293,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
                                 </div>
                                 <BookList
                                     filterBooks={filterBooks}
+                                    
                                     handleOpenModal={handleOpenModal}
                                 />
                                 {totalPages > 1 && (

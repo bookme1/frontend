@@ -1,5 +1,6 @@
 'use client';
 
+import { IBook } from '@/app/book/[id]/page.types';
 import { Controls } from '@/components/books/Controls';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
@@ -8,6 +9,7 @@ import { FiltersResponse } from '@/lib/redux/features/book/types';
 
 interface HomePageProps {
     filtersData: FiltersResponse | undefined | null;
+
 }
 
 const BooksPage: React.FC<HomePageProps> = ({ filtersData }) => {
@@ -16,7 +18,7 @@ const BooksPage: React.FC<HomePageProps> = ({ filtersData }) => {
     return (
         <>
             <BreadCrumbs name="Каталог" />
-            <Controls filtersData={filtersData} />
+            <Controls filtersData={filtersData}/>
 
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}

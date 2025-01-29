@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Notify from '@/components/Notify/Notify';
-import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
+import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 

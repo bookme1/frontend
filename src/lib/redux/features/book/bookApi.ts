@@ -68,14 +68,12 @@ export const bookApi = createApi({
         // #################
         getFavorites: builder.query<
             { id: number; fav: IBook[]; cart: IBook[] },
-            { accessToken: string; type: BookType }
+            { type: BookType }
         >({
-            query: ({ accessToken, type }) => ({
+            query: ({ type }) => ({
                 url: `api/user/books/${type}`,
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
 
@@ -86,9 +84,7 @@ export const bookApi = createApi({
             query: ({ accessToken, type }) => ({
                 url: `api/user/books/quantity/${type}`,
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
 
@@ -101,9 +97,7 @@ export const bookApi = createApi({
                     bookId: DTO.bookId,
                     type: DTO.type,
                 },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
 
@@ -116,9 +110,7 @@ export const bookApi = createApi({
                     bookId: DTO.bookId,
                     type: 'Fav',
                 },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
 
