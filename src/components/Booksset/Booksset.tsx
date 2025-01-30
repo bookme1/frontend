@@ -41,7 +41,7 @@ type TransformedBook = {
     formatEpub: string;
 };
 
-const Booksset = ({ userID }: { userID: number | null | undefined }) => {
+const Booksset = ({ userID }: { userID: number }) => {
     const [bookSetData, setBookSetData] = useState<BookSetRequest>({
         id: 0,
         title: '',

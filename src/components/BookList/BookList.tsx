@@ -6,10 +6,12 @@ import BookItem from '../book/Item/BookItem';
 interface BookListProps {
     filterBooks?: BooksData;
     handleOpenModal: (modalName: string, event: React.MouseEvent) => void;
+    
 }
 
 const BookList: React.FC<BookListProps> = ({
     filterBooks,
+  
     handleOpenModal,
 }) => {
     return (
@@ -21,6 +23,7 @@ const BookList: React.FC<BookListProps> = ({
                             key={book.id}
                             book={book}
                             handleOpenModal={handleOpenModal}
+                         
                         />
                     );
                 })}

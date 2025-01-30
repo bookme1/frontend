@@ -1,46 +1,34 @@
 'use client';
 
+import { IBook } from '@/app/book/[id]/page.types';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Header } from '@/components/common/Header';
-import { IUser } from '@/lib/redux/features/user/types';
+import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import { BookType, IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
 interface AccountFavProps {
     user: IUser | null;
-    favQuantity: number | null;
+
+    favBooks: IBook[] | null | undefined;
 }
 
-export const AccountFav: React.FC<AccountFavProps> = ({ user, favQuantity }) => {
-    // const { userData, isLoading, fetchUserData } = useFetchUserData();
-    // const router = useRouter();
+export const AccountFav: React.FC<AccountFavProps> = ({
+    user,
 
-    // useEffect(() => {
-    //     if (typeof window !== 'undefined') {
-    //         fetchUserData();
-    //     }
-    // }, [fetchUserData]);
+    favBooks,
+}) => {
 
-    // const isAuthorized = useMemo(() => !!userData, [userData]);
-
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
-
-    // if (!isAuthorized && !isLoading) {
-    //     router.replace('/');
-    //     return null;
-    // }
-
-    // const data = userData as IUser;
-
+    const { data, error, isLoading } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
+    console.log(data)
     return (
         <Wrapper>
-            <Header userData={user} favQuantity={favQuantity}/>
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={user?.username} />
-            <Favorite />
+            <Favorite favBooks={favBooks} isAutorized={user ? true : false} />
         </Wrapper>
     );
 };

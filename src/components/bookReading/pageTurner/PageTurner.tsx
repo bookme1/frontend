@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Container } from './PageTurner.styles';
-import { ITheme } from '@/app/reading/[bookId]/page';
+
 import { Icon } from '@/components/common/Icon';
 
 import { ModalReading } from '../modal/Modal';
+import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 
 interface PageTurnerProps {
   filter?: boolean;

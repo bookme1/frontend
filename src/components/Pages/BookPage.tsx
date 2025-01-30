@@ -12,15 +12,15 @@ import { IUser } from '@/lib/redux/features/user/types';
 interface BookPageProps {
     user: IUser | null;
     book: IBook | null | undefined;
-    favQuantity: number | null;
+   
 }
 
-const BookPage: React.FC<BookPageProps> = ({ user, book, favQuantity }) => {
+const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
     const modals = useSelector((state: any) => state.modals.modals);
 
     return (
         <>
-            <Header userData={user} favQuantity={favQuantity} />
+   
             {book && <BreadCrumbs name={book.title} />}
             {book && (
                 <MainInformation
@@ -38,7 +38,7 @@ const BookPage: React.FC<BookPageProps> = ({ user, book, favQuantity }) => {
 
             {/* <Reviews /> */}
             {/* <SliderLastBooks /> */}
-            <Footer />
+
             <div id="modal-root"></div>
             {modals.successInfo.isOpen && <SuccessInfo />}
         </>

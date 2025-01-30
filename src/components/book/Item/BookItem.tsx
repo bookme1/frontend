@@ -10,6 +10,7 @@ const BookItem = ({
     handleOpenModal,
     isPlusVisible,
     handleAddToBooksetList,
+    
 }: any) => {
     return (
         <li key={book.id} className={styles.item}>
@@ -35,29 +36,28 @@ const BookItem = ({
                         height: 'auto',
                     }}
                 />
-
-                <div className={styles.wrapper}>
-                    <div className={styles.information}>
-                        <p className={styles.title}>{book.title}</p>
-                        <p className={styles.author}>
-                            {book.author || 'Немає автора'}
-                        </p>
-                    </div>
-                    <div className={styles.functionality}>
-                        <span>{book.price}</span>
-                        <div className={styles.button}>
-                            <FavoriteBtn book={book} />
-                            <button
-                                aria-label="Корзина"
-                                className={styles.basket}
-                                onClick={e => handleOpenModal('successInfo', e)}
-                            >
-                                <Icon name="basket" size={24} color="#fff" />
-                            </button>
-                        </div>
+            </Link>
+            <div className={styles.wrapper}>
+                <div className={styles.information}>
+                    <p className={styles.title}>{book.title}</p>
+                    <p className={styles.author}>
+                        {book.author || 'Немає автора'}
+                    </p>
+                </div>
+                <div className={styles.functionality}>
+                    <span>{book.price}</span>
+                    <div className={styles.button}>
+                        <FavoriteBtn book={book}  />
+                        <button
+                            aria-label="Корзина"
+                            className={styles.basket}
+                            onClick={e => handleOpenModal('successInfo', e)}
+                        >
+                            <Icon name="basket" size={24} color="#fff" />
+                        </button>
                     </div>
                 </div>
-            </Link>
+            </div>
         </li>
     );
 };

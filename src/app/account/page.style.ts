@@ -84,5 +84,5 @@ export const AccountContainer = styled.div`
     margin-top: 32px;
     display: flex;
     gap: 16px;
-    float: left;
+    /* float: left; */
 `;

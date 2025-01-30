@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ContentLoader from 'react-content-loader';
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 
 import {
@@ -26,6 +26,7 @@ import {
     ToTablet,
 } from './Header.styles';
 import { IBook } from '@/app/book/[id]/page.types';
+import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
@@ -35,9 +36,9 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
-
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
-import {  IUser, Role } from '@/lib/redux/features/user/types';
+import { IUser, Role } from '@/lib/redux/features/user/types';
+import { addUserData } from '@/lib/redux/features/user/userSlice';
 
 import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
@@ -63,7 +64,7 @@ export const HeartIcon = styled.div<HeartIconProps>`
     cursor: pointer;
 `;
 
-export const FavoriteCount = styled.span`
+export const FavoriteCount = styled.div`
     position: absolute;
     top: -10px;
     right: -22px;
@@ -83,19 +84,6 @@ const Header = ({
 }) => {
     const isLoading = false;
 
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
-
-    // const { data: favQuantity } = useGetFavoritesQuantityQuery({
-    //     accessToken: token ?? '',
-    //     type: BookType.Fav,
-    // });
-
-    // const getBooks = useGetBooksQuery('');
-    // const booksArr = getBooks.data;
-
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -104,6 +92,13 @@ const Header = ({
     const router = useSearchParams();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (userData) {
+            dispatch(addUserData(userData));
+        }
+    }, [dispatch, userData]);
+
     const modalOpen = useSelector(selectOpenModal);
 
     const handleModal = () => {
@@ -180,22 +175,25 @@ const Header = ({
         }
     };
 
-    const favoriteCount = favQuantity;
-    const hasFavorites = favQuantity && favQuantity > 0;
-
-
+    const hasFavorites = favQuantity ? favQuantity : null;
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));
         dispatch(setModalStatus(!modalOpen));
     };
 
+    const pathname = usePathname();
+    const isAdminka = useMemo(() => pathname.startsWith('/admin'), [pathname]);
+
     return (
         <>
-            <HeaderContainer>
-                <StyledWrapper>
-                    <ToTablet>
-                        {/* <ControlsContainer>
+            {isAdminka ? (
+                <Headerstatistics username={userData?.username} />
+            ) : (
+                <HeaderContainer>
+                    <StyledWrapper>
+                        <ToTablet>
+                            {/* <ControlsContainer>
                             {userData ? (
                                 ''
                             ) : (
@@ -249,121 +247,132 @@ const Header = ({
                                 </a>
                             )}
                         </ControlsContainer> */}
-                    </ToTablet>
-                    <LogoContainer>
-                        <Link href="/" aria-label="Перейти на головну сторінку">
-                            <Logo name="logo_black" />
-                        </Link>
-                    </LogoContainer>
-                    <FromDesktop>
-                        <CatalogButton
-                            type="submit"
-                            onClick={handleModal}
-                            className="z-10"
-                        >
-                            Категорії
-                        </CatalogButton>
-                    </FromDesktop>
-                    <FlexRow style={{ gap: 8 }}>
-                        <Form
-                            onSubmit={e => {
-                                handleSubmitSearch(e);
-                            }}
-                        >
-                            <div>
-                                <SearchInput
-                                    placeholder="Знайти"
-                                    onChange={e => {
-                                        handleSearch(e);
-                                    }}
-                                    ref={searchVal}
-                                />
-                                <SearchButton type="submit" aria-label="Пошук">
-                                    <Icon
-                                        name="search"
-                                        size={24}
-                                        className="icon"
-                                    />
-                                </SearchButton>
-                            </div>
-                            {isSearchListOpen && <SearchList books={books} />}
-                        </Form>
-                        <ToTablet style={{ width: 50 }}>
-                            <BurgerButton onClick={handleBurgerButton}>
-                                <Icon name="burger" size={32} />
-                            </BurgerButton>
                         </ToTablet>
-                    </FlexRow>
-                    <FromDesktop>
-                        <ControlsContainer>
-                            <HeaderButton>
-                                <AccountLink
-                                    href={
-                                        userData
-                                            ? '/account/favorites'
-                                            : '/favorite' // wtf?? it should be only 1 naming
-                                    }
-                                >
-                                    <HeartIcon
-                                        hasFavorites={hasFavorites || false}
-                                    >
-                                        <IoMdHeartEmpty size={28} />
-                                        {hasFavorites && (
-                                            <FavoriteCount>
-                                                {favoriteCount}
-                                            </FavoriteCount>
-                                        )}
-                                    </HeartIcon>
-                                    Обране
-                                </AccountLink>
-                            </HeaderButton>
-                            <HeaderButton onClick={handleCartModal}>
-                                <Icon name="cart" size={28} />
-                                Кошик
-                            </HeaderButton>
-                            {isLoading ? (
-                                <ContentLoader
-                                    speed={2}
-                                    width={50}
-                                    height={50}
-                                    viewBox="0 0 50 50"
-                                    backgroundColor="#f3f3f3"
-                                    foregroundColor="#ecebeb"
-                                >
-                                    <rect
-                                        x="0"
-                                        y="35"
-                                        rx="3"
-                                        ry="3"
-                                        width="50"
-                                        height="15"
+                        <LogoContainer>
+                            <Link
+                                href="/"
+                                aria-label="Перейти на головну сторінку"
+                            >
+                                <Logo name="logo_black" />
+                            </Link>
+                        </LogoContainer>
+                        <FromDesktop>
+                            <CatalogButton
+                                type="submit"
+                                onClick={handleModal}
+                                className="z-10"
+                            >
+                                Категорії
+                            </CatalogButton>
+                        </FromDesktop>
+                        <FlexRow style={{ gap: 8 }}>
+                            <Form
+                                onSubmit={e => {
+                                    handleSubmitSearch(e);
+                                }}
+                            >
+                                <div>
+                                    <SearchInput
+                                        placeholder="Знайти"
+                                        onChange={e => {
+                                            handleSearch(e);
+                                        }}
+                                        ref={searchVal}
                                     />
-                                    <circle cx="25" cy="16" r="16" />
-                                </ContentLoader>
-                            ) : userData ? (
-                                <Avatar>
-                                    <AccountLink href="/account"></AccountLink>
-                                </Avatar>
-                            ) : (
-                                <HeaderButton
-                                    onClick={() => {
-                                        handleClick();
-                                    }}
-                                >
-                                    <Icon name="account" size={28} />
-                                    Увійти
+                                    <SearchButton
+                                        type="submit"
+                                        aria-label="Пошук"
+                                    >
+                                        <Icon
+                                            name="search"
+                                            size={24}
+                                            className="icon"
+                                        />
+                                    </SearchButton>
+                                </div>
+                                {isSearchListOpen && (
+                                    <SearchList books={books} />
+                                )}
+                            </Form>
+                            <ToTablet style={{ width: 50 }}>
+                                <BurgerButton onClick={handleBurgerButton}>
+                                    <Icon name="burger" size={32} />
+                                </BurgerButton>
+                            </ToTablet>
+                        </FlexRow>
+                        <FromDesktop>
+                            <ControlsContainer>
+                                <HeaderButton>
+                                    <AccountLink
+                                        href={
+                                            userData
+                                                ? '/account/favorites'
+                                                : '/favorite'
+                                        }
+                                    >
+                                        <HeartIcon
+                                            hasFavorites={
+                                                hasFavorites ? true : false
+                                            }
+                                        >
+                                            <IoMdHeartEmpty size={28} />
+                                            {hasFavorites && (
+                                                <FavoriteCount>
+                                                    {favQuantity}
+                                                </FavoriteCount>
+                                            )}
+                                        </HeartIcon>
+                                        Обране
+                                    </AccountLink>
                                 </HeaderButton>
-                            )}
-                            {(userData?.role === Role.Moderator ||
-                                userData?.role === Role.Admin) && (
-                                <a href="/admin">
-                                    <TfiPanel size={40} color="#000" />
-                                </a>
-                            )}
-                        </ControlsContainer>
-                    </FromDesktop>
-                </StyledWrapper>
-            </HeaderContainer>
+                                <HeaderButton onClick={handleCartModal}>
+                                    <Icon name="cart" size={28} />
+                                    Кошик
+                                </HeaderButton>
+                                {isLoading ? (
+                                    <ContentLoader
+                                        speed={2}
+                                        width={50}
+                                        height={50}
+                                        viewBox="0 0 50 50"
+                                        backgroundColor="#f3f3f3"
+                                        foregroundColor="#ecebeb"
+                                    >
+                                        <rect
+                                            x="0"
+                                            y="35"
+                                            rx="3"
+                                            ry="3"
+                                            width="50"
+                                            height="15"
+                                        />
+                                        <circle cx="25" cy="16" r="16" />
+                                    </ContentLoader>
+                                ) : userData ? (
+                                    <Avatar>
+                                        <AccountLink href="/account"></AccountLink>
+                                    </Avatar>
+                                ) : (
+                                    <HeaderButton
+                                        onClick={() => {
+                                            handleClick();
+                                        }}
+                                    >
+                                        <Icon name="account" size={28} />
+                                        Увійти
+                                    </HeaderButton>
+                                )}
+                                {(userData?.role === Role.Moderator ||
+                                    userData?.role === Role.Admin) && (
+                                    <a href="/admin">
+                                        <TfiPanel size={40} color="#000" />
+                                    </a>
+                                )}
+                            </ControlsContainer>
+                        </FromDesktop>
+                    </StyledWrapper>
+                </HeaderContainer>
+            )}
             {isOpen && <Modal setIsOpen={setIsOpen} />}
         </>
     );

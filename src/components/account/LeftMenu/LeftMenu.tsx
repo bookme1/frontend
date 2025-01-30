@@ -3,12 +3,13 @@ import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import style from './LeftMenu.module.css';
 // import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
 import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
+import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
 
 const NavLink = ({
     href = null,
@@ -32,6 +33,17 @@ export default function LeftMenu({
 }: {
     username: string | null | undefined;
 }) {
+    const [logOut, { isLoading, isError }] = useLogOutMutation();
+    const router = useRouter();
+    const handleLogout = async () => {
+        try {
+            await logOut().unwrap();
+            console.log('Выход выполнен');
+        } catch (error) {
+            console.error('Ошибка выхода:', error);
+        }
+    };
+
     return (
         <div className={style.section}>
             <li className={`${style.account} ${style.item}`}>
@@ -58,16 +70,19 @@ export default function LeftMenu({
                 </li>
             </ul>
             <li className={`${style.exit} ${style.item}`}>
-                <button
-                    onClick={() => {
-                        signOut();
-                        deleteCookies(['accessToken', 'refreshToken']);
-                    }}
-                    className="flex items-center"
-                >
-                    <Icon name="exit" className="mr-2" />
-                    Вийти
-                </button>
+                <NavLink href="/">
+                    <button
+                        onClick={() => {
+                            handleLogout();
+                            deleteCookies(['accessToken', 'refreshToken']);
+                            router.push('/');
+                        }}
+                        className="flex items-center"
+                    >
+                        <Icon name="exit" className="mr-2" />
+                        Вийти
+                    </button>
+                </NavLink>
             </li>
         </div>
     );

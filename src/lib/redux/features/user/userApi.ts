@@ -36,6 +36,14 @@ export const userApi = createApi({
                 credentials: 'include',
             }),
         }),
+        logOut: builder.mutation<loginOutputDTO, void>({
+
+            query: () => ({
+                url: 'api/auth/logout',
+                method: 'POST',
+
+            }),
+        }),
         googleAuth: builder.mutation<loginOutputDTO, googleAuthDTO>({
             // Login into account using Google
             query: DTO => ({
@@ -107,6 +115,7 @@ export const userApi = createApi({
 export const {
     useSignUpMutation,
     useSignInMutation,
+    useLogOutMutation,
     useGoogleAuthMutation,
     useRefreshTokenMutation,
     useGetDataMutation,

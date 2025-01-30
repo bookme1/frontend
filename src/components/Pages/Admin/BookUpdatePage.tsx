@@ -5,7 +5,6 @@ import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
 import { bookService } from '@/api/book/bookService';
-import { Headerstatistics } from '@/components/Headerstatistics';
 import { Webstatistics } from '@/components/Webstatistics';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 
@@ -146,7 +145,6 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
 
     return (
         <>
-            <Headerstatistics username={user?.username} />
             <div className="flex mt-10 gap-16 ">
                 <Webstatistics />
                 <div className=" w-3/4 h-3/6 rounded-2xl  border-slate-900 shadow-2xl py-3 text-blue-900  ">
