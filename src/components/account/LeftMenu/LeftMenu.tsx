@@ -1,4 +1,3 @@
-import { signOut } from 'next-auth/react';
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
@@ -6,7 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
 import style from './LeftMenu.module.css';
-// import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
 import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
 import { useLogOutMutation } from '@/lib/redux/features/user/userApi';

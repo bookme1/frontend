@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
@@ -42,12 +42,54 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
         shouldStopRef.current = shouldStop;
     }, [shouldStop]);
 
-    // Run the update when `isUpdating` changes
+    // API functions
+    const refillQueue = useCallback(async () => {
+        return await bookService.refillQueue();
+    }, []);
+
+    const updateBooksChunk = useCallback(async () => {
+        return await bookService.updateBooksFromServer();
+    }, []);
+
+    // Main update function
+
+    const runUpdatingBooks = useCallback(async () => {
+        if (!isRefilled) {
+            const res = await refillQueue();
+            setIsRefilled(true);
+            setRequestsMade(prev => prev + 1);
+            setResponsesMarkup(prev => [...prev, res.data]);
+        }
+
+        while (!shouldStopRef.current && isUpdatingRef.current) {
+            const res = await updateBooksChunk();
+            console.log(res);
+            setRequestsMade(prev => prev + 1);
+            setResponsesMarkup(prev => [...prev, res.data]);
+
+            if (res.data.updated < 30) {
+                setIsUpdating(false);
+                break;
+            }
+
+            setBooksUpdated(prev => prev + Number(res.data.updated));
+        }
+    }, [
+        isRefilled,
+        refillQueue,
+        setRequestsMade,
+        setResponsesMarkup,
+        isUpdatingRef, // оставляем `isUpdatingRef`, так как он может влиять на процесс
+        updateBooksChunk,
+        setIsUpdating,
+        setBooksUpdated,
+    ]);
+
     useEffect(() => {
         if (isUpdating) {
             runUpdatingBooks();
         }
-    }, [isUpdating]);
+    }, [isUpdating, runUpdatingBooks]); // Теперь runUpdatingBooks стабилен
 
     if (user?.role != Role.Moderator && user?.role != Role.Admin)
         return <div>Доступ закритий.</div>;
@@ -106,41 +148,6 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
                 </li>
             );
         });
-    };
-
-    // API functions
-    const refillQueue = async () => {
-        return await bookService.refillQueue();
-    };
-
-    const updateBooksChunk = async () => {
-        return await bookService.updateBooksFromServer();
-    };
-
-    // Main update function
-
-    const runUpdatingBooks = async () => {
-        if (!isRefilled) {
-            const res = await refillQueue();
-            setIsRefilled(true); // Set refill flag to true after the first refill
-            setRequestsMade(prev => prev + 1);
-            setResponsesMarkup(prev => [...prev, res.data]); // Обновляем состояние респонсов
-        }
-
-        while (!shouldStopRef.current && isUpdatingRef.current) {
-            const res = await updateBooksChunk();
-            console.log(res);
-            setRequestsMade(prev => prev + 1);
-            setResponsesMarkup(prev => [...prev, res.data]); // Добавляем новый респонс в массив
-
-            // Check if all books have been updated
-            if (res.data.updated < 30) {
-                setIsUpdating(false); // Stop updating if queue is empty
-                break;
-            }
-
-            setBooksUpdated(prev => prev + Number(res.data.updated));
-        }
     };
 
     return (

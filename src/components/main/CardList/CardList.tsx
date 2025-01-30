@@ -6,13 +6,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
-
 import style from './CardList.module.css';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
-
-
 
 const CardList = ({
     name,
@@ -23,8 +20,6 @@ const CardList = ({
     books: any[];
     id: number;
 }) => {
-
-
     // const favorite = fav.data;
 
     // let favIdList: any;
@@ -43,8 +38,8 @@ const CardList = ({
         ));
     }
 
+    const width = typeof window !== 'undefined' ? window.innerWidth : 0;
 
-    const width = window.innerWidth;
     let setLoop = true;
     let isChevronVisible = true;
 

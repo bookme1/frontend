@@ -9,13 +9,13 @@ import mobileHero from '@/assets/main/hero_mobile.webp';
 import tabletHero from '@/assets/main/hero_tablet.webp';
 
 const HeroImage = () => {
-    const [heroImage, setHeroImage] = useState(desktopHero.src); // By default desktop
+    const [heroImage, setHeroImage] = useState(mobileHero.src); 
 
     useEffect(() => {
         const getHeroImage = () => {
             const width = window.innerWidth;
-            if (width < 480) return mobileHero.src;
-            if (width < 768) return tabletHero.src;
+            if (width>375 && width < 767) return mobileHero.src;
+            if (width > 768 && width < 1280) return tabletHero.src;
             return desktopHero.src;
         };
 
@@ -37,11 +37,11 @@ const HeroImage = () => {
             alt="Hero Image"
             loading="eager"
             layout="responsive"
-            width={1280}
-            height={720}
+            width={343}
+            height={420}
             style={{
                 borderRadius: '20px',
-                objectFit: 'cover',
+                objectFit: 'fill',
             }}
         />
     );
