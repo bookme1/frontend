@@ -1,7 +1,8 @@
+
 'use client';
 
 import styled from '@emotion/styled';
-import Link from 'next/link';
+
 
 import baseAvatar from '@/assets/main/user.png';
 import { visuallyHidden } from '@/styles/globals.styles';
@@ -40,7 +41,8 @@ export const Form = styled.form`
     position: relative;
     width: 100%;
     @media (min-width: 768px) {
-        width: calc(100% - 245px);
+     min-width: 400px;
+    
     }
     @media (min-width: 1280px) {
         width: 411px;
@@ -49,6 +51,17 @@ export const Form = styled.form`
 
 export const FlexRow = styled.div`
     display: flex;
+    align-items: center;
+    gap: 20px;
+    @media (min-width: 768px) {
+        width: calc(100% - 345px);
+    
+    }
+
+    @media (min-width: 1280px) {
+        width: auto;
+    
+    }
 `;
 
 export const SearchInput = styled.input`
@@ -116,6 +129,11 @@ export const BurgerButton = styled.button`
     border-radius: 8px;
 
     border: 1px solid var(--red);
+
+    @media (min-width: 767.5px) {
+        height: 50px;
+        width: 50px;
+    }
 `;
 
 export const LogoContainer = styled.div`

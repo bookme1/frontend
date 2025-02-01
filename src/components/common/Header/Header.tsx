@@ -265,7 +265,7 @@ const Header = ({
                                 Категорії
                             </CatalogButton>
                         </FromDesktop>
-                        <FlexRow style={{ gap: 8 }}>
+                        <FlexRow>
                             <Form
                                 onSubmit={e => {
                                     handleSubmitSearch(e);

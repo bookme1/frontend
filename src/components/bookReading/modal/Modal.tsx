@@ -50,7 +50,7 @@ export const ModalReading = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   useEffect(() => {
     if (isVisible) {

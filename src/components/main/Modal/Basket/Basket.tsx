@@ -46,7 +46,6 @@ const Basket: React.FC = () => {
         error,
         isLoading,
     } = useGetFavoritesQuery({
-        accessToken: '',
         type: BookType.Cart,
     });
 
