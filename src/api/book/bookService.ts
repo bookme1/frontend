@@ -1,8 +1,9 @@
 import axios from 'axios';
-import Notiflix from 'notiflix';
+
 
 import { IBook } from '@/app/book/[id]/page.types';
 import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
+import { NotificationState } from '@/components/Notify/NotifyType';
 
 class BookService {
     private baseURL: string | undefined;
@@ -36,7 +37,7 @@ class BookService {
         }
     }
 
-    public async makeTestCheckout(amount: number, order_id: string) {
+    public async makeTestCheckout(amount: number, order_id: string, updateNotification: (newValues: Partial<NotificationState>) => void) {
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
@@ -71,15 +72,21 @@ class BookService {
                     .on('liqpay.callback', async function (data: any) {
                         const ifPaid = await bookService.checkIfPaid(order_id);
                         if (ifPaid) {
-                            Notiflix.Notify.success('Дякуємо за покупку!');
+                            updateNotification({
+                                isVisible: true,
+                                text: 'Дякуємо за покупку!',
+                                type: 'success',
+                            });
                             const result =
                                 await bookService.makeDelivery(order_id);
                             console.log('RESULT');
                             console.log(result);
                             if (result == 'OK') {
-                                Notiflix.Notify.success(
-                                    'Книжки були доставлені до бібліотеки!'
-                                );
+                                updateNotification({
+                                    isVisible: true,
+                                    text: 'Книжки були доставлені до бібліотеки!',
+                                    type: 'success',
+                                });
                             }
                         }
                     })
@@ -100,7 +107,7 @@ class BookService {
         }
     }
 
-    public async makeCartCheckout(accessToken: string) {
+    public async makeCartCheckout(accessToken: string, updateNotification: (newValues: Partial<NotificationState>) => void) {
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
             baseURL: BASE_URL,
@@ -140,15 +147,21 @@ class BookService {
                             data.order_id
                         );
                         if (ifPaid) {
-                            Notiflix.Notify.success('Дякуємо за покупку!');
+                            updateNotification({
+                                isVisible: true,
+                                text: 'Дякуємо за покупку!',
+                                type: 'success',
+                            });
                             const result =
                                 await bookService.makeDelivery(order_id);
                             console.log('RESULT');
                             console.log(result);
                             if (result == 'OK') {
-                                Notiflix.Notify.success(
-                                    'Книжки були доставлені до бібліотеки!'
-                                );
+                                updateNotification({
+                                    isVisible: true,
+                                    text: 'Книжки були доставлені до бібліотеки!',
+                                    type: 'success',
+                                });
                             }
                         }
                     })
@@ -159,7 +172,11 @@ class BookService {
                     .on('liqpay.close', function (data: any) {
                         // close
                         console.log('closed');
-                        Notiflix.Notify.failure('Оплата була скасована.');
+                        updateNotification({
+                            isVisible: true,
+                            text: 'Оплата була скасована.',
+                            type: 'error',
+                        });
                     });
             };
             document.body.appendChild(script);

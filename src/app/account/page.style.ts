@@ -85,4 +85,5 @@ export const AccountContainer = styled.div`
     display: flex;
     gap: 16px;
     /* float: left; */
+    min-height: 800px;
 `;
