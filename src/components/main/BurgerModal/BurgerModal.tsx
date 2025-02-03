@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { IoIosList, IoMdHeartEmpty } from 'react-icons/io';
+import { IoIosList } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 
 import style from './BurgerModal.module.css';
 import modalStyles from '@/components/Modals/MainModal/MainModal.module.css';
-import { FavoriteCount, HeartIcon } from '@/components/common/Header/Header';
+import { HeartIcon } from '@/components/common/Header/Header';
 import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
 import { RootState, setModalStatus, useDispatch } from '@/lib/redux';
@@ -37,8 +37,7 @@ const BurgerModal: React.FC<{
         type: BookType.Fav,
     });
 
-    const favoriteCount = favQuantity;
-    const hasFavorites = favQuantity && favQuantity > 0;
+    const hasFavorites = !!favQuantity;
 
     const isVisible = Object.keys(userData).length > 0 ? true : false;
 
@@ -79,12 +78,10 @@ const BurgerModal: React.FC<{
                         href={isVisible ? '/account/favorites' : '/favorite'}
                         className={style.accountLink}
                     >
-                        <HeartIcon hasFavorites={hasFavorites ? true : false}>
-                            <IoMdHeartEmpty size={28} />
-                            {hasFavorites && (
-                                <FavoriteCount>{favoriteCount}</FavoriteCount>
-                            )}
-                        </HeartIcon>
+                        <HeartIcon
+                            hasFavorites={hasFavorites}
+                            favQuantity={favQuantity}
+                        />
                         Улюблені
                     </a>
                 </li>

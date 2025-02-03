@@ -1,0 +1,22 @@
+.logo {
+    width: 217px !important;
+    height: 40px !important;
+}
+
+.logoContainer {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 950px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.userContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exitIcon {
+    margin-right: 8px;
+}
