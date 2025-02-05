@@ -58,6 +58,7 @@ export interface googleAuthDTO {
 export interface userBookDTO {
     type: BookType;
     bookId: string;
+    accessToken?: string;
 }
 
 export interface getUserBookDTO {

@@ -3,10 +3,11 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Backdrop, Modal } from './Modal.styles';
-import { ITheme } from '@/app/reading/[bookId]/page';
+
 import { Icon } from '@/components/common/Icon';
 
 import { RangeSliderContainer } from '../rangeSlider/RangeSlider.container';
+import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 
 type Props = {
   onClose: () => void;
@@ -49,7 +50,7 @@ export const ModalReading = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   useEffect(() => {
     if (isVisible) {

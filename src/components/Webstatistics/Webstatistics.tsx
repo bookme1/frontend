@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaCodePullRequest } from 'react-icons/fa6';
 import { GrUpdate } from 'react-icons/gr';
 

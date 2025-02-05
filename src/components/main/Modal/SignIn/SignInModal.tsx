@@ -1,7 +1,16 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useState,
+} from 'react';
 
+import { styleText } from 'util';
+
+import style from './SignInModal.module.css';
 import Notify from '@/components/Notify/Notify';
-import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
+import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
@@ -32,9 +41,12 @@ const SignInModal = ({
         type: 'information',
     });
 
-    const updateNotification = (newValues: Partial<typeof notification>) => {
-        setNotification(prev => ({ ...prev, ...newValues }));
-    };
+    const updateNotification = useCallback(
+        (newValues: Partial<typeof notification>) => {
+            setNotification(prev => ({ ...prev, ...newValues }));
+        },
+        []
+    );
 
     useEffect(() => {
         if (data) {
@@ -46,9 +58,6 @@ const SignInModal = ({
 
             window.location.replace('/account');
         }
-    }, [data]);
-
-    useEffect(() => {
         if (error) {
             updateNotification({
                 isVisible: true,
@@ -56,7 +65,7 @@ const SignInModal = ({
                 type: 'error',
             });
         }
-    }, [error]);
+    }, [data, error, updateNotification]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -73,19 +82,21 @@ const SignInModal = ({
     };
 
     return (
-        <ModalContent>
-            <Title>Увійти в кабінет</Title>
-            <Description>
+        <div>
+            <p className={style.title}>Увійти в кабінет</p>
+            <p className={style.description}>
                 Увійдіть, щоб додавати товари у обране і бачити свої замовлення
-            </Description>
-            <Form onSubmit={e => handleSubmit(e)}>
-                <ModalInput
+            </p>
+            <form className={style.form} onSubmit={e => handleSubmit(e)}>
+                <input
+                    className={style.modalInput}
                     placeholder="Імейл"
                     onChange={evt => setEmail(evt.target.value)}
                     required
                 />
                 <div style={{ position: 'relative' }}>
-                    <ModalInput
+                    <input
+                        className={style.modalInput}
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Пароль"
                         onChange={evt => setPassword(evt.target.value)}
@@ -111,30 +122,34 @@ const SignInModal = ({
                         type={notification.type}
                     />
                 )}
-                <SubmitButton type="submit">Увійти</SubmitButton>
-            </Form>
-            <Description className="google">
+                <button className={style.submitBtn} type="submit">
+                    Увійти
+                </button>
+            </form>
+            <p className={`${style.description} ${style.google}`}>
                 Або увійдіть за допомогою:
-            </Description>
-            <GoogleBtn
+            </p>
+            <button
+                className={style.googleBtn}
                 onClick={() => {
                     window.location.href =
                         'http://localhost:5050/api/auth/signin/google';
                 }}
             >
                 <Icon name="google" size="24" />
-            </GoogleBtn>
-            <Description>
+            </button>
+            <p className={style.description}>
                 Немає профілю?
-                <ChangeModalButton
+                <button
+                    className={style.changeModalBtn}
                     onClick={() => {
                         setType('sign-up');
                     }}
                 >
                     Реєстрація
-                </ChangeModalButton>
-            </Description>
-        </ModalContent>
+                </button>
+            </p>
+        </div>
     );
 };
 

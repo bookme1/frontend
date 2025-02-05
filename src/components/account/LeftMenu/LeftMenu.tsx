@@ -1,13 +1,13 @@
-import { signOut } from 'next-auth/react';
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
-import { Item, List, Section, UserDiv, UserName } from './LeftMenu.styles';
+import style from './LeftMenu.module.css';
 import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
+import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
 
 const NavLink = ({
     href = null,
@@ -29,45 +29,59 @@ const NavLink = ({
 export default function LeftMenu({
     username = 'Гість',
 }: {
-    username: string | null;
+    username: string | null | undefined;
 }) {
+    const [logOut, { isLoading, isError }] = useLogOutMutation();
+    const router = useRouter();
+    const handleLogout = async () => {
+        try {
+            await logOut().unwrap();
+            console.log('Выход выполнен');
+        } catch (error) {
+            console.error('Ошибка выхода:', error);
+        }
+    };
+
     return (
-        <Section>
-            <Item className="account">
+        <div className={style.section}>
+            <li className={`${style.account} ${style.item}`}>
                 <VscAccount size={64} />
-                <UserName>{username}</UserName>
-            </Item>
-            <List>
-                <Item>
+                <p className={style.userName}>{username}</p>
+            </li>
+            <ul className={style.list}>
+                <li className={style.item}>
                     <NavLink href="/account">
                         <FaBookReader />
                         Мої покупки
                     </NavLink>
-                </Item>
-                <Item>
+                </li>
+                <li className={style.item}>
                     <NavLink href="/account/favorites">
                         <Icon name="heart" />
                         Обране
                     </NavLink>
-                </Item>
-                <Item>
+                </li>
+                <li className={style.item}>
                     {/* <NavLink href="/account/wallet">
             <Icon name="wallet" /> Мій гаманець
           </NavLink> */}
-                </Item>
-            </List>
-            <Item className="exit">
-                <button
-                    onClick={() => {
-                        signOut();
-                        deleteCookies(['accessToken', 'refreshToken']);
-                    }}
-                    className="flex items-center"
-                >
-                    <Icon name="exit" className="mr-2" />
-                    Вийти
-                </button>
-            </Item>
-        </Section>
+                </li>
+            </ul>
+            <li className={`${style.exit} ${style.item}`}>
+                <NavLink href="/">
+                    <button
+                        onClick={() => {
+                            handleLogout();
+                            deleteCookies(['accessToken', 'refreshToken']);
+                            router.push('/');
+                        }}
+                        className="flex items-center"
+                    >
+                        <Icon name="exit" className="mr-2" />
+                        Вийти
+                    </button>
+                </NavLink>
+            </li>
+        </div>
     );
 }
