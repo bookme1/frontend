@@ -62,10 +62,6 @@ const SignInModal = ({
         e.preventDefault();
         try {
             await signIn({ email, password });
-            sessionStorage.setItem(
-                'userCredentials',
-                JSON.stringify({ email, password })
-            );
         } catch (err: any) {
             updateNotification({
                 isVisible: true,

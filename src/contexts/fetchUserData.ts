@@ -2,7 +2,6 @@ import { headers } from 'next/headers';
 
 import { IUser } from '@/lib/redux/features/user/types.ts';
 
-
 export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = headers();
 
@@ -27,9 +26,14 @@ export async function fetchUserData(): Promise<IUser | null> {
                 `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/auth/refresh`,
                 {
                     method: 'POST',
-                    headers: { cookies: cookies || '' },
+                    headers: { cookie: cookies || '' },
+                    cache: 'no-cache',
                 }
             );
+
+            const setCookieHeader = refreshResponse.headers;
+
+            console.log('access:', setCookieHeader);
 
             if (refreshResponse.ok) {
                 const userResponse = await fetch(
