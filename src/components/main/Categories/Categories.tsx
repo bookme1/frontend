@@ -1,22 +1,24 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-
 
 import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 
-
-
-import { Card, CardDescription, ControlsContainer, ControlsLink, ControlsTitle, IconContainer, SliderControls, StyledWrapper } from './Categories.styles';
-
-
+import {
+    Card,
+    CardDescription,
+    ControlsContainer,
+    ControlsLink,
+    ControlsTitle,
+    IconContainer,
+    SliderControls,
+    StyledWrapper,
+} from './Categories.styles';
 
 import { Icon } from '../../common/Icon';
-
 
 const Categories = () => {
     return (
