@@ -14,7 +14,7 @@ import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
-import { addToOrders } from '@/lib/redux/features/order/orderSlice';
+// import { addToOrders } from '@/lib/redux/features/order/orderSlice';
 import { IUser } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';

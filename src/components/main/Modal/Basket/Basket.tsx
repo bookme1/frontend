@@ -10,7 +10,7 @@ import { NotificationState } from '@/components/Notify/NotifyType';
 import { setModalStatus, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
-import { selectOrders } from '@/lib/redux/features/order/orderSlice';
+// import { selectOrders } from '@/lib/redux/features/order/orderSlice';
 import { CreateOrderDTOExtended } from '@/lib/redux/features/order/types';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
