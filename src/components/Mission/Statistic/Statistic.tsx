@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import styles from './Statistic.module.css';
 
-import plantingMarks from '../../../assets/mission/planting-marks.webp';
+import plantingMarks from '../../../assets/mission/planting-marks-png.png';
 import plantingRate from '../../../assets/mission/planting-rate.webp';
 import sectionNTree from '../../../assets/mission/section-N-tree.webp';
 
