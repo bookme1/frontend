@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -20,25 +21,20 @@ const CardList = ({
     books: any[];
     id: number;
 }) => {
-    // const favorite = fav.data;
+    const [width, setWidth] = useState(0);
 
-    // let favIdList: any;
-    // if (typeof window !== 'undefined') {
-    //     favIdList = localStorage.getItem('favorites');
-    // }
-    // const favIdListArr = JSON.parse(favIdList) && null;
+    useEffect(() => {
+        setWidth(window.innerWidth);
+    }, []);
 
     let booksMarkup;
     if (books?.length) {
         booksMarkup = books.map(book => (
             <SwiperSlide key={book.id} className={style.swiperStyle}>
                 <Card book={book} />
-                {/* <BookItem key={book.id} book={book} /> */}
             </SwiperSlide>
         ));
     }
-
-    const width = typeof window !== 'undefined' ? window.innerWidth : 0;
 
     let setLoop = true;
     let isChevronVisible = true;
@@ -70,36 +66,39 @@ const CardList = ({
                     </div>
                 )}
             </div>
-            <Swiper
-                slidesPerView={1}
-                loop={setLoop}
-                spaceBetween={16}
-                modules={[Navigation, A11y]}
-                className="mySwiper"
-                navigation={{
-                    nextEl: `.arrow-right-${id}`,
-                    prevEl: `.arrow-left-${id}`,
-                }}
-                a11y={{
-                    enabled: true,
-                    prevSlideMessage: 'Попередній слайд',
-                    nextSlideMessage: 'Наступний слайд',
-                }}
-                breakpoints={{
-                    // when window width is >= 768px
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 13,
-                    },
-                    // when window width is >= 1280px
-                    1280: {
-                        slidesPerView: 5,
-                        spaceBetween: 13,
-                    },
-                }}
-            >
-                {booksMarkup || ''}
-            </Swiper>
+
+            {width > 0 && (
+                <Swiper
+                    slidesPerView={1}
+                    loop={setLoop}
+                    spaceBetween={16}
+                    modules={[Navigation, A11y]}
+                    className="mySwiper"
+                    navigation={{
+                        nextEl: `.arrow-right-${id}`,
+                        prevEl: `.arrow-left-${id}`,
+                    }}
+                    a11y={{
+                        enabled: true,
+                        prevSlideMessage: 'Попередній слайд',
+                        nextSlideMessage: 'Наступний слайд',
+                    }}
+                    breakpoints={{
+                        // when window width is >= 768px
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 13,
+                        },
+                        // when window width is >= 1280px
+                        1280: {
+                            slidesPerView: 5,
+                            spaceBetween: 13,
+                        },
+                    }}
+                >
+                    {booksMarkup || ''}
+                </Swiper>
+            )}
         </div>
     );
 };

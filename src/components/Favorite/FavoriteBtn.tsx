@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 
-import Notiflix from 'notiflix';
-
 import { EmptyHeart, FilledHeart } from './Favorite.styles';
 import { explode } from './particles';
 import { IBook } from '@/app/book/[id]/page.types';
@@ -13,10 +11,22 @@ import {
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
+import { NotificationState } from '../Notify/NotifyType';
+
 const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [isFav, setIsFav] = useState<boolean>(false);
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
+
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
 
     // Check if it was already changed
     useEffect(() => {
@@ -45,9 +55,12 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                 });
             } catch (error) {
                 setIsFav(false);
-                Notiflix.Notify.failure(
-                    'Помилка при зміні стану книги. Помилка #1002'
-                );
+
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при зміні стану книги. Помилка #1002`,
+                    type: 'error',
+                });
             }
         }
 
@@ -73,9 +86,12 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                 });
             } catch (error) {
                 setIsFav(true); // Go back if error occured on backend
-                Notiflix.Notify.failure(
-                    'Помилка при зміні стану книги. Помилка #1003'
-                );
+
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при зміні стану книги. Помилка #1003`,
+                    type: 'error',
+                });
             }
         }
         // In all situations, take book to local storage

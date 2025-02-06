@@ -25,7 +25,7 @@ export const AccountFav: React.FC<AccountFavProps> = ({
     });
     console.log(data)
     return (
-        <Wrapper>
+        <Wrapper style={{ minHeight: '800px' }}>
             <BreadCrumbs name="акаунт" />
             <LeftMenu username={user?.username} />
             <Favorite favBooks={favBooks} isAutorized={user ? true : false} />

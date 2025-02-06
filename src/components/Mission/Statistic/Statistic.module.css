@@ -1,0 +1,26 @@
+.statisticSection {
+    position: relative;
+    padding: 40px 82px;
+    height: 750px;
+    background-image: url(../../../assets/mission/map.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.sectionNTree {
+    position: absolute;
+    bottom: 0;
+    left: 82px;
+}
+
+.plantingMarks {
+    position: absolute;
+    top: 0;
+    right: 82px;
+}
+
+.plantingRate {
+    position: absolute;
+    bottom: 0;
+    right: 82px;
+}

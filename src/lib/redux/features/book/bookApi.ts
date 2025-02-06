@@ -124,9 +124,7 @@ export const bookApi = createApi({
             query: ({ accessToken, type }) => ({
                 url: `api/user/books/${type}`,
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
 
@@ -139,9 +137,7 @@ export const bookApi = createApi({
                     bookId: DTO.bookId,
                     type: 'Cart',
                 },
-                headers: {
-                    Authorization: `Bearer ${DTO.accessToken}`,
-                },
+                credentials: 'include',
             }),
         }),
     }),
