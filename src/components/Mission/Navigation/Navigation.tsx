@@ -17,13 +17,13 @@ const Navigation = () => {
                 <Link href="#greenCounty" className={styles.navLink}>
                     Зелена країна
                 </Link>
-                <Link href="" className={styles.navLink}>
+                <Link href="#statistic" className={styles.navLink}>
                     Статистика
                 </Link>
-                <Link href="" className={styles.navLink}>
+                <Link href="#seedlings" className={styles.navLink}>
                     Сажанці
                 </Link>
-                <Link href="" className={styles.navLink}>
+                <Link href="#gallery" className={styles.navLink}>
                     Фотогалерея
                 </Link>
 
