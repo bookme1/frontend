@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
 
 import Image from 'next/image';
@@ -6,12 +6,10 @@ import Image from 'next/image';
 import styles from './Basket.module.css';
 import { bookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
+import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { setModalStatus, useDispatch, useSelector } from '@/lib/redux';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
-import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
-// import { selectOrders } from '@/lib/redux/features/order/orderSlice';
-import { CreateOrderDTOExtended } from '@/lib/redux/features/order/types';
+import { useGetCartQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -24,7 +22,6 @@ interface IBook {
 }
 
 const Basket: React.FC = () => {
-    // const [books, setBooks] = useState<IBook[]>([]);
     const dispatch = useDispatch();
 
     const [removeBook] = useRemoveBookMutation();
@@ -60,14 +57,15 @@ const Basket: React.FC = () => {
         data: cart,
         error,
         isLoading,
-    } = useGetFavoritesQuery({
+        refetch,
+    } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    const cartSum = cart?.cart.reduce(
-        (total, book) => total + Number(book.price),
-        0
-    );
+    const cartSum = useMemo(() => {
+        if (isLoading || !cart?.data?.length) return 0;
+        return cart.data.reduce((total, book) => total + Number(book.price), 0);
+    }, [cart, isLoading]);
 
     const handleCheckout = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -94,10 +92,12 @@ const Basket: React.FC = () => {
         }
     };
 
+    console.log('cart', cart);
+
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!cart?.cart.length ? (
+            {!(isLoading || !cart?.data?.length) ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
@@ -135,8 +135,8 @@ const Basket: React.FC = () => {
             ) : (
                 <>
                     <ul className={styles.list}>
-                        {cart &&
-                            cart.cart.map(book => (
+                        {Array.isArray(cart) &&
+                            cart?.map((book: IBook) => (
                                 <li className={styles.item} key={book.id}>
                                     <Image
                                         className={styles.img}
@@ -158,13 +158,29 @@ const Basket: React.FC = () => {
                                             {book.price}
                                         </p>
                                     </div>
+
                                     <GoTrash
                                         className={styles.goTrash}
-                                        onClick={() => {
-                                            removeBook({
-                                                type: BookType.Cart,
-                                                bookId: book.id,
-                                            });
+                                        onClick={async () => {
+                                            try {
+                                                await removeBook({
+                                                    type: BookType.Cart,
+                                                    bookId: book.id,
+                                                }).unwrap();
+                                                refetch();
+
+                                                updateNotification({
+                                                    isVisible: true,
+                                                    text: 'Book removed successfully',
+                                                    type: 'success',
+                                                });
+                                            } catch (error) {
+                                                updateNotification({
+                                                    isVisible: true,
+                                                    text: 'Не вдалося видалити книгу. Спробуйте ще раз.',
+                                                    type: 'error',
+                                                });
+                                            }
                                         }}
                                     />
                                 </li>
@@ -175,6 +191,7 @@ const Basket: React.FC = () => {
                             <p className={styles.text}>Всього:</p>
                             <p className={styles.text}>{cartSum} &#x20B4;</p>
                         </div>
+
                         <button
                             className={styles.cartBtn}
                             onClick={handleCheckout}
@@ -183,6 +200,13 @@ const Basket: React.FC = () => {
                         </button>
                     </div>
                 </>
+            )}
+            {notification.isVisible && (
+                <Notify
+                    text={notification.text}
+                    duration={5}
+                    type={notification.type}
+                />
             )}
         </div>
     );

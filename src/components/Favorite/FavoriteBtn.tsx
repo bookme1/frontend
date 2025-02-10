@@ -45,7 +45,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
 
     const handleFavoriteClick = async (e: any) => {
         setIsFav(true);
-        explode(e.pageX, e.pageY);
+        // explode(e.pageX, e.pageY);
 
         if (book) {
             try {
@@ -84,6 +84,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     bookId: book.id,
                     type: BookType.Fav,
                 });
+                window.location.reload();
             } catch (error) {
                 setIsFav(true); // Go back if error occured on backend
 

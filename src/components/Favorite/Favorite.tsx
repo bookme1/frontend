@@ -33,6 +33,8 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
         }
     }, [isAutorized]);
 
+    
+
     let favoriteBooksList = favBooks;
     if (!favBooks) favoriteBooksList = books;
     return (
