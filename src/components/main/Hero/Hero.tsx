@@ -1,18 +1,7 @@
 import dynamic from 'next/dynamic';
 
-import {
-    CatalogButton,
-    HeroDescription,
-    HeroSection,
-    HeroTitle,
-    HeroWrapper,
-    ImageContainer,
-    NavContainer,
-    NavIcon,
-    NavItem,
-    NavLink,
-    NavList,
-} from './Hero.styles';
+import styles from './Hero.module.css';
+import { Icon } from '@/components/common/Icon';
 
 const Hero = () => {
     //dynamic import of a client component
@@ -21,64 +10,100 @@ const Hero = () => {
     });
 
     return (
-        <HeroSection>
-            <HeroWrapper>
-                <NavContainer className="navigation">
-                    <NavList>
-                        {/* <NavItem>
-                            <NavLink className="accent">Акції</NavLink>
-                        </NavItem> */}
-                        <NavItem>
-                            <NavLink href="/books">
+        <section className={styles.heroSection}>
+            <div className={`wrapper ${styles.heroWrapper}`}>
+                <nav className={`${styles.navigation} ${styles.nav}`}>
+                    <ul className={styles.navList}>
+                        {/* <li className={`${styles.navItem} ${styles.accent}`}>
+                            <a className={styles.navLink} >Акції</a>
+                        </li> */}
+                        <li className={styles.navItem}>
+                            <a className={styles.navLink} href="/books">
                                 Каталог книжок
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/conditions-of-use">
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                        <li className={styles.navItem}>
+                            <a
+                                className={styles.navLink}
+                                href="/conditions-of-use"
+                            >
                                 Умови використання
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/books?genre=Кримінал">
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                        <li className={styles.navItem}>
+                            <a
+                                className={styles.navLink}
+                                href="/books?genre=Кримінал"
+                            >
                                 Кримінальні історії
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/books?genre=художня література">
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                        <li className={styles.navItem}>
+                            <a
+                                className={styles.navLink}
+                                href="/books?genre=художня література"
+                            >
                                 Художня література
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/books?genre=Фантастика">
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                        <li className={styles.navItem}>
+                            <a
+                                className={styles.navLink}
+                                href="/books?genre=Фантастика"
+                            >
                                 Фантастика
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/books?genre=Наука">
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                        <li className={styles.navItem}>
+                            <a
+                                className={styles.navLink}
+                                href="/books?genre=Наука"
+                            >
                                 Наука
-                                <NavIcon name="arrow_right" className="icon" />
-                            </NavLink>
-                        </NavItem>
-                    </NavList>
-                </NavContainer>
-                <ImageContainer>
+                                <Icon
+                                    name="arrow_right"
+                                    className={styles.icon}
+                                />
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div className={styles.imgCotainer}>
                     <HeroImage />
-                    <HeroTitle>Українські книжки</HeroTitle>
-                    <HeroDescription>
+                    <h1 className={styles.heroTitle}>Українські книжки</h1>
+                    <p className={styles.heroDescription}>
                         Книги, що змінюють світ, тепер доступні для всього
                         світу!
-                    </HeroDescription>
-                    <CatalogButton className="inSlider" href="/books">
+                    </p>
+                    <a
+                        className={`${styles.inSlider} ${styles.catalogBtn}`}
+                        href="/books"
+                    >
                         До каталогу
-                    </CatalogButton>
-                </ImageContainer>
-            </HeroWrapper>
-        </HeroSection>
+                    </a>
+                </div>
+            </div>
+        </section>
     );
 };
 

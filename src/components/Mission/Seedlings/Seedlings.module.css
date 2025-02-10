@@ -1,0 +1,93 @@
+.seedlingsSection {
+    padding: 80px 82px 40px 82px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.text {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 110px;
+}
+
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.earthImg {
+    margin-bottom: 64px;
+}
+
+.priceContentBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    margin-bottom: 36px;
+}
+
+.btnBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.ragne {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    border: 1.5px solid #cbcbcb;
+
+    text-align: center;
+
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.rangeBtn {
+    width: 24px;
+    height: 24px;
+    font-size: 32px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.priceBox {
+    width: 165px;
+    height: 110px;
+    background-color: #f9f7f5;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.price {
+    color: #5ddd3d;
+
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.payBtn {
+    background-color: #5ddd3d;
+    border-radius: 6px;
+    width: 410px;
+    height: 46px;
+
+    font-weight: 500;
+    font-size: 16px;
+}

@@ -64,7 +64,7 @@ const SignUpModal = ({
         } catch (err: any) {
             updateNotification({
                 isVisible: true,
-                text: 'Помилка при реєстрації ${err.status}',
+                text: `Помилка при реєстрації ${err.status}`,
                 type: 'error',
             });
             console.error('Error while registering', err);

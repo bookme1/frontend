@@ -18,6 +18,7 @@ const TopSection = styled.div`
         padding: 32px 0px;
     }
     @media (min-width: 1234px) {
+    
         padding: 32px 0px 24px 0px;
     }
     & > div {

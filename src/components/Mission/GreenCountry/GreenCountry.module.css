@@ -1,0 +1,68 @@
+.greeCountySection {
+    padding: 40px 82px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.textBox {
+    height: 678px;
+    position: relative;
+    padding: 24px 140px;
+    background-color: var(--green);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-image: url(../../../assets/mission/planet.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.rowBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text {
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+
+    width: 370px;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.firstImg {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.secondImg {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.thirdImg {
+    position: absolute;
+    left: 0;
+    bottom: 60px;
+}
+
+.fourthImg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
