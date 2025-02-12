@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import styles from './Basket.module.css';
 import { bookService } from '@/api/book/bookService';
+import { useBookService1 } from '@/api/book/bookService copy';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
@@ -62,25 +63,41 @@ const Basket: React.FC = () => {
         type: BookType.Cart,
     });
 
+    const {
+        refillQueue,
+        updateBooksFromServer,
+        makeTestCheckout,
+        makeCartCheckout,
+        orderRequest,
+        makeCartWatermarking,
+    } = useBookService1();
+
     const cartSum = useMemo(() => {
         if (isLoading || !cart?.data?.length) return 0;
         return cart.data.reduce((total, book) => total + Number(book.price), 0);
     }, [cart, isLoading]);
 
     const handleCheckout = async () => {
-        const accessToken = localStorage.getItem('accessToken');
+        // const accessToken = localStorage.getItem('accessToken');
 
         // Close modal, in order not to mix z-indexes
         dispatch(setModalStatus(false));
 
-        const data = await bookService.makeCartCheckout(
-            accessToken || '',
-            updateNotification
-        );
+        // const data = await bookService.makeCartCheckout(
+        //     accessToken || '',
+        //     updateNotification
+        // );
 
-        const watermarking_response = await bookService.makeCartWatermarking(
-            data.order_id
-        );
+        const data = await makeCartCheckout(updateNotification);
+        console.log(`data -${data}`);
+
+        // const watermarking_response = await bookService.makeCartWatermarking(
+        //     data.order_id
+        // );
+        const watermarking_response = await makeCartWatermarking(data.order_id);
+        
+        console.log(`watermarking_response - ${watermarking_response}`);
+
         if (Array.isArray(watermarking_response)) {
             console.log('transaction successful');
         } else {
@@ -92,7 +109,7 @@ const Basket: React.FC = () => {
         }
     };
 
-    console.log('cart', cart);
+    // console.log('cart', cart);
 
     return (
         <div className={styles.container}>

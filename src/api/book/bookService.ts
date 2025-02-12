@@ -12,6 +12,8 @@ class BookService {
         this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
     }
 
+    
+
     public async refillQueue() {
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
         const instance = axios.create({
