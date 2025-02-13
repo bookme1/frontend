@@ -88,7 +88,8 @@ export const MainInfoContainer = styled.div`
         height: 330px;
         @media (min-width: 1280px) {
             width: 676px;
-            height: 420px;
+            min-height: 420px;
+            height: 100%;
             position: relative;
         }
     }

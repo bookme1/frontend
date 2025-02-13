@@ -188,6 +188,13 @@ const MainInformation = ({
                         <Title>{book?.title}</Title>
                         <AuthorsList>{authorsMarkup}</AuthorsList>
                         <Price>{book?.price} ₴</Price>
+                        {notification.isVisible && (
+                                <Notify
+                                    text={notification.text}
+                                    duration={5}
+                                    type={notification.type}
+                                />
+                            )}
                         <Controls>
                             <ToCart
                                 onClick={() => {
@@ -203,20 +210,8 @@ const MainInformation = ({
                             <ToFavorite>
                                 <FavoriteBtn book={book} />
                             </ToFavorite>
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
+
+
                         </Controls>
                         <Formats
                             setChecked={setCheckedFormats}
