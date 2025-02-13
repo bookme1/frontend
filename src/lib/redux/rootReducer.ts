@@ -7,6 +7,7 @@ import { booksetApi } from './features/book/booksetApi';
 import userReducer from './features/user/userSlice';
 
 import { orderApi } from './features/order/orderApi';
+import orderSlice from './features/order/orderSlice';
 
 
 
@@ -14,6 +15,7 @@ import { orderApi } from './features/order/orderApi';
 export const reducer = {
   modals: modalsSlice.reducer,
   user: userReducer,
+  order: orderSlice.reducer,
 
   [userApi.reducerPath]: userApi.reducer,
   [bookApi.reducerPath]: bookApi.reducer,

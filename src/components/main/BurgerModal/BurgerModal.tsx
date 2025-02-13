@@ -33,7 +33,6 @@ const BurgerModal: React.FC<{
     };
 
     const { data: favQuantity } = useGetFavoritesQuantityQuery({
-        accessToken: '',
         type: BookType.Fav,
     });
 

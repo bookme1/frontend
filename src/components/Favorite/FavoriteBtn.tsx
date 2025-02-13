@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { EmptyHeart, FilledHeart } from './Favorite.styles';
-import { explode } from './particles';
 import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,

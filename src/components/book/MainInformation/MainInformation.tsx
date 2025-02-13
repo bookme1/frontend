@@ -19,7 +19,7 @@ import {
     ToCart,
     ToFavorite,
 } from './MainInformation.styles';
-import { bookService } from '@/api/book/bookService';
+import { bookService } from '@/api/book/bookService(OLD-temp)';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import Notify from '@/components/Notify/Notify';

@@ -5,7 +5,6 @@ import styles from './BookItem.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
-import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
 const BookItem = ({
@@ -15,8 +14,6 @@ const BookItem = ({
     handleAddToBooksetList,
     user,
 }: any) => {
-
-
     const [addCard] = useAddCartMutation();
 
     const handleAddToOrder = async () => {

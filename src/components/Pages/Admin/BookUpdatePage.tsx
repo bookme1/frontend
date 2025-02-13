@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
-import { bookService } from '@/api/book/bookService';
+import { bookService } from '@/api/book/bookService(OLD-temp)';
 import { Webstatistics } from '@/components/Webstatistics';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 

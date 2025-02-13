@@ -14,14 +14,20 @@ import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
+    RootState,
     selectOpenModal,
     setModalContent,
     setModalStatus,
     useDispatch,
     useSelector,
 } from '@/lib/redux';
+import {
+    useGetCartQuantityQuery,
+    useGetFavoritesQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
-import { IUser, Role } from '@/lib/redux/features/user/types';
+import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
+import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
 
 import { Icon } from '../Icon';
@@ -90,10 +96,12 @@ const Header = ({
     userData,
     favQuantity,
     cartQuantity,
+    carts,
 }: {
     userData: IUser | null;
     favQuantity: number | null;
     cartQuantity: number | null;
+    carts: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
 
@@ -105,6 +113,12 @@ const Header = ({
     const router = useSearchParams();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (carts) {
+            dispatch(addOrderedBooks(carts));
+        }
+    }, [carts, dispatch]);
 
     useEffect(() => {
         if (userData) {
