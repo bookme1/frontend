@@ -17,11 +17,7 @@ const SwiperList = ({
     bookset: any[];
     id: number;
 }) => {
-    // const { data } = useGetFilterBooksQuery({
-    //     [value ? value : '']: parametrData,
-    // });
 
-    // const booksArr = data?.books;
     const booksArr = bookset;
 
     if (!booksArr)

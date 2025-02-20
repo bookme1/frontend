@@ -13,6 +13,8 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 export const useBookService = () => {
     const baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
 
+
+
     // Функция для пополнения очереди книг
     const refillQueue = async () => {
         const instance = axios.create({
@@ -181,12 +183,12 @@ export const useBookService = () => {
     };
 
     // Функция для создания заказа
-    const orderRequest = async (orderData: CreateOrderDTO, accessToken: string | null) => {
+    const orderRequest = async (orderData: CreateOrderDTO) => {
         const url = `${baseURL}/api/order`;
         try {
             const config: CustomAxiosRequestConfig = {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+
                 },
                 withCredentials: true, // Куки включены
             };
@@ -262,7 +264,7 @@ export const useBookService = () => {
 
     // Функция для создания заказа в корзине
     const makeOrder = async (
-        accessToken: string | null,
+        // accessToken: string | null,
         uuid: string,
         formats: string,
         transactionId: string,
@@ -291,7 +293,7 @@ export const useBookService = () => {
             amount: Number(amount),
         };
 
-        const data = await orderRequest(createOrderDTO, accessToken);
+        const data = await orderRequest(createOrderDTO);
 
         if (!data) {
             return false;

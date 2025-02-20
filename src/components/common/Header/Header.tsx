@@ -14,7 +14,6 @@ import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
 import {
-    RootState,
     selectOpenModal,
     setModalContent,
     setModalStatus,
@@ -23,7 +22,7 @@ import {
 } from '@/lib/redux';
 import {
     useGetCartQuantityQuery,
-    useGetFavoritesQuantityQuery,
+    useGetCartQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
@@ -64,7 +63,7 @@ export const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
     );
 };
 
-export const BasketIcon = ({ cartQuantity }: BasketIconProps) => {
+export const BasketIcon =  ({ cartQuantity }: BasketIconProps) => {
     return (
         <div
             className={`${styles.heartIcon} ${cartQuantity ? styles.favorited : styles.notFavorited}`}
@@ -95,13 +94,11 @@ export const Avatar = ({ children }: AvatarProps) => {
 const Header = ({
     userData,
     favQuantity,
-    cartQuantity,
-    carts,
+
 }: {
     userData: IUser | null;
     favQuantity: number | null;
-    cartQuantity: number | null;
-    carts: IBook[] | undefined | null;
+
 }) => {
     const isLoading = false;
 
@@ -112,11 +109,17 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
+    const { data: carts, refetch: refetchCart } = useGetCartQuery({ type: BookType.Cart });
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (carts) {
-            dispatch(addOrderedBooks(carts));
+            dispatch(addOrderedBooks(carts.data));
         }
     }, [carts, dispatch]);
 
@@ -136,13 +139,15 @@ const Header = ({
     const handleCartModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Cart'));
+        refetchCartQuantity()
+        refetchCart()
     };
 
     const handleClick = () => {
         setIsOpen(true);
     };
 
-    const handleSearch = async (e: any) => {
+    const handleSearch =  async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);
             try {
@@ -356,7 +361,7 @@ const Header = ({
                     </div>
                 </header>
             )}
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
+            {isOpen && <Modal setIsOpen={setIsOpen}/>}
         </>
     );
 };

@@ -4,9 +4,9 @@ import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Icons } from '@/components/common/Icons';
-import { fetchGetCartssQuantity } from '@/contexts/fetchGetCartsQuantity';
+
 import { fetchGetFavoritesQuantity } from '@/contexts/fetchGetFavoritesQuantity';
-import { fetchGetOrders } from '@/contexts/fetchGetOrders';
+
 import { fetchUserData } from '@/contexts/fetchUserData';
 import { Providers } from '@/lib/providers';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -20,8 +20,6 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
     const user = await fetchUserData();
     const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
-    const cartQuantity = await fetchGetCartssQuantity(BookType.Cart);
-    const carts = await fetchGetOrders(BookType.Cart);
     return (
         <html className={raleway.className} lang="uk">
             <head>
@@ -41,8 +39,6 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
                         <Header
                             userData={user}
                             favQuantity={favQuantity}
-                            cartQuantity={cartQuantity}
-                            carts={carts}
                         />
                         {children}
                         <Footer />

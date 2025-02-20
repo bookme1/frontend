@@ -3,8 +3,7 @@
 import { IBook } from '@/app/book/[id]/page.types';
 import { MainInformation } from '@/components/book/MainInformation';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Footer } from '@/components/common/Footer';
-import { Header } from '@/components/common/Header';
+
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';

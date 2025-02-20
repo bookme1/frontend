@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
 
 import Image from 'next/image';
@@ -8,10 +8,11 @@ import { useBookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
-import { setModalStatus, useDispatch, useSelector } from '@/lib/redux';
-import { RootState } from '@/lib/redux';
-import { useGetCartQuery } from '@/lib/redux/features/book/bookApi';
-import { removeOrderedBook } from '@/lib/redux/features/order/orderSlice';
+import { setModalStatus, useDispatch } from '@/lib/redux';
+import {
+    useGetCartQuantityQuery,
+    useGetCartQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -25,9 +26,8 @@ interface IBook {
 
 const Basket: React.FC = () => {
     const dispatch = useDispatch();
-    const orderedBooks = useSelector(
-        (state: RootState) => state.order.orderedBooks
-    );
+
+    const [orderedBooks, setOrderedBooks] = useState<IBook[]>([]);
 
     const [removeBook] = useRemoveBookMutation();
 
@@ -44,30 +44,32 @@ const Basket: React.FC = () => {
     const {
         data: cart,
         isLoading,
-        refetch,
+        refetch: refetchGetCats,
     } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    const {
-        refillQueue,
-        updateBooksFromServer,
-        makeTestCheckout,
-        makeCartCheckout,
-        orderRequest,
-        makeCartWatermarking,
-    } = useBookService();
+    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
 
-    const totalPrice = orderedBooks.reduce((total, book) => {
-        const price =
-            typeof book.price === 'string'
-                ? parseFloat(book.price)
-                : book.price;
-        if (!isNaN(price)) {
-            return total + price;
+    const { makeCartCheckout, makeCartWatermarking } = useBookService();
+
+    useEffect(() => {
+        if (Array.isArray(cart)) {
+            setOrderedBooks(cart);
         }
-        return total;
-    }, 0);
+    }, [cart]);
+
+
+    const totalPrice = useMemo(() => {
+        return orderedBooks.reduce((total, book) => {
+            const price =
+                typeof book.price === 'string' ? parseFloat(book.price) : book.price;
+            return !isNaN(price) ? total + price : total;
+        }, 0);
+    }, [orderedBooks]);
+
 
     const handleCheckout = async () => {
         dispatch(setModalStatus(false));
@@ -151,7 +153,7 @@ const Basket: React.FC = () => {
                                             {book.author}
                                         </p>
                                         <p className={styles.price}>
-                                            {book.price}
+                                            {book.price} ₴
                                         </p>
                                     </div>
 
@@ -163,10 +165,9 @@ const Basket: React.FC = () => {
                                                     type: BookType.Cart,
                                                     bookId: book.id,
                                                 }).unwrap();
-                                                refetch();
-                                                dispatch(
-                                                    removeOrderedBook(book.id)
-                                                );
+                                                refetchGetCats();
+                                                refetchCartQuantity();
+                                        
 
                                                 updateNotification({
                                                     isVisible: true,

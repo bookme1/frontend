@@ -5,23 +5,32 @@ import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { useDispatch } from '@/lib/redux';
 import { openModal } from '@/lib/redux';
+import {
+    useAddCartMutation,
+    useGetCartQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 import { Icon } from '../Icon';
 
 const Card: React.FC<{ book: IBook }> = ({ book }) => {
     const { title, url, price, author, id } = book;
     const dispatch = useDispatch();
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
+    const [addCard] = useAddCartMutation();
+    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
 
-    const handleAddBook = () => {
-        if (!token || !id) {
-            alert('Користувач не авторизований');
-            return;
+    const handleAddBook = async () => {
+        try {
+            await addCard({
+                bookId: book.id,
+                type: BookType.Cart,
+            });
+            refetchCartQuantity();
+        } catch (error) {
+            alert(`Failed to add book to cart. ${error}`);
         }
-
         dispatch(openModal('successInfo'));
     };
 

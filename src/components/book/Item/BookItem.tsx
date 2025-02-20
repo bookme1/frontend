@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styles from './BookItem.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
-import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
+import { useAddCartMutation, useGetCartQuantityQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
 const BookItem = ({
@@ -22,34 +22,16 @@ const BookItem = ({
                 bookId: book.id,
                 type: BookType.Cart,
             });
+            refetchCartQuantity()
         } catch (error) {
             alert(`Failed to add book to cart. ${error}`);
         }
     };
-    // const [createOrder] = useCreateOrderMutation();
-    // const handleCreateOrder = async () => {
-    //     try {
-    //         await createOrder({
-    //             order_id: '12345',
-    //             amount: Number(book.price),
-    //             user: user.id,
-    //             orderBooks: [
-    //                 {
-    //                     reference_number: '123',
-    //                     ordered_formats: 'epub, mobi',
-    //                     transaction_id: '12345',
-    //                     book: book,
-    //                     epubLink: book.epubLink,
-    //                     mobiLink: book.formatMobi,
-    //                     pdfLink: book.formatPdf,
-    //                 },
-    //             ],
-    //         }).unwrap();
-    //         alert('Order created successfully!');
-    //     } catch (error) {
-    //         alert(`Failed to create order. ${error}`);
-    //     }
-    // };
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+    useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
 
     return (
         <li key={book.id} className={styles.item}>
@@ -84,7 +66,7 @@ const BookItem = ({
                     </p>
                 </div>
                 <div className={styles.functionality}>
-                    <span>{book.price}</span>
+                    <span>{book.price} ₴</span>
                     <div className={styles.button}>
                         <FavoriteBtn book={book} />
                         <button
