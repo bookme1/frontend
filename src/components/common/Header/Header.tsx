@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import ContentLoader from 'react-content-loader';
 
 import dynamic from 'next/dynamic';
@@ -63,7 +69,7 @@ export const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
     );
 };
 
-export const BasketIcon =  ({ cartQuantity }: BasketIconProps) => {
+export const BasketIcon = ({ cartQuantity }: BasketIconProps) => {
     return (
         <div
             className={`${styles.heartIcon} ${cartQuantity ? styles.favorited : styles.notFavorited}`}
@@ -94,14 +100,14 @@ export const Avatar = ({ children }: AvatarProps) => {
 const Header = ({
     userData,
     favQuantity,
-
+    booksArr,
 }: {
     userData: IUser | null;
     favQuantity: number | null;
-
+    booksArr: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
-
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -109,11 +115,13 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
-
-    const { data: cartQuantity, refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+    const { data: carts, refetch: refetchCart } = useGetCartQuery({
         type: BookType.Cart,
     });
-    const { data: carts, refetch: refetchCart } = useGetCartQuery({ type: BookType.Cart });
 
     const dispatch = useDispatch();
 
@@ -139,34 +147,39 @@ const Header = ({
     const handleCartModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Cart'));
-        refetchCartQuantity()
-        refetchCart()
+        refetchCartQuantity();
+        refetchCart();
     };
 
     const handleClick = () => {
         setIsOpen(true);
     };
 
-    const handleSearch =  async (e: any) => {
+    const handleSearch = async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);
-            try {
-                const fetchedBooks = await getBooks({
-                    selectReferenceAndTitle: true, // get only book referenceNumber & title
-                });
-                const filteredBooks = fetchedBooks.filter((book: IBook) =>
-                    book.title
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                );
-                setBooks(filteredBooks);
-            } catch (error) {
-                console.error('Error during search:', error);
-            }
+            // try {
+            //     const fetchedBooks = await getBooks({
+            //         selectReferenceAndTitle: true, // get only book referenceNumber & title
+            //     });
+            //     const filteredBooks = fetchedBooks.filter((book: IBook) =>
+            //         book.title
+            //             .toLowerCase()
+            //             .includes(e.target.value.toLowerCase())
+            //     );
+            //     setBooks(filteredBooks);
+            // } catch (error) {
+            //     console.error('Error during search:', error);
+            // }
+            const filteredBooks = booksArr?.filter((book: IBook) =>
+                book.title.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+            setBooks(filteredBooks);
         } else {
             setIsSearchListOpen(false);
         }
     };
+
 
     useEffect(() => {
         const q = router?.get('q');
@@ -361,7 +374,7 @@ const Header = ({
                     </div>
                 </header>
             )}
-            {isOpen && <Modal setIsOpen={setIsOpen}/>}
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
         </>
     );
 };
