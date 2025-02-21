@@ -80,6 +80,17 @@ const MainInformation = ({
     const [addCart] = useAddCartMutation();
 
     const handleAddBook = async () => {
+        if (!isAuthorized) {
+            updateNotification({
+                isVisible: true,
+                text: 'Для додавання у кошик, спочатку потрібно увійти в аккаунт',
+                type: 'error',
+            });
+            return;
+        }
+        if (notification.isVisible) {
+            setNotification(prev => ({ ...prev, isVisible: false }));
+        }
         try {
             await addCart({
                 bookId: book.id,
@@ -92,6 +103,7 @@ const MainInformation = ({
                 type: 'success',
             });
         } catch (error) {
+            console.error(`Failed to add book to cart. ${error}`);
             updateNotification({
                 isVisible: true,
                 text: `Помилка при додаванні книги до кошика. Помилка #2001`,
@@ -203,7 +215,7 @@ const MainInformation = ({
                                 onClick={() => {
                                     openModal('cart');
                                     handleAddBook();
-                                    refetchCartQuantity()
+                                    refetchCartQuantity();
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик

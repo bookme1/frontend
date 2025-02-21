@@ -10,6 +10,8 @@ import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
+import ErrorBoundary from '../Error/ErrorBoundary';
+
 interface AccountFavProps {
     user: IUser | null;
     favBooks: IBook[] | null | undefined;
@@ -18,9 +20,14 @@ interface AccountFavProps {
 export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
     return (
         <Wrapper style={{ minHeight: '800px' }}>
-            <BreadCrumbs name="акаунт" />
-            <LeftMenu username={user?.username} />
-            <Favorite favBooks={favBooks} isAutorized={user ? true : false} />
+            <ErrorBoundary>
+                <BreadCrumbs name="акаунт" />
+                <LeftMenu username={user?.username} />
+                <Favorite
+                    favBooks={favBooks}
+                    isAutorized={user ? true : false}
+                />
+            </ErrorBoundary>
         </Wrapper>
     );
 };

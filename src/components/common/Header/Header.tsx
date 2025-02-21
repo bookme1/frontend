@@ -158,19 +158,6 @@ const Header = ({
     const handleSearch = async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);
-            // try {
-            //     const fetchedBooks = await getBooks({
-            //         selectReferenceAndTitle: true, // get only book referenceNumber & title
-            //     });
-            //     const filteredBooks = fetchedBooks.filter((book: IBook) =>
-            //         book.title
-            //             .toLowerCase()
-            //             .includes(e.target.value.toLowerCase())
-            //     );
-            //     setBooks(filteredBooks);
-            // } catch (error) {
-            //     console.error('Error during search:', error);
-            // }
             const filteredBooks = booksArr?.filter((book: IBook) =>
                 book.title.toLowerCase().includes(e.target.value.toLowerCase())
             );

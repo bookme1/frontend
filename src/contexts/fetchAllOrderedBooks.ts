@@ -2,7 +2,6 @@ import { headers } from 'next/headers';
 
 import { IOrderBook } from '@/lib/redux/features/order/types';
 
-
 export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
     const requestHeaders = headers();
 
@@ -26,7 +25,8 @@ export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
 
         return null;
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching:', error);
+
         return null;
     }
 }

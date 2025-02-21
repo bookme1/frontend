@@ -95,7 +95,7 @@ const Basket: React.FC = () => {
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!(isLoading || !cart?.data?.length) ? (
+            {!cart?.data?.length ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{

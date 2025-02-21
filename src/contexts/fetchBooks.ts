@@ -21,7 +21,7 @@ export async function fetchBooks(): Promise<IBook[] | null> {
 
 
     catch (error) {
-        console.error('Error fetching filters data:', error);
+        console.error('Error fetching:', error);
         return null;
     }
 }

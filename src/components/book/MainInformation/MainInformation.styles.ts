@@ -10,7 +10,7 @@ import { Icon } from '@/components/common/Icon';
 import { Wrapper, visuallyHidden } from '@/styles/globals.styles';
 
 export const ImageContainer = styled.div`
-    /* width: 250px;
+    width: 250px;
   height: 330px;
   margin: 0 auto;
   margin-top: 32px;
@@ -27,7 +27,7 @@ export const ImageContainer = styled.div`
   @media (min-width: 1280px) {
     width: 502px;
     height: 660px;
-  } */
+  }
 `;
 
 export const StyledImage = styled(Image)`

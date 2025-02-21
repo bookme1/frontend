@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
-import { bookService } from '@/api/book/bookService(OLD-temp)';
+
 import { Webstatistics } from '@/components/Webstatistics';
 import { IUser, Role } from '@/lib/redux/features/user/types';
+import { useBookService } from '@/api/book/bookService';
 
 interface RequestResponseTemplate {
     status: number;
@@ -29,6 +30,8 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
         RequestResponseTemplate[]
     >([]);
 
+    const { refillQueue, updateBooksFromServer } = useBookService();
+
     // Используем useRef для отслеживания актуальных значений
     const isUpdatingRef = useRef(isUpdating);
     const shouldStopRef = useRef(shouldStop);
@@ -43,12 +46,12 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
     }, [shouldStop]);
 
     // API functions
-    const refillQueue = useCallback(async () => {
-        return await bookService.refillQueue();
-    }, []);
+    // const refillQueue = useCallback(async () => {
+    //     return await bookService.refillQueue();
+    // }, []);
 
     const updateBooksChunk = useCallback(async () => {
-        return await bookService.updateBooksFromServer();
+        return await updateBooksFromServer();
     }, []);
 
     // Main update function

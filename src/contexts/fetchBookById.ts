@@ -18,7 +18,7 @@ export async function FetchBookById(id: string): Promise<IBook | null | undefine
     }
 
     catch (error) {
-        console.error('Error fetching filters data:', error);
+        console.error('Error fetching:', error);
         return null;
     }
 }
