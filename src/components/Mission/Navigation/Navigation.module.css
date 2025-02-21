@@ -1,0 +1,36 @@
+.container {
+    padding: 40px 82px;
+}
+
+.navList {
+    height: 88px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: var(--green);
+    border-radius: 4px;
+}
+
+.navLink {
+    font-weight: 600;
+    color: var(--ai-button-text-color);
+}
+
+.navLink:active {
+    border-bottom: 2px solid var(--green_acid);
+}
+
+.navLink:hover {
+    border-bottom: 2px solid var(--green_acid);
+}
+
+.navBtn {
+    font-weight: 600;
+    color: var(black);
+    background-color: var(--green_acid);
+    /* border: 1px solid var(--green_acid); */
+    border-radius: 4px;
+    width: 222px;
+    height: 42px;
+}

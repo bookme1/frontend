@@ -10,20 +10,21 @@ import { IBook } from '@/app/book/[id]/page.types';
 import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
-import BookItem from '@/components/book/Item/BookItem';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
+// import { addToOrders } from '@/lib/redux/features/order/orderSlice';
+import { IUser } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
 
 interface ControlsProps {
     filtersData: FiltersResponse | undefined | null;
-
+    user: IUser | undefined | null;
 }
 
-const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
+const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const [selectedSort, setSelectedSort] = useState<string>('Новинки');
     const [isOpenChoice, setIsOpenChoice] = useState(false);
     const isOpenModal = useSelector((state: any) => state.modals.modals.filter);
@@ -222,6 +223,9 @@ const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
                                     >
                                         <button
                                             className={styles.button__filter}
+                                            onClick={e =>
+                                                handleOpenModal('filter', e)
+                                            }
                                         >
                                             <Icon
                                                 size={24}
@@ -293,7 +297,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData }) => {
                                 </div>
                                 <BookList
                                     filterBooks={filterBooks}
-                                    
+                                    user={user}
                                     handleOpenModal={handleOpenModal}
                                 />
                                 {totalPages > 1 && (

@@ -69,6 +69,8 @@ export const userApi = createApi({
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                credentials: 'include',
+
             }),
         }),
 
@@ -106,6 +108,7 @@ export const userApi = createApi({
                     bookId: DTO.bookId,
                     type: DTO.type,
                 },
+                credentials: 'include',
             }),
         }),
         //updateBoughtBooks: builder.query<IUser, string>({}), //Unsure logic about adding new bought book. It should be very secure and has to be discussed with 'Elibri'

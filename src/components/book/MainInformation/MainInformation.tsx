@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
-import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -20,13 +19,18 @@ import {
     ToCart,
     ToFavorite,
 } from './MainInformation.styles';
-import { bookService } from '@/api/book/bookService';
+import { useBookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+import Notify from '@/components/Notify/Notify';
+import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
-import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
+import {
+    useAddCartMutation,
+    useGetCartQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
@@ -46,10 +50,23 @@ const MainInformation = ({
     const [imageLoaded, setImageLoaded] = useState(false);
     const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
+    const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
+        useBookService();
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
 
     const router = usePathname();
     const id = router?.split('/').pop();
@@ -63,40 +80,61 @@ const MainInformation = ({
     const [addCart] = useAddCartMutation();
 
     const handleAddBook = async () => {
-        if (token !== null && book) {
-            try {
-                await addCart({
-                    accessToken: token,
-                    bookId: book.id,
-                    type: BookType.Cart,
-                });
-                Notiflix.Notify.success('Книга успішно додана до кошика!');
-            } catch (error) {
-                Notiflix.Notify.failure(
-                    'Помилка при додаванні книги до кошика. Помилка #2001'
-                );
-            }
+        if (!isAuthorized) {
+            updateNotification({
+                isVisible: true,
+                text: 'Для додавання у кошик, спочатку потрібно увійти в аккаунт',
+                type: 'error',
+            });
+            return;
+        }
+        if (notification.isVisible) {
+            setNotification(prev => ({ ...prev, isVisible: false }));
+        }
+        try {
+            await addCart({
+                bookId: book.id,
+                type: BookType.Cart,
+            });
+
+            updateNotification({
+                isVisible: true,
+                text: 'Книга успішно додана до кошика!',
+                type: 'success',
+            });
+        } catch (error) {
+            console.error(`Failed to add book to cart. ${error}`);
+            updateNotification({
+                isVisible: true,
+                text: `Помилка при додаванні книги до кошика. Помилка #2001`,
+                type: 'error',
+            });
         }
     };
 
     const handleCheckout = async () => {
+        refetchCartQuantity();
         if (checkedFormats.length === 0) {
-            Notiflix.Notify.failure(
-                'Оберіть формати книг, які ви хочете придбати!'
-            );
+            updateNotification({
+                isVisible: true,
+                text: `Оберіть формати книг, які ви хочете придбати!`,
+                type: 'error',
+            });
             return;
         }
         if (!isAuthorized) {
-            Notiflix.Notify.failure(
-                'Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!'
-            );
+            updateNotification({
+                isVisible: true,
+                text: `Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!`,
+                type: 'error',
+            });
             return;
         }
         const order_id = uuidv4();
-        const accessToken = localStorage.getItem('accessToken');
-        bookService.makeTestCheckout(book.price, order_id);
 
-        const transaction_id = await bookService.makeWatermarking(
+        makeTestCheckout(book.price, order_id, updateNotification);
+
+        const transaction_id = await makeWatermarking(
             checkedFormats.join(','),
             book.referenceNumber,
             order_id
@@ -106,14 +144,20 @@ const MainInformation = ({
         } else {
             console.log(transaction_id);
             console.log('oshibka');
-            Notiflix.Notify.failure('Помилка при нанесенні вотермарки!');
-            Notiflix.Notify.failure(
-                "Будь ласка, зв'яжіться з адміністратором сайту!"
-            );
+
+            updateNotification({
+                isVisible: true,
+                text: `Помилка при нанесенні вотермарки!`,
+                type: 'error',
+            });
+            updateNotification({
+                isVisible: true,
+                text: `Будь ласка, зв'яжіться з адміністратором сайту!`,
+                type: 'error',
+            });
         }
 
-        await bookService.makeOrder(
-            accessToken,
+        await makeOrder(
             order_id,
             checkedFormats.join(','),
             transaction_id,
@@ -159,11 +203,19 @@ const MainInformation = ({
                         <Title>{book?.title}</Title>
                         <AuthorsList>{authorsMarkup}</AuthorsList>
                         <Price>{book?.price} ₴</Price>
+                        {notification.isVisible && (
+                            <Notify
+                                text={notification.text}
+                                duration={5}
+                                type={notification.type}
+                            />
+                        )}
                         <Controls>
                             <ToCart
                                 onClick={() => {
                                     openModal('cart');
                                     handleAddBook();
+                                    refetchCartQuantity();
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик

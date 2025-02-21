@@ -6,24 +6,12 @@ import {
     useState,
 } from 'react';
 
-import { styleText } from 'util';
-
 import style from './SignInModal.module.css';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
-import {
-    ChangeModalButton,
-    Description,
-    Form,
-    GoogleBtn,
-    ModalContent,
-    ModalInput,
-    SubmitButton,
-    Title,
-} from '../Modal.styles';
 
 const SignInModal = ({
     setType,
@@ -64,6 +52,8 @@ const SignInModal = ({
                 text: 'Невірний імейл або пароль!',
                 type: 'error',
             });
+            console.log(error);
+
         }
     }, [data, error, updateNotification]);
 
@@ -78,10 +68,11 @@ const SignInModal = ({
         } catch (err: any) {
             updateNotification({
                 isVisible: true,
-                text: 'Невірний імейл або пароль!, ${err.status}',
+                text: `Невірний імейл або пароль!, ${err.status}`,
                 type: 'error',
             });
-            console.error('Error while logging in', err);
+
+
         }
     };
 

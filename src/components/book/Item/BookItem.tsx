@@ -1,17 +1,76 @@
+import { useCallback, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
 import styles from './BookItem.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+import Notify from '@/components/Notify/Notify';
+import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
+import {
+    useAddCartMutation,
+    useGetCartQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
+import { BookType } from '@/lib/redux/features/user/types';
 
 const BookItem = ({
     book,
     handleOpenModal,
     isPlusVisible,
     handleAddToBooksetList,
-    
+    user,
 }: any) => {
+    const [addCard] = useAddCartMutation();
+
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
+
+    const handleAddToOrder = async () => {
+        if (!user) {
+            updateNotification({
+                isVisible: true,
+                text: 'Для додавання у кошик, спочатку потрібно увійти в аккаунт',
+                type: 'error',
+            });
+            return;
+        }
+        if (notification.isVisible) {
+            setNotification(prev => ({ ...prev, isVisible: false }));
+        }
+        try {
+            await addCard({
+                bookId: book.id,
+                type: BookType.Cart,
+            });
+            refetchCartQuantity();
+            updateNotification({
+                isVisible: true,
+                text: 'Книга успішно додана у кошик',
+                type: 'success',
+            });
+        } catch (error) {
+            console.error(`Failed to add book to cart. ${error}`);
+            updateNotification({
+                isVisible: true,
+                text: 'Failed to add book to cart.',
+                type: 'error',
+            });
+        }
+    };
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+
     return (
         <li key={book.id} className={styles.item}>
             {isPlusVisible && (
@@ -44,14 +103,24 @@ const BookItem = ({
                         {book.author || 'Немає автора'}
                     </p>
                 </div>
+                {notification.isVisible && (
+                    <Notify
+                        text={notification.text}
+                        duration={5}
+                        type={notification.type}
+                    />
+                )}
                 <div className={styles.functionality}>
-                    <span>{book.price}</span>
+                    <span>{book.price} ₴</span>
                     <div className={styles.button}>
-                        <FavoriteBtn book={book}  />
+                        <FavoriteBtn book={book} />
                         <button
                             aria-label="Корзина"
                             className={styles.basket}
-                            onClick={e => handleOpenModal('successInfo', e)}
+                            onClick={e => {
+                                // handleOpenModal('successInfo', e, book);
+                                handleAddToOrder();
+                            }}
                         >
                             <Icon name="basket" size={24} color="#fff" />
                         </button>
