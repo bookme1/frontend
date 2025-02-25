@@ -22,11 +22,13 @@ export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
         <Wrapper style={{ minHeight: '800px' }}>
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
-                <LeftMenu username={user?.username} />
-                <Favorite
-                    favBooks={favBooks}
-                    isAutorized={user ? true : false}
-                />
+                <div style={{ display: 'flex', gap: '20px' }}>
+                    <LeftMenu username={user?.username} />
+                    <Favorite
+                        favBooks={favBooks}
+                        isAutorized={user ? true : false}
+                    />
+                </div>
             </ErrorBoundary>
         </Wrapper>
     );

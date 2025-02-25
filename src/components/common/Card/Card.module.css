@@ -2,7 +2,7 @@
 
 .cardContainer {
     margin: 2px 0;
-    width: 230px;
+    width: 280px;
     height: 418px;
     border-radius: 10px;
     list-style: none;
@@ -112,14 +112,14 @@
 @media (max-width: 768px) {
 
     .cardContainer:hover {
-        transform: scale(1.02);
+        /* transform: scale(1.02); */
         height: auto;
     }
 
 
     .cardContainer {
         flex-direction: row;
-        width: 230px;
+        width: 170px;
         height: auto;
         margin-bottom: 16px;
     }
@@ -132,7 +132,7 @@
     .descriptionContainer {
         padding: 8px;
         height: 110px;
-        width: 230px;
+        width: 100%;
     }
 
     .title {

@@ -41,11 +41,11 @@ const FormatButton = styled.button`
         border-color 0.2s ease-in-out;
     position: relative;
 
-    &.active {
+    /* &.active {
         background-color: var(--red);
         color: white;
         border-color: var(--red);
-    }
+    } */
 
     &.disabled {
         border-color: #9f9f9f;
@@ -70,27 +70,27 @@ const Formats = ({
     epub,
     pdf,
     mobi,
-    setChecked,
+    // setChecked,
 }: {
     epub: boolean;
     pdf: boolean;
     mobi: boolean;
-    setChecked: Dispatch<SetStateAction<string[]>>;
+    // setChecked: Dispatch<SetStateAction<string[]>>;
 }) => {
     function onFormatClicked(evt: any) {
         const format = evt.currentTarget.dataset.format;
 
-        setChecked((prevState: string[]) => {
-            if (!format) return prevState;
+        // setChecked((prevState: string[]) => {
+        //     if (!format) return prevState;
 
-            if (prevState.includes(format)) {
-                // Remove format
-                return prevState.filter(item => item !== format);
-            } else {
-                // Add format
-                return [...prevState, format];
-            }
-        });
+        //     if (prevState.includes(format)) {
+        //         // Remove format
+        //         return prevState.filter(item => item !== format);
+        //     } else {
+        //         // Add format
+        //         return [...prevState, format];
+        //     }
+        // });
 
         evt.currentTarget.classList.toggle('active');
     }

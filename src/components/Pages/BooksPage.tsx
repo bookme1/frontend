@@ -1,6 +1,5 @@
 'use client';
 
-import { IBook } from '@/app/book/[id]/page.types';
 import { Controls } from '@/components/books/Controls';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';

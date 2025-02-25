@@ -9,10 +9,10 @@ export const FavList = styled.ul`
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    justify-content: center;
+    justify-content: flex-start;
     max-height: 1600px;
     overflow-y: auto;
-
+width: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
 `;

@@ -48,8 +48,8 @@ const MainInformation = ({
     isAuthorized: boolean;
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
-
+    // const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
+    const checkedFormats = ['pdf', 'mobi', 'epub'];
     const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
         useBookService();
 
@@ -111,7 +111,7 @@ const MainInformation = ({
             });
         }
     };
-
+    console.log(checkedFormats);
     const handleCheckout = async () => {
         refetchCartQuantity();
         if (checkedFormats.length === 0) {
@@ -228,7 +228,7 @@ const MainInformation = ({
                             </ToFavorite>
                         </Controls>
                         <Formats
-                            setChecked={setCheckedFormats}
+                            // setChecked={setCheckedFormats}
                             pdf={aviableFormats[0]}
                             mobi={aviableFormats[1]}
                             epub={aviableFormats[2]}

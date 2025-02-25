@@ -4,12 +4,7 @@ import { Categories } from '@/components/main/Categories';
 import { Hero } from '@/components/main/Hero';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { SwiperList } from '@/components/main/SwiperList';
-import {
-    setModalContent,
-    setModalStatus,
-    useDispatch,
-    useSelector,
-} from '@/lib/redux';
+import { useSelector } from '@/lib/redux';
 import { BookSetRequest } from '@/lib/redux/features/book/types';
 
 import Error from '../Error/Error';

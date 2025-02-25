@@ -7,26 +7,7 @@ export default function UserBooks({
 }: {
     userOrderBooks: IOrderBook[] | null | undefined;
 }) {
-    // const [orderedBooks, setOrderedBooks] = useState<IOrderBook[] | null>(null);
-    // const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const fetchBooks = async () => {
-    //         const books = await bookService.takeAllOrderedBooks(accessToken);
-    //         setOrderedBooks(books);
-    //         setLoading(false);
-    //     };
-
-    // fetchBooks();
-    // }, [accessToken]);
-
-    // if (loading) {
-    //     return <p>Loading...</p>;
-    // }
-
-    // if (!orderedBooks || orderedBooks.length === 0) {
-    //     return <p>Нажаль, книг не було знайдено :(</p>;
-    // }
 
     return (
         <CardList>

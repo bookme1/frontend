@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { IoIosList } from 'react-icons/io';
-import { useSelector } from 'react-redux';
 
 import style from './BurgerModal.module.css';
 import modalStyles from '@/components/Modals/MainModal/MainModal.module.css';
-import { HeartIcon } from '@/components/common/Header/Header';
+import { BasketIcon, HeartIcon } from '@/components/common/Header/Header';
 import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
-import { RootState, setModalStatus, useDispatch } from '@/lib/redux';
-import { useGetFavoritesQuantityQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    RootState,
+    selectOpenModal,
+    setModalContent,
+    setModalStatus,
+    useDispatch,
+    useSelector,
+} from '@/lib/redux';
+import {
+    useGetCartQuantityQuery,
+    useGetCartQuery,
+    useGetFavoritesQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
 
 import { Modal } from '../Modal';
@@ -29,12 +39,27 @@ const BurgerModal: React.FC<{
     const handleCloseModal = (event?: React.MouseEvent<HTMLButtonElement>) => {
         dispatch(setModalStatus(false));
         if (event) onClose(event);
-        console.log(event);
     };
 
     const { data: favQuantity } = useGetFavoritesQuantityQuery({
         type: BookType.Fav,
     });
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+
+    const { refetch: refetchCart } = useGetCartQuery({
+        type: BookType.Cart,
+    });
+
+    const handleCartModal = () => {
+        dispatch(setModalStatus(true));
+        dispatch(setModalContent('Cart'));
+        refetchCartQuantity();
+        refetchCart();
+    };
 
     const hasFavorites = !!favQuantity;
 
@@ -84,11 +109,16 @@ const BurgerModal: React.FC<{
                         Улюблені
                     </a>
                 </li>
-                <li className={style.burgerItem}>
-                    <a href="" className={style.accountLink}>
-                        <Icon name="cart" size={28} />
+                <li
+                    className={style.burgerItem}
+                    onClick={() => {
+                        handleCartModal();
+                    }}
+                >
+                    <button className={style.accountLink}>
+                        <BasketIcon cartQuantity={cartQuantity} />
                         Кошик
-                    </a>
+                    </button>
                 </li>
             </ul>
             {isOpen && <Modal setIsOpen={setIsOpen} />}

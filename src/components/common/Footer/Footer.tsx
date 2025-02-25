@@ -6,8 +6,20 @@ import { Icon } from '../Icon';
 
 const Footer = () => {
     const footer = {
-        first: ['Акції', 'Комплекти', 'Магазин BookMe'],
-        second: ['Блог', 'Дитячі', 'Умови використання сайту'],
+        first: [
+            { id: 1, label: 'Акції', link: '#' },
+            { id: 2, label: 'Комплекти', link: '#' },
+            { id: 3, label: 'Магазин BookMe', link: '#' },
+        ],
+        second: [
+            { id: 1, label: 'Блог', link: 'https://t.me/bookmeua' },
+            { id: 2, label: 'Дитячі', link: 'books?genre=Детские' },
+            {
+                id: 3,
+                label: 'Умови використання сайту',
+                link: 'conditions-of-use',
+            },
+        ],
     };
     return (
         <footer>
@@ -38,9 +50,9 @@ const Footer = () => {
                             <ul>
                                 {footer.first.map(text => {
                                     return (
-                                        <li key={text}>
-                                            <Link href="conditions-of-use">
-                                                {text}
+                                        <li key={text.id}>
+                                            <Link href={text.link}>
+                                                {text.label}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}
@@ -53,9 +65,9 @@ const Footer = () => {
                             <ul>
                                 {footer.second.map(text => {
                                     return (
-                                        <li key={text}>
-                                            <Link href="#">
-                                                {text}
+                                        <li key={text.id}>
+                                            <Link href={text.link}>
+                                                {text.label}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}

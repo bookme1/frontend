@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import axios from 'axios';
 import crypto from 'crypto';
-
-import { Headerstatistics } from '@/components/Headerstatistics';
 import { Webstatistics } from '@/components/Webstatistics';
-import { IUser } from '@/lib/redux/features/user/types';
 
 import {
     Item,

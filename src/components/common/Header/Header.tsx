@@ -167,7 +167,6 @@ const Header = ({
         }
     };
 
-
     useEffect(() => {
         const q = router?.get('q');
         if (q) {
