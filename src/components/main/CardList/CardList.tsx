@@ -8,6 +8,8 @@ import 'swiper/css/navigation';
 import { A11y, Navigation } from 'swiper/modules';
 
 import style from './CardList.module.css';
+import BookItem from '@/components/book/Item/BookItem';
+import { IUser } from '@/lib/redux/features/user/types';
 
 import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
@@ -16,10 +18,12 @@ const CardList = ({
     name,
     books,
     id,
+    user,
 }: {
     name: string;
     books: any[];
     id: number;
+    user: IUser | null;
 }) => {
     const [width, setWidth] = useState(0);
 
@@ -31,7 +35,13 @@ const CardList = ({
     if (books?.length) {
         booksMarkup = books.map(book => (
             <SwiperSlide key={book.id} className={style.swiperStyle}>
-                <Card book={book} />
+                {/* <Card book={book} /> */}
+                <BookItem
+                    key={book.id}
+                    book={book}
+                    isSwiper={true}
+                    user={user}
+                />
             </SwiperSlide>
         ));
     }

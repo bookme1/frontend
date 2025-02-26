@@ -15,6 +15,7 @@ import {
 import { BookType } from '@/lib/redux/features/user/types';
 
 const BookItem = ({
+    isSwiper,
     book,
     handleOpenModal,
     isPlusVisible,
@@ -72,7 +73,10 @@ const BookItem = ({
         });
 
     return (
-        <li key={book.id} className={styles.item}>
+        <li
+            key={book.id}
+            className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
+        >
             {isPlusVisible && (
                 <button
                     onClick={() => handleAddToBooksetList(book)}
@@ -81,13 +85,16 @@ const BookItem = ({
                     Add to bookset
                 </button>
             )}
-            <Link href={`/book/${book.id}`}>
+            <Link
+                href={`/book/${book.id}`}
+                className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
+            >
                 <Image
                     src={book.url}
                     alt={book.title}
                     width={230}
                     height={288}
-                    className={styles.img}
+                    className={`${styles.img}`}
                     loading="lazy"
                     style={{
                         objectFit: 'cover',
@@ -96,7 +103,9 @@ const BookItem = ({
                     }}
                 />
             </Link>
-            <div className={styles.wrapper}>
+            <div
+                className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
+            >
                 <div className={styles.information}>
                     <p className={styles.title}>{book.title}</p>
                     <p className={styles.author}>

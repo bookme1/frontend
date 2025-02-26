@@ -7,11 +7,11 @@
     }
     @media (min-width: 748px) {
         width: 748px;
-        height: 600px;
+        height: 650px;
     }
     @media (min-width: 1234px) {
         width: 1234px;
-        height: 600px;
+        height: 650px;
     }
 }
 
