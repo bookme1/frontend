@@ -2,20 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import {
-    CharContainer,
-    CharItem,
-    CharKey,
-    CharList,
-    CharValue,
-    ControlButton,
-    ControlButtons,
-    Description,
-    FullButton,
-    FullIcon,
-    Title,
-} from './Characteristics.styles';
+import styles from './Characteristics.module.css';
 import { ICharacteristics } from './Characteristics.types';
+import { Icon } from '@/components/common/Icon';
 
 const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
     characteristics = null,
@@ -40,69 +29,81 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
     }, [isFull]);
 
     return (
-        <CharContainer>
-            <Title>Характеристики</Title>
-            <CharList>
-                <CharItem>
-                    <CharKey>Мова:</CharKey>
-                    <CharValue>
+        <div className={styles.charContainer}>
+            <h2 className={styles.title}>Характеристики</h2>
+            <ul className={styles.charList}>
+                <li className={styles.charItem}>
+                    <span className={styles.charKey}>Мова:</span>
+                    <span className={styles.charValue}>
                         {characteristics?.language === 'ukr'
                             ? 'Українська'
                             : characteristics?.language}
-                    </CharValue>
-                </CharItem>
-                <CharItem>
-                    <CharKey>Видавництво:</CharKey>
-                    <CharValue>{characteristics?.publish}</CharValue>
-                </CharItem>
-                <CharItem>
-                    <CharKey>Кількість сторінок:</CharKey>
-                    <CharValue>{characteristics?.pages}</CharValue>
-                </CharItem>
+                    </span>
+                </li>
+                <li className={styles.charItem}>
+                    <span className={styles.charKey}>Видавництво:</span>
+                    <span className={styles.charValue}>
+                        {characteristics?.publish}
+                    </span>
+                </li>
+                <li className={styles.charItem}>
+                    <span className={styles.charKey}>Кількість сторінок:</span>
+                    <span className={styles.charValue}>
+                        {characteristics?.pages}
+                    </span>
+                </li>
                 {isFull && (
-                    <CharItem>
-                        <CharKey>Обкладинка:</CharKey>
-                        <CharValue>
+                    <li className={styles.charItem}>
+                        <span className={styles.charKey}>Обкладинка:</span>
+                        <span className={styles.charValue}>
                             Тут будут жанры в ближайшем будущем
-                        </CharValue>
-                    </CharItem>
+                        </span>
+                    </li>
                 )}
-            </CharList>
-            <FullButton
+            </ul>
+            <button
+                className={styles.fullButton}
                 onClick={() => {
                     setIsFull(prev => !prev);
                 }}
             >
                 {isFull ? 'Сховати ' : 'Показати '}
                 всі характеристики{' '}
-                <FullIcon className="full_icon_char" name="arrow_down" />
-            </FullButton>
-            <Title>Опис</Title>
-            {/* <ControlButtons>
-                <ControlButton className="active mobile">Сюжет</ControlButton>
-                <ControlButton className="mobile disabled ">
+                <Icon
+                    className={`${styles.full_icon_char} ${styles.icon}`}
+                    name="arrow_down"
+                />
+            </button>
+            <h2 className={styles.title}>Опис</h2>
+            {/* <div className={styles.controlBtnBox}>
+                <button className={`${styles.active} ${styles.mobile} ${styles.controlButton}`}>Сюжет</button>
+                <button className={`${styles.mobile} ${styles.disabled} ${styles.controlButton}`}>
                     Читати уривок
-                </ControlButton>
-                <ControlButton className="quote disabled ">
-                    Цитати з книги
-                </ControlButton>
-            </ControlButtons> */}
-            <Description
-                className="description"
+                </button>
+                <button className={`${styles.quote} ${styles.disabled} ${styles.controlButton}`}>
+                    Цитати з книгиz
+                </button>
+            </div> */}
+            <p
+                className={`${styles.description} ${styles.desc}`}
                 dangerouslySetInnerHTML={{
                     __html: characteristics?.description || '',
                 }}
-            ></Description>
-            <FullButton
+            ></p>
+            <button
+                className={styles.fullButton}
                 onClick={() => {
                     setIsDescFull(prev => !prev);
                 }}
             >
                 {isDescFull ? 'Сховати ' : 'Показати '}
                 повний опис
-                <FullIcon className="full_icon" name="arrow_down" />
-            </FullButton>
-        </CharContainer>
+                <Icon
+                    className={`${styles.full_icon} ${styles.icon}`}
+                    name="arrow_down"
+                />
+            </button>
+        </div>
     );
 };
 
