@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import Link from 'next/link';
+
 import {
     AuthorsList,
     BottomContainer,
@@ -14,11 +16,8 @@ import {
     Title,
 } from './MobileCard.styles';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
-import { CardLink } from '@/components/common/Card/Card.styles';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch } from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
-import { useAddBookQuery } from '@/lib/redux/features/user/userApi';
 
 const MobileCard = ({ book }: { book: any }) => {
     const [addClick, setAddClick] = useState(false);
@@ -47,13 +46,11 @@ const MobileCard = ({ book }: { book: any }) => {
                         ['--background-image' as string]: `url(${book.url})`,
                     }}
                 >
-                    <CardLink href={`book/${book.id}`}></CardLink>
+                    <Link href={`book/${book.id}`}></Link>
                 </ImageContainer>
                 <ContentContainer>
                     <Title>
-                        <CardLink href={`book/${book.id}`}>
-                            {book.title}
-                        </CardLink>
+                        <Link href={`book/${book.id}`}>{book.title}</Link>
                     </Title>
 
                     <AuthorsList>{book.authors}</AuthorsList>

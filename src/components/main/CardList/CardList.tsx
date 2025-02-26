@@ -11,7 +11,6 @@ import style from './CardList.module.css';
 import BookItem from '@/components/book/Item/BookItem';
 import { IUser } from '@/lib/redux/features/user/types';
 
-import { Card } from '../../common/Card';
 import { Icon } from '../../common/Icon';
 
 const CardList = ({
@@ -35,7 +34,7 @@ const CardList = ({
     if (books?.length) {
         booksMarkup = books.map(book => (
             <SwiperSlide key={book.id} className={style.swiperStyle}>
-                {/* <Card book={book} /> */}
+          
                 <BookItem
                     key={book.id}
                     book={book}

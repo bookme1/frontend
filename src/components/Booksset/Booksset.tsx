@@ -313,6 +313,7 @@ const Booksset = ({ userID }: { userID: number }) => {
                             name={sets.title}
                             bookset={sets.books}
                             id={sets.id}
+                            user={null}
                         />
                     </div>
                 ))}
