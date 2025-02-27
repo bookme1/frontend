@@ -29,7 +29,7 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
     }, [isFull]);
 
     return (
-        <div className={styles.charContainer}>
+        <div className={`${styles.charContainer} ${styles.wrapper}`}>
             <h2 className={styles.title}>Характеристики</h2>
             <ul className={styles.charList}>
                 <li className={styles.charItem}>

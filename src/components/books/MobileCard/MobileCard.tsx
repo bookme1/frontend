@@ -4,33 +4,13 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 
-import {
-    AuthorsList,
-    BottomContainer,
-    CartButton,
-    ContentContainer,
-    Controls,
-    ImageContainer,
-    Price,
-    StyledWrapper,
-    Title,
-} from './MobileCard.styles';
+import styles from './MobileCard.module.css';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import { Icon } from '@/components/common/Icon';
 import { openModal, useDispatch } from '@/lib/redux';
 
 const MobileCard = ({ book }: { book: any }) => {
     const [addClick, setAddClick] = useState(false);
-    const token = localStorage.getItem('accessToken');
-
-    // const addCardBook = useAddBookQuery(
-    //     {
-    //         accessToken: token ?? '',
-    //         bookId: book.id ?? '',
-    //         type: BookType.Cart,
-    //     },
-    //     { skip: addClick === false }
-    // );
 
     const dispatch = useDispatch();
 
@@ -40,35 +20,37 @@ const MobileCard = ({ book }: { book: any }) => {
     };
     return (
         <>
-            <StyledWrapper>
-                <ImageContainer
+            <div className={`${styles.wrapper} ${styles.styledWrapper}`}>
+                <div
+                    className={styles.imageContainer}
                     style={{
                         ['--background-image' as string]: `url(${book.url})`,
                     }}
                 >
                     <Link href={`book/${book.id}`}></Link>
-                </ImageContainer>
-                <ContentContainer>
-                    <Title>
+                </div>
+                <div className={styles.contentContainer}>
+                    <h3 className={styles.title}>
                         <Link href={`book/${book.id}`}>{book.title}</Link>
-                    </Title>
+                    </h3>
 
-                    <AuthorsList>{book.authors}</AuthorsList>
-                    <BottomContainer>
-                        <Price>{book.price} ₴</Price>
-                        <Controls>
+                    <p className={styles.authorsList}>{book.authors}</p>
+                    <div className={styles.bottomContainer}>
+                        <p className={styles.price}>{book.price} ₴</p>
+                        <div className={styles.controls}>
                             <FavoriteBtn book={book} />
-                            <CartButton
+                            <button
+                                className={styles.cartButton}
                                 onClick={() => {
                                     handleOpenModal('successInfo');
                                 }}
                             >
                                 <Icon name="cart" size={24} color="#fff" />
-                            </CartButton>
-                        </Controls>
-                    </BottomContainer>
-                </ContentContainer>
-            </StyledWrapper>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

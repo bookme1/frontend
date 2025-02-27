@@ -2,23 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-    Author,
-    AuthorsList,
-    Controls,
-    ImageContainer,
-    InfoContainer,
-    MainInfoContainer,
-    Price,
-    StyledImage,
-    StyledWrapper,
-    Title,
-    ToCart,
-    ToFavorite,
-} from './MainInformation.styles';
+import styles from './MainInformation.module.css';
 import { useBookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
@@ -32,7 +20,6 @@ import {
     useGetCartQuantityQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
@@ -48,7 +35,6 @@ const MainInformation = ({
     isAuthorized: boolean;
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
-    // const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
     const checkedFormats = ['pdf', 'mobi', 'epub'];
     const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
         useBookService();
@@ -111,7 +97,7 @@ const MainInformation = ({
             });
         }
     };
-    console.log(checkedFormats);
+
     const handleCheckout = async () => {
         refetchCartQuantity();
         if (checkedFormats.length === 0) {
@@ -177,16 +163,17 @@ const MainInformation = ({
     const getAuthorsMarkup = (authors: string) => {
         if (authors === undefined) return;
         const authorsArr = authors.split(',');
-        return authorsArr.map(author => <Author key={author}>{author}</Author>);
+        return authorsArr.map(author => <li className={styles.author} key={author}>{author}</li>);
     };
 
     const authorsMarkup = getAuthorsMarkup(book.author);
     return (
-        <>
-            <StyledWrapper>
-                <ImageContainer>
+        <div className={styles.container}>
+            <div className={`${styles.wrapper} ${styles.styledWrapper}`}>
+                <div className={styles.imgContainer}>
                     {imageLoaded && book?.url && (
-                        <StyledImage
+                        <Image
+                            className={styles.image}
                             src={
                                 book.url.startsWith('http')
                                     ? book.url
@@ -197,12 +184,12 @@ const MainInformation = ({
                             height={330}
                         />
                     )}
-                </ImageContainer>
-                <InfoContainer>
-                    <MainInfoContainer>
-                        <Title>{book?.title}</Title>
-                        <AuthorsList>{authorsMarkup}</AuthorsList>
-                        <Price>{book?.price} ₴</Price>
+                </div>
+                <div className={styles.infoContainer}>
+                    <div className={styles.mainInfoContainer}>
+                        <h1 className={styles.title}>{book?.title}</h1>
+                        <ul className={styles.authorsList}>{authorsMarkup}</ul>
+                        <p className={styles.price}>{book?.price} ₴</p>
                         {notification.isVisible && (
                             <Notify
                                 text={notification.text}
@@ -210,8 +197,9 @@ const MainInformation = ({
                                 type={notification.type}
                             />
                         )}
-                        <Controls>
-                            <ToCart
+                        <div className={styles.controls}>
+                            <button
+                                className={styles.toCardBtn}
                                 onClick={() => {
                                     openModal('cart');
                                     handleAddBook();
@@ -219,35 +207,38 @@ const MainInformation = ({
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик
-                            </ToCart>
-                            <ToCart onClick={handleCheckout}>
+                            </button>
+                            <button
+                                className={styles.toCardBtn}
+                                onClick={handleCheckout}
+                            >
                                 Купити зараз
-                            </ToCart>
-                            <ToFavorite>
+                            </button>
+                            <button className={styles.toFavBnt}>
                                 <FavoriteBtn book={book} />
-                            </ToFavorite>
-                        </Controls>
+                            </button>
+                        </div>
                         <Formats
                             // setChecked={setCheckedFormats}
                             pdf={aviableFormats[0]}
                             mobi={aviableFormats[1]}
                             epub={aviableFormats[2]}
                         />
-                    </MainInfoContainer>
+                    </div>
                     {screenWidth &&
                         (screenWidth < 768 || screenWidth >= 1280) && (
                             <Characteristics
                                 characteristics={characteristics}
                             />
                         )}
-                </InfoContainer>
-            </StyledWrapper>
+                </div>
+            </div>
             {screenWidth && screenWidth >= 768 && screenWidth < 1280 && (
-                <Wrapper>
+                <div className={styles.wrapper}>
                     <Characteristics characteristics={characteristics} />
-                </Wrapper>
+                </div>
             )}
-        </>
+        </div>
     );
 };
 

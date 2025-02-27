@@ -98,8 +98,6 @@ const BookItem = ({
                     loading="lazy"
                     style={{
                         objectFit: 'cover',
-                        width: 'auto',
-                        height: 'auto',
                     }}
                 />
             </Link>
