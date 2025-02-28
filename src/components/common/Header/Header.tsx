@@ -6,26 +6,10 @@ import ContentLoader from 'react-content-loader';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import styled from 'styled-components';
 
-import {
-    AccountLink,
-    Avatar,
-    BurgerButton,
-    ControlsContainer,
-    FlexRow,
-    Form,
-    FromDesktop,
-    HeaderButton,
-    HeaderContainer,
-    Logo,
-    LogoContainer,
-    SearchButton,
-    SearchInput,
-    StyledWrapper,
-    ToTablet,
-} from './Header.styles';
+import styles from './Header.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
+import baseAvatar from '@/assets/main/user.png';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
@@ -40,7 +24,6 @@ import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
 
-import { CatalogButton } from '../../main/Hero/Hero.styles';
 import { Icon } from '../Icon';
 
 const IoMdHeartEmpty = dynamic(
@@ -54,26 +37,37 @@ const TfiPanel = dynamic(
 );
 
 interface HeartIconProps {
-    hasFavorites: boolean;
+    hasFavorites: boolean | null;
+    favQuantity: number | null | undefined;
 }
 
-export const HeartIcon = styled.div<HeartIconProps>`
-    position: relative;
-    display: inline-block;
-    color: ${props => (props.hasFavorites ? 'red' : '#505050')};
-    cursor: pointer;
-`;
+export const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
+    return (
+        <div
+            className={`${styles.heartIcon} ${hasFavorites ? styles.favorited : styles.notFavorited}`}
+        >
+            <IoMdHeartEmpty size={28} />
+            {hasFavorites && (
+                <div className={styles.favoriteCount}>{favQuantity}</div>
+            )}
+        </div>
+    );
+};
 
-export const FavoriteCount = styled.div`
-    position: absolute;
-    top: -10px;
-    right: -22px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    padding: 0.2em 0.6em;
-    font-size: 14px;
-`;
+interface AvatarProps {
+    children?: React.ReactNode;
+}
+
+export const Avatar = ({ children }: AvatarProps) => {
+    return (
+        <div
+            className={styles.avatar}
+            style={{ backgroundImage: `url(${baseAvatar.src})` }}
+        >
+            {children}
+        </div>
+    );
+};
 
 const Header = ({
     userData,
@@ -175,7 +169,7 @@ const Header = ({
         }
     };
 
-    const hasFavorites = favQuantity ? favQuantity : null;
+    const hasFavorites = !!favQuantity;
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));
@@ -190,120 +184,77 @@ const Header = ({
             {isAdminka ? (
                 <Headerstatistics username={userData?.username} />
             ) : (
-                <HeaderContainer>
-                    <StyledWrapper>
-                        <ToTablet>
-                            {/* <ControlsContainer>
-                            {userData ? (
-                                ''
-                            ) : (
-                                <HeaderButton
-                                    onClick={() => {
-                                        handleClick();
-                                    }}
-                                >
-                                    <Icon name="account" size={28} />
-                                    Увійти
-                                </HeaderButton>
-                            )}
-                            <HeaderButton> 
-                                <AccountLink
-                                    href={
-                                        userData
-                                            ? '/account/favorites'
-                                            : '/favorite' // wtf?? it should be only 1 naming
-                                    }
-                                >
-                                    <HeartIcon
-                                        hasFavorites={
-                                            hasFavorites ? true : false
-                                        }
-                                    >
-                                        <IoMdHeartEmpty size={28} />
-                                        {hasFavorites && (
-                                            <FavoriteCount>
-                                                {favoriteCount}
-                                            </FavoriteCount>
-                                        )}
-                                    </HeartIcon>
-                                    Обране
-                                </AccountLink>
-                            </HeaderButton>
-                            <HeaderButton onClick={handleCartModal}>
-                                <Icon name="cart" size={28} />
-                                Кошик
-                            </HeaderButton>
-                            {userData ? (
-                                <Avatar>
-                                    <AccountLink href="/account"></AccountLink>
-                                </Avatar>
-                            ) : (
-                                ''
-                            )}
-                            {(userData?.role === Role.Moderator ||
-                                userData?.role === Role.Admin) && (
-                                <a href="/admin">
-                                    <TfiPanel size={40} color="#000" />
-                                </a>
-                            )}
-                        </ControlsContainer> */}
-                        </ToTablet>
-                        <LogoContainer>
+                <header className={styles.headerContainer}>
+                    <div className={`wrapper ${styles.headerWrapper}`}>
+                        <div className={styles.logocantainer}>
                             <Link
                                 href="/"
                                 aria-label="Перейти на головну сторінку"
                             >
-                                <Logo name="logo_black" />
+                                <Icon
+                                    className={styles.logo}
+                                    name="logo_black"
+                                />
                             </Link>
-                        </LogoContainer>
-                        <FromDesktop>
-                            <CatalogButton
+                        </div>
+                        <div className={styles.fromDesctop}>
+                            <button
                                 type="submit"
                                 onClick={handleModal}
-                                className="z-10"
+                                className={`z-10 ${styles.catalogBtn}`}
                             >
                                 Категорії
-                            </CatalogButton>
-                        </FromDesktop>
-                        <FlexRow>
-                            <Form
+                            </button>
+                        </div>
+                        <div className={styles.flexRow}>
+                            <form
+                                className={styles.searchForm}
                                 onSubmit={e => {
                                     handleSubmitSearch(e);
                                 }}
                             >
                                 <div>
-                                    <SearchInput
+                                    <input
+                                        className={styles.searchInput}
                                         placeholder="Знайти"
                                         onChange={e => {
                                             handleSearch(e);
                                         }}
                                         ref={searchVal}
                                     />
-                                    <SearchButton
+                                    <button
+                                        className={styles.searchButton}
                                         type="submit"
                                         aria-label="Пошук"
                                     >
                                         <Icon
                                             name="search"
                                             size={24}
-                                            className="icon"
+                                            className={styles.icon}
                                         />
-                                    </SearchButton>
+                                    </button>
                                 </div>
                                 {isSearchListOpen && (
                                     <SearchList books={books} />
                                 )}
-                            </Form>
-                            <ToTablet style={{ width: 50 }}>
-                                <BurgerButton onClick={handleBurgerButton}>
+                            </form>
+                            <div
+                                style={{ width: 50 }}
+                                className={styles.toTablet}
+                            >
+                                <button
+                                    className={styles.burgerBtn}
+                                    onClick={handleBurgerButton}
+                                >
                                     <Icon name="burger" size={32} />
-                                </BurgerButton>
-                            </ToTablet>
-                        </FlexRow>
-                        <FromDesktop>
-                            <ControlsContainer>
-                                <HeaderButton>
-                                    <AccountLink
+                                </button>
+                            </div>
+                        </div>
+                        <div className={styles.fromDesctop}>
+                            <div className={styles.controlsContainer}>
+                                <div className={styles.heartBtn}>
+                                    <a
+                                        className={styles.accountLink}
                                         href={
                                             userData
                                                 ? '/account/favorites'
@@ -311,24 +262,19 @@ const Header = ({
                                         }
                                     >
                                         <HeartIcon
-                                            hasFavorites={
-                                                hasFavorites ? true : false
-                                            }
-                                        >
-                                            <IoMdHeartEmpty size={28} />
-                                            {hasFavorites && (
-                                                <FavoriteCount>
-                                                    {favQuantity}
-                                                </FavoriteCount>
-                                            )}
-                                        </HeartIcon>
+                                            hasFavorites={hasFavorites}
+                                            favQuantity={favQuantity}
+                                        />
                                         Обране
-                                    </AccountLink>
-                                </HeaderButton>
-                                <HeaderButton onClick={handleCartModal}>
+                                    </a>
+                                </div>
+                                <button
+                                    className={styles.headerBtn}
+                                    onClick={handleCartModal}
+                                >
                                     <Icon name="cart" size={28} />
                                     Кошик
-                                </HeaderButton>
+                                </button>
                                 {isLoading ? (
                                     <ContentLoader
                                         speed={2}
@@ -350,17 +296,21 @@ const Header = ({
                                     </ContentLoader>
                                 ) : userData ? (
                                     <Avatar>
-                                        <AccountLink href="/account"></AccountLink>
+                                        <a
+                                            className={styles.accountLink}
+                                            href="/account"
+                                        ></a>
                                     </Avatar>
                                 ) : (
-                                    <HeaderButton
+                                    <button
+                                        className={styles.headerBtn}
                                         onClick={() => {
                                             handleClick();
                                         }}
                                     >
                                         <Icon name="account" size={28} />
                                         Увійти
-                                    </HeaderButton>
+                                    </button>
                                 )}
                                 {(userData?.role === Role.Moderator ||
                                     userData?.role === Role.Admin) && (
@@ -368,10 +318,10 @@ const Header = ({
                                         <TfiPanel size={40} color="#000" />
                                     </a>
                                 )}
-                            </ControlsContainer>
-                        </FromDesktop>
-                    </StyledWrapper>
-                </HeaderContainer>
+                            </div>
+                        </div>
+                    </div>
+                </header>
             )}
             {isOpen && <Modal setIsOpen={setIsOpen} />}
         </>

@@ -5,9 +5,8 @@ import { FaUserTie } from 'react-icons/fa';
 
 import Link from 'next/link';
 
-import { LogoContainer } from './Headerstatistics.style';
+import styles from './Headerstatistics.module.css';
 
-import { Logo } from '../common/Header/Header.styles';
 import { Icon } from '../common/Icon';
 
 const Headerstatistics = ({
@@ -18,16 +17,16 @@ const Headerstatistics = ({
     return (
         <>
             <div>
-                <LogoContainer className="flex items-center shadow-xl h-20">
-                    <Link href="/" className="ml-20">
-                        <Logo name="logo_black" />
+                <div className={styles.logoContainer}>
+                    <Link href="/" className={styles.logo}>
+                        <Icon className={styles.logo} name="logo_black" />
                     </Link>
-                    <div className="flex items-center gap-10">
+                    <div className={styles.userContainer}>
                         <p>{username}</p>
                         <FaUserTie size={40} color="#000" />
-                        <Icon name="exit" className="mr-2" />
+                        <Icon name="exit" className={styles.exitIcon} />
                     </div>
-                </LogoContainer>
+                </div>
             </div>
         </>
     );

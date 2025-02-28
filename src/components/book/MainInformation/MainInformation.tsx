@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
-import Notiflix from 'notiflix';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -23,6 +22,8 @@ import {
 import { bookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
+import Notify from '@/components/Notify/Notify';
+import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
@@ -45,6 +46,16 @@ const MainInformation = ({
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
+
+    const [notification, setNotification] = useState<NotificationState>({
+        isVisible: false,
+        text: '',
+        type: 'information',
+    });
+
+    const updateNotification = (newValues: Partial<typeof notification>) => {
+        setNotification(prev => ({ ...prev, ...newValues }));
+    };
 
     const token =
         typeof window !== 'undefined'
@@ -70,31 +81,42 @@ const MainInformation = ({
                     bookId: book.id,
                     type: BookType.Cart,
                 });
-                Notiflix.Notify.success('Книга успішно додана до кошика!');
+
+                updateNotification({
+                    isVisible: true,
+                    text: 'Книга успішно додана до кошика!',
+                    type: 'success',
+                });
             } catch (error) {
-                Notiflix.Notify.failure(
-                    'Помилка при додаванні книги до кошика. Помилка #2001'
-                );
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при додаванні книги до кошика. Помилка #2001`,
+                    type: 'error',
+                });
             }
         }
     };
 
     const handleCheckout = async () => {
         if (checkedFormats.length === 0) {
-            Notiflix.Notify.failure(
-                'Оберіть формати книг, які ви хочете придбати!'
-            );
+            updateNotification({
+                isVisible: true,
+                text: `Оберіть формати книг, які ви хочете придбати!`,
+                type: 'error',
+            });
             return;
         }
         if (!isAuthorized) {
-            Notiflix.Notify.failure(
-                'Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!'
-            );
+            updateNotification({
+                isVisible: true,
+                text: `Щоб отримати необмежений доступ до книги (і користуватись нашим рідером) будь ласка, увійдіть в акаунт!`,
+                type: 'error',
+            });
             return;
         }
         const order_id = uuidv4();
         const accessToken = localStorage.getItem('accessToken');
-        bookService.makeTestCheckout(book.price, order_id);
+        bookService.makeTestCheckout(book.price, order_id, updateNotification);
 
         const transaction_id = await bookService.makeWatermarking(
             checkedFormats.join(','),
@@ -106,10 +128,17 @@ const MainInformation = ({
         } else {
             console.log(transaction_id);
             console.log('oshibka');
-            Notiflix.Notify.failure('Помилка при нанесенні вотермарки!');
-            Notiflix.Notify.failure(
-                "Будь ласка, зв'яжіться з адміністратором сайту!"
-            );
+
+            updateNotification({
+                isVisible: true,
+                text: `Помилка при нанесенні вотермарки!`,
+                type: 'error',
+            });
+            updateNotification({
+                isVisible: true,
+                text: `Будь ласка, зв'яжіться з адміністратором сайту!`,
+                type: 'error',
+            });
         }
 
         await bookService.makeOrder(
@@ -174,6 +203,20 @@ const MainInformation = ({
                             <ToFavorite>
                                 <FavoriteBtn book={book} />
                             </ToFavorite>
+                            {notification.isVisible && (
+                                <Notify
+                                    text={notification.text}
+                                    duration={5}
+                                    type={notification.type}
+                                />
+                            )}
+                            {notification.isVisible && (
+                                <Notify
+                                    text={notification.text}
+                                    duration={5}
+                                    type={notification.type}
+                                />
+                            )}
                         </Controls>
                         <Formats
                             setChecked={setCheckedFormats}

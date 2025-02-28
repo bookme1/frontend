@@ -3,20 +3,21 @@
 @tailwind utilities;
 
 :root {
-    --text_main: #1F171E;
-    --red: #F33;
-    --blue: #0597E8;
-    --gray: #6E646D;
+    --text_main: #1f171e;
+    --red: #f33;
+    --blue: #0597e8;
+    --gray: #6e646d;
     --gray_dark: #505050;
-    --gray_border: #A7A7A7;body {
-    position: relative;
-}
+    --gray_border: #a7a7a7;
+    body {
+        position: relative;
+    }
     --gray_search: #f4f4f4;
-    --beige: #FCDDC9;
+    --beige: #fcddc9;
     --color-footer-bottom: #606060;
     --white: #fff;
     --ai-button-bg-color: #121212;
-    --ai-button-text-color: #FFFFFF;
+    --ai-button-text-color: #ffffff;
 }
 
 .bg-main {
@@ -51,6 +52,20 @@ body.modal-open {
     z-index: 9;
 }
 
+.wrapper {
+    margin: 0 auto;
+    padding: 0 10px;
+    @media (min-width: 363px) {
+        width: 363px;
+    }
+    @media (min-width: 748px) {
+        width: 748px;
+    }
+    @media (min-width: 1234px) {
+        width: 1234px;
+    }
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -64,34 +79,30 @@ body.modal-open {
 
 .for_light_theme {
     --primary-background-color: #ffffff;
-    --text-color: #1F171E;
-    --title-color: #1F171E;
+    --text-color: #1f171e;
+    --title-color: #1f171e;
     --arrow-btn-bgcolor: #ffffff;
-    --arrow-btn-bgcolor-hover:  #f4f4f4;
-    --filter-btn-bgcolor: #A7A7A7;
-    --btn-text-color:  #1F171E;
+    --arrow-btn-bgcolor-hover: #f4f4f4;
+    --filter-btn-bgcolor: #a7a7a7;
+    --btn-text-color: #1f171e;
 }
 
 .for_dark_theme {
-    --primary-background-color: #1F171E;
-    --text-color: #E1CDC1;
-    --title-color: #F6E7DE;
+    --primary-background-color: #1f171e;
+    --text-color: #e1cdc1;
+    --title-color: #f6e7de;
     --arrow-btn-bgcolor: #505050;
-    --arrow-btn-bgcolor-hover:  #2b2828;
+    --arrow-btn-bgcolor-hover: #2b2828;
     --filter-btn-bgcolor: #505050;
     --btn-text-color: #ffffff;
-
 }
 
-.for_beige_theme{
-    --primary-background-color: #FFFBF5;
-    --text-color: #1F171E;
-    --title-color: #1F171E;
-    --arrow-btn-bgcolor:  #FFE6C0;
-    --arrow-btn-bgcolor-hover:  #f4f4f4;
-    --filter-btn-bgcolor: #A7A7A7;
+.for_beige_theme {
+    --primary-background-color: #fffbf5;
+    --text-color: #1f171e;
+    --title-color: #1f171e;
+    --arrow-btn-bgcolor: #ffe6c0;
+    --arrow-btn-bgcolor-hover: #f4f4f4;
+    --filter-btn-bgcolor: #a7a7a7;
     --btn-text-color: #505050;
-
 }
-
-
