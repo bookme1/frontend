@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { BottomSection, Container, TopSection } from './Footer.styles';
+import styles from './Footer.module.css';
 
 import { Icon } from '../Icon';
 
@@ -21,32 +21,35 @@ const Footer = () => {
             },
         ],
     };
+
     return (
-        <footer>
-            <TopSection>
-                <Container>
-                    <div className="links">
+        <footer className={styles.footer}>
+            <section className={styles.topSection}>
+                <div className={styles.container}>
+                    <div className={styles.links}>
                         <Link href="#" aria-label="Перейти на головну сторінку">
                             <Icon name="logo_white" width={176} height={40} />
                         </Link>
-                        <div>
+                        <div className={styles.social}>
                             <a
                                 href="https://www.instagram.com/chervyak.ua/"
                                 aria-label="Перейти на інстаграм сторінку"
+                                className={styles.icon}
                             >
                                 <Icon name="instagram" />
                             </a>
                             <a
                                 href="https://t.me/bookmeua"
                                 aria-label="Перейти на телеграм сторінку"
+                                className={styles.icon}
                             >
                                 <Icon name="telegram" />
                             </a>
                         </div>
                     </div>
-                    <div className="navigation">
+                    <div className={styles.navigation}>
                         <h3>Каталог</h3>
-                        <div>
+                        <div className={styles.navigation__columns}>
                             <ul>
                                 {footer.first.map(text => {
                                     return (
@@ -79,31 +82,33 @@ const Footer = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="mobile__navigation">
+                    <div className={styles.mobile__navigation}>
                         <a
                             href="https://www.instagram.com/chervyak.ua/"
                             aria-label="Перейти на інстаграм сторінку"
+                            className={styles.icon}
                         >
                             <Icon name="instagram" />
                         </a>
                         <a
                             href="https://t.me/bookmeua"
                             aria-label="Перейти на телеграм сторінку"
+                            className={styles.icon}
                         >
                             <Icon name="telegram" />
                         </a>
                     </div>
-                </Container>
-            </TopSection>
-            <BottomSection>
-                <Container>
+                </div>
+            </section>
+            <section className={styles.bottomSection}>
+                <div>
                     <ul>
                         <li>Attribution</li>
                         <li>©2023— Copyright</li>
                         <li>Privacy</li>
                     </ul>
-                </Container>
-            </BottomSection>
+                </div>
+            </section>
         </footer>
     );
 };
