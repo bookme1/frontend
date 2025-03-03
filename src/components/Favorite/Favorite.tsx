@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { FavList, Text } from './Favorite.styles';
 import { IBook } from '@/app/book/[id]/page.types';
 
-import { Card } from '../common/Card';
+import BookItem from '../book/Item/BookItem';
 
 interface FavoriteProps {
     favBooks: IBook[] | null | undefined;
@@ -42,7 +42,7 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
             ) : (
                 <FavList>
                     {favoriteBooksList?.map((book: IBook) => (
-                        <Card key={book.id} book={book} />
+                        <BookItem key={book.id} book={book} />
                     ))}
                 </FavList>
             )}

@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
 
 import Image from 'next/image';
 
 import styles from './Basket.module.css';
-import { bookService } from '@/api/book/bookService';
+import { useBookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
+import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { setModalStatus, useDispatch } from '@/lib/redux';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    useGetCartQuantityQuery,
+    useGetCartQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -16,13 +20,14 @@ interface IBook {
     id: string;
     title: string;
     author: string;
-    price: string; // Залишаємо як string
+    price: string | number;
     url: string;
 }
 
 const Basket: React.FC = () => {
-    // const [books, setBooks] = useState<IBook[]>([]);
     const dispatch = useDispatch();
+
+    const [orderedBooks, setOrderedBooks] = useState<IBook[]>([]);
 
     const [removeBook] = useRemoveBookMutation();
 
@@ -38,46 +43,90 @@ const Basket: React.FC = () => {
 
     const {
         data: cart,
-        error,
         isLoading,
-    } = useGetFavoritesQuery({
+        refetch: refetchGetCats,
+    } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    const cartSum = cart?.cart.reduce(
-        (total, book) => total + Number(book.price),
-        0
-    );
+    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
+
+    const {
+        makeCartCheckout,
+        makeCartWatermarking,
+        makeCartCheckoutWithRetry,
+    } = useBookService();
+
+    useEffect(() => {
+        if (Array.isArray(cart)) {
+            setOrderedBooks(cart);
+        }
+    }, [cart]);
+
+    const totalPrice = useMemo(() => {
+        return orderedBooks.reduce((total, book) => {
+            const price =
+                typeof book.price === 'string'
+                    ? parseFloat(book.price)
+                    : book.price;
+            return !isNaN(price) ? total + price : total;
+        }, 0);
+    }, [orderedBooks]);
+
+    // const handleCheckout = async () => {
+    //     dispatch(setModalStatus(false));
+
+    //     const data = await makeCartCheckout(updateNotification);
+    //     console.log(`data -${data}`);
+
+    //     const watermarking_response = await makeCartWatermarking(data.order_id);
+
+    //     console.log(`watermarking_response - ${watermarking_response}`);
+
+    //     if (Array.isArray(watermarking_response)) {
+    //         console.log('transaction successful');
+    //     } else {
+    //         updateNotification({
+    //             isVisible: true,
+    //             text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+    //             type: 'error',
+    //         });
+    //     }
+    // };
 
     const handleCheckout = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-
-        // Close modal, in order not to mix z-indexes
         dispatch(setModalStatus(false));
 
-        const data = await bookService.makeCartCheckout(
-            accessToken || '',
-            updateNotification
-        );
+        try {
+            const data = await makeCartCheckoutWithRetry(updateNotification);
+            console.log(`data -${data}`);
 
-        const watermarking_response = await bookService.makeCartWatermarking(
-            data.order_id
-        );
-        if (Array.isArray(watermarking_response)) {
-            console.log('transaction successful');
-        } else {
-            updateNotification({
-                isVisible: true,
-                text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
-                type: 'error',
-            });
+            const watermarking_response = await makeCartWatermarking(
+                data.order_id
+            );
+
+            console.log(`watermarking_response - ${watermarking_response}`);
+
+            if (Array.isArray(watermarking_response)) {
+                console.log('transaction successful');
+            } else {
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+                    type: 'error',
+                });
+            }
+        } catch (error) {
+            // Здесь ошибка будет уже обработана в makeCartCheckoutWithRetry
+            console.error('Error in checkout:', error);
         }
     };
-
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!cart?.cart.length ? (
+            {isLoading ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
@@ -115,8 +164,8 @@ const Basket: React.FC = () => {
             ) : (
                 <>
                     <ul className={styles.list}>
-                        {cart &&
-                            cart.cart.map(book => (
+                        {Array.isArray(cart) &&
+                            cart?.map((book: IBook) => (
                                 <li className={styles.item} key={book.id}>
                                     <Image
                                         className={styles.img}
@@ -135,16 +184,33 @@ const Basket: React.FC = () => {
                                             {book.author}
                                         </p>
                                         <p className={styles.price}>
-                                            {book.price}
+                                            {book.price} ₴
                                         </p>
                                     </div>
+
                                     <GoTrash
                                         className={styles.goTrash}
-                                        onClick={() => {
-                                            removeBook({
-                                                type: BookType.Cart,
-                                                bookId: book.id,
-                                            });
+                                        onClick={async () => {
+                                            try {
+                                                await removeBook({
+                                                    type: BookType.Cart,
+                                                    bookId: book.id,
+                                                }).unwrap();
+                                                refetchGetCats();
+                                                refetchCartQuantity();
+
+                                                updateNotification({
+                                                    isVisible: true,
+                                                    text: 'Book removed successfully',
+                                                    type: 'success',
+                                                });
+                                            } catch (error) {
+                                                updateNotification({
+                                                    isVisible: true,
+                                                    text: 'Не вдалося видалити книгу. Спробуйте ще раз.',
+                                                    type: 'error',
+                                                });
+                                            }
                                         }}
                                     />
                                 </li>
@@ -153,8 +219,9 @@ const Basket: React.FC = () => {
                     <div className={styles.footerBox}>
                         <div className={styles.textBox}>
                             <p className={styles.text}>Всього:</p>
-                            <p className={styles.text}>{cartSum} &#x20B4;</p>
+                            <p className={styles.text}>{totalPrice} &#x20B4;</p>
                         </div>
+
                         <button
                             className={styles.cartBtn}
                             onClick={handleCheckout}
@@ -163,6 +230,13 @@ const Basket: React.FC = () => {
                         </button>
                     </div>
                 </>
+            )}
+            {notification.isVisible && (
+                <Notify
+                    text={notification.text}
+                    duration={5}
+                    type={notification.type}
+                />
             )}
         </div>
     );

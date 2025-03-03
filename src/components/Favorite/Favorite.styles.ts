@@ -12,7 +12,7 @@ export const FavList = styled.ul`
     justify-content: center;
     max-height: 1600px;
     overflow-y: auto;
-
+    width: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
 `;
