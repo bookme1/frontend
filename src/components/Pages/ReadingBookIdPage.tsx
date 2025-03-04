@@ -8,8 +8,6 @@ import { useRouter } from 'next/router';
 import { BookContent } from '@/components/bookReading/bookContent/BookContent';
 import BookHeader from '@/components/bookReading/bookReadingHeader/Header';
 import PageTurner from '@/components/bookReading/pageTurner/PageTurner';
-import { Footer } from '@/components/common/Footer';
-import { Header } from '@/components/common/Header';
 import { ReactReader } from '@/lib/reader';
 import { IUser } from '@/lib/redux/features/user/types';
 

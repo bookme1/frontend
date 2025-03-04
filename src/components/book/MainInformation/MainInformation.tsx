@@ -2,24 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-    Author,
-    AuthorsList,
-    Controls,
-    ImageContainer,
-    InfoContainer,
-    MainInfoContainer,
-    Price,
-    StyledImage,
-    StyledWrapper,
-    Title,
-    ToCart,
-    ToFavorite,
-} from './MainInformation.styles';
-import { bookService } from '@/api/book/bookService';
+import styles from './MainInformation.module.css';
+import { useBookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import Notify from '@/components/Notify/Notify';
@@ -27,9 +15,11 @@ import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
-import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
+import {
+    useAddCartMutation,
+    useGetCartQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
 
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
@@ -45,7 +35,14 @@ const MainInformation = ({
     isAuthorized: boolean;
 }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
-    const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
+    const checkedFormats = ['pdf', 'mobi', 'epub'];
+    const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
+        useBookService();
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -56,11 +53,6 @@ const MainInformation = ({
     const updateNotification = (newValues: Partial<typeof notification>) => {
         setNotification(prev => ({ ...prev, ...newValues }));
     };
-
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
 
     const router = usePathname();
     const id = router?.split('/').pop();
@@ -74,30 +66,40 @@ const MainInformation = ({
     const [addCart] = useAddCartMutation();
 
     const handleAddBook = async () => {
-        if (token !== null && book) {
-            try {
-                await addCart({
-                    accessToken: token,
-                    bookId: book.id,
-                    type: BookType.Cart,
-                });
+        if (!isAuthorized) {
+            updateNotification({
+                isVisible: true,
+                text: 'Для додавання у кошик, спочатку потрібно увійти в аккаунт',
+                type: 'error',
+            });
+            return;
+        }
+        if (notification.isVisible) {
+            setNotification(prev => ({ ...prev, isVisible: false }));
+        }
+        try {
+            await addCart({
+                bookId: book.id,
+                type: BookType.Cart,
+            });
 
-                updateNotification({
-                    isVisible: true,
-                    text: 'Книга успішно додана до кошика!',
-                    type: 'success',
-                });
-            } catch (error) {
-                updateNotification({
-                    isVisible: true,
-                    text: `Помилка при додаванні книги до кошика. Помилка #2001`,
-                    type: 'error',
-                });
-            }
+            updateNotification({
+                isVisible: true,
+                text: 'Книга успішно додана до кошика!',
+                type: 'success',
+            });
+        } catch (error) {
+            console.error(`Failed to add book to cart. ${error}`);
+            updateNotification({
+                isVisible: true,
+                text: `Помилка при додаванні книги до кошика. Помилка #2001`,
+                type: 'error',
+            });
         }
     };
 
     const handleCheckout = async () => {
+        refetchCartQuantity();
         if (checkedFormats.length === 0) {
             updateNotification({
                 isVisible: true,
@@ -115,10 +117,10 @@ const MainInformation = ({
             return;
         }
         const order_id = uuidv4();
-        const accessToken = localStorage.getItem('accessToken');
-        bookService.makeTestCheckout(book.price, order_id, updateNotification);
 
-        const transaction_id = await bookService.makeWatermarking(
+        makeTestCheckout(book.price, order_id, updateNotification);
+
+        const transaction_id = await makeWatermarking(
             checkedFormats.join(','),
             book.referenceNumber,
             order_id
@@ -141,8 +143,7 @@ const MainInformation = ({
             });
         }
 
-        await bookService.makeOrder(
-            accessToken,
+        await makeOrder(
             order_id,
             checkedFormats.join(','),
             transaction_id,
@@ -162,16 +163,17 @@ const MainInformation = ({
     const getAuthorsMarkup = (authors: string) => {
         if (authors === undefined) return;
         const authorsArr = authors.split(',');
-        return authorsArr.map(author => <Author key={author}>{author}</Author>);
+        return authorsArr.map(author => <li className={styles.author} key={author}>{author}</li>);
     };
 
     const authorsMarkup = getAuthorsMarkup(book.author);
     return (
-        <>
-            <StyledWrapper>
-                <ImageContainer>
+        <div className={styles.container}>
+            <div className={`${styles.wrapper} ${styles.styledWrapper}`}>
+                <div className={styles.imgContainer}>
                     {imageLoaded && book?.url && (
-                        <StyledImage
+                        <Image
+                            className={styles.image}
                             src={
                                 book.url.startsWith('http')
                                     ? book.url
@@ -182,63 +184,61 @@ const MainInformation = ({
                             height={330}
                         />
                     )}
-                </ImageContainer>
-                <InfoContainer>
-                    <MainInfoContainer>
-                        <Title>{book?.title}</Title>
-                        <AuthorsList>{authorsMarkup}</AuthorsList>
-                        <Price>{book?.price} ₴</Price>
-                        <Controls>
-                            <ToCart
+                </div>
+                <div className={styles.infoContainer}>
+                    <div className={styles.mainInfoContainer}>
+                        <h1 className={styles.title}>{book?.title}</h1>
+                        <ul className={styles.authorsList}>{authorsMarkup}</ul>
+                        <p className={styles.price}>{book?.price} ₴</p>
+                        {notification.isVisible && (
+                            <Notify
+                                text={notification.text}
+                                duration={5}
+                                type={notification.type}
+                            />
+                        )}
+                        <div className={styles.controls}>
+                            <button
+                                className={styles.toCardBtn}
                                 onClick={() => {
                                     openModal('cart');
                                     handleAddBook();
+                                    refetchCartQuantity();
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик
-                            </ToCart>
-                            <ToCart onClick={handleCheckout}>
+                            </button>
+                            <button
+                                className={styles.toCardBtn}
+                                onClick={handleCheckout}
+                            >
                                 Купити зараз
-                            </ToCart>
-                            <ToFavorite>
+                            </button>
+                            <button className={styles.toFavBnt}>
                                 <FavoriteBtn book={book} />
-                            </ToFavorite>
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
-                        </Controls>
+                            </button>
+                        </div>
                         <Formats
-                            setChecked={setCheckedFormats}
+                            // setChecked={setCheckedFormats}
                             pdf={aviableFormats[0]}
                             mobi={aviableFormats[1]}
                             epub={aviableFormats[2]}
                         />
-                    </MainInfoContainer>
+                    </div>
                     {screenWidth &&
                         (screenWidth < 768 || screenWidth >= 1280) && (
                             <Characteristics
                                 characteristics={characteristics}
                             />
                         )}
-                </InfoContainer>
-            </StyledWrapper>
+                </div>
+            </div>
             {screenWidth && screenWidth >= 768 && screenWidth < 1280 && (
-                <Wrapper>
+                <div className={styles.wrapper}>
                     <Characteristics characteristics={characteristics} />
-                </Wrapper>
+                </div>
             )}
-        </>
+        </div>
     );
 };
 

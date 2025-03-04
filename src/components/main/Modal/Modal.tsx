@@ -1,34 +1,43 @@
-import { ModalWindow, ModalContainer, CloseButton } from "./Modal.styles";
-import { useState, Dispatch, SetStateAction } from "react";
-import { Icon } from "../../common/Icon";
-import { SignUpModal } from "./SignUp";
-import { SignInModal } from "./SignIn";
+import { Dispatch, SetStateAction, useState } from 'react';
+
+import styles from './Modal.module.css';
+import { SignInModal } from './SignIn';
+import { SignUpModal } from './SignUp';
+
+import { Icon } from '../../common/Icon';
 
 const Modal = ({
-  setIsOpen,
+    setIsOpen,
 }: {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [type, setType] = useState("sign-in");
+    const [type, setType] = useState('sign-in');
 
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
-  return (
-    <ModalWindow
-      onClick={() => {
+    const handleCloseModal = () => {
         setIsOpen(false);
-      }}
-    >
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={handleCloseModal}>
-          <Icon name="close_modal" size={48} />
-        </CloseButton>
-        {type === "sign-up" && <SignUpModal setType={setType} />}
-        {type === "sign-in" && <SignInModal setType={setType} />}
-      </ModalContainer>
-    </ModalWindow>
-  );
+    };
+    return (
+        <div
+            className={styles.modalWindow}
+            onClick={() => {
+                setIsOpen(false);
+            }}
+        >
+            <div
+                className={styles.modalContainer}
+                onClick={e => e.stopPropagation()}
+            >
+                <button
+                    className={styles.closeButton}
+                    onClick={handleCloseModal}
+                >
+                    <Icon name="close_modal" size={48} />
+                </button>
+                {type === 'sign-up' && <SignUpModal setType={setType} />}
+                {type === 'sign-in' && <SignInModal setType={setType} />}
+            </div>
+        </div>
+    );
 };
 
 export default Modal;

@@ -1,33 +1,28 @@
 'use client';
 
-import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
+import { IUser } from '@/lib/redux/features/user/types';
 
 import { CardList } from '../CardList';
 
 const SwiperList = ({
     name,
-    parametrData,
-    value,
     bookset = [],
     id,
+    user,
 }: {
     name: string;
     parametrData?: string;
     value?: string;
     bookset: any[];
     id: number;
+    user: IUser | null;
 }) => {
-    // const { data } = useGetFilterBooksQuery({
-    //     [value ? value : '']: parametrData,
-    // });
-
-    // const booksArr = data?.books;
     const booksArr = bookset;
 
     if (!booksArr)
         return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
 
-    return <CardList name={name} books={booksArr} id={id} />;
+    return <CardList name={name} books={booksArr} id={id} user={user} />;
 };
 
 export default SwiperList;
