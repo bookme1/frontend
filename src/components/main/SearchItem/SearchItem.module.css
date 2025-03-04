@@ -1,0 +1,14 @@
+.searchItemContainer {
+    background-color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.searchItemContainer:hover {
+    background-color: var(--gray_search);
+}
+
+.searchLink{
+    display: block;
+    padding: 16px 24px;
+}

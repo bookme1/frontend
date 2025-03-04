@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { FavList, Text } from './Favorite.styles';
+import styles from './Favorite.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
 
 import BookItem from '../book/Item/BookItem';
@@ -38,13 +38,13 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
     return (
         <>
             {!favoriteBooksList || favoriteBooksList.length === 0 ? (
-                <Text>У Вас поки що немає книжок</Text>
+                <p className={styles.text}>У Вас поки що немає книжок</p>
             ) : (
-                <FavList>
+                <ul className={styles.favList}>
                     {favoriteBooksList?.map((book: IBook) => (
                         <BookItem key={book.id} book={book} />
                     ))}
-                </FavList>
+                </ul>
             )}
         </>
     );

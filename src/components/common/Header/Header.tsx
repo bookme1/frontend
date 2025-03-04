@@ -231,6 +231,7 @@ const Header = ({
                                 <Icon
                                     className={styles.logo}
                                     name="logo_black"
+                                    width={176} height={40}
                                 />
                             </Link>
                         </div>

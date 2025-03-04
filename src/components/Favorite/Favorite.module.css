@@ -1,0 +1,51 @@
+@keyframes fillHeart {
+    0% {
+        color: transparent;
+    }
+    100% {
+        color: var(--red);
+    }
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.favList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    max-height: 1600px;
+    overflow-y: auto;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.filledHeard {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+
+    z-index: 1;
+}
+
+.filledHeard.active {
+    animation: fillHeart 0.4s ease forwards;
+}
+
+.emptyHeart{
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+
+    z-index: 2;
+    color: var(--red);
+}
