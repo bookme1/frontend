@@ -1,0 +1,123 @@
+/* TransactionList.module.css */
+
+.container {
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    max-width: 64rem; /* 4xl */
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #2f855a; /* text-green-900 */
+    font-weight: bold;
+  }
+  
+  .scrollableList {
+    overflow: auto;
+    max-height: 360px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .list {
+    color: #2f855a; /* text-green-700 */
+    min-width: 100%;
+  }
+  
+  .rowHeader,
+  .rowFilters {
+    background-color: #f7fafc; /* bg-gray-100 */
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+  
+  .rowHeader {
+    position: sticky;
+    top: 0;
+    background-color: #edf2f7; /* bg-gray-200 */
+  }
+  
+  .rowFilters {
+    position: sticky;
+    top: 8rem; /* Adjust based on header height */
+  }
+  
+  .rowItem {
+    background-color: white;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+  
+  .col {
+    text-align: left;
+  }
+  
+  .colDate {
+    text-align: center;
+  }
+  
+  .colAmount {
+    text-align: right;
+  }
+  
+  .button {
+    margin-left: 0.5rem;
+  }
+  
+  .select {
+    width: 100%;
+    padding: 0.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e2e8f0; /* border-gray-300 */
+  }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+  
+  .colSpan1 {
+    grid-column: span 1;
+  }
+  
+  .colSpan2 {
+    grid-column: span 2;
+  }
+  
+  .button {
+    margin-left: 0.5rem;
+    background-color: #4caf50; /* Например, зеленая кнопка */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #45a049; /* Темнее при наведении */
+  }
+  
+  .select {
+    width: 100%;
+    padding: 0.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e2e8f0; /* border-gray-300 */
+  }
+  
+  .textRight {
+    text-align: right;
+  }
+    

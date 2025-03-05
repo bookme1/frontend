@@ -77,7 +77,7 @@ const BurgerModal: React.FC<{
                 <li className={style.burgerItem}>
                     {isVisible ? (
                         <a href="/account" className={style.accountLink}>
-                            <Icon name="account" size={28} /> <p>Аккаунт</p>
+                            <Icon name="account" size={28} /> <p className={style.text}>Аккаунт</p>
                         </a>
                     ) : (
                         <button
@@ -87,7 +87,7 @@ const BurgerModal: React.FC<{
                                 // handleCloseModal();
                             }}
                         >
-                            <Icon name="account" size={28} /> <p>Увійти</p>
+                            <Icon name="account" size={28} /> <p className={style.text}>Увійти</p>
                         </button>
                     )}
                 </li>

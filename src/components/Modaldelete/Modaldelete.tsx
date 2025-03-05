@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
+import styles from './ModalDelete.module.css'; // импортируем модуль стилей
 
 export default function ModalDelete({
     isVisible,
@@ -31,31 +32,27 @@ export default function ModalDelete({
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+            className={styles.wrapper} // применяем класс из модуля стилей
             id="wrapper"
             onClick={handleClose}
         >
-            <div className="w-[500px] ">
-                <div className="bg-white p-2 rounded-xl text-green-900 flex flex-col justify-center items-center pt-5">
-                    <div className="">
-                        <h1 className="text-green-600 font-bold">
-                            Ви впевнені що бажаєте видалити книгу:
-                        </h1>
-                        <div className="pt-2">
-                            <p className="flex justify-center">Назва книги</p>
+            <div className={styles.modalContainer}>
+                <div className={styles.modalContent}>
+                    <div className={styles.header}>
+                        <h1 className="font-bold">Ви впевнені що бажаєте видалити книгу:</h1>
+                        <div className={styles.bookTitle}>
+                            <p>Назва книги</p>
                         </div>
-                        <div className="pt-2">
-                            <p className="font-bold flex justify-center">
-                                Артикул
-                            </p>
+                        <div className={styles.bookSKU}>
+                            <p className="font-bold">Артикул</p>
                         </div>
                     </div>
-                    <div className="flex gap-10 pt-5 pb-5 justify-center">
-                        <button className="border p-3 rounded-lg w-36 text-red-600 hover:bg-gray-300">
+                    <div className={styles.buttonContainer}>
+                        <button className={`${styles.button} ${styles.deleteButton}`}>
                             Видалити
                         </button>
                         <button
-                            className="border p-3 rounded-lg w-36 hover:bg-green-900 hover:text-white"
+                            className={`${styles.button} ${styles.cancelButton}`}
                             onClick={() => onClose()}
                         >
                             Відміна

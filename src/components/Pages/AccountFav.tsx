@@ -1,14 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { IBook } from '@/app/book/[id]/page.types';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
+import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
+
 
 import ErrorBoundary from '../Error/ErrorBoundary';
 
@@ -19,7 +17,7 @@ interface AccountFavProps {
 
 export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
     return (
-        <Wrapper style={{ minHeight: '800px' }}>
+        <div className='wrapper' style={{ minHeight: '800px' }}>
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
                 <div style={{ display: 'flex', gap: '20px' }}>
@@ -30,6 +28,6 @@ export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
                     />
                 </div>
             </ErrorBoundary>
-        </Wrapper>
+        </div>
     );
 };

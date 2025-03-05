@@ -231,7 +231,8 @@ const Header = ({
                                 <Icon
                                     className={styles.logo}
                                     name="logo_black"
-                                    width={176} height={40}
+                                    width={176}
+                                    height={40}
                                 />
                             </Link>
                         </div>
@@ -290,7 +291,7 @@ const Header = ({
                         </div>
                         <div className={styles.fromDesctop}>
                             <div className={styles.controlsContainer}>
-                                <div className={styles.heartBtn}>
+                                <div className={styles.headerBtn}>
                                     <a
                                         className={styles.accountLink}
                                         href={
@@ -303,7 +304,14 @@ const Header = ({
                                             hasFavorites={hasFavorites}
                                             favQuantity={favQuantity}
                                         />
-                                        Обране
+                                        <p
+                                            style={{
+                                                fontSize: '16px',
+                                                fontFamily: 'RaleWay',
+                                            }}
+                                        >
+                                            Обране
+                                        </p>
                                     </a>
                                 </div>
                                 <button

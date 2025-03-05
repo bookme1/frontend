@@ -80,22 +80,6 @@
     margin: 0 auto;
     overflow-y: scroll;
 
-    &::-webkit-scrollbar-track {
-        border-radius: 10px;
-        background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar {
-        width: 5px;
-        background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: gray;
-    }
-
     @media (min-width: 768px) {
         max-height: 805px;
     }
@@ -103,6 +87,22 @@
     @media (min-width: 1280px) {
         max-height: 541px;
     }
+}
+
+.list::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar {
+    width: 5px;
+    background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: gray;
 }
 
 .item {

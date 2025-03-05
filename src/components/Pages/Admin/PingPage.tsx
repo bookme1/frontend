@@ -2,19 +2,11 @@
 
 import axios from 'axios';
 import crypto from 'crypto';
+
+import styles from './PingPage.module.css';
 import { Webstatistics } from '@/components/Webstatistics';
 
-import {
-    Item,
-    ItemData,
-    ItemTitle,
-    PingList,
-    Title,
-} from '../../../app/admin/ping/page.style';
-
-interface PingPageProps {
-
-}
+interface PingPageProps {}
 
 const PingPage: React.FC<PingPageProps> = () => {
     const mockData = [
@@ -42,17 +34,17 @@ const PingPage: React.FC<PingPageProps> = () => {
 
     const markup = mockData.map((dataItem, index) => {
         return (
-            <Item key={index}>
-                <ItemTitle
-                    className={dataItem.status >= 300 ? 'error' : ''}
+            <li className={styles.item} key={index}>
+                <p
+                    className={`${dataItem.status >= 300 ? styles.error : ''} ${styles.itemTitle}`}
                     title={dataItem.status.toString()}
                 >
                     {dataItem.message}
-                </ItemTitle>
+                </p>
                 {dataItem.data && (
-                    <ItemData>{JSON.stringify(dataItem.data)}</ItemData> // Преобразуем объект в JSON строку для отображения
+                    <p>{JSON.stringify(dataItem.data)}</p> // Преобразуем объект в JSON строку для отображения
                 )}
-            </Item>
+            </li>
         );
     });
 
@@ -90,14 +82,13 @@ const PingPage: React.FC<PingPageProps> = () => {
 
     return (
         <>
-          
             <div className="flex gap-10">
                 <div className="flex flex-row mt-10">
                     <Webstatistics />
                 </div>
                 <div className="w-11/12">
-                    <Title>Логгер запитів від Elibri</Title>
-                    <PingList>{markup}</PingList>
+                    <h2 className={styles.title}>Логгер запитів від Elibri</h2>
+                    <ul className={styles.pingList}>{markup}</ul>
                 </div>
             </div>
         </>

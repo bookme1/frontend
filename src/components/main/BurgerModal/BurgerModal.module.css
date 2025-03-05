@@ -7,6 +7,9 @@
 
     width: 100%;
     height: 100%;
+
+    font-family: 'Raleway';
+    font-size: 20px;
 }
 
 .burgerList {
@@ -43,8 +46,14 @@
     gap: 4px;
     color: var(--gray_dark);
     cursor: pointer;
-    :active {
-        color: var(--red);
-        fill: var(--red);
-    }
+}
+
+.headerBtn:active {
+    color: var(--red);
+    fill: var(--red);
+}
+
+.text{
+    font-family: 'Raleway';
+    font-size: 20px;
 }

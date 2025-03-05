@@ -1,0 +1,30 @@
+/* AdminPage.module.css */
+
+.container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.chartWrapper {
+    width: auto;
+    height: auto;
+}
+
+.chartContainer {
+    margin-top: 10px;
+    width: auto;
+    height: auto;
+    align-items: flex-start;
+}
+
+.chartStyle {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.noStatistics {
+    font-size: 1rem;
+    color: #ff0000;
+}

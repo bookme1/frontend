@@ -1,12 +1,11 @@
 'use client';
 
-import { AccountContainer } from '@/app/account/page.style';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { UserBooks } from '@/components/account/UserBooks';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { IOrderBook } from '@/lib/redux/features/order/types';
 import { IUser } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
+
 
 import ErrorBoundary from '../Error/ErrorBoundary';
 
@@ -20,15 +19,15 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
     userOrderBooks,
 }) => {
     return (
-        <Wrapper>
+        <div className='wrapper'>
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
-                <AccountContainer>
+                <div>
                     <LeftMenu username={user?.username} />
                     <UserBooks userOrderBooks={userOrderBooks} />
-                </AccountContainer>
+                </div>
             </ErrorBoundary>
-        </Wrapper>
+        </div>
     );
 };
 

@@ -20,7 +20,7 @@ const NavLink = ({
     const isActive = pathname === href;
 
     return (
-        <Link href={href} className={isActive ? 'active' : ''}>
+        <Link href={href} className={isActive ? style.active : ''}>
             {children}
         </Link>
     );

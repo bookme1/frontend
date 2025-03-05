@@ -1,0 +1,41 @@
+.wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.content {
+    margin: 0 auto;
+    margin-top: -200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.styledLottie{
+    width: 400px;
+    height: 400px;
+    margin-bottom: -100px;
+    pointer-events: none;
+}
+
+.centringLogo{
+    padding-left: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon{
+    width: 217px !important;
+    height: 40px !important;
+    margin: 0 auto;
+}
