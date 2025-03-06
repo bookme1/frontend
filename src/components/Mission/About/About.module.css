@@ -1,0 +1,39 @@
+.aboutSection {
+    padding: 40px 82px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.aboutTitle {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 32px;
+    color: #41253e;
+}
+
+.aboutSubTitle {
+    font-weight: 600;
+    font-size: 30px;
+    color: #6a5467;
+}
+
+.aboutBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.aboutTextBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36px;
+}
+
+.text {
+    font-weight: 600;
+    font-size: 16px;
+    color: #6a5467;
+}

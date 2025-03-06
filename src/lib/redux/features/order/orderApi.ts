@@ -1,22 +1,19 @@
-// DOCS:
-// This api is only for transactions and orders
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { CreateOrderDTO, CreateOrderDTOExtended } from './types';
 
-export const adminApi = createApi({
-    reducerPath: 'adminApi',
+export const orderApi = createApi({
+    reducerPath: 'orderApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
     }),
     endpoints: builder => ({
-        createOrder: builder.mutation<boolean, CreateOrderDTO>({
+        createOrder: builder.mutation<boolean, CreateOrderDTOExtended>({
             query: (body: CreateOrderDTOExtended) => ({
                 url: 'api/order',
                 method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${body.accessToken}`,
-                },
+                credentials: 'include',
                 body: {
                     order_id: body.order_id,
                     orderBooks: body.orderBooks,
@@ -28,4 +25,4 @@ export const adminApi = createApi({
     }),
 });
 
-export const { useCreateOrderMutation } = adminApi;
+export const { useCreateOrderMutation } = orderApi;

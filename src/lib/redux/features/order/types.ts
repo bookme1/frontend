@@ -7,7 +7,7 @@ export class CreateOrderDTO {
 }
 
 export class CreateOrderDTOExtended extends CreateOrderDTO {
-    accessToken: string | undefined;
+    accessToken?: string | undefined;
     user: number | undefined;
 }
 

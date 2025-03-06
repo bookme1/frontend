@@ -9,6 +9,9 @@
     --gray: #6e646d;
     --gray_dark: #505050;
     --gray_border: #a7a7a7;
+
+    --green: #538787;
+    --green_acid: #cfff10;
     body {
         position: relative;
     }
@@ -63,6 +66,21 @@ body.modal-open {
     }
     @media (min-width: 1234px) {
         width: 1234px;
+    }
+}
+
+.wrapperMission {
+    margin: 0 auto;
+    padding: 0 10px;
+    @media (min-width: 375px) {
+        width: 375px;
+    }
+    @media (min-width: 768px) {
+        width: 768px;
+    }
+    @media (min-width: 1440px) {
+        width: 1440px;
+        padding: 0 82px;
     }
 }
 

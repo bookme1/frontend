@@ -1,0 +1,46 @@
+.heroSection {
+    height: 911px;
+    background-image: url(../../../assets/mission/plants-arrow.webp),
+        url(../../../assets/mission/plant-hands.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 82px;
+}
+
+.titleBox {
+    margin-top: 183px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: uppercase;
+    color: var(--ai-button-text-color);
+}
+
+.subTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green_acid);
+
+    width: 428px;
+}
+
+.textBox {
+    margin-bottom: 100px;
+    display: flex;
+}
+
+.text {
+    width: 400px;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ai-button-text-color);
+}

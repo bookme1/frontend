@@ -7,8 +7,11 @@ import styles from './Basket.module.css';
 import { bookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
 import { NotificationState } from '@/components/Notify/NotifyType';
-import { setModalStatus, useDispatch } from '@/lib/redux';
+import { setModalStatus, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
+import { useCreateOrderMutation } from '@/lib/redux/features/order/orderApi';
+// import { selectOrders } from '@/lib/redux/features/order/orderSlice';
+import { CreateOrderDTOExtended } from '@/lib/redux/features/order/types';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -25,6 +28,23 @@ const Basket: React.FC = () => {
     const dispatch = useDispatch();
 
     const [removeBook] = useRemoveBookMutation();
+
+    // const [createOrder, { isLoading:isLoadingOrder, isError, isSuccess }] = useCreateOrderMutation();
+    // const [orderData, setOrderData] = useState<CreateOrderDTOExtended>({
+    //     order_id: '12345',
+    //     orderBooks: orders,
+    //     user: 123 ,
+    //     amount: 49.99,
+    // });
+
+    // const handleCreateOrder =async()=>{
+    //     try {
+    //         await createOrder(orderData).unwrap();
+    //         console.log('Order created successfully');
+    //     } catch (error) {
+    //         console.error('Failed to create order:', error);
+    //     }
+    // }
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
