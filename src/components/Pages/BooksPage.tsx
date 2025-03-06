@@ -8,6 +8,9 @@ import { useSelector } from '@/lib/redux';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
 import { IUser } from '@/lib/redux/features/user/types';
 
+import Error from '../Error/Error';
+import ErrorBoundary from '../Error/ErrorBoundary';
+
 interface HomePageProps {
     filtersData: FiltersResponse | undefined | null;
     user: IUser | undefined | null;
@@ -18,11 +21,17 @@ const BooksPage: React.FC<HomePageProps> = ({ filtersData, user }) => {
 
     return (
         <>
-            <BreadCrumbs name="Каталог" />
-            <Controls filtersData={filtersData} user={user} />
+            <ErrorBoundary>
+                <BreadCrumbs name="Каталог" />
+                {filtersData ? (
+                    <Controls filtersData={filtersData} user={user} />
+                ) : (
+                    <Error />
+                )}
 
-            <div id="modal-root"></div>
-            {modals.successInfo.isOpen && <SuccessInfo />}
+                <div id="modal-root"></div>
+                {modals.successInfo.isOpen && <SuccessInfo />}
+            </ErrorBoundary>
         </>
     );
 };

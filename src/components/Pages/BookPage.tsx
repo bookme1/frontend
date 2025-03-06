@@ -3,16 +3,16 @@
 import { IBook } from '@/app/book/[id]/page.types';
 import { MainInformation } from '@/components/book/MainInformation';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
-import { Footer } from '@/components/common/Footer';
-import { Header } from '@/components/common/Header';
 import SuccessInfo from '@/components/main/Modal/SuccessInfo/SuccessInfo';
 import { useSelector } from '@/lib/redux';
 import { IUser } from '@/lib/redux/features/user/types';
 
+import Error from '../Error/Error';
+import ErrorBoundary from '../Error/ErrorBoundary';
+
 interface BookPageProps {
     user: IUser | null;
     book: IBook | null | undefined;
-   
 }
 
 const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
@@ -20,27 +20,29 @@ const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
 
     return (
         <>
-   
-            {book && <BreadCrumbs name={book.title} />}
-            {book && (
-                <MainInformation
-                    book={book}
-                    characteristics={{
-                        language: book.lang,
-                        publish: book.pub,
-                        pages: book.pages,
-                        description: book.desc,
-                    }}
-                    isAuthorized={user ? true : false}
-                    // pathname={pathname}
-                />
-            )}
+            <ErrorBoundary>
+                {!book && <Error />}
+                {book && <BreadCrumbs name={book.title} />}
+                {book && (
+                    <MainInformation
+                        book={book}
+                        characteristics={{
+                            language: book.lang,
+                            publish: book.pub,
+                            pages: book.pages,
+                            description: book.desc,
+                        }}
+                        isAuthorized={user ? true : false}
+                        // pathname={pathname}
+                    />
+                )}
 
-            {/* <Reviews /> */}
-            {/* <SliderLastBooks /> */}
+                {/* <Reviews /> */}
+                {/* <SliderLastBooks /> */}
 
-            <div id="modal-root"></div>
-            {modals.successInfo.isOpen && <SuccessInfo />}
+                <div id="modal-root"></div>
+                {modals.successInfo.isOpen && <SuccessInfo />}
+            </ErrorBoundary>
         </>
     );
 };

@@ -1,50 +1,55 @@
-import axios from 'axios';
 
-
+import axios, { AxiosRequestConfig } from 'axios';
 import { IBook } from '@/app/book/[id]/page.types';
 import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
 import { NotificationState } from '@/components/Notify/NotifyType';
 
-class BookService {
-    private baseURL: string | undefined;
 
-    constructor() {
-        this.baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
-    }
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+    withCredentials?: true;
+}
 
-    public async refillQueue() {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
+
+export const useBookService = () => {
+    const baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
+
+
+
+    // Функция для пополнения очереди книг
+    const refillQueue = async () => {
         const instance = axios.create({
-            baseURL: BASE_URL,
-            url: `api/book/refillQueue`,
+            baseURL,
+            url: 'api/book/refillQueue',
         });
         try {
-            return await instance.post(`api/book/refillQueue`);
+            return await instance.post('api/book/refillQueue');
         } catch (error) {
             throw error;
         }
-    }
-    public async updateBooksFromServer() {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
+    };
+
+    // Функция для обновления книг с сервера
+    const updateBooksFromServer = async () => {
         const instance = axios.create({
-            baseURL: BASE_URL,
-            url: `api/book/updateBooksFromServer`,
+            baseURL,
+            url: 'api/book/updateBooksFromServer',
         });
         try {
-            return await instance.post(`api/book/updateBooksFromServer`);
+            return await instance.post('api/book/updateBooksFromServer');
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeTestCheckout(amount: number, order_id: string, updateNotification: (newValues: Partial<NotificationState>) => void) {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
-        const instance = axios.create({
-            baseURL: BASE_URL,
-        });
-
+    // Функция для тестового оформления заказа
+    const makeTestCheckout = async (
+        amount: number,
+        order_id: string,
+        updateNotification: (newValues: Partial<NotificationState>) => void
+    ) => {
+        const instance = axios.create({ baseURL });
         try {
-            const response = await instance.post(`/api/book/checkout`, null, {
+            const response = await instance.post('/api/book/checkout', null, {
                 params: {
                     amount: Number(amount),
                     order_id: order_id,
@@ -55,7 +60,7 @@ class BookService {
             const { data, signature } = response.data;
 
             // Динамічна завантаження LiqPayCheckout
-            if (typeof window == 'undefined') {
+            if (typeof window === 'undefined') {
                 return 0;
             }
 
@@ -70,18 +75,16 @@ class BookService {
                     mode: 'popup', // або 'embed'
                 })
                     .on('liqpay.callback', async function (data: any) {
-                        const ifPaid = await bookService.checkIfPaid(order_id);
+                        const ifPaid = await checkIfPaid(order_id);
                         if (ifPaid) {
                             updateNotification({
                                 isVisible: true,
                                 text: 'Дякуємо за покупку!',
                                 type: 'success',
                             });
-                            const result =
-                                await bookService.makeDelivery(order_id);
-                            console.log('RESULT');
-                            console.log(result);
-                            if (result == 'OK') {
+                            const result = await makeDelivery(order_id);
+                            console.log('RESULT', result);
+                            if (result === 'OK') {
                                 updateNotification({
                                     isVisible: true,
                                     text: 'Книжки були доставлені до бібліотеки!',
@@ -105,30 +108,26 @@ class BookService {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeCartCheckout(accessToken: string, updateNotification: (newValues: Partial<NotificationState>) => void) {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
-        const instance = axios.create({
-            baseURL: BASE_URL,
-            
-        });
+    // Функция для оформления корзины
+    const makeCartCheckout = async (
+        updateNotification: (newValues: Partial<NotificationState>) => void
+    ) => {
+        const instance = axios.create({ baseURL });
 
         try {
-            const response = await instance.post(
-                `/api/book/cart-checkout`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
+            const config: CustomAxiosRequestConfig = {
+                withCredentials: true,
+            };
+
+            const response = await instance.post('/api/book/cart-checkout', {}, config);
 
             const { data, signature, order_id } = response.data;
+            console.log('response data', response.data);
 
             // Динамічна завантаження LiqPayCheckout
-            if (typeof window == 'undefined') {
+            if (typeof window === 'undefined') {
                 return 0;
             }
 
@@ -143,21 +142,16 @@ class BookService {
                     mode: 'popup', // або 'embed'
                 })
                     .on('liqpay.callback', async function (data: any) {
-                        console.log('idk if paid, there is the data', data);
-                        const ifPaid = await bookService.checkIfPaid(
-                            data.order_id
-                        );
+                        const ifPaid = await checkIfPaid(data.order_id);
                         if (ifPaid) {
                             updateNotification({
                                 isVisible: true,
                                 text: 'Дякуємо за покупку!',
                                 type: 'success',
                             });
-                            const result =
-                                await bookService.makeDelivery(order_id);
-                            console.log('RESULT');
-                            console.log(result);
-                            if (result == 'OK') {
+                            const result = await makeDelivery(order_id);
+                            console.log('RESULT', result);
+                            if (result === 'OK') {
                                 updateNotification({
                                     isVisible: true,
                                     text: 'Книжки були доставлені до бібліотеки!',
@@ -186,52 +180,47 @@ class BookService {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async orderRequest(
-        orderData: CreateOrderDTO,
-        accessToken: string | null
-    ) {
-        const url = `${this.baseURL}/api/order`;
+    // Функция для создания заказа
+    const orderRequest = async (orderData: CreateOrderDTO) => {
+        const url = `${baseURL}/api/order`;
         try {
-            const response = await axios.post(
-                url,
-                {
-                    order_id: orderData.order_id,
-                    orderBooks: orderData.orderBooks,
-                    amount: orderData.amount,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
+            const config: CustomAxiosRequestConfig = {
+                headers: {
 
-            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+                },
+                withCredentials: true, // Куки включены
+            };
+
+            const response = await axios.post(url, {
+                order_id: orderData.order_id,
+                orderBooks: orderData.orderBooks,
+                amount: orderData.amount,
+            }, config);
+
+            return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async checkIfPaid(orderId: string) {
-        const url = `${this.baseURL}/api/book/payment-status/${orderId}`;
+    // Проверка, был ли оплачено
+    const checkIfPaid = async (orderId: string) => {
+        const url = `${baseURL}/api/book/payment-status/${orderId}`;
         try {
             const response = await axios.get(url);
-            if (response.data.status == 'sandbox') return true;
+            if (response.data.status === 'sandbox') return true;
 
-            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+            return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeWatermarking(
-        formats: string,
-        reference_number: string,
-        order_id: string
-    ) {
-        const url = `${this.baseURL}/api/book/watermarking`;
+    // Добавление водяного знака
+    const makeWatermarking = async (formats: string, reference_number: string, order_id: string) => {
+        const url = `${baseURL}/api/book/watermarking`;
         try {
             const response = await axios.post(url, {
                 formats,
@@ -239,46 +228,49 @@ class BookService {
                 order_id,
             });
 
-            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+            return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeDelivery(order_id: string) {
-        const url = `${this.baseURL}/api/book/deliver`;
+    // Доставка
+    const makeDelivery = async (order_id: string) => {
+        const url = `${baseURL}/api/book/deliver`;
         try {
             const response = await axios.post(url, {
                 transactionId: order_id,
             });
 
-            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+            return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeCartWatermarking(order_id: string) {
-        const url = `${this.baseURL}/api/book/cart-watermarking`;
+    // Добавление водяного знака для корзины
+    const makeCartWatermarking = async (order_id: string) => {
+        const url = `${baseURL}/api/book/cart-watermarking`;
         try {
             const response = await axios.post(url, {
                 order_id,
             });
 
-            return response.data; // Можливо, вам потрібно повернути щось з відповіді
+            return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    };
 
-    public async makeOrder(
-        accessToken: string | null,
+    // Функция для создания заказа в корзине
+    const makeOrder = async (
+        // accessToken: string | null,
         uuid: string,
         formats: string,
         transactionId: string,
         reference_number: string,
         amount: number
-    ) {
+    ) => {
         const orderedBooks: IOrderBook[] = [
             {
                 reference_number: reference_number,
@@ -287,7 +279,7 @@ class BookService {
                 book: {
                     id: 'sampleBookId',
                     title: 'sampleBookTitle',
-                    // додайте інші властивості, які має IBook
+                    // добавьте другие свойства, которые имеет IBook
                 } as IBook,
                 epubLink: 'sampleEpubLink',
                 mobiLink: 'sampleMobiLink',
@@ -301,7 +293,7 @@ class BookService {
             amount: Number(amount),
         };
 
-        const data = await this.orderRequest(createOrderDTO, accessToken);
+        const data = await orderRequest(createOrderDTO);
 
         if (!data) {
             return false;
@@ -310,25 +302,39 @@ class BookService {
         }
 
         return undefined;
-    }
+    };
 
-    public async takeAllOrderedBooks(accessToken: string | null) {
-        if (!accessToken) {
-            return null;
-        }
-        const url = `${this.baseURL}/api/order/orderedBooks`;
+    // Получить все заказанные книги
+    const takeAllOrderedBooks = async (accessToken: string | null) => {
+        if (!accessToken) return null;
+        const url = `${baseURL}/api/order/orderedBooks`;
         try {
-            const response = await axios.get(url, {
+            const config: CustomAxiosRequestConfig = {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-            });
+                withCredentials: true, // Куки включены
+            };
+
+            const response = await axios.get(url, config);
 
             return response.data;
         } catch (e) {
             console.error(e);
         }
-    }
-}
+    };
 
-export const bookService = new BookService();
+    return {
+        refillQueue,
+        updateBooksFromServer,
+        makeTestCheckout,
+        makeCartCheckout,
+        orderRequest,
+        checkIfPaid,
+        makeWatermarking,
+        makeDelivery,
+        makeCartWatermarking,
+        makeOrder,
+        takeAllOrderedBooks,
+    };
+};

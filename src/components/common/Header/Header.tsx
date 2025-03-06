@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import ContentLoader from 'react-content-loader';
 
 import dynamic from 'next/dynamic';
@@ -20,8 +26,13 @@ import {
     useDispatch,
     useSelector,
 } from '@/lib/redux';
+import {
+    useGetCartQuantityQuery,
+    useGetCartQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
-import { IUser, Role } from '@/lib/redux/features/user/types';
+import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
+import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
 
 import { Icon } from '../Icon';
@@ -89,14 +100,14 @@ export const Avatar = ({ children }: AvatarProps) => {
 const Header = ({
     userData,
     favQuantity,
-    cartQuantity,
+    booksArr,
 }: {
     userData: IUser | null;
     favQuantity: number | null;
-    cartQuantity: number | null;
+    booksArr: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
-
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const [isOpen, setIsOpen] = useState(false);
     const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
@@ -104,7 +115,21 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+    const { data: carts, refetch: refetchCart } = useGetCartQuery({
+        type: BookType.Cart,
+    });
+
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (carts) {
+            dispatch(addOrderedBooks(carts.data));
+        }
+    }, [carts, dispatch]);
 
     useEffect(() => {
         if (userData) {
@@ -122,6 +147,8 @@ const Header = ({
     const handleCartModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Cart'));
+        refetchCartQuantity();
+        refetchCart();
     };
 
     const handleClick = () => {
@@ -131,23 +158,15 @@ const Header = ({
     const handleSearch = async (e: any) => {
         if (e.target.value.length >= 2) {
             setIsSearchListOpen(true);
-            try {
-                const fetchedBooks = await getBooks({
-                    selectReferenceAndTitle: true, // get only book referenceNumber & title
-                });
-                const filteredBooks = fetchedBooks.filter((book: IBook) =>
-                    book.title
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                );
-                setBooks(filteredBooks);
-            } catch (error) {
-                console.error('Error during search:', error);
-            }
+            const filteredBooks = booksArr?.filter((book: IBook) =>
+                book.title.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+            setBooks(filteredBooks);
         } else {
             setIsSearchListOpen(false);
         }
     };
+
 
     useEffect(() => {
         const q = router?.get('q');

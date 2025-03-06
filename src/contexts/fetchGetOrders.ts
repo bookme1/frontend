@@ -1,15 +1,17 @@
 import { headers } from 'next/headers';
 
-import { IOrderBook } from '@/lib/redux/features/order/types';
+import { BookType } from '@/lib/redux/features/user/types.ts';
+import { IBook } from '@/app/book/[id]/page.types';
 
-export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
+
+export async function fetchGetOrders(type: BookType.Cart): Promise<IBook[] | null> {
     const requestHeaders = headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/order/orderedBooks`,
+            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user/books/${type}`,
             {
                 method: 'GET',
                 headers: { cookie: cookies || '' },
@@ -21,12 +23,9 @@ export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
             return await response.json();
         }
 
-
-
         return null;
     } catch (error) {
-        console.error('Error fetching:', error);
-
+        console.error('Error fetching user data:', error);
         return null;
     }
 }

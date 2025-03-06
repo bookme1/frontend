@@ -4,13 +4,15 @@ import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Icons } from '@/components/common/Icons';
+
 import { fetchGetFavoritesQuantity } from '@/contexts/fetchGetFavoritesQuantity';
+
 import { fetchUserData } from '@/contexts/fetchUserData';
 import { Providers } from '@/lib/providers';
 import { BookType } from '@/lib/redux/features/user/types';
 import { raleway } from '@/styles/fonts';
 import '@/styles/globals.css';
-import { fetchGetCartssQuantity } from '@/contexts/fetchGetCartsQuantity';
+import { fetchBooks } from '@/contexts/fetchBooks';
 
 interface RootLayoutProps {
     children: ReactNode;
@@ -19,7 +21,7 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
     const user = await fetchUserData();
     const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
-    const cartQuantity = await fetchGetCartssQuantity(BookType.Cart);
+    const booksArr = await fetchBooks()
     return (
         <html className={raleway.className} lang="uk">
             <head>
@@ -36,7 +38,11 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
             <body className="bg-main">
                 <Providers>
                     <main style={{ height: '100%' }}>
-                        <Header userData={user} favQuantity={favQuantity} cartQuantity={cartQuantity}/>
+                        <Header
+                            userData={user}
+                            favQuantity={favQuantity}
+                            booksArr={booksArr}
+                        />
                         {children}
                         <Footer />
                     </main>

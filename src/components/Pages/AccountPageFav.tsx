@@ -8,6 +8,8 @@ import { IOrderBook } from '@/lib/redux/features/order/types';
 import { IUser } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
+import ErrorBoundary from '../Error/ErrorBoundary';
+
 interface AccountPageFavProps {
     user: IUser | null;
     userOrderBooks: IOrderBook[] | null | undefined;
@@ -19,11 +21,13 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
 }) => {
     return (
         <Wrapper>
-            <BreadCrumbs name="акаунт" />
-            <AccountContainer>
-                <LeftMenu username={user?.username} />
-                <UserBooks userOrderBooks={userOrderBooks} />
-            </AccountContainer>
+            <ErrorBoundary>
+                <BreadCrumbs name="акаунт" />
+                <AccountContainer>
+                    <LeftMenu username={user?.username} />
+                    <UserBooks userOrderBooks={userOrderBooks} />
+                </AccountContainer>
+            </ErrorBoundary>
         </Wrapper>
     );
 };

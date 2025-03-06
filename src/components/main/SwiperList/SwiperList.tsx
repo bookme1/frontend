@@ -1,13 +1,8 @@
 'use client';
-
-import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
-
 import { CardList } from '../CardList';
 
 const SwiperList = ({
     name,
-    parametrData,
-    value,
     bookset = [],
     id,
 }: {
@@ -17,11 +12,7 @@ const SwiperList = ({
     bookset: any[];
     id: number;
 }) => {
-    // const { data } = useGetFilterBooksQuery({
-    //     [value ? value : '']: parametrData,
-    // });
 
-    // const booksArr = data?.books;
     const booksArr = bookset;
 
     if (!booksArr)

@@ -19,7 +19,7 @@ import {
     ToCart,
     ToFavorite,
 } from './MainInformation.styles';
-import { bookService } from '@/api/book/bookService';
+import { useBookService } from '@/api/book/bookService';
 import { IBook } from '@/app/book/[id]/page.types';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import Notify from '@/components/Notify/Notify';
@@ -27,7 +27,10 @@ import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { openModal } from '@/lib/redux';
-import { useAddCartMutation } from '@/lib/redux/features/book/bookApi';
+import {
+    useAddCartMutation,
+    useGetCartQuantityQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { Wrapper } from '@/styles/globals.styles';
 
@@ -47,6 +50,14 @@ const MainInformation = ({
     const [imageLoaded, setImageLoaded] = useState(false);
     const [checkedFormats, setCheckedFormats] = useState<string[]>([]);
 
+    const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
+        useBookService();
+
+    const { data: cartQuantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
         text: '',
@@ -56,11 +67,6 @@ const MainInformation = ({
     const updateNotification = (newValues: Partial<typeof notification>) => {
         setNotification(prev => ({ ...prev, ...newValues }));
     };
-
-    const token =
-        typeof window !== 'undefined'
-            ? localStorage.getItem('accessToken')
-            : null;
 
     const router = usePathname();
     const id = router?.split('/').pop();
@@ -74,30 +80,40 @@ const MainInformation = ({
     const [addCart] = useAddCartMutation();
 
     const handleAddBook = async () => {
-        if (token !== null && book) {
-            try {
-                await addCart({
-                    accessToken: token,
-                    bookId: book.id,
-                    type: BookType.Cart,
-                });
+        if (!isAuthorized) {
+            updateNotification({
+                isVisible: true,
+                text: 'Для додавання у кошик, спочатку потрібно увійти в аккаунт',
+                type: 'error',
+            });
+            return;
+        }
+        if (notification.isVisible) {
+            setNotification(prev => ({ ...prev, isVisible: false }));
+        }
+        try {
+            await addCart({
+                bookId: book.id,
+                type: BookType.Cart,
+            });
 
-                updateNotification({
-                    isVisible: true,
-                    text: 'Книга успішно додана до кошика!',
-                    type: 'success',
-                });
-            } catch (error) {
-                updateNotification({
-                    isVisible: true,
-                    text: `Помилка при додаванні книги до кошика. Помилка #2001`,
-                    type: 'error',
-                });
-            }
+            updateNotification({
+                isVisible: true,
+                text: 'Книга успішно додана до кошика!',
+                type: 'success',
+            });
+        } catch (error) {
+            console.error(`Failed to add book to cart. ${error}`);
+            updateNotification({
+                isVisible: true,
+                text: `Помилка при додаванні книги до кошика. Помилка #2001`,
+                type: 'error',
+            });
         }
     };
 
     const handleCheckout = async () => {
+        refetchCartQuantity();
         if (checkedFormats.length === 0) {
             updateNotification({
                 isVisible: true,
@@ -115,10 +131,10 @@ const MainInformation = ({
             return;
         }
         const order_id = uuidv4();
-        const accessToken = localStorage.getItem('accessToken');
-        bookService.makeTestCheckout(book.price, order_id, updateNotification);
 
-        const transaction_id = await bookService.makeWatermarking(
+        makeTestCheckout(book.price, order_id, updateNotification);
+
+        const transaction_id = await makeWatermarking(
             checkedFormats.join(','),
             book.referenceNumber,
             order_id
@@ -141,8 +157,7 @@ const MainInformation = ({
             });
         }
 
-        await bookService.makeOrder(
-            accessToken,
+        await makeOrder(
             order_id,
             checkedFormats.join(','),
             transaction_id,
@@ -188,11 +203,19 @@ const MainInformation = ({
                         <Title>{book?.title}</Title>
                         <AuthorsList>{authorsMarkup}</AuthorsList>
                         <Price>{book?.price} ₴</Price>
+                        {notification.isVisible && (
+                            <Notify
+                                text={notification.text}
+                                duration={5}
+                                type={notification.type}
+                            />
+                        )}
                         <Controls>
                             <ToCart
                                 onClick={() => {
                                     openModal('cart');
                                     handleAddBook();
+                                    refetchCartQuantity();
                                 }}
                             >
                                 <Icon name="cart" size={28} />В кошик
@@ -203,20 +226,6 @@ const MainInformation = ({
                             <ToFavorite>
                                 <FavoriteBtn book={book} />
                             </ToFavorite>
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
-                            {notification.isVisible && (
-                                <Notify
-                                    text={notification.text}
-                                    duration={5}
-                                    type={notification.type}
-                                />
-                            )}
                         </Controls>
                         <Formats
                             setChecked={setCheckedFormats}

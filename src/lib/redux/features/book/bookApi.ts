@@ -79,9 +79,9 @@ export const bookApi = createApi({
 
         getFavoritesQuantity: builder.query<
             number,
-            { accessToken: string; type: BookType }
+            { type: BookType }
         >({
-            query: ({  type }) => ({
+            query: ({ type }) => ({
                 url: `api/user/books/quantity/${type}`,
                 method: 'GET',
                 credentials: 'include',
@@ -139,6 +139,16 @@ export const bookApi = createApi({
                 credentials: 'include',
             }),
         }),
+        getCartQuantity: builder.query<
+            number,
+            { type: BookType }
+        >({
+            query: ({ type }) => ({
+                url: `api/user/books/quantity/${type}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
+        }),
     }),
 });
 
@@ -156,4 +166,5 @@ export const {
     //Cart
     useGetCartQuery,
     useAddCartMutation,
+    useGetCartQuantityQuery,
 } = bookApi;

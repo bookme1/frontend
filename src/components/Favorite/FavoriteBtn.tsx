@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { EmptyHeart, FilledHeart } from './Favorite.styles';
-import { explode } from './particles';
 import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,
+    useGetCartQuantityQuery,
     useRemoveFavoriteMutation,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -17,6 +17,10 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [isFav, setIsFav] = useState<boolean>(false);
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
+
+        const { refetch: refetchFavQuantity } = useGetCartQuantityQuery({
+            type: BookType.Fav,
+        });
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -45,7 +49,7 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
 
     const handleFavoriteClick = async (e: any) => {
         setIsFav(true);
-        // explode(e.pageX, e.pageY);
+     
 
         if (book) {
             try {

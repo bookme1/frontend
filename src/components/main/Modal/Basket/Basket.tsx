@@ -1,15 +1,18 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
 
 import Image from 'next/image';
 
 import styles from './Basket.module.css';
-import { bookService } from '@/api/book/bookService';
+import { useBookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
-import { setModalStatus, useDispatch, useSelector } from '@/lib/redux';
-import { useGetCartQuery } from '@/lib/redux/features/book/bookApi';
+import { setModalStatus, useDispatch } from '@/lib/redux';
+import {
+    useGetCartQuantityQuery,
+    useGetCartQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -17,31 +20,16 @@ interface IBook {
     id: string;
     title: string;
     author: string;
-    price: string; // Залишаємо як string
+    price: string | number;
     url: string;
 }
 
 const Basket: React.FC = () => {
     const dispatch = useDispatch();
 
+    const [orderedBooks, setOrderedBooks] = useState<IBook[]>([]);
+
     const [removeBook] = useRemoveBookMutation();
-
-    // const [createOrder, { isLoading:isLoadingOrder, isError, isSuccess }] = useCreateOrderMutation();
-    // const [orderData, setOrderData] = useState<CreateOrderDTOExtended>({
-    //     order_id: '12345',
-    //     orderBooks: orders,
-    //     user: 123 ,
-    //     amount: 49.99,
-    // });
-
-    // const handleCreateOrder =async()=>{
-    //     try {
-    //         await createOrder(orderData).unwrap();
-    //         console.log('Order created successfully');
-    //     } catch (error) {
-    //         console.error('Failed to create order:', error);
-    //     }
-    // }
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -55,32 +43,44 @@ const Basket: React.FC = () => {
 
     const {
         data: cart,
-        error,
         isLoading,
-        refetch,
+        refetch: refetchGetCats,
     } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    const cartSum = useMemo(() => {
-        if (isLoading || !cart?.data?.length) return 0;
-        return cart.data.reduce((total, book) => total + Number(book.price), 0);
-    }, [cart, isLoading]);
+    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
+        type: BookType.Cart,
+    });
+
+    const { makeCartCheckout, makeCartWatermarking } = useBookService();
+
+    useEffect(() => {
+        if (Array.isArray(cart)) {
+            setOrderedBooks(cart);
+        }
+    }, [cart]);
+
+
+    const totalPrice = useMemo(() => {
+        return orderedBooks.reduce((total, book) => {
+            const price =
+                typeof book.price === 'string' ? parseFloat(book.price) : book.price;
+            return !isNaN(price) ? total + price : total;
+        }, 0);
+    }, [orderedBooks]);
+
 
     const handleCheckout = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-
-        // Close modal, in order not to mix z-indexes
         dispatch(setModalStatus(false));
 
-        const data = await bookService.makeCartCheckout(
-            accessToken || '',
-            updateNotification
-        );
+        const data = await makeCartCheckout(updateNotification);
+        console.log(`data -${data}`);
 
-        const watermarking_response = await bookService.makeCartWatermarking(
-            data.order_id
-        );
+        const watermarking_response = await makeCartWatermarking(data.order_id);
+
+        console.log(`watermarking_response - ${watermarking_response}`);
+
         if (Array.isArray(watermarking_response)) {
             console.log('transaction successful');
         } else {
@@ -92,12 +92,10 @@ const Basket: React.FC = () => {
         }
     };
 
-    console.log('cart', cart);
-
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!(isLoading || !cart?.data?.length) ? (
+            {!cart?.data?.length ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
@@ -155,7 +153,7 @@ const Basket: React.FC = () => {
                                             {book.author}
                                         </p>
                                         <p className={styles.price}>
-                                            {book.price}
+                                            {book.price} ₴
                                         </p>
                                     </div>
 
@@ -167,7 +165,9 @@ const Basket: React.FC = () => {
                                                     type: BookType.Cart,
                                                     bookId: book.id,
                                                 }).unwrap();
-                                                refetch();
+                                                refetchGetCats();
+                                                refetchCartQuantity();
+                                        
 
                                                 updateNotification({
                                                     isVisible: true,
@@ -189,7 +189,7 @@ const Basket: React.FC = () => {
                     <div className={styles.footerBox}>
                         <div className={styles.textBox}>
                             <p className={styles.text}>Всього:</p>
-                            <p className={styles.text}>{cartSum} &#x20B4;</p>
+                            <p className={styles.text}>{totalPrice} &#x20B4;</p>
                         </div>
 
                         <button

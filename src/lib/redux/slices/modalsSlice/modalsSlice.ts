@@ -28,6 +28,7 @@ const initialState: BooksSliceState = {
         successInfo: { isOpen: false },
         filter: { isOpen: false },
         addBookset: { isOpen: false },
+  
     },
     openModal: false,
     modalContent: '',

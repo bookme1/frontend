@@ -69,6 +69,8 @@ export const userApi = createApi({
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                credentials: 'include',
+
             }),
         }),
 
