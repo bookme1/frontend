@@ -16,7 +16,7 @@ const BookItem = ({
     user,
 }: any) => {
 
-    console.log(user)
+
     const [addCard] = useAddCartMutation();
 
     const handleAddToOrder = async () => {

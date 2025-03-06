@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { IBook } from '@/app/book/[id]/page.types';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
@@ -10,20 +12,10 @@ import { Wrapper } from '@/styles/globals.styles';
 
 interface AccountFavProps {
     user: IUser | null;
-
     favBooks: IBook[] | null | undefined;
 }
 
-export const AccountFav: React.FC<AccountFavProps> = ({
-    user,
-
-    favBooks,
-}) => {
-
-    const { data, error, isLoading } = useGetFavoritesQuery({
-        type: BookType.Fav,
-    });
-    console.log(data)
+export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
     return (
         <Wrapper style={{ minHeight: '800px' }}>
             <BreadCrumbs name="акаунт" />

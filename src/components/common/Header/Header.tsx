@@ -41,6 +41,10 @@ interface HeartIconProps {
     favQuantity: number | null | undefined;
 }
 
+interface BasketIconProps {
+    cartQuantity: number | null | undefined;
+}
+
 export const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
     return (
         <div
@@ -49,6 +53,19 @@ export const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
             <IoMdHeartEmpty size={28} />
             {hasFavorites && (
                 <div className={styles.favoriteCount}>{favQuantity}</div>
+            )}
+        </div>
+    );
+};
+
+export const BasketIcon = ({ cartQuantity }: BasketIconProps) => {
+    return (
+        <div
+            className={`${styles.heartIcon} ${cartQuantity ? styles.favorited : styles.notFavorited}`}
+        >
+            <Icon name="cart" size={28} />
+            {cartQuantity && (
+                <div className={styles.favoriteCount}>{cartQuantity}</div>
             )}
         </div>
     );
@@ -72,9 +89,11 @@ export const Avatar = ({ children }: AvatarProps) => {
 const Header = ({
     userData,
     favQuantity,
+    cartQuantity,
 }: {
     userData: IUser | null;
     favQuantity: number | null;
+    cartQuantity: number | null;
 }) => {
     const isLoading = false;
 
@@ -272,7 +291,7 @@ const Header = ({
                                     className={styles.headerBtn}
                                     onClick={handleCartModal}
                                 >
-                                    <Icon name="cart" size={28} />
+                                    <BasketIcon cartQuantity={cartQuantity} />
                                     Кошик
                                 </button>
                                 {isLoading ? (

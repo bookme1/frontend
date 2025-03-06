@@ -81,7 +81,7 @@ export const bookApi = createApi({
             number,
             { accessToken: string; type: BookType }
         >({
-            query: ({ accessToken, type }) => ({
+            query: ({  type }) => ({
                 url: `api/user/books/quantity/${type}`,
                 method: 'GET',
                 credentials: 'include',
@@ -108,7 +108,7 @@ export const bookApi = createApi({
                 method: 'DELETE',
                 body: {
                     bookId: DTO.bookId,
-                    type: 'Fav',
+                    type: 'fav',
                 },
                 credentials: 'include',
             }),
@@ -118,15 +118,14 @@ export const bookApi = createApi({
         // CART INTERACTION
         // #################
         getCart: builder.query<
-            { id: number; cart: IBook[] },
-            { accessToken: string; type: BookType.Cart }
-        >({
-            query: ({ accessToken, type }) => ({
-                url: `api/user/books/${type}`,
-                method: 'GET',
-                credentials: 'include',
+            { data: IBook[] },
+            { type: BookType.Cart }>({
+                query: ({ type }) => ({
+                    url: `api/user/books/${type}`,
+                    method: 'GET',
+                    credentials: 'include',
+                }),
             }),
-        }),
 
         addCart: builder.mutation<IUser, userBookDTO>({
             // Add book to favorites
@@ -135,7 +134,7 @@ export const bookApi = createApi({
                 method: 'POST',
                 body: {
                     bookId: DTO.bookId,
-                    type: 'Cart',
+                    type: 'cart',
                 },
                 credentials: 'include',
             }),
