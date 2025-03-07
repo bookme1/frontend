@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 
 import { IOrderBook } from '@/lib/redux/features/order/types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
     const requestHeaders = headers();
@@ -26,7 +27,12 @@ export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
         return null;
     } catch (error) {
         console.error('Error fetching:', error);
-
+        await addLogEntry({
+            source: 'function fetchAllOrderedBooks()',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

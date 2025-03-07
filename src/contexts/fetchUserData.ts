@@ -2,9 +2,10 @@
 
 import { IUser } from '@/lib/redux/features/user/types.ts';
 import { headers } from 'next/headers';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
-export async function fetchUserData(): Promise<IUser |null> {
+export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = headers();
 
     // Take cookies from headers
@@ -50,6 +51,12 @@ export async function fetchUserData(): Promise<IUser |null> {
         return null;
     } catch (error) {
         console.error('Error fetching user data:', error);
+        await addLogEntry({
+            source: 'function fetchUserData()',
+            message: `'Error fetching user data:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

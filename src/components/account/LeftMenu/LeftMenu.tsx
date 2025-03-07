@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import style from './LeftMenu.module.css';
 import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
 
 const NavLink = ({
@@ -31,7 +32,7 @@ export default function LeftMenu({
 }: {
     username: string | null | undefined;
 }) {
-    const [logOut, { isLoading, isError }] = useLogOutMutation();
+    const [logOut, { isLoading, isError, error }] = useLogOutMutation();
     const router = useRouter();
     const handleLogout = async () => {
         try {
@@ -39,6 +40,14 @@ export default function LeftMenu({
             console.log('Выход выполнен');
         } catch (error) {
             console.error('Ошибка выхода:', error);
+            if (isError) {
+                addLogEntry({
+                    source: 'Header.tsx useGetCartQuery()',
+                    message: `'Ошибка выхода:: ${error}`,
+                    context: '',
+                    code: 0,
+                });
+            }
         }
     };
 

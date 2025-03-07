@@ -1,4 +1,5 @@
 import { FiltersResponse } from '@/lib/redux/features/book/types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 export async function fetchFilters(q: string): Promise<FiltersResponse | null | undefined > {
 
@@ -21,6 +22,13 @@ export async function fetchFilters(q: string): Promise<FiltersResponse | null | 
 
     catch (error) {
         console.error('Error fetching filters data:', error);
+                await addLogEntry({
+                    source: 'function fetchFilters',
+                    message: `'Error fetching:', ${error}`,
+                    context: '',
+                    code: 0,
+                });
         return null;
+        
     }
 }

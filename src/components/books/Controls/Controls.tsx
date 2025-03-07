@@ -10,6 +10,7 @@ import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
 import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
@@ -41,7 +42,12 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
-    const { data: filterBooks, isLoading } = useGetFilterBooksQuery({
+    const {
+        data: filterBooks,
+        isLoading,
+        isError,
+        error,
+    } = useGetFilterBooksQuery({
         q,
         authors,
         minPrice,
@@ -51,6 +57,15 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         genre,
         page,
     });
+
+    if (isError) {
+        addLogEntry({
+            source: 'Controls.tsx useGetFilterBooksQuery',
+            message: `'Error filtering books: ${error}`,
+            context: '',
+            code: 0,
+        });
+    }
 
     const dispatch = useDispatch();
 

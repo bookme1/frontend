@@ -5,7 +5,6 @@ import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { IUser } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
 
 
 import ErrorBoundary from '../Error/ErrorBoundary';

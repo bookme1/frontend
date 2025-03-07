@@ -1,4 +1,5 @@
 import { BookSetRequest } from '@/lib/redux/features/book/types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 export async function fetchBooksets(): Promise<BookSetRequest[] | null> {
 
@@ -20,7 +21,13 @@ export async function fetchBooksets(): Promise<BookSetRequest[] | null> {
 
 
     catch (error) {
-        console.error('Error fetching filters data:', error);
+        console.error('Error fetching:', error);
+        await addLogEntry({
+            source: 'function fetchBooksets()',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

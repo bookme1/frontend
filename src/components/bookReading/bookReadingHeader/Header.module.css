@@ -17,7 +17,7 @@
     color: var(--btn-text-color);
 }
 
-p {
+.library {
     /* color: var(--btn-text-color); */
     font-size: 18px;
     font-weight: 500;
@@ -27,6 +27,10 @@ p {
 .title {
     margin-left: 4px;
     color: var(--red);
+
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21.13px;
 
     @media screen and (min-width: 768px) {
         margin-left: 12px;
@@ -41,7 +45,7 @@ p {
     }
 }
 
-h3 {
+.h3 {
     color: var(--title-color);
     text-align: center;
     font-size: 24px;

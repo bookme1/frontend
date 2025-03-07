@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 
 import { BookType } from '@/lib/redux/features/user/types.ts';
 import { IBook } from '@/app/book/[id]/page.types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
 export async function fetchGetOrders(type: BookType.Cart): Promise<IBook[] | null> {
@@ -25,7 +26,13 @@ export async function fetchGetOrders(type: BookType.Cart): Promise<IBook[] | nul
 
         return null;
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching:', error);
+        await addLogEntry({
+            source: 'function fetchGetOrders',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }
