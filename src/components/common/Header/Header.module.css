@@ -103,7 +103,8 @@
 
 .searchInput {
     border: 1px solid var(--gray_border);
-
+    font-size: 18px;
+    font-weight: 600;
     width: 330px;
     height: 40px;
     padding: 0 0 0 24px;
@@ -126,7 +127,7 @@
 .searchInput::placeholder {
     color: var(--gray_dark);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .searchButton {
@@ -293,7 +294,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 7px;
+    gap: 4px;
     color: var(--gray_dark);
     cursor: pointer;
 

@@ -178,9 +178,12 @@ img {
     box-sizing: border-box;
 }
 
-button,
+/* button,
 p,
 span,
-div {
+div,
+li,
+a {
     font-family: 'RaleWay';
-}
+    font-style: normal;
+} */

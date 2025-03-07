@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    height: 695px;
+    width: 375px;
+
+    background: center no-repeat url(../../../../assets//modal/empty_basket.svg);
+    background-position-y: 35%;
+    background-size: 124px 129px;
+
+    @media screen and (min-width: 768px) {
+        background-position-y: 40%;
+        width: 494px;
+        height: 812px;
+    }
+
+    @media screen and (min-width: 1280px) {
+        width: 494px;
+        height: 959px;
+    }
+}
+
+.box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+
+    margin: 0 auto;
+    margin-top: 175px;
+
+    @media screen and (min-width: 768px) {
+        margin-top: 175px;
+        justify-content: center;
+    }
+
+    @media screen and (min-width: 1280px) {
+        margin-top: 150px;
+    }
+}
+
+.readBtn {
+    width: 310px;
+    height: 46px;
+    background-color: var(--red);
+    border-radius: 8px;
+
+    color: #fff;
+    font-weight: 700;
+    transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+
+    @media screen and (min-width: 768px) {
+        width: 219px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @media screen and (min-width: 1280px) {
+        font-size: 16px;
+    }
+}
+
+.readBtn:hover {
+    background-color: #e62e2e;
+}
+
+.readBtn:active {
+    background-color: #cc2929;
+}
+
+.text {
+    width: 219px;
+    font-weight: 700;
+    text-align: center;
+
+    margin-top: 100px;
+
+    @media screen and (min-width: 768px) {
+        margin-top: 0;
+    }
+}

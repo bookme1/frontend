@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
-import { ContentWrapper } from './BookContent.styles';
 
+import styles from './BookContent.module.css';
 
 type Props = {
-  children: ReactNode;
-}
+    children: ReactNode;
+};
 
 export const BookContent = ({ children }: Props) => {
-  return <ContentWrapper>{children}</ContentWrapper>;
+    return <div className={`wrapper ${styles.contentWrapper}`}>{children}</div>;
 };

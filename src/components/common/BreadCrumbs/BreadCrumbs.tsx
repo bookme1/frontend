@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation';
 import styles from './BreadCrumbs.module.css';
 import { CyrillicNames, regexExp } from './BreadCrumbs.types';
 import names from './cyrillicNames.json';
-import { Wrapper } from '@/styles/globals.styles';
 
 import { Icon } from '../Icon';
 
@@ -55,7 +54,7 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     });
 
     return (
-        <Wrapper>
+        <div className={`wrapper`}>
             <ul className={styles.list}>
                 <li className={styles.item}>
                     <Link href={'/'}>Головна</Link>
@@ -65,7 +64,7 @@ const Breadcrumbs = ({ name }: { name: string }) => {
                 </li>
                 {breadcrumbItems}
             </ul>
-        </Wrapper>
+        </div>
     );
 };
 
