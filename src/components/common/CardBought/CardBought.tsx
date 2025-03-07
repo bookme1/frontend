@@ -1,30 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 
-import {
-    Authors,
-    BookFormatContainer,
-    BookLink,
-    BottomContainer,
-    BoxStyles,
-    CardContainer,
-    CardLink,
-    CartButton,
-    DescriptionContainer,
-    ImageContainer,
-    Price,
-    Title,
-} from './CardBought.styles';
+import styles from './CardBought.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
-import { BookFormat } from '@/components/BookFormat';
-import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
-import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import { BookType } from '@/lib/redux/features/user/types';
-import { useAddBookQuery } from '@/lib/redux/features/user/userApi';
-
-import { lazyloadExp } from '../Card/lazyload';
-import { Icon } from '../Icon';
 
 const CardBought = ({
     book,
@@ -42,55 +21,49 @@ const CardBought = ({
         initialBook = { title: '1', url: '1', price: 0, author: '1', id: '1' };
     else initialBook = book;
 
-    const { title, url, price, author, id } = initialBook;
-    lazyloadExp();
-
-    const [addClick, setAddClick] = useState(false);
-    const token = localStorage.getItem('accessToken');
-
-    const addCardBook = useAddBookQuery(
-        {
-            accessToken: token ?? '',
-            bookId: id ?? '',
-            type: BookType.Cart,
-        },
-        { skip: addClick === false }
-    );
-    const modals = useSelector((state: any) => state.modals.modals);
-    const dispatch = useDispatch();
-    const handleOpenModal = (modalName: string) => {
-        dispatch(openModal(modalName));
-        setAddClick(true);
-    };
+    const { title, url, author, id } = initialBook;
 
     return (
         <>
-            <CardContainer>
-                <ImageContainer
-                    className="lazyload"
+            <li className={styles.cardItem}>
+                <div
+                    className={`${styles.lazyload} ${styles.imageContainer}`}
                     style={{ ['--background-image' as string]: `url(${url})` }}
                 >
-                    <CardLink href={`/book/${id}`}></CardLink>
-                </ImageContainer>
-                <DescriptionContainer>
-                    <Title>
-                        <CardLink href={`/book/${id}`}>{title}</CardLink>
-                    </Title>
-                    <Authors>{author}</Authors>
-                    <Price>Скачати</Price>
-                    <BottomContainer>
-                        <BoxStyles>
+                    <Link
+                        className={styles.cardLink}
+                        href={`/book/${id}`}
+                    ></Link>
+                </div>
+                <div className={styles.descriptionCotainer}>
+                    <p className={styles.title}>
+                        <Link className={styles.cardLink} href={`/book/${id}`}>
+                            {title}
+                        </Link>
+                    </p>
+                    <p className={styles.authors}>{author}</p>
+                    <p className={styles.price}>Скачати</p>
+                    <div className={styles.bottomContainer}>
+                        <div className={styles.boxStyles}>
                             {mobiLink && (
-                                <BookLink href={mobiLink}>mobi</BookLink>
+                                <a className={styles.bookLink} href={mobiLink}>
+                                    mobi
+                                </a>
                             )}
-                            {pdfLink && <BookLink href={pdfLink}>pdf</BookLink>}
+                            {pdfLink && (
+                                <a className={styles.bookLink} href={pdfLink}>
+                                    pdf
+                                </a>
+                            )}
                             {epubLink && (
-                                <BookLink href={epubLink}>epub</BookLink>
+                                <a className={styles.bookLink} href={epubLink}>
+                                    epub
+                                </a>
                             )}
-                        </BoxStyles>
-                    </BottomContainer>
-                </DescriptionContainer>
-            </CardContainer>
+                        </div>
+                    </div>
+                </div>
+            </li>
         </>
     );
 };

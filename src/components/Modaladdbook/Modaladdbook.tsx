@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
+import styles from './ModalAddBook.module.css';
 
 export default function ModalAddBook({
     isVisible,
@@ -31,27 +32,27 @@ export default function ModalAddBook({
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+            className={styles.wrapper}
             id="wrapper"
             onClick={handleClose}
         >
-            <div className="w-[700px] ">
-                <div className="bg-white p-5 rounded-lg text-green-900">
-                    <div className="flex items-center gap-10 mb-5">
-                        <label className="flex flex-col w-72">
+            <div className={styles.modalContainer}>
+                <div className={styles.modalContent}>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.inputLabel}>
                             Назва
                             <input
                                 type="text"
                                 placeholder="Назва"
-                                className="border-2 indent-3 p-1 rounded-lg shadow-lg"
+                                className={`${styles.inputField}`}
                             />
                         </label>
-                        <label htmlFor="" className="flex flex-col">
-                            <p className="opacity-0">Категория</p>
+                        <label className={styles.inputLabel}>
+                            <p className="opacity-0">Категорія</p>
                             <select
                                 name=""
                                 id=""
-                                className="border-2 p-1.5 px-3 rounded-lg shadow-lg w-36"
+                                className={styles.selectField}
                             >
                                 <option value="" disabled selected>
                                     Категорія
@@ -61,12 +62,12 @@ export default function ModalAddBook({
                                 <option value="">3</option>
                             </select>
                         </label>
-                        <label htmlFor="">
+                        <label className={styles.inputLabel}>
                             <p className="opacity-0">Мова</p>
                             <select
                                 name=""
                                 id=""
-                                className="border-2 p-1.5 rounded-lg shadow-lg px-2 w-36"
+                                className={styles.selectField}
                             >
                                 <option value="" disabled selected>
                                     Мова
@@ -77,51 +78,54 @@ export default function ModalAddBook({
                             </select>
                         </label>
                     </div>
-                    <div className="flex gap-10 mb-5">
-                        <label>
+
+                    <div className={styles.inputGroup}>
+                        <label className={styles.inputLabel}>
                             Автор
                             <input
                                 type="text"
                                 placeholder="Автор"
-                                className="indent-3 border-2 w-72 rounded-lg shadow-lg p-1"
+                                className={styles.inputField}
                             />
                         </label>
-                        <label>
+                        <label className={styles.inputLabel}>
                             Ціна
                             <input
                                 type="text"
                                 placeholder="Ціна"
-                                className="indent-3 border-2 rounded-lg shadow-lg p-1 w-36"
+                                className={`${styles.inputField} ${styles.inputFieldSmall}`}
                             />
                         </label>
-                        <label>
+                        <label className={styles.inputLabel}>
                             Сторінки
                             <input
                                 type="text"
                                 placeholder="Сторінки"
-                                className="indent-3 border-2 rounded-lg shadow-lg p-1 w-36"
+                                className={`${styles.inputField} ${styles.inputFieldSmall}`}
                             />
                         </label>
                     </div>
-                    <div className="flex gap-1 mb-5">
-                        <label className="flex flex-col w-6/12">
+
+                    <div className={styles.inputGroup}>
+                        <label className={styles.inputLabel}>
                             Видавництво
                             <input
                                 type="text"
                                 placeholder="Видавництво"
-                                className="indent-3 border-2 w-72 rounded-lg shadow-lg p-1"
+                                className={styles.inputField}
                             />
                         </label>
-                        <label className="flex flex-col">
+                        <label className={styles.inputLabel}>
                             URL Картинки
                             <input
                                 type="text"
-                                placeholder="url"
-                                className="indent-3 border-2 w-80 rounded-lg shadow-lg p-1"
+                                placeholder="URL"
+                                className={styles.inputField}
                             />
                         </label>
                     </div>
-                    <div className="flex flex-col mb-5">
+
+                    <div className={styles.inputGroup}>
                         <label htmlFor="description" className="text-gray-700">
                             Опис
                         </label>
@@ -130,16 +134,17 @@ export default function ModalAddBook({
                             id="description"
                             name="description"
                             rows={5}
-                            className="mt-1 p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-green-900 resize-none"
+                            className={styles.textAreaField}
                         ></textarea>
                     </div>
-                    <div className="flex justify-between">
-                        <button className="border-2 p-1 rounded-lg px-20 hover:bg-green-900 hover:text-white">
+
+                    <div className={styles.buttonGroup}>
+                        <button className={styles.button}>
                             Зберегти
                         </button>
                         <button
                             onClick={() => onClose()}
-                            className="border-2 p-1 rounded-lg px-20 hover:bg-green-900 hover:text-white"
+                            className={`${styles.button} ${styles.buttonCancel}`}
                         >
                             Відміна
                         </button>
