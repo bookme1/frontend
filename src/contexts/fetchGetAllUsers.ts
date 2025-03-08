@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 
 import { userDTO } from '@/lib/redux/features/admin/types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
 export async function fetchGetAllUsers(): Promise<userDTO[] | string | null> {
@@ -48,7 +49,13 @@ export async function fetchGetAllUsers(): Promise<userDTO[] | string | null> {
 
         return null;
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching users data:', error);
+        await addLogEntry({
+            source: 'function fetchGetAllUsers()',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

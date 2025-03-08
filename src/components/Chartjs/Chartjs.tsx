@@ -1,5 +1,5 @@
 'use client';
-
+import styles from './Chartjs.module.css'
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { CategoryScale, Chart, defaults } from 'chart.js/auto';
@@ -45,8 +45,8 @@ const Chartjs = ({ statistics }: { statistics: { x: string, y: number }[] }) => 
   console.log('Chart Data:', chartData);
 
   return (
-    <div className="flex-col ml-40">
-      <div className="h-96 w-full shadow-2xl rounded-xl mb-10">
+    <div className={styles.container}>
+      <div className={styles.chartCard}>
         <Line data={chartData} />
       </div>
     </div>

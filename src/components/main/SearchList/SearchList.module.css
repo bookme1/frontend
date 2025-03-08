@@ -1,0 +1,14 @@
+.searchListContainer {
+    position: absolute;
+    top: 49px;
+    left: 0;
+    margin: 0 auto;
+    width: 430px;
+    border: 1px solid var(--gray_border);
+    z-index: 10;
+}
+
+.searchListList {
+    max-height: 200px;
+    overflow-y: auto;
+}

@@ -6,105 +6,117 @@ import { GrUpdate } from 'react-icons/gr';
 
 import Image from 'next/image';
 
+import styles from './Webstatistics.module.css';
 import Gear from '@/assets/account/gear.png';
 
 import { Icon } from '../common/Icon';
 
-
 const Webstatistics = () => {
-
     return (
         <>
-            <div className="w-max">
-                <ul className="flex-col ml-20  text-gray-500 ">
-                    <li className="flex gap-3 mb-6 cursor-pointer  hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+            <div className={styles.container}>
+                <ul className={styles.menuList}>
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="mainhome" />
-                            <a href="/admin" className="hover:text-green-900">
+                            <a
+                                href="/admin"
+                                className={styles.menuItemTextHover}
+                            >
                                 Головна
                             </a>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900 ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <GrUpdate />
                             <a
                                 href="/admin/book-update"
-                                className="hover:text-green-900 text-left"
+                                className={styles.menuItemTextHover}
                             >
                                 Стягнути нові книжки
                             </a>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="group" />
                             <a
                                 href="/admin/users"
-                                className="hover:text-green-900"
+                                className={styles.menuItemTextHover}
                             >
                                 Користувачі
                             </a>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <FaCodePullRequest />
                             <a
                                 href="/admin/ping"
-                                className="hover:text-green-900"
+                                className={styles.menuItemTextHover}
                             >
                                 Elibri Запити
                             </a>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="menubook" />
-                            <p className="hover:text-green-900 text-gray-300">
-                                Книги
-                            </p>
+                            <p className={styles.menuItemText}>Книги</p>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button
-                            className="flex gap-2 justify-center items-center "
-                        >
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="album" />
                             <a
                                 href="/admin/booksets"
-                                className="hover:text-green-900"
+                                className={styles.menuItemTextHover}
                             >
                                 Набори
                             </a>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900  ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="sales" />
-                            <p className="hover:text-green-900 text-gray-300">
-                                Продажі
-                            </p>
+                            <p className={styles.menuItemText}>Продажі</p>
                         </button>
                     </li>
-                    <li className="flex gap-3 mb-6 cursor-pointer hover:text-green-900 ">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Icon name="localization" />
-                            <p className="hover:text-green-900 text-gray-300">
-                                Локалізація
-                            </p>
+                            <p className={styles.menuItemText}>Локалізація</p>
                         </button>
                     </li>
-                    <li className="flex   cursor-pointer hover:text-green-900">
-                        <button className="flex gap-2 justify-center items-center ">
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
                             <Image
                                 src={Gear}
                                 alt="Settings"
-                                className="w-6 h-6"
+                                className={styles.settingsImg}
                             />
-                            <p className="hover:text-green-900 text-gray-300">
-                                Оновити даннi
-                            </p>
+                            <p className={styles.menuItemText}>Оновити даннi</p>
+                        </button>
+                    </li>
+
+                    <li className={styles.menuItem}>
+                        <button className={styles.menuItemButton}>
+                            <Icon name="album" />
+                            <a
+                                href="/admin/logs"
+                                className={styles.menuItemTextHover}
+                            >
+                                Logs
+                            </a>
                         </button>
                     </li>
                 </ul>

@@ -19,6 +19,7 @@ import baseAvatar from '@/assets/main/user.png';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import {
     selectOpenModal,
     setModalContent,
@@ -115,13 +116,40 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
-    const { data: cartQuantity, refetch: refetchCartQuantity } =
-        useGetCartQuantityQuery({
-            type: BookType.Cart,
-        });
-    const { data: carts, refetch: refetchCart } = useGetCartQuery({
+    const {
+        data: cartQuantity,
+        refetch: refetchCartQuantity,
+        isError: isGetCartQuantity,
+        error: getCartQuantityError,
+    } = useGetCartQuantityQuery({
         type: BookType.Cart,
     });
+    const {
+        data: carts,
+        refetch: refetchCart,
+        isError: isGetCartQuery,
+        error: getCartQueryError,
+    } = useGetCartQuery({
+        type: BookType.Cart,
+    });
+
+    if (isGetCartQuantity) {
+        addLogEntry({
+            source: 'Header.tsx useGetCartQuantityQuery()',
+            message: `'Error: ${getCartQuantityError}`,
+            context: '',
+            code: 0,
+        });
+    }
+
+    if (isGetCartQuery) {
+        addLogEntry({
+            source: 'Header.tsx useGetCartQuery()',
+            message: `'Error: ${getCartQueryError}`,
+            context: '',
+            code: 0,
+        });
+    }
 
     const dispatch = useDispatch();
 
@@ -166,7 +194,6 @@ const Header = ({
             setIsSearchListOpen(false);
         }
     };
-
 
     useEffect(() => {
         const q = router?.get('q');
@@ -232,6 +259,8 @@ const Header = ({
                                 <Icon
                                     className={styles.logo}
                                     name="logo_black"
+                                    width={176}
+                                    height={40}
                                 />
                             </Link>
                         </div>
@@ -290,7 +319,7 @@ const Header = ({
                         </div>
                         <div className={styles.fromDesctop}>
                             <div className={styles.controlsContainer}>
-                                <div className={styles.heartBtn}>
+                                <div className={styles.headerBtn}>
                                     <a
                                         className={styles.accountLink}
                                         href={
@@ -303,7 +332,14 @@ const Header = ({
                                             hasFavorites={hasFavorites}
                                             favQuantity={favQuantity}
                                         />
-                                        Обране
+                                        <p
+                                            style={{
+                                                fontSize: '16px',
+                                                fontFamily: 'RaleWay',
+                                            }}
+                                        >
+                                            Обране
+                                        </p>
                                     </a>
                                 </div>
                                 <button

@@ -8,26 +8,34 @@ import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { useGetFavoritesQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
-import { Wrapper } from '@/styles/globals.styles';
 
 import ErrorBoundary from '../Error/ErrorBoundary';
 
 interface AccountFavProps {
     user: IUser | null;
-    favBooks: IBook[] | null | undefined;
+    // favBooks: IBook[] |  undefined;
 }
 
-export const AccountFav: React.FC<AccountFavProps> = ({ user, favBooks }) => {
+export const AccountFav: React.FC<AccountFavProps> = ({ user }) => {
+    const { data, error, isLoading } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
+
+    const favBooks = data || [];
+    console.log(data)
+
     return (
-        <Wrapper style={{ minHeight: '800px' }}>
+        <div className="wrapper" style={{ minHeight: '800px' }}>
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
-                <LeftMenu username={user?.username} />
-                <Favorite
-                    favBooks={favBooks}
-                    isAutorized={user ? true : false}
-                />
+                <div style={{ display: 'flex', gap: '20px' }}>
+                    <LeftMenu username={user?.username} />
+                    <Favorite
+                        favBooks={favBooks}
+                        isAutorized={user ? true : false}
+                    />
+                </div>
             </ErrorBoundary>
-        </Wrapper>
+        </div>
     );
 };
