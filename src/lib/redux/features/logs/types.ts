@@ -4,6 +4,14 @@ export interface Log {
     timestamp: string;
 }
 
+export interface Logs {
+    id: string;
+    message: string;
+    context: string;
+    createdAt: string;
+    source: string;
+}
+
 export interface addLog {
     source: string,
     message: string,

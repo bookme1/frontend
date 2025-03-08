@@ -1,0 +1,65 @@
+.container {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.tr {
+    width: 100%;
+}
+
+.th,
+.td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    /* width: 100%; */
+}
+
+.textSmall,
+.textMedium,
+.textLarge {
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.textSmall {
+    max-height: 100px;
+    overflow: hidden;
+    max-width: 100px;
+}
+
+.textMedium {
+    max-height: 100px;
+    overflow: hidden;
+    max-width: 200px;
+}
+
+.textLarge {
+    max-height: 100px;
+    max-width: 400px;
+    overflow: hidden;
+}
+
+.deleteBtn {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.deleteBtn:hover {
+    color: aqua;
+}
+
+.delRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 50px;
+}

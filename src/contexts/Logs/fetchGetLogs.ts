@@ -1,9 +1,9 @@
-import { Log } from "@/lib/redux/features/logs/types";
+import { Logs } from "@/lib/redux/features/logs/types";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
 
-export async function getLogs(): Promise<Log[] | null> {
+export async function getLogs(): Promise<Logs[] | null> {
     try {
         const response = await fetch(`${BASE_URL}/api/log`, {
             method: 'GET',

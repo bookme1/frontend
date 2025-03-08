@@ -1,5 +1,3 @@
-/* Sidebar.module.css */
-
 .container {
     width: max-content;
   }
@@ -37,3 +35,7 @@
     color: #1b5e20; /* hover:text-green-900 */
   }
   
+  .settingsImg{
+    height: 24px;
+    width: 24px;
+  }

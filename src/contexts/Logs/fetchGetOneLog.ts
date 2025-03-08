@@ -4,12 +4,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
 
 export async function getOneLog(id: string): Promise<idLog | null> {
     try {
-        const response = await fetch(`${BASE_URL}/api/log`, {
+        const response = await fetch(`${BASE_URL}/api/log/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id }),
         });
 
         if (response.ok) {

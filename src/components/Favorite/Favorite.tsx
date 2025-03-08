@@ -8,7 +8,7 @@ import { IBook } from '@/app/book/[id]/page.types';
 import BookItem from '../book/Item/BookItem';
 
 interface FavoriteProps {
-    favBooks: IBook[] | null | undefined;
+    favBooks: IBook[] | undefined | null;
     isAutorized: boolean;
 }
 
@@ -23,9 +23,9 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
     }, [favBooks]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && !isAutorized) {
             const favBooksFromStorage = localStorage.getItem('favorites');
-            if (favBooksFromStorage && !isAutorized) {
+            if (favBooksFromStorage) {
                 const parsedBooks: IBook[] = JSON.parse(favBooksFromStorage);
                 setBooks(parsedBooks);
             }
@@ -33,8 +33,8 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
         }
     }, [isAutorized]);
 
-    let favoriteBooksList = favBooks;
-    if (!favBooks) favoriteBooksList = books;
+    let favoriteBooksList = favBooks?.length ? favBooks : books;
+
     return (
         <>
             {!favoriteBooksList || favoriteBooksList.length === 0 ? (

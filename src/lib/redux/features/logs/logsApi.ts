@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { addLog, idLog, Log } from './types';
+import { addLog, idLog, Logs } from './types';
 
 export const logsApi = createApi({
     reducerPath: 'logsApi',
@@ -9,7 +9,7 @@ export const logsApi = createApi({
 
 
     endpoints: builder => ({
-        getLogs: builder.query<Log[], void>({
+        getLogs: builder.query<Logs[], void>({
             query: () => ({
                 url: 'api/log',
                 method: 'GET',
