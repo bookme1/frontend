@@ -242,7 +242,7 @@ const Header = ({
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));
-        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalStatus(true));
     };
 
     const pathname = usePathname();

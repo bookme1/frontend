@@ -12,6 +12,8 @@
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     cursor: pointer;
 
+    margin-top: 55px;
+
     @media (min-width: 768px) {
         width: 163px;
         height: 46px;
@@ -19,6 +21,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        margin-top: 32px;
     }
     @media (min-width: 1280px) {
         font-size: 16px;
@@ -37,8 +41,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
     max-height: 90vh;
-    width: 375px;
+    width: 100%;
     padding: 16px 0;
     background-color: white;
     position: relative;
@@ -194,7 +199,7 @@
 .cartBtn {
     margin-top: 16px;
 
-    /* width: 343px; */
+    width: 343px;
     height: 46px;
     background-color: var(--red);
     border-radius: 8px;
@@ -219,4 +224,16 @@
 }
 .cartBtn:active {
     background-color: #cc2929;
+}
+
+
+.emptyBinImg{
+    width: 200px;
+
+    @media (min-width: 768px) {
+        width: 322px;
+        height: 344px;
+
+    }
+
 }

@@ -114,7 +114,7 @@ const SignInModal = ({
                     />
                 )}
                 <button
-                    className={`${style.submitButton} ${isLoading ? style.submitBtnDisabled : ''}`}
+                    className={`${style.submitBtn} ${isLoading ? style.submitBtnDisabled : ''}`}
                     type="submit"
                     disabled={isLoading}
                 >

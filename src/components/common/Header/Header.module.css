@@ -105,7 +105,7 @@
     border: 1px solid var(--gray_border);
     font-size: 18px;
     font-weight: 600;
-    width: 330px;
+    width: 282px;
     height: 40px;
     padding: 0 0 0 24px;
     border-radius: 8px;
@@ -131,7 +131,7 @@
 }
 
 .searchButton {
-    height: 41px;
+    height: 40px;
     width: 40px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;

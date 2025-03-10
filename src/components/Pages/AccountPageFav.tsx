@@ -6,7 +6,6 @@ import { BreadCrumbs } from '@/components/common/BreadCrumbs';
 import { IOrderBook } from '@/lib/redux/features/order/types';
 import { IUser } from '@/lib/redux/features/user/types';
 
-
 import ErrorBoundary from '../Error/ErrorBoundary';
 
 interface AccountPageFavProps {
@@ -19,10 +18,13 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
     userOrderBooks,
 }) => {
     return (
-        <div className='wrapper'>
+        <div
+            className="wrapper"
+            style={{ marginBottom: '20px', marginTop: '20px' }}
+        >
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
-                <div>
+                <div style={{ marginTop: '20px' }}>
                     <LeftMenu username={user?.username} />
                     <UserBooks userOrderBooks={userOrderBooks} />
                 </div>
