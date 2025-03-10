@@ -36,7 +36,7 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
     let favoriteBooksList = favBooks?.length ? favBooks : books;
 
     return (
-        <>
+        <div className={styles.container}>
             {!favoriteBooksList || favoriteBooksList.length === 0 ? (
                 <p className={styles.text}>У Вас поки що немає книжок</p>
             ) : (
@@ -46,7 +46,7 @@ const Favorite: React.FC<FavoriteProps> = ({ favBooks, isAutorized }) => {
                     ))}
                 </ul>
             )}
-        </>
+        </div>
     );
 };
 

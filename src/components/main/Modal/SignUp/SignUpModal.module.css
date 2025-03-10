@@ -71,7 +71,7 @@
     margin-bottom: 20px;
 }
 
-.form{
+.form {
     width: 470px;
     display: flex;
     flex-direction: column;
@@ -79,14 +79,14 @@
     margin-bottom: 24px;
 }
 
-.changeModalButton{
+.changeModalButton {
     padding-left: 16px;
     font-size: 18px;
     font-weight: 700;
     color: var(--blue);
 }
 
-.submitButton{
+.submitButton {
     width: 215px;
     padding: 12px 32px;
     background-color: var(--red);
@@ -95,4 +95,9 @@
     color: #fff;
     font-size: 16px;
     font-weight: 700;
+}
+
+.submitBtnDisabled {
+    background-color: gray;
+    cursor: not-allowed;
 }

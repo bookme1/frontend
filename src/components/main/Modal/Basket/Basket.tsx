@@ -49,9 +49,14 @@ const Basket: React.FC = () => {
         type: BookType.Cart,
     });
 
-    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
-        type: BookType.Cart,
-    });
+    console.log(cart);
+
+    const { data: cartQantity, refetch: refetchCartQuantity } =
+        useGetCartQuantityQuery({
+            type: BookType.Cart,
+        });
+
+    console.log('cartQantity', cartQantity);
 
     const {
         makeCartCheckout,
@@ -126,7 +131,7 @@ const Basket: React.FC = () => {
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {isLoading ? (
+            {orderedBooks.length === 0 ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
@@ -154,12 +159,13 @@ const Basket: React.FC = () => {
                         Порожній кошик - твоя можливість для нових книжкових
                         відкриттів!
                     </p>
-                    <button
+                    <a
+                        href="/books"
                         className={styles.catalogBtn}
                         style={{ marginTop: 32, width: '100%' }}
                     >
                         До каталогу
-                    </button>
+                    </a>
                 </div>
             ) : (
                 <>

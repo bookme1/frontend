@@ -6,7 +6,5 @@ import { BookType } from '@/lib/redux/features/user/types';
 export default async function Home() {
     const user = await fetchUserData();
 
-    // const favBooks = await fetchGetFavorites(BookType.Fav);
-    
     return <AccountFav user={user} />;
 }

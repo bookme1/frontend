@@ -30,8 +30,9 @@ import {
 import {
     useGetCartQuantityQuery,
     useGetCartQuery,
+    useGetFavoritesQuantityQuery,
+    useGetFavoritesQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
@@ -100,11 +101,9 @@ export const Avatar = ({ children }: AvatarProps) => {
 
 const Header = ({
     userData,
-    favQuantity,
     booksArr,
 }: {
     userData: IUser | null;
-    favQuantity: number | null;
     booksArr: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
@@ -117,30 +116,24 @@ const Header = ({
     const router = useSearchParams();
 
     const {
-        data: cartQuantity,
-        refetch: refetchCartQuantity,
-        isError: isGetCartQuantity,
-        error: getCartQuantityError,
-    } = useGetCartQuantityQuery({
-        type: BookType.Cart,
-    });
-    const {
         data: carts,
         refetch: refetchCart,
+        isLoading: isGetCartQueryLoading,
         isError: isGetCartQuery,
         error: getCartQueryError,
     } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    if (isGetCartQuantity) {
-        addLogEntry({
-            source: 'Header.tsx useGetCartQuantityQuery()',
-            message: `'Error: ${getCartQuantityError}`,
-            context: '',
-            code: 0,
-        });
-    }
+    const {
+        data: favs,
+        refetch: refetchFav,
+        isLoading: isGetFavQueryLoading,
+        isError: isGetFavQuery,
+        error: getFavQueryError,
+    } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
 
     if (isGetCartQuery) {
         addLogEntry({
@@ -165,6 +158,17 @@ const Header = ({
         }
     }, [dispatch, userData]);
 
+    let cartQuantity;
+    let favQuantity;
+
+    if (!isGetCartQueryLoading && Array.isArray(carts?.data)) {
+        cartQuantity = carts?.data.length;
+    }
+
+    if (!isGetFavQueryLoading && Array.isArray(favs)) {
+        favQuantity = favs.length;
+    }
+
     const modalOpen = useSelector(selectOpenModal);
 
     const handleModal = () => {
@@ -175,8 +179,8 @@ const Header = ({
     const handleCartModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Cart'));
-        refetchCartQuantity();
         refetchCart();
+        refetchFav();
     };
 
     const handleClick = () => {

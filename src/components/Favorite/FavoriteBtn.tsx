@@ -8,6 +8,7 @@ import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,
     useGetCartQuantityQuery,
+    useGetFavoritesQuery,
     useRemoveFavoriteMutation,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -18,6 +19,10 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [isFav, setIsFav] = useState<boolean>(false);
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
+
+    const { refetch: refetchFavBooks } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
 
     const { refetch: refetchFavQuantity } = useGetCartQuantityQuery({
         type: BookType.Fav,
@@ -57,6 +62,8 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     bookId: book.id,
                     type: BookType.Fav,
                 });
+                refetchFavBooks();
+                refetchFavQuantity();
             } catch (error) {
                 setIsFav(false);
 
@@ -88,7 +95,9 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     bookId: book.id,
                     type: BookType.Fav,
                 });
-                window.location.reload();
+
+                refetchFavBooks();
+                refetchFavQuantity();
             } catch (error) {
                 setIsFav(true); // Go back if error occured on backend
 

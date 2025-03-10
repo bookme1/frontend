@@ -13,7 +13,6 @@ import ErrorBoundary from '../Error/ErrorBoundary';
 
 interface AccountFavProps {
     user: IUser | null;
-    // favBooks: IBook[] |  undefined;
 }
 
 export const AccountFav: React.FC<AccountFavProps> = ({ user }) => {
@@ -22,7 +21,6 @@ export const AccountFav: React.FC<AccountFavProps> = ({ user }) => {
     });
 
     const favBooks = data || [];
-    console.log(data)
 
     return (
         <div className="wrapper" style={{ minHeight: '800px' }}>
