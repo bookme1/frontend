@@ -5,32 +5,8 @@ import {
     UserResponse,
     loginOutputDTO,
 } from '@/lib/redux/features/user/types.ts';
+import { addLogEntry } from './Logs/fetchAddLog';
 
-// export interface loginOutputDTO {
-//     user: IUser;
-//     tokens: {
-//         accessToken: string;
-//         refreshToken: string;
-//     };
-// }
-
-// export interface IUser {
-//     id: number;
-//     username: string | null;
-//     email: string | null;
-//     role: Role;
-//     fav: string[];
-//     cart: string[];
-//     books: string[];
-// }
-
-// export enum Role {
-//     User,
-//     Moderator,
-//     Admin,
-// }
-
-// type UserResponse = IUser | loginOutputDTO | null;
 
 const fetchUserData = async (
     accessToken: string | null,
@@ -102,6 +78,12 @@ const fetchUserData = async (
         return null;
     } catch (error) {
         console.error('Error fetching user data:', error);
+        await addLogEntry({
+            source: 'useFetchUserData',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 };

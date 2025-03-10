@@ -66,10 +66,7 @@ export const bookApi = createApi({
         // #################
         // FAVORITES INTERACTION
         // #################
-        getFavorites: builder.query<
-            { id: number; fav: IBook[]; cart: IBook[] },
-            { type: BookType }
-        >({
+        getFavorites: builder.query<IBook[], { type: BookType }>({
             query: ({ type }) => ({
                 url: `api/user/books/${type}`,
                 method: 'GET',

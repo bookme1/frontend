@@ -26,6 +26,7 @@ const BookList: React.FC<BookListProps> = ({
                             book={book}
                             handleOpenModal={handleOpenModal}
                             user={user}
+                            isSwiper={false}
                         />
                     );
                 })}

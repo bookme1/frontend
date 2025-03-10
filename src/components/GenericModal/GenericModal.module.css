@@ -1,0 +1,55 @@
+.modalWindow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+  
+  .modalContainer {
+    position: relative;
+    max-height: 100%;
+    background-color: #fff;
+    border-radius: 16px;
+    overflow-y: scroll;
+    margin-left: 0;
+    margin-right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .modalContainer.left {
+    margin-left: 0;
+    margin-right: auto;
+    left: initial;
+    transform: none;
+  }
+  
+  .modalContainer.right {
+    margin-left: auto;
+    margin-right: 0;
+    left: initial;
+    transform: none;
+  }
+  
+  .modalContainer::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .modalContainer::-webkit-scrollbar-thumb {
+    background-color: var(--gray_border);
+    border-radius: 6px;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 999;
+  }
+  

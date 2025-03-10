@@ -7,33 +7,24 @@ import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 
-import {
-    Card,
-    CardDescription,
-    ControlsContainer,
-    ControlsLink,
-    ControlsTitle,
-    IconContainer,
-    SliderControls,
-    StyledWrapper,
-} from './Categories.styles';
+import styles from './Categories.module.css';
 
 import { Icon } from '../../common/Icon';
 
 const Categories = () => {
     return (
-        <StyledWrapper>
-            <SliderControls>
-                <ControlsTitle>Категорії</ControlsTitle>
-                <ControlsContainer>
-                    <ControlsLink className="arrow-left arrow">
+        <div className={`${styles.styledWrapper} ${styles.wrapper}`}>
+            <div className={styles.sliderControls}>
+                <h2 className={styles.controlsTitle}>Категорії</h2>
+                <div className={styles.controlsContainer}>
+                    <a className={`${styles.controlsLink} arrow-left arrow`}>
                         <Icon name="arrow_left" size={24} />
-                    </ControlsLink>
-                    <ControlsLink className="arrow-right arrow">
+                    </a>
+                    <a className={`${styles.controlsLink} arrow-right arrow`}>
                         <Icon name="arrow_right" size={24} />
-                    </ControlsLink>
-                </ControlsContainer>
-            </SliderControls>
+                    </a>
+                </div>
+            </div>
             <Swiper
                 slidesPerView={3}
                 loop={true}
@@ -45,72 +36,72 @@ const Categories = () => {
                     prevEl: '.arrow-left',
                 }}
                 breakpoints={{
-                    // when window width is >= 768px
                     768: {
                         slidesPerView: 5,
                     },
-                    // when window width is >= 1280px
                     1280: {
                         slidesPerView: 7,
                     },
                 }}
             >
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer></IconContainer>
-                        <CardDescription>Менеджмент</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.management}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Менеджмент</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="leader"></IconContainer>
-                        <CardDescription>Лідерство</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.leader}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Лідерство</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="brain"></IconContainer>
-                        <CardDescription>саморозвиток</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.brain}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Саморозвиток</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="svitok"></IconContainer>
-                        <CardDescription>проза</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.svitok}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Проза</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="puzzle"></IconContainer>
-                        <CardDescription>психологія</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.puzzle}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Психологія</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="kid"></IconContainer>
-                        <CardDescription>дитячі</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.kid}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Дитячі</h2>
+                    </a>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer className="english"></IconContainer>
-                        <CardDescription>англійською</CardDescription>
-                    </Card>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer></IconContainer>
-                        <CardDescription>Менеджмент</CardDescription>
-                    </Card>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Card href="/books">
-                        <IconContainer></IconContainer>
-                        <CardDescription>Менеджмент</CardDescription>
-                    </Card>
+                    <a href="/books" className={styles.card}>
+                        <div
+                            className={`${styles.iconContainer} ${styles.english}`}
+                        ></div>
+                        <h2 className={styles.cardDescription}>Англійською</h2>
+                    </a>
                 </SwiperSlide>
             </Swiper>
-        </StyledWrapper>
+        </div>
     );
 };
 

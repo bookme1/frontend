@@ -4,10 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa6';
 
-
+import styles from './BookUpdatePage.module.css';
+import { useBookService } from '@/api/book/bookService';
 import { Webstatistics } from '@/components/Webstatistics';
 import { IUser, Role } from '@/lib/redux/features/user/types';
-import { useBookService } from '@/api/book/bookService';
 
 interface RequestResponseTemplate {
     status: number;
@@ -155,42 +155,40 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
 
     return (
         <>
-            <div className="flex mt-10 gap-16 ">
+            <div className={styles.container}>
                 <Webstatistics />
-                <div className=" w-3/4 h-3/6 rounded-2xl  border-slate-900 shadow-2xl py-3 text-blue-900  ">
-                    <div className="flex px-10 justify-between items-center">
-                        <div className="flex gap-[40px] items-center">
-                            <p className="text-xl">
+                <div className={styles.card}>
+                    <div className={styles.header}>
+                        <div className={styles.infoBlock}>
+                            <p className={styles.infoText}>
                                 Синхронізація книжок з Elibri
                             </p>
-                            <p className="text-lg">
+                            <p className={styles.infoTextSmall}>
                                 Всього запитів: <span>{requestsMade}</span>
                             </p>
-                            <p className="text-lg">
+                            <p className={styles.infoTextSmall}>
                                 Всього книжок оновлено:
                                 <span>{booksUpdated}</span>
                             </p>
                         </div>
-                        <div className="flex items-center gap-10">
+                        <div className={styles.buttonContainer}>
                             <button
-                                className=" border px-3 py-2 rounded-lg bg-blue-900 text-white"
+                                className={styles.button}
                                 onClick={() => setIsUpdating(prev => !prev)}
                             >
-                                {!isUpdating && (
-                                    <span className="flex gap-1 items-center">
-                                        Запуск
-                                        <FaPlay />
+                                {!isUpdating ? (
+                                    <span className={styles.buttonText}>
+                                        Запуск <FaPlay />
                                     </span>
-                                )}
-                                {isUpdating && (
-                                    <span className="flex gap-1 items-center">
+                                ) : (
+                                    <span className={styles.buttonText}>
                                         Пауза <FaPause />
                                     </span>
                                 )}
                             </button>
                         </div>
                     </div>
-                    <ul>{generateBooksMarkup()}</ul>
+                    <ul className={styles.bookList}>{generateBooksMarkup()}</ul>
                 </div>
             </div>
         </>

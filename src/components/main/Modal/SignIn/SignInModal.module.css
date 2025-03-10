@@ -47,6 +47,11 @@
     font-weight: 700;
 }
 
+.submitBtnDisabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
 .googleBtn {
     width: 44px;
     height: 44px;

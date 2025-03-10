@@ -1,9 +1,10 @@
 import { headers } from 'next/headers';
 
 import { BookType } from '@/lib/redux/features/user/types.ts';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
-export async function fetchGetFavoritesQuantity(type: BookType.Fav): Promise<number| null> {
+export async function fetchGetFavoritesQuantity(type: BookType.Fav): Promise<number | null> {
     const requestHeaders = headers();
 
     // Take cookies from headers
@@ -24,7 +25,13 @@ export async function fetchGetFavoritesQuantity(type: BookType.Fav): Promise<num
 
         return null;
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching:', error);
+        await addLogEntry({
+            source: 'function fetchGetFavorites',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

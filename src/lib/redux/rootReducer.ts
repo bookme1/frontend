@@ -8,6 +8,7 @@ import userReducer from './features/user/userSlice';
 
 import { orderApi } from './features/order/orderApi';
 import orderSlice from './features/order/orderSlice';
+import { logsApi } from './features/logs/logsApi';
 
 
 
@@ -22,5 +23,6 @@ export const reducer = {
   [adminApi.reducerPath]: adminApi.reducer,
   [booksetApi.reducerPath]: booksetApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
+  [logsApi.reducerPath]: logsApi.reducer,
 };
 

@@ -1,0 +1,99 @@
+/* ModalAddBook.module.css */
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+  }
+  
+  .modalContainer {
+    width: 700px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  }
+  
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #2c7d58;
+  }
+  
+  .inputGroup {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .inputField {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  .inputFieldSmall {
+    width: 150px;
+  }
+  
+  .inputLabel {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  }
+  
+  .selectField {
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 150px;
+  }
+  
+  .textAreaField {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    resize: none;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .button {
+    padding: 10px 30px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #2c7d58;
+    color: white;
+  }
+  
+  .buttonCancel {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .buttonCancel:hover {
+    background-color: #d32f2f;
+  }
+  
