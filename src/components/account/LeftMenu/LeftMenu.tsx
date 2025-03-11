@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
@@ -29,8 +30,10 @@ const NavLink = ({
 
 export default function LeftMenu({
     username = 'Гість',
+    veryfied,
 }: {
     username: string | null | undefined;
+    veryfied: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
     const router = useRouter();
@@ -51,6 +54,20 @@ export default function LeftMenu({
         }
     };
 
+    const [isBlinking, setIsBlinking] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIsBlinking(true); // Начать мигание
+            setTimeout(() => {
+                setIsBlinking(false); // Остановить мигание после 1.5 секунд (0.5с * 3 мигания)
+            }, 1500); // 3 мигания по 0.5 секунды
+        }, 10000); // Каждые 10 секунд
+
+        // Очистка интервала при размонтировании компонента
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className={style.section}>
             <li className={`${style.account} ${style.item}`}>
@@ -70,11 +87,21 @@ export default function LeftMenu({
                         Обране
                     </NavLink>
                 </li>
-                <li className={style.item}>
-                    {/* <NavLink href="/account/wallet">
+                {/* <li className={style.item}>
+                    <NavLink href="/account/wallet">
             <Icon name="wallet" /> Мій гаманець
-          </NavLink> */}
-                </li>
+          </NavLink>
+                </li> */}
+                {!veryfied && (
+                    <li
+                        className={`${style.item} ${isBlinking ? style.blinking : ''}`}
+                    >
+                        <NavLink href="/account/verification">
+                            <Icon name="star" />
+                            Веріфікація пошти
+                        </NavLink>
+                    </li>
+                )}
             </ul>
             <li className={`${style.exit} ${style.item}`}>
                 <NavLink href="/">

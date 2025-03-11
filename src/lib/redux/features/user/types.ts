@@ -19,6 +19,7 @@ export interface IUser {
     cart: string[];
     books: string[];
     orders: Order[];
+    veryfied?: boolean | null;
 }
 
 export interface Order {

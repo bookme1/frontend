@@ -7,7 +7,7 @@
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     float: left;
 
-    @media (min-width: 748px) {
+    @media screen and (min-width: 748px) {
         width: 230px;
     }
 }
@@ -70,4 +70,21 @@
 .userName {
     font-size: 18px;
     font-weight: bold;
+}
+
+
+@keyframes blink {
+    0% {
+        color: black;
+    }
+    50% {
+        color: var(--red);
+    }
+    100% {
+        color: black;
+    }
+}
+
+.blinking {
+    animation: blink 0.5s ease-in-out 0s 3; /* Мигание 3 раза за 0.5 секунды */
 }
