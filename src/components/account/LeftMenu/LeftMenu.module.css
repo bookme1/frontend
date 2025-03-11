@@ -26,9 +26,14 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    font-size: 18px;
+    font-size: 14px;
 
-
+    @media screen and (min-width: 768px) {
+        font-size: 18px;
+    }
+    @media screen and (min-width: 1280px) {
+        font-size: 20px;
+    }
 }
 
 .item a {
@@ -71,7 +76,6 @@
     font-size: 18px;
     font-weight: bold;
 }
-
 
 @keyframes blink {
     0% {

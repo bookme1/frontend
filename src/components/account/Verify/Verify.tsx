@@ -16,9 +16,9 @@ const Verify = ({ verified }: { verified: boolean | undefined |null }) => {
         <>
             {!verified && (
                 <div className={`wrapper ${styles.container}`}>
-                    <h1>Будь-ласка, підтвердіть Вашу пошту</h1>
+                    <h1 className={styles.title}>Будь-ласка, підтвердіть Вашу пошту</h1>
                     <form className={styles.form} onSubmit={handleFormSubmit}>
-                        <label htmlFor="verifyCode">
+                        <label htmlFor="verifyCode" className={styles.label}>
                             Введіть код веріфікації
                         </label>
                         <input

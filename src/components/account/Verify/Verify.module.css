@@ -2,11 +2,35 @@
     max-height: 685px;
     height: 100%;
 
+    width: 100%;
+    max-width: 210px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 40px;
+
+    @media screen and (min-width: 768px) {
+        max-width: 100%;
+    }
+    @media screen and (min-width: 1280px) {
+        max-width: 100%;
+    }
+}
+
+.title {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    text-wrap: wrap;
+
+    @media screen and (min-width: 768px) {
+        font-size: 26px;
+    }
+    @media screen and (min-width: 1280px) {
+        font-size: 32px;
+    }
 }
 
 .form {
@@ -17,9 +41,30 @@
     gap: 10px;
 }
 
+.label {
+    font-size: 16px;
+    color: #666;
+    text-wrap: wrap;
+    text-align: center;
+
+    @media screen and (min-width: 768px) {
+        font-size: 20px;
+    }
+    @media screen and (min-width: 1280px) {
+        font-size: 26px;
+    }
+}
+
 .input {
-    width: 300px;
+    width: 150px;
     border: 1px solid;
+
+    @media screen and (min-width: 768px) {
+        width: 250px;
+    }
+    @media screen and (min-width: 1280px) {
+        width: 300px;
+    }
 }
 
 .submitBtn {
@@ -27,10 +72,9 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 54px;
+    height: 34px;
     background-color: var(--red);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-radius: 8px;
     color: #fff;
     font-weight: 700;
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
@@ -38,7 +82,7 @@
 
     margin-top: 55px;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         width: 163px;
         height: 46px;
         border-radius: 8px;
@@ -48,7 +92,7 @@
 
         margin-top: 32px;
     }
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         font-size: 16px;
     }
 }
