@@ -43,7 +43,7 @@ export default function LeftMenu({
             console.log('Выход выполнен');
         } catch (error) {
             console.error('Ошибка выхода:', error);
-            if (isError) {
+            if (error) {
                 addLogEntry({
                     source: 'Header.tsx useGetCartQuery()',
                     message: `'Ошибка выхода:: ${error}`,
@@ -111,7 +111,7 @@ export default function LeftMenu({
                             deleteCookies(['accessToken', 'refreshToken']);
                             router.push('/');
                         }}
-                        className="flex items-center"
+                        className={style.logoutBtn}
                     >
                         <Icon name="exit" className="mr-2" />
                         Вийти

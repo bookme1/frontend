@@ -92,3 +92,11 @@
 .blinking {
     animation: blink 0.5s ease-in-out 0s 3; /* Мигание 3 раза за 0.5 секунды */
 }
+
+.logoutBtn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    cursor: pointer;
+}
