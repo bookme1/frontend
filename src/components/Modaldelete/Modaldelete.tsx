@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
-import styles from './ModalDelete.module.css'; // импортируем модуль стилей
+import styles from './ModalDelete.module.css'; 
 
 export default function ModalDelete({
     isVisible,
@@ -32,7 +32,7 @@ export default function ModalDelete({
 
     return (
         <div
-            className={styles.wrapper} // применяем класс из модуля стилей
+            className={styles.wrapper} 
             id="wrapper"
             onClick={handleClose}
         >

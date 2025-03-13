@@ -8,7 +8,6 @@ import { useBookService } from '@/api/book/bookService';
 import emptyBasket from '@/assets/modal/empty_basket.svg';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
-import { setModalStatus, useDispatch } from '@/lib/redux';
 import { useGetCartQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
@@ -21,9 +20,11 @@ interface IBook {
     url: string;
 }
 
-const Basket: React.FC = () => {
-    const dispatch = useDispatch();
+interface BasketProps {
+    onClose: () => void;
+}
 
+const Basket: React.FC<BasketProps> = ({ onClose }) => {
     const [orderedBooks, setOrderedBooks] = useState<IBook[]>([]);
 
     const [removeBook] = useRemoveBookMutation();
@@ -46,10 +47,6 @@ const Basket: React.FC = () => {
         type: BookType.Cart,
     });
 
-    // const { data: cartQantity, refetch: refetchCartQuantity } =
-    //     useGetCartQuantityQuery({
-    //         type: BookType.Cart,
-    //     });
     let cartQuantity;
 
     if (!isLoading && Array.isArray(cart?.data)) {
@@ -78,29 +75,8 @@ const Basket: React.FC = () => {
         }, 0);
     }, [orderedBooks]);
 
-    // const handleCheckout = async () => {
-    //     dispatch(setModalStatus(false));
-
-    //     const data = await makeCartCheckout(updateNotification);
-    //     console.log(`data -${data}`);
-
-    //     const watermarking_response = await makeCartWatermarking(data.order_id);
-
-    //     console.log(`watermarking_response - ${watermarking_response}`);
-
-    //     if (Array.isArray(watermarking_response)) {
-    //         console.log('transaction successful');
-    //     } else {
-    //         updateNotification({
-    //             isVisible: true,
-    //             text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
-    //             type: 'error',
-    //         });
-    //     }
-    // };
-
     const handleCheckout = async () => {
-        dispatch(setModalStatus(false));
+        onClose();
 
         try {
             const data = await makeCartCheckoutWithRetry(updateNotification);
@@ -133,7 +109,6 @@ const Basket: React.FC = () => {
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
-                            marginTop: 31,
                             textAlign: 'center',
                             fontSize: 20,
                         }}

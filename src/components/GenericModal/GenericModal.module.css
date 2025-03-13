@@ -18,9 +18,10 @@
     border-radius: 16px;
     overflow-y: scroll;
     margin-left: 0;
-    margin-right: 0;
+    margin-right: auto;
     left: 50%;
     transform: translateX(-50%);
+
   }
   
   .modalContainer.left {
@@ -51,5 +52,6 @@
     top: 24px;
     right: 24px;
     z-index: 999;
+    cursor: pointer;
   }
   

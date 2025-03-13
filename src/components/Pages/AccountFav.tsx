@@ -1,8 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-
-import { IBook } from '@/app/book/[id]/page.types';
 import { Favorite } from '@/components/Favorite';
 import { LeftMenu } from '@/components/account/LeftMenu';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';

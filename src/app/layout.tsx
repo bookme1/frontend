@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper/ModalAiContainerWrapper';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Icons } from '@/components/common/Icons';
@@ -47,7 +46,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
                         <Footer />
                     </main>
 
-                    <ModalAiContainerWrapper />
+
                     <div id="modal-root"></div>
                 </Providers>
                 <Icons />

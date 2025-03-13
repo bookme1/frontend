@@ -33,7 +33,7 @@ export default function LeftMenu({
     veryfied,
 }: {
     username: string | null | undefined;
-    veryfied: boolean | undefined | null;
+    veryfied?: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
     const router = useRouter();

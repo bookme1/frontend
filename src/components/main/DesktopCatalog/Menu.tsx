@@ -4,23 +4,18 @@ import ContentLoader from 'react-content-loader';
 import Link from 'next/link';
 
 import { IGenre } from '@/app/book/[id]/page.types';
-import modalStyles from '@/components/Modals/MainModal/MainModal.module.css';
-import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
-import { setModalStatus, useDispatch } from '@/lib/redux';
 import { useGetGenresQuery } from '@/lib/redux/features/book/bookApi';
 
-const Menu: React.FC<{
-    onClose: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-}> = ({ onClose }) => {
-    const dispatch = useDispatch();
+interface MenuProps {
+    onClose: () => void;
+}
+
+const Menu: React.FC<MenuProps> = ({ onClose }) => {
     let { data, isLoading } = useGetGenresQuery('');
     if (!data?.length) data = [];
 
-    console.log('received data GENRES');
-    console.log(data);
-
-    const [submenuData, setSubmenuData] = useState<IGenre[]>([]); // Array of strings
+    const [submenuData, setSubmenuData] = useState<IGenre[]>([]);
 
     const setActiveMenuItem = (index: number) => {
         const menuItems = document.querySelectorAll(
@@ -41,9 +36,8 @@ const Menu: React.FC<{
         setSubmenuData(subgenres || []);
     };
 
-    const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
-        dispatch(setModalStatus(false));
-        onClose(event);
+    const handleCloseModal = () => {
+        onClose();
     };
     return (
         <div className={classes.ai_content_wrapper}>
@@ -129,12 +123,6 @@ const Menu: React.FC<{
                     </ul>
                 </>
             )}
-            <button
-                className={modalStyles['close-button']}
-                onClick={handleCloseModal}
-            >
-                <Icon width={24} height={24} name={'close-ai-modal'} />
-            </button>
         </div>
     );
 };
@@ -164,13 +152,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
 };
 
 const SubmenuItem: React.FC<SubmenuItemProps> = ({ item, id }) => {
-    const dispatch = useDispatch();
     return (
         <li className={classes.menuItem} id={id}>
             <Link
                 href={`/books?genre=${item.genre}`}
                 onClick={() => {
-                    dispatch(setModalStatus(false));
                     console.log('hahaha');
                 }}
             >
