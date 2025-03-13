@@ -12,7 +12,7 @@
   background: rgba(0, 0, 0, 0.25);
 }
 
-.modal-content {
+.modalContent {
   position: relative;
   right: 0;
   top: 0;
@@ -24,7 +24,7 @@
   align-items: center;
   width: max-content;
   min-width: 50vw;
-  height: 40vh;
+  /* height: 40vh; */
   overflow-y: auto;
 
   /*&::-webkit-scrollbar {*/
@@ -42,7 +42,7 @@
 
   border-radius: 0 0 0 10px;
 }
-.modal-content::before {
+.modalContent::before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -56,10 +56,12 @@
   z-index: -1;
 }
 
-.close-button {
+.closeButton {
   position: absolute;
   right: 20px;
   top: 20px;
+
+  height: 40px;
 
   padding: 8px;
   background: var(--red);

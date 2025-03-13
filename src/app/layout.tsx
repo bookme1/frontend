@@ -20,7 +20,7 @@ interface RootLayoutProps {
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
     const user = await fetchUserData();
-    const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
+    // const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
     const booksArr = await fetchBooks()
     return (
         <html className={raleway.className} lang="uk">
@@ -40,7 +40,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
                     <main style={{ height: '100%' }}>
                         <Header
                             userData={user}
-                            favQuantity={favQuantity}
+                            // favQuantity={favQuantity}
                             booksArr={booksArr}
                         />
                         {children}

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { CloseButton, ModalContainer, ModalWindow } from './Modal.styles';
+import styles from './Modal.module.css';
 import { SignInModal } from './SignIn';
 import { SignUpModal } from './SignUp';
 
@@ -17,19 +17,26 @@ const Modal = ({
         setIsOpen(false);
     };
     return (
-        <ModalWindow
+        <div
+            className={styles.modalWindow}
             onClick={() => {
                 setIsOpen(false);
             }}
         >
-            <ModalContainer onClick={e => e.stopPropagation()}>
-                <CloseButton onClick={handleCloseModal}>
+            <div
+                className={styles.modalContainer}
+                onClick={e => e.stopPropagation()}
+            >
+                <button
+                    className={styles.closeButton}
+                    onClick={handleCloseModal}
+                >
                     <Icon name="close_modal" size={48} />
-                </CloseButton>
+                </button>
                 {type === 'sign-up' && <SignUpModal setType={setType} />}
                 {type === 'sign-in' && <SignInModal setType={setType} />}
-            </ModalContainer>
-        </ModalWindow>
+            </div>
+        </div>
     );
 };
 

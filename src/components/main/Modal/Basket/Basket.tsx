@@ -9,10 +9,7 @@ import emptyBasket from '@/assets/modal/empty_basket.svg';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { setModalStatus, useDispatch } from '@/lib/redux';
-import {
-    useGetCartQuantityQuery,
-    useGetCartQuery,
-} from '@/lib/redux/features/book/bookApi';
+import { useGetCartQuery } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 import { useRemoveBookMutation } from '@/lib/redux/features/user/userApi';
 
@@ -49,11 +46,21 @@ const Basket: React.FC = () => {
         type: BookType.Cart,
     });
 
-    const { refetch: refetchCartQuantity } = useGetCartQuantityQuery({
-        type: BookType.Cart,
-    });
+    // const { data: cartQantity, refetch: refetchCartQuantity } =
+    //     useGetCartQuantityQuery({
+    //         type: BookType.Cart,
+    //     });
+    let cartQuantity;
 
-    const { makeCartCheckout, makeCartWatermarking } = useBookService();
+    if (!isLoading && Array.isArray(cart?.data)) {
+        cartQuantity = cart?.data.length;
+    }
+
+    const {
+        makeCartCheckout,
+        makeCartWatermarking,
+        makeCartCheckoutWithRetry,
+    } = useBookService();
 
     useEffect(() => {
         if (Array.isArray(cart)) {
@@ -61,41 +68,68 @@ const Basket: React.FC = () => {
         }
     }, [cart]);
 
-
     const totalPrice = useMemo(() => {
         return orderedBooks.reduce((total, book) => {
             const price =
-                typeof book.price === 'string' ? parseFloat(book.price) : book.price;
+                typeof book.price === 'string'
+                    ? parseFloat(book.price)
+                    : book.price;
             return !isNaN(price) ? total + price : total;
         }, 0);
     }, [orderedBooks]);
 
+    // const handleCheckout = async () => {
+    //     dispatch(setModalStatus(false));
+
+    //     const data = await makeCartCheckout(updateNotification);
+    //     console.log(`data -${data}`);
+
+    //     const watermarking_response = await makeCartWatermarking(data.order_id);
+
+    //     console.log(`watermarking_response - ${watermarking_response}`);
+
+    //     if (Array.isArray(watermarking_response)) {
+    //         console.log('transaction successful');
+    //     } else {
+    //         updateNotification({
+    //             isVisible: true,
+    //             text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+    //             type: 'error',
+    //         });
+    //     }
+    // };
 
     const handleCheckout = async () => {
         dispatch(setModalStatus(false));
 
-        const data = await makeCartCheckout(updateNotification);
-        console.log(`data -${data}`);
+        try {
+            const data = await makeCartCheckoutWithRetry(updateNotification);
+            console.log(`data -${data}`);
 
-        const watermarking_response = await makeCartWatermarking(data.order_id);
+            const watermarking_response = await makeCartWatermarking(
+                data.order_id
+            );
 
-        console.log(`watermarking_response - ${watermarking_response}`);
+            console.log(`watermarking_response - ${watermarking_response}`);
 
-        if (Array.isArray(watermarking_response)) {
-            console.log('transaction successful');
-        } else {
-            updateNotification({
-                isVisible: true,
-                text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
-                type: 'error',
-            });
+            if (Array.isArray(watermarking_response)) {
+                console.log('transaction successful');
+            } else {
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+                    type: 'error',
+                });
+            }
+        } catch (error) {
+            // Здесь ошибка будет уже обработана в makeCartCheckoutWithRetry
+            console.error('Error in checkout:', error);
         }
     };
-
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!cart?.data?.length ? (
+            {orderedBooks.length === 0 ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{
@@ -108,6 +142,7 @@ const Basket: React.FC = () => {
                     </p>
                     <Image
                         style={{ margin: '0 auto', marginTop: 24 }}
+                        className={styles.emptyBinImg}
                         src={emptyBasket.src}
                         alt="A beautiful girl in red sweater with books"
                         width={322}
@@ -123,12 +158,9 @@ const Basket: React.FC = () => {
                         Порожній кошик - твоя можливість для нових книжкових
                         відкриттів!
                     </p>
-                    <button
-                        className={styles.catalogBtn}
-                        style={{ marginTop: 32, width: '100%' }}
-                    >
+                    <a href="/books" className={styles.catalogBtn}>
                         До каталогу
-                    </button>
+                    </a>
                 </div>
             ) : (
                 <>
@@ -166,8 +198,6 @@ const Basket: React.FC = () => {
                                                     bookId: book.id,
                                                 }).unwrap();
                                                 refetchGetCats();
-                                                refetchCartQuantity();
-                                        
 
                                                 updateNotification({
                                                     isVisible: true,

@@ -1,4 +1,5 @@
 import { userStatisticDTO } from '@/lib/redux/features/admin/types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
 export async function fetchGetUserStatistic(): Promise<userStatisticDTO | void> {
@@ -19,6 +20,11 @@ export async function fetchGetUserStatistic(): Promise<userStatisticDTO | void> 
         ;
     } catch (error) {
         console.error('Error fetching user data:', error);
-
+        await addLogEntry({
+            source: 'function fetchGetUserStatistic()',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
     }
 }
