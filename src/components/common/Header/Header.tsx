@@ -325,7 +325,7 @@ const Header = ({
                             <div className={styles.controlsContainer}>
                                 <div className={styles.headerBtn}>
                                     <a
-                                        className={styles.accountLink}
+                                        className={`${styles.accountLink}`}
                                         href={
                                             userData
                                                 ? '/account/favorites'
@@ -336,18 +336,18 @@ const Header = ({
                                             hasFavorites={hasFavorites}
                                             favQuantity={favQuantity}
                                         />
-                                        <p
-                                            style={{
-                                                fontSize: '16px',
-                                                fontFamily: 'RaleWay',
-                                            }}
+                                        <p className={styles.text}
+                                            // style={{
+                                            //     fontSize: '16px',
+                                            //     fontFamily: 'RaleWay',
+                                            // }}
                                         >
                                             Обране
                                         </p>
                                     </a>
                                 </div>
                                 <button
-                                    className={styles.headerBtn}
+                                    className={`${styles.headerBtn} ${styles.text}`}
                                     onClick={handleCartModal}
                                 >
                                     <BasketIcon cartQuantity={cartQuantity} />
@@ -381,7 +381,7 @@ const Header = ({
                                     </Avatar>
                                 ) : (
                                     <button
-                                        className={styles.headerBtn}
+                                        className={`${styles.headerBtn} ${styles.text}`}
                                         onClick={() => {
                                             handleClick();
                                         }}

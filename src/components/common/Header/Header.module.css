@@ -173,7 +173,7 @@
         border-bottom: 1px solid var(--gray_border);
         transition:
             background-color 0.15s ease-in-out,
-            color 0.15s ease-in-out;    
+            color 0.15s ease-in-out;
     }
 }
 
@@ -320,4 +320,11 @@
 .logo {
     width: 217px !important;
     height: 40px !important;
+}
+
+.text {
+    font-family: 'Raleway', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
