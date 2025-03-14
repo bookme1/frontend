@@ -77,6 +77,7 @@ const SignIn: React.FC<SignInProps> = ({ handleModalSignUp }) => {
                     className={style.modalInput}
                     placeholder="Імейл"
                     onChange={evt => setEmail(evt.target.value)}
+                    autoComplete="email"
                     required
                 />
                 <div style={{ position: 'relative' }}>
@@ -85,6 +86,7 @@ const SignIn: React.FC<SignInProps> = ({ handleModalSignUp }) => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Пароль"
                         onChange={evt => setPassword(evt.target.value)}
+                        autoComplete="current-password" 
                         required
                     />
                     <Icon

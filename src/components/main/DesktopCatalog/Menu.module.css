@@ -60,6 +60,18 @@
     padding: 5px;
     border-bottom: 1px solid #bababa;
     font-variant-numeric: lining-nums;
+
+
+}
+
+.cut{
+    display: -webkit-box;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
 }
 
 .menuItemActive {
@@ -101,6 +113,8 @@
 .submenuItem {
     padding: 5px 10px;
     cursor: pointer;
+
+
 }
 
 .submenuItem:hover {

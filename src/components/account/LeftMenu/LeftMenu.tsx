@@ -41,6 +41,7 @@ export default function LeftMenu({
         try {
             await logOut().unwrap();
             console.log('Выход выполнен');
+            window.location.replace('/');
         } catch (error) {
             console.error('Ошибка выхода:', error);
             if (error) {
@@ -109,7 +110,7 @@ export default function LeftMenu({
                         onClick={() => {
                             handleLogout();
                             deleteCookies(['accessToken', 'refreshToken']);
-                            router.push('/');
+                            // router.push('/');
                         }}
                         className={style.logoutBtn}
                     >

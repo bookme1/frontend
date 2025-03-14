@@ -153,8 +153,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
 
 const SubmenuItem: React.FC<SubmenuItemProps> = ({ item, id }) => {
     return (
-        <li className={classes.menuItem} id={id}>
+        <li className={`${classes.menuItem}`} id={id}>
             <Link
+            className={` ${classes.cut}`}
                 href={`/books?genre=${item.genre}`}
                 onClick={() => {
                     console.log('hahaha');
