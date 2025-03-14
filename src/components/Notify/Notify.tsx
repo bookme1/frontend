@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react';
 import style from './Notify.module.css';
 import { NotifyType } from './NotifyType';
 
-
-
 interface MessagePopupProps {
     text: string;
-    duration: number; 
+    duration: number;
     type: NotifyType;
 }
 

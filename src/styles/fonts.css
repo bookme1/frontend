@@ -15,3 +15,11 @@
   font-style: normal;
   unicode-range: U+0400-04FF;
 }
+
+@font-face {
+  font-family: 'RaleWay';
+  src:  url('/fonts/Raleway-SemiBold.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+0400-04FF;
+}

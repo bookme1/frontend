@@ -16,10 +16,15 @@ const Headerstatistics = ({
 }) => {
     return (
         <>
-            <div>
+            <div className='wrapper'>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logo}>
-                        <Icon className={styles.logo} name="logo_black" />
+                        <Icon
+                            className={styles.logo}
+                            name="logo_black"
+                            width={176}
+                            height={40}
+                        />
                     </Link>
                     <div className={styles.userContainer}>
                         <p>{username}</p>

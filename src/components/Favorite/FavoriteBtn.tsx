@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
 
-import { EmptyHeart, FilledHeart } from './Favorite.styles';
+import styles from './Favorite.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,
     useGetCartQuantityQuery,
+    useGetFavoritesQuery,
     useRemoveFavoriteMutation,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
@@ -18,9 +20,13 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
     const [addFavorite] = useAddFavoriteMutation();
     const [removeFavorite] = useRemoveFavoriteMutation();
 
-        const { refetch: refetchFavQuantity } = useGetCartQuantityQuery({
-            type: BookType.Fav,
-        });
+    const { refetch: refetchFavBooks } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
+
+    const { refetch: refetchFavQuantity } = useGetCartQuantityQuery({
+        type: BookType.Fav,
+    });
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -49,7 +55,6 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
 
     const handleFavoriteClick = async (e: any) => {
         setIsFav(true);
-     
 
         if (book) {
             try {
@@ -57,6 +62,8 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     bookId: book.id,
                     type: BookType.Fav,
                 });
+                refetchFavBooks();
+                refetchFavQuantity();
             } catch (error) {
                 setIsFav(false);
 
@@ -88,7 +95,9 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
                     bookId: book.id,
                     type: BookType.Fav,
                 });
-                window.location.reload();
+
+                refetchFavBooks();
+                refetchFavQuantity();
             } catch (error) {
                 setIsFav(true); // Go back if error occured on backend
 
@@ -125,13 +134,14 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
             }}
             title="Додати/прибрати з бажаних"
         >
-            <FilledHeart
+            <IoMdHeart
                 style={isFav ? undefined : { color: 'transparent' }}
-                className={isFav ? 'active' : ''}
+                className={`${isFav ? styles.active : ''} ${styles.filledHeard}`}
                 onClick={isFav ? handleNotFavoriteClick : handleFavoriteClick}
             />
-            <EmptyHeart
+            <IoMdHeartEmpty
                 onClick={isFav ? handleNotFavoriteClick : handleFavoriteClick}
+                className={styles.emptyHeart}
             />
         </div>
     );

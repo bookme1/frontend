@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { CloseButton, ModalContainer, ModalWindow } from './GenericModal.syles';
 import { closeModal, useDispatch, useSelector } from '@/lib/redux';
-
 import { Icon } from '../common/Icon';
+import styles from './GenericModal.module.css';
 
 export const GenericModal = ({
     modalName,
@@ -18,10 +16,7 @@ export const GenericModal = ({
 }) => {
     const dispatch = useDispatch();
     const isOpen = useSelector((state: any) => state.modals?.modals[modalName]?.isOpen);
-    const [modalElement, setModalElement] = useState<HTMLDivElement | null>(
-        null
-    );
- 
+    const [modalElement, setModalElement] = useState<HTMLDivElement | null>(null);
 
     const handleCloseModal = (modalName: string) => {
         dispatch(closeModal(modalName));
@@ -46,20 +41,19 @@ export const GenericModal = ({
     }
 
     return (
-        <ModalWindow
-            onClick={() => {
-                handleCloseModal(modalName);
-            }}
-        >
-            <ModalContainer
+        <div className={styles.modalWindow} onClick={() => handleCloseModal(modalName)}>
+            <div
+                className={`${styles.modalContainer} ${styles[align]}`}
                 onClick={(e: any) => e.stopPropagation()}
-                align={align}
             >
-                <CloseButton onClick={() => handleCloseModal(modalName)}>
+                <button
+                    className={styles.closeButton}
+                    onClick={() => handleCloseModal(modalName)}
+                >
                     <Icon name="close_modal" size={48} />
-                </CloseButton>
+                </button>
                 {children}
-            </ModalContainer>
-        </ModalWindow>
+            </div>
+        </div>
     );
 };

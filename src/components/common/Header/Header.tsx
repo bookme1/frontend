@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ContentLoader from 'react-content-loader';
 
 import dynamic from 'next/dynamic';
@@ -16,21 +10,20 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import styles from './Header.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
 import baseAvatar from '@/assets/main/user.png';
+import { GenericModal } from '@/components/GenericModal/GenericModal';
 import { Headerstatistics } from '@/components/Headerstatistics';
-import { Modal } from '@/components/main/Modal';
+import Burger from '@/components/main/BurgerModal/Burger';
+import Menu from '@/components/main/DesktopCatalog/Menu';
+import Basket from '@/components/main/Modal/Basket/Basket';
+import SignIn from '@/components/main/Modal/SignIn/SignIn';
+import SignUp from '@/components/main/Modal/SignUp/SignUp';
 import { SearchList } from '@/components/main/SearchList';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
+import { closeAllModals, openModal, useDispatch } from '@/lib/redux';
 import {
-    selectOpenModal,
-    setModalContent,
-    setModalStatus,
-    useDispatch,
-    useSelector,
-} from '@/lib/redux';
-import {
-    useGetCartQuantityQuery,
     useGetCartQuery,
+    useGetFavoritesQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
@@ -99,31 +92,47 @@ export const Avatar = ({ children }: AvatarProps) => {
 
 const Header = ({
     userData,
-    favQuantity,
     booksArr,
 }: {
     userData: IUser | null;
-    favQuantity: number | null;
     booksArr: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [isOpen, setIsOpen] = useState(false);
-    const [isCatalogOpen, setIsCatalogOpen] = useState(false);
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
-    const { data: cartQuantity, refetch: refetchCartQuantity } =
-        useGetCartQuantityQuery({
-            type: BookType.Cart,
-        });
-    const { data: carts, refetch: refetchCart } = useGetCartQuery({
+    const dispatch = useDispatch();
+
+    const {
+        data: carts,
+        refetch: refetchCart,
+        isLoading: isGetCartQueryLoading,
+        isError: isGetCartQuery,
+        error: getCartQueryError,
+    } = useGetCartQuery({
         type: BookType.Cart,
     });
 
-    const dispatch = useDispatch();
+    const {
+        data: favs,
+        refetch: refetchFav,
+        isLoading: isGetFavQueryLoading,
+        isError: isGetFavQuery,
+        error: getFavQueryError,
+    } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
+
+    if (isGetCartQuery) {
+        addLogEntry({
+            source: 'Header.tsx useGetCartQuery()',
+            message: `'Error: ${getCartQueryError}`,
+            context: '',
+            code: 0,
+        });
+    }
 
     useEffect(() => {
         if (carts) {
@@ -137,22 +146,27 @@ const Header = ({
         }
     }, [dispatch, userData]);
 
-    const modalOpen = useSelector(selectOpenModal);
+    let cartQuantity;
+    let favQuantity;
 
-    const handleModal = () => {
-        dispatch(setModalStatus(!modalOpen));
-        dispatch(setModalContent('Catalog'));
+    if (!isGetCartQueryLoading && Array.isArray(carts?.data)) {
+        cartQuantity = carts?.data.length;
+    }
+
+    if (!isGetFavQueryLoading && Array.isArray(favs)) {
+        favQuantity = favs.length;
+    }
+
+    const handleModalCatalog = () => {
+        dispatch(closeAllModals());
+        dispatch(openModal('catalog'));
     };
 
     const handleCartModal = () => {
-        dispatch(setModalStatus(!modalOpen));
-        dispatch(setModalContent('Cart'));
-        refetchCartQuantity();
+        dispatch(closeAllModals());
+        dispatch(openModal('cart'));
         refetchCart();
-    };
-
-    const handleClick = () => {
-        setIsOpen(true);
+        refetchFav();
     };
 
     const handleSearch = async (e: any) => {
@@ -167,7 +181,6 @@ const Header = ({
         }
     };
 
-
     useEffect(() => {
         const q = router?.get('q');
         if (q) {
@@ -176,22 +189,6 @@ const Header = ({
             }
         }
     }, [router]);
-
-    useEffect(() => {
-        if (isOpen) {
-            document.body.classList.add('modal-open');
-        } else {
-            document.body.classList.remove('modal-open');
-        }
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (isCatalogOpen) {
-            document.body.classList.add('modal-open');
-        } else {
-            document.body.classList.remove('modal-open');
-        }
-    }, [isCatalogOpen]);
 
     const handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -210,12 +207,26 @@ const Header = ({
     const hasFavorites = !!favQuantity;
 
     const handleBurgerButton = () => {
-        dispatch(setModalContent('Burger'));
-        dispatch(setModalStatus(!modalOpen));
+        dispatch(closeAllModals());
+        dispatch(openModal('burger'));
     };
 
     const pathname = usePathname();
     const isAdminka = useMemo(() => pathname.startsWith('/admin'), [pathname]);
+
+    const handleModalSignIn = () => {
+        dispatch(closeAllModals());
+        dispatch(openModal('signIn'));
+    };
+
+    const handleModalSignUp = () => {
+        dispatch(closeAllModals());
+        dispatch(openModal('signUp'));
+    };
+
+    const closeModals = () => {
+        dispatch(closeAllModals());
+    };
 
     return (
         <>
@@ -232,13 +243,15 @@ const Header = ({
                                 <Icon
                                     className={styles.logo}
                                     name="logo_black"
+                                    width={176}
+                                    height={40}
                                 />
                             </Link>
                         </div>
                         <div className={styles.fromDesctop}>
                             <button
                                 type="submit"
-                                onClick={handleModal}
+                                onClick={handleModalCatalog}
                                 className={`z-10 ${styles.catalogBtn}`}
                             >
                                 Категорії
@@ -290,9 +303,9 @@ const Header = ({
                         </div>
                         <div className={styles.fromDesctop}>
                             <div className={styles.controlsContainer}>
-                                <div className={styles.heartBtn}>
+                                <div className={styles.headerBtn}>
                                     <a
-                                        className={styles.accountLink}
+                                        className={`${styles.accountLink}`}
                                         href={
                                             userData
                                                 ? '/account/favorites'
@@ -303,11 +316,11 @@ const Header = ({
                                             hasFavorites={hasFavorites}
                                             favQuantity={favQuantity}
                                         />
-                                        Обране
+                                        <p className={styles.text}>Обране</p>
                                     </a>
                                 </div>
                                 <button
-                                    className={styles.headerBtn}
+                                    className={`${styles.headerBtn} ${styles.text}`}
                                     onClick={handleCartModal}
                                 >
                                     <BasketIcon cartQuantity={cartQuantity} />
@@ -341,9 +354,9 @@ const Header = ({
                                     </Avatar>
                                 ) : (
                                     <button
-                                        className={styles.headerBtn}
+                                        className={`${styles.headerBtn} ${styles.text}`}
                                         onClick={() => {
-                                            handleClick();
+                                            handleModalSignIn();
                                         }}
                                     >
                                         <Icon name="account" size={28} />
@@ -361,7 +374,24 @@ const Header = ({
                     </div>
                 </header>
             )}
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
+            <GenericModal modalName={'signIn'} align={'center'}>
+                <SignIn handleModalSignUp={handleModalSignUp} />
+            </GenericModal>
+            <GenericModal modalName={'signUp'} align={'center'}>
+                <SignUp handleModalSignIn={handleModalSignIn} />
+            </GenericModal>
+            <GenericModal modalName={'catalog'} align={'center'}>
+                <Menu onClose={closeModals} />
+            </GenericModal>
+            <GenericModal modalName={'cart'} align={'center'}>
+                <Basket onClose={closeModals}/>
+            </GenericModal>
+            <GenericModal modalName={'burger'} align={'right'}>
+                <Burger
+                    handleModalSignIn={handleModalSignIn}
+                    handleCartModal={handleCartModal}
+                />
+            </GenericModal>
         </>
     );
 };

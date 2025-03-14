@@ -33,7 +33,7 @@ const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
                             description: book.desc,
                         }}
                         isAuthorized={user ? true : false}
-                        // pathname={pathname}
+                
                     />
                 )}
 

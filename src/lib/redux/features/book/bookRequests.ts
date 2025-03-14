@@ -1,3 +1,4 @@
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import axios from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
@@ -16,6 +17,12 @@ export const getBooks = async (options?: GetBooksOptions) => {
         return response.data.books || [];
     } catch (error) {
         console.error('Error fetching books:', error);
+        await addLogEntry({
+            source: 'bookRequests.ts getBooks',
+            message: `'Error fetching books:', ${error}`,
+            context: '',
+            code: 0,
+        });
         throw error;
     }
 };

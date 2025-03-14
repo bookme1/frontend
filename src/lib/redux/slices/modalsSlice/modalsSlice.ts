@@ -1,6 +1,5 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-// import { GetFromFavorite, AddToFavorite, RemoveFromFavorite } from ".";
 
 interface ModalState {
     isOpen: boolean;
@@ -12,8 +11,7 @@ interface ModalsState {
 
 interface BooksSliceState {
     modals: ModalsState;
-    openModal: boolean;
-    modalContent: string;
+
 }
 
 const initialState: BooksSliceState = {
@@ -28,44 +26,42 @@ const initialState: BooksSliceState = {
         successInfo: { isOpen: false },
         filter: { isOpen: false },
         addBookset: { isOpen: false },
-  
+
     },
-    openModal: false,
-    modalContent: '',
 };
 
 const modalsSlice = createSlice({
     name: 'modals',
     initialState,
-    selectors: {
-        selectOpenModal: state => state.openModal,
-        selectModalContent: state => state.modalContent,
-    },
+
     reducers: {
         openModal: (state, action: PayloadAction<string>) => {
             const modalName = action.payload;
-            console.log(modalName)
+            console.log(`open - `, modalName)
             if (state.modals[modalName]) {
                 state.modals[modalName].isOpen = true;
             }
         },
         closeModal: (state, action: PayloadAction<string>) => {
             const modalName = action.payload;
+            console.log(`close - `, modalName)
+
             if (state.modals[modalName]) {
                 state.modals[modalName].isOpen = false;
             }
         },
-        setModalStatus: (state, action: PayloadAction<boolean>) => {
-            state.openModal = action.payload;
-        },
-        setModalContent: (state, action: PayloadAction<string>) => {
-            state.modalContent = action.payload;
+
+        closeAllModals: (state) => {
+            console.log('closeAllModals');
+
+            Object.keys(state.modals).forEach(modalName => {
+                state.modals[modalName].isOpen = false;
+            });
         },
     },
 });
 
-export const { openModal, closeModal, setModalStatus, setModalContent } =
+export const { openModal, closeModal, closeAllModals } =
     modalsSlice.actions;
 export default modalsSlice.reducer;
-export const { selectOpenModal, selectModalContent } = modalsSlice.selectors;
 export { modalsSlice };
