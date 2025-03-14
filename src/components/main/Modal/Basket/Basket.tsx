@@ -61,15 +61,15 @@ const Basket: React.FC = () => {
         }
     }, [cart]);
 
-
     const totalPrice = useMemo(() => {
         return orderedBooks.reduce((total, book) => {
             const price =
-                typeof book.price === 'string' ? parseFloat(book.price) : book.price;
+                typeof book.price === 'string'
+                    ? parseFloat(book.price)
+                    : book.price;
             return !isNaN(price) ? total + price : total;
         }, 0);
     }, [orderedBooks]);
-
 
     const handleCheckout = async () => {
         dispatch(setModalStatus(false));
@@ -167,7 +167,6 @@ const Basket: React.FC = () => {
                                                 }).unwrap();
                                                 refetchGetCats();
                                                 refetchCartQuantity();
-                                        
 
                                                 updateNotification({
                                                     isVisible: true,
