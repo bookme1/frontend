@@ -37,7 +37,6 @@ export const userApi = createApi({
             }),
         }),
         logOut: builder.mutation<loginOutputDTO, void>({
-
             query: () => ({
                 url: 'api/auth/logout',
                 method: 'POST',
@@ -70,7 +69,6 @@ export const userApi = createApi({
                     Authorization: `Bearer ${token}`,
                 },
                 credentials: 'include',
-
             }),
         }),
 

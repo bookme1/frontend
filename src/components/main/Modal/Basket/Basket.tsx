@@ -71,6 +71,9 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                 typeof book.price === 'string'
                     ? parseFloat(book.price)
                     : book.price;
+                typeof book.price === 'string'
+                    ? parseFloat(book.price)
+                    : book.price;
             return !isNaN(price) ? total + price : total;
         }, 0);
     }, [orderedBooks]);
