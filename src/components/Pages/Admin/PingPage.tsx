@@ -82,11 +82,11 @@ const PingPage: React.FC<PingPageProps> = () => {
 
     return (
         <>
-            <div className="flex gap-10">
-                <div className="flex flex-row mt-10">
+            <div className={`wrapper ${styles.container}`}>
+                <div className={styles.subcontainer}>
                     <Webstatistics />
                 </div>
-                <div className="w-11/12">
+                <div className={styles.loggerContainer}>
                     <h2 className={styles.title}>Логгер запитів від Elibri</h2>
                     <ul className={styles.pingList}>{markup}</ul>
                 </div>

@@ -22,7 +22,7 @@ const BooksPage: React.FC<BooksPageProps> = ({ user }) => {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={`wrapper ${styles.container}`}>
                 <Webstatistics />
                 <div className={styles.card}>
                     <div className={styles.headerContainer}>

@@ -12,7 +12,7 @@ interface UserPageProps {
 const UserPage: React.FC<UserPageProps> = ({ allUsers }) => {
     return (
         <>
-            <div className={styles.container}>
+            <div className={`wrapper ${styles.container}`}>
                 <Webstatistics />
                 <AdminUserTable allUsers={allUsers} />
             </div>

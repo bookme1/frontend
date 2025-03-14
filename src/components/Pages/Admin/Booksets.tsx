@@ -16,7 +16,7 @@ const Booksets: React.FC<BooksetsProps> = ({ user }) => {
 
     return (
         <>
-            <div className={style.container}>
+            <div className={`wrapper ${style.container}`}>
                 <Webstatistics />
                 <Booksset userID={user?.id} />
             </div>
