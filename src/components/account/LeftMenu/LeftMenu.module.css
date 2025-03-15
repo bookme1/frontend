@@ -1,15 +1,19 @@
 .section {
     margin: 0 auto;
-    width: 230px;
+    width: 150px;
     height: 685px;
     padding: 40px 20px;
     border-radius: 20px;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     float: left;
 
-    a:active {
-        color: red;
+    @media screen and (min-width: 748px) {
+        width: 230px;
     }
+}
+
+.section a:active {
+    color: red;
 }
 
 .list {
@@ -22,28 +26,77 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    font-size: 18px;
+    font-size: 14px;
 
-    a {
-        display: flex;
-        gap: 12px;
-        align-items: center;
+    @media screen and (min-width: 768px) {
+        font-size: 18px;
     }
-
-    &.account {
-        margin-bottom: 48px;
-    }
-    &.exit {
-        margin-top: 80px;
-    }
-
-    a.active {
-        color: var(--red);
-        font-weight: bold;
+    @media screen and (min-width: 1280px) {
+        font-size: 20px;
     }
 }
 
-.userName{
+.item a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.item.account {
+    margin-bottom: 48px;
+}
+.item.exit {
+    margin-top: 80px;
+}
+
+.item a.active {
+    color: var(--red);
+    font-weight: bold;
+}
+
+.item a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.item .account {
+    margin-bottom: 48px;
+}
+.item .exit {
+    margin-top: 80px;
+}
+
+.item a.active {
+    color: var(--red);
+    font-weight: bold;
+}
+
+.userName {
     font-size: 18px;
     font-weight: bold;
+}
+
+@keyframes blink {
+    0% {
+        color: black;
+    }
+    50% {
+        color: var(--red);
+    }
+    100% {
+        color: black;
+    }
+}
+
+.blinking {
+    animation: blink 0.5s ease-in-out 0s 3; /* Мигание 3 раза за 0.5 секунды */
+}
+
+.logoutBtn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    cursor: pointer;
 }

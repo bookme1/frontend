@@ -11,16 +11,20 @@
     font-weight: 700;
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     cursor: pointer;
+    margin: auto;
+    margin-top: 20px;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         width: 163px;
         height: 46px;
         border-radius: 8px;
         display: flex;
         justify-content: center;
         align-items: center;
+
+        margin-top: 32px;
     }
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         font-size: 16px;
     }
 }
@@ -37,22 +41,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
     max-height: 90vh;
-    width: 375px;
-    padding: 16px 0;
+    width: 100%;
+    padding: 16px 0 0 0;
     background-color: white;
     position: relative;
     border-radius: 20px;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         padding: 24px 0;
         width: 494px;
-        /* height: 959px; */
     }
 
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         width: 494px;
-        /* height: 695px; */
     }
 }
 
@@ -62,13 +65,13 @@
     text-align: center;
     font-variant-numeric: lining-nums;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         font-size: 24px;
     }
 }
 
 .text.title {
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         margin-bottom: 32px;
     }
 }
@@ -80,29 +83,29 @@
     margin: 0 auto;
     overflow-y: scroll;
 
-    &::-webkit-scrollbar-track {
-        border-radius: 10px;
-        background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar {
-        width: 5px;
-        background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: gray;
-    }
-
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         max-height: 805px;
     }
 
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         max-height: 541px;
     }
+}
+
+.list::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar {
+    width: 5px;
+    background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: gray;
 }
 
 .item {
@@ -114,11 +117,11 @@
     display: flex;
     gap: 20px;
     padding: 20px 0;
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         max-height: 805px;
     }
 
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         max-height: 541px;
     }
 }
@@ -135,7 +138,7 @@
     font-size: 16px;
     font-weight: 700;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         font-size: 20px;
     }
 }
@@ -170,12 +173,12 @@
     max-height: 117px;
     padding: 16px;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         max-height: 154px;
         padding: 24px;
     }
 
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
     }
 }
 
@@ -184,17 +187,17 @@
     justify-content: space-between;
     align-items: center;
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
     }
 
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
     }
 }
 
 .cartBtn {
     margin-top: 16px;
 
-    /* width: 343px; */
+    width: 343px;
     height: 46px;
     background-color: var(--red);
     border-radius: 8px;
@@ -203,13 +206,13 @@
     font-weight: 700;
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 
-    @media (min-width: 768px) {
+    @media screen and (min-width: 768px) {
         width: 446px;
         border-radius: 8px;
 
         margin-top: 24px;
     }
-    @media (min-width: 1280px) {
+    @media screen and (min-width: 1280px) {
         font-size: 16px;
     }
 }
@@ -219,4 +222,13 @@
 }
 .cartBtn:active {
     background-color: #cc2929;
+}
+
+.emptyBinImg {
+    width: 200px;
+
+    @media screen and (min-width: 768px) {
+        width: 300px;
+        height: 322px;
+    }
 }

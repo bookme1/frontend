@@ -102,18 +102,19 @@
 
 .input {
     border: 1px solid var(--gray_border);
-    
+
     padding: 12px 0px 12px 24px;
     border-radius: 8px;
-    ::placeholder {
-        color: var(--gray_dark);
-        font-size: 18px;
-        font-weight: 600;
-    }
 
-    @media (max-width: 767.5px) {
+    @media screen and (max-width: 767.5px) {
         height: 40px;
     }
+}
+
+.input::placeholder {
+    color: var(--gray_dark);
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .createBooksetBtn {
@@ -142,15 +143,16 @@
     width: 100%;
     padding: 12px 0px 12px 24px;
     border-radius: 8px;
-    ::placeholder {
-        color: var(--gray_dark);
-        font-size: 18px;
-        font-weight: 600;
-    }
 
-    @media (max-width: 767.5px) {
+    @media screen and (max-width: 767.5px) {
         height: 40px;
     }
+}
+
+.searchInput::placeholder {
+    color: var(--gray_dark);
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .searchBtn {
@@ -168,29 +170,31 @@
     transition:
         background-color 0.15s ease-in-out,
         color 0.15s ease-in-out;
-    :active {
-        background-color: var(--red);
-        border-color: red;
-    }
-    .icon {
-        transition: color 0.15s ease-in-out;
-    }
-    :active .icon {
-        color: white;
-    }
 
-    @media (max-width: 767.5px) {
+    @media screen and (max-width: 767.5px) {
         height: 40px;
         padding: 7px 14px;
         background-color: var(--red);
         border-color: red;
-        .icon {
-            color: white;
-        }
     }
 }
 
-.SearchContainer{
+.searchBtn:active {
+    background-color: var(--red);
+    border-color: red;
+}
+.icon {
+    transition: color 0.15s ease-in-out;
+
+    @media screen and (max-width: 767.5px) {
+        color: white;
+    }
+}
+.searchBtn:active .icon {
+    color: white;
+}
+
+.SearchContainer {
     display: flex;
     align-items: center;
     gap: 10px;
