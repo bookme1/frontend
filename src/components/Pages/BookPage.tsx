@@ -31,6 +31,7 @@ const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
                             publish: book.pub,
                             pages: book.pages,
                             description: book.desc,
+                            genres: book.genre,
                         }}
                         isAuthorized={user ? true : false}
                 

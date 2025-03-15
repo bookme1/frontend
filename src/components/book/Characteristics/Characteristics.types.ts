@@ -3,4 +3,5 @@ export interface ICharacteristics {
   publish: string;
   pages: number;
   description: string;
+  genres?: string;
 }

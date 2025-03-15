@@ -54,9 +54,9 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
                 </li>
                 {isFull && (
                     <li className={styles.charItem}>
-                        <span className={styles.charKey}>Обкладинка:</span>
+                        <span className={styles.charKey}>Жанр:</span>
                         <span className={styles.charValue}>
-                            Тут будут жанры в ближайшем будущем
+                            {characteristics?.genres}
                         </span>
                     </li>
                 )}
