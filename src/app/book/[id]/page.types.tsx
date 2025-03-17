@@ -12,6 +12,7 @@ export interface IBook {
     formatPdf: string;
     formatMobi: string;
     formatEpub: string;
+    genre?: string;
 }
 
 export interface BooksData {
