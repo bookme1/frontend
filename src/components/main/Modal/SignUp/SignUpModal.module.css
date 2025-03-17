@@ -1,3 +1,11 @@
+.modalContainer {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .agreement {
     text-align: center;
     color: var(--gray_border);
@@ -65,6 +73,8 @@
     text-align: center;
     margin-bottom: 40px;
     font-size: 18px;
+    width: 100%;
+    max-width: 400px;
 }
 
 .description.google {
@@ -72,11 +82,20 @@
 }
 
 .form {
-    width: 470px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 24px;
     margin-bottom: 24px;
+}
+@media screen and (min-width: 768px) {
+    .form {
+        width: 470px;
+    }
+    .agreement{
+        width: 470px;
+
+    }
 }
 
 .changeModalButton {

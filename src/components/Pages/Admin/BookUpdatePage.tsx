@@ -52,7 +52,7 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
 
     const updateBooksChunk = useCallback(async () => {
         return await updateBooksFromServer();
-    }, []);
+    },[updateBooksFromServer] );
 
     // Main update function
 
@@ -70,23 +70,14 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
             setRequestsMade(prev => prev + 1);
             setResponsesMarkup(prev => [...prev, res.data]);
 
-            if (res.data.updated < 30) {
-                setIsUpdating(false);
-                break;
-            }
+            // if (res.data.updated < 30) {
+            //     setIsUpdating(false);
+            //     break;
+            // }
 
             setBooksUpdated(prev => prev + Number(res.data.updated));
         }
-    }, [
-        isRefilled,
-        refillQueue,
-        setRequestsMade,
-        setResponsesMarkup,
-        isUpdatingRef, // оставляем `isUpdatingRef`, так как он может влиять на процесс
-        updateBooksChunk,
-        setIsUpdating,
-        setBooksUpdated,
-    ]);
+    }, [isRefilled, refillQueue, setRequestsMade, setResponsesMarkup, updateBooksChunk, setBooksUpdated]);
 
     useEffect(() => {
         if (isUpdating) {
@@ -155,7 +146,7 @@ const BookUpdatePage: React.FC<BookUpdatePageProps> = ({ user }) => {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={`wrapper ${styles.container}`}>
                 <Webstatistics />
                 <div className={styles.card}>
                     <div className={styles.header}>

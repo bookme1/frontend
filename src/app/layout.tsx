@@ -1,15 +1,11 @@
 import React, { ReactNode } from 'react';
 
-import ModalAiContainerWrapper from '@/components/Modals/ModalAiContainerWrapper/ModalAiContainerWrapper';
 import { Footer } from '@/components/common/Footer';
 import { Header } from '@/components/common/Header';
 import { Icons } from '@/components/common/Icons';
 
-import { fetchGetFavoritesQuantity } from '@/contexts/fetchGetFavoritesQuantity';
-
 import { fetchUserData } from '@/contexts/fetchUserData';
 import { Providers } from '@/lib/providers';
-import { BookType } from '@/lib/redux/features/user/types';
 import { raleway } from '@/styles/fonts';
 import '@/styles/globals.css';
 import { fetchBooks } from '@/contexts/fetchBooks';
@@ -20,8 +16,8 @@ interface RootLayoutProps {
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
     const user = await fetchUserData();
-    // const favQuantity = await fetchGetFavoritesQuantity(BookType.Fav);
     const booksArr = await fetchBooks()
+
     return (
         <html className={raleway.className} lang="uk">
             <head>
@@ -40,14 +36,13 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
                     <main style={{ height: '100%' }}>
                         <Header
                             userData={user}
-                            // favQuantity={favQuantity}
                             booksArr={booksArr}
                         />
                         {children}
                         <Footer />
                     </main>
 
-                    <ModalAiContainerWrapper />
+
                     <div id="modal-root"></div>
                 </Providers>
                 <Icons />

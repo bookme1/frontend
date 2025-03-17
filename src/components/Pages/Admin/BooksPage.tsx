@@ -22,7 +22,7 @@ const BooksPage: React.FC<BooksPageProps> = ({ user }) => {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={`wrapper ${styles.container}`}>
                 <Webstatistics />
                 <div className={styles.card}>
                     <div className={styles.headerContainer}>
@@ -76,7 +76,7 @@ const BooksPage: React.FC<BooksPageProps> = ({ user }) => {
                                 <p>Артикул</p>
                                 <p>Ціна</p>
                                 <div className={styles.tableRowButtons}>
-                                    <button>
+                                    <button type='button'>
                                         <Icon name="edit" size={34} />
                                     </button>
                                     <button onClick={() => setShowModal2(true)}>

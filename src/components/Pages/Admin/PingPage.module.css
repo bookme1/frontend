@@ -1,3 +1,22 @@
+.container{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.subcontainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.loggerContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
 .title {
     text-align: center;
     font-size: 24px;
