@@ -19,7 +19,7 @@ const Verify = ({ verified }: { verified: boolean | undefined |null }) => {
                     <h1 className={styles.title}>Будь-ласка, підтвердіть Вашу пошту</h1>
                     <form className={styles.form} onSubmit={handleFormSubmit}>
                         <label htmlFor="verifyCode" className={styles.label}>
-                            Введіть код веріфікації
+                            Введіть код верифікації
                         </label>
                         <input
                             type="text"
