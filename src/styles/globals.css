@@ -13,15 +13,16 @@
     --green: #538787;
     --green_acid: #cfff10;
 
-    body {
-        position: relative;
-    }
     --gray_search: #f4f4f4;
     --beige: #fcddc9;
     --color-footer-bottom: #606060;
     --white: #fff;
     --ai-button-bg-color: #121212;
     --ai-button-text-color: #ffffff;
+}
+
+body {
+    position: relative;
 }
 
 .bg-main {
@@ -178,4 +179,3 @@ section,
 img {
     box-sizing: border-box;
 }
-

@@ -24,7 +24,7 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
         >
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '20px', display: 'flex' }}>
                     <LeftMenu username={user?.username} veryfied={user?.veryfied}/>
                     <UserBooks userOrderBooks={userOrderBooks} />
                 </div>
