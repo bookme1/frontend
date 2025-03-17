@@ -19,7 +19,7 @@ export interface IUser {
     cart: string[];
     books: string[];
     orders: Order[];
-    veryfied?: boolean | null;
+    verified?: boolean | null | undefined;
 }
 
 export interface Order {

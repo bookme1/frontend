@@ -9,7 +9,7 @@ import { IUser } from '@/lib/redux/features/user/types';
 import ErrorBoundary from '../Error/ErrorBoundary';
 
 interface AccountPageFavProps {
-    user: IUser | null;
+    user: IUser | null | undefined;
     userOrderBooks: IOrderBook[] | null | undefined;
 }
 
@@ -17,6 +17,7 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
     user,
     userOrderBooks,
 }) => {
+    console.log(user);
     return (
         <div
             className="wrapper"
@@ -25,7 +26,10 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
             <ErrorBoundary>
                 <BreadCrumbs name="акаунт" />
                 <div style={{ marginTop: '20px', display: 'flex' }}>
-                    <LeftMenu username={user?.username} veryfied={user?.veryfied}/>
+                    <LeftMenu
+                        username={user?.username}
+                        isVerified={user?.verified}
+                    />
                     <UserBooks userOrderBooks={userOrderBooks} />
                 </div>
             </ErrorBoundary>
