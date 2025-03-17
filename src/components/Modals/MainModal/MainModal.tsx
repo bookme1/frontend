@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import modalStyles from './MainModal.module.css';
+import { Icon } from '@/components/common/Icon';
 import { setModalStatus } from '@/lib/redux/slices/modalsSlice/modalsSlice';
 import { useDispatch } from '@/lib/redux/store';
 
@@ -93,12 +94,12 @@ const MainModal = ({ open, onClose, children }: ModalProps) => {
         open && (
             <div className={modalStyles.backdrop} onClick={handleBackdropClick}>
                 <div className={modalStyles.modalContent}>
-                    {/*<button*/}
-                    {/*  className={modalStyles['close-button']}*/}
-                    {/*  onClick={handleCloseUserModal}*/}
-                    {/*>*/}
-                    {/*  <Icon width={24} height={24} name={'close-ai-modal'} />*/}
-                    {/*</button>*/}
+                    <button
+                        className={modalStyles.closeButton}
+                        onClick={handleCloseUserModal}
+                    >
+                        <Icon width={24} height={24} name={'close-ai-modal'} />
+                    </button>
                     {children}
                 </div>
             </div>

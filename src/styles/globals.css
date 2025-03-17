@@ -12,6 +12,7 @@
 
     --green: #538787;
     --green_acid: #cfff10;
+
     body {
         position: relative;
     }
@@ -178,12 +179,3 @@ img {
     box-sizing: border-box;
 }
 
-/* button,
-p,
-span,
-div,
-li,
-a {
-    font-family: 'RaleWay';
-    font-style: normal;
-} */

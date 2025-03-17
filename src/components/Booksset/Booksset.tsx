@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import style from './Booksset.module.css';
 import { IBook } from '@/app/book/[id]/page.types';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch } from '@/lib/redux';
 import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
 import { getBooks } from '@/lib/redux/features/book/bookRequests';
@@ -70,12 +71,31 @@ const Booksset = ({ userID }: { userID: number }) => {
         { isLoading, isError: AddError, error, isSuccess: AddSuccess },
     ] = useCreateBookSetMutation();
 
+    if (AddError) {
+        addLogEntry({
+            source: 'Bookset.tsx useCreateBookSetMutation()',
+            message: `'Error creating booksets: ${error}`,
+            context: '',
+            code: 0,
+        });
+    }
+
     const {
         data: booksets,
         isError,
         isSuccess,
+        error: getBooksetError,
         refetch,
     } = useGetBookSetQuery();
+
+    if (isError) {
+        addLogEntry({
+            source: 'Bookset.tsx useGetBookSetQuery()',
+            message: `'Error getting booksets: ${getBooksetError}`,
+            context: '',
+            code: 0,
+        });
+    }
 
     const [deleteBookSet] = useDeleteBookSetMutation();
 
@@ -93,17 +113,30 @@ const Booksset = ({ userID }: { userID: number }) => {
 
     const router = useRouter();
 
-    const { data: filterBooks, isLoading: getFiltersBooksIsLoading } =
-        useGetFilterBooksQuery({
-            q,
-            authors,
-            minPrice,
-            maxPrice,
-            publishers,
-            languages,
-            genre,
-            page,
+    const {
+        data: filterBooks,
+        isLoading: getFiltersBooksIsLoading,
+        isError: isGetFilterBooksError,
+        error: getFilterBooksError,
+    } = useGetFilterBooksQuery({
+        q,
+        authors,
+        minPrice,
+        maxPrice,
+        publishers,
+        languages,
+        genre,
+        page,
+    });
+
+    if (isGetFilterBooksError) {
+        addLogEntry({
+            source: 'Bookset.tsx useGetFilterBooksQuery()',
+            message: `'Error getting FilterBooks: ${getFilterBooksError}`,
+            context: '',
+            code: 0,
         });
+    }
 
     const totalPages = filterBooks ? Math.ceil(filterBooks.quantity / 24) : 1;
     let quantityRange = '';

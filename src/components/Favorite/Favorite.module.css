@@ -7,6 +7,15 @@
     }
 }
 
+.container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    justify-content: center;
+}
+
 .text {
     display: flex;
     justify-content: center;
@@ -39,7 +48,7 @@
     animation: fillHeart 0.4s ease forwards;
 }
 
-.emptyHeart{
+.emptyHeart {
     position: absolute;
     top: 4px;
     left: 4px;

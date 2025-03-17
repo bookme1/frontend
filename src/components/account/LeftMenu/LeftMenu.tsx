@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
@@ -7,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import style from './LeftMenu.module.css';
 import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
 
 const NavLink = ({
@@ -28,10 +30,12 @@ const NavLink = ({
 
 export default function LeftMenu({
     username = 'Гість',
+    veryfied,
 }: {
     username: string | null | undefined;
+    veryfied: boolean | undefined | null;
 }) {
-    const [logOut, { isLoading, isError }] = useLogOutMutation();
+    const [logOut, { isLoading, isError, error }] = useLogOutMutation();
     const router = useRouter();
     const handleLogout = async () => {
         try {
@@ -39,8 +43,30 @@ export default function LeftMenu({
             console.log('Выход выполнен');
         } catch (error) {
             console.error('Ошибка выхода:', error);
+            if (error) {
+                addLogEntry({
+                    source: 'Header.tsx useGetCartQuery()',
+                    message: `'Ошибка выхода:: ${error}`,
+                    context: '',
+                    code: 0,
+                });
+            }
         }
     };
+
+    const [isBlinking, setIsBlinking] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIsBlinking(true); // Начать мигание
+            setTimeout(() => {
+                setIsBlinking(false); // Остановить мигание после 1.5 секунд (0.5с * 3 мигания)
+            }, 1500); // 3 мигания по 0.5 секунды
+        }, 10000); // Каждые 10 секунд
+
+        // Очистка интервала при размонтировании компонента
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div className={style.section}>
@@ -61,11 +87,21 @@ export default function LeftMenu({
                         Обране
                     </NavLink>
                 </li>
-                <li className={style.item}>
-                    {/* <NavLink href="/account/wallet">
+                {/* <li className={style.item}>
+                    <NavLink href="/account/wallet">
             <Icon name="wallet" /> Мій гаманець
-          </NavLink> */}
-                </li>
+          </NavLink>
+                </li> */}
+                {!veryfied && (
+                    <li
+                        className={`${style.item} ${isBlinking ? style.blinking : ''}`}
+                    >
+                        <NavLink href="/account/verification">
+                            <Icon name="star" />
+                            Веріфікація пошти
+                        </NavLink>
+                    </li>
+                )}
             </ul>
             <li className={`${style.exit} ${style.item}`}>
                 <NavLink href="/">
@@ -75,7 +111,7 @@ export default function LeftMenu({
                             deleteCookies(['accessToken', 'refreshToken']);
                             router.push('/');
                         }}
-                        className="flex items-center"
+                        className={style.logoutBtn}
                     >
                         <Icon name="exit" className="mr-2" />
                         Вийти

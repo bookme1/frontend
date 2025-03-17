@@ -12,7 +12,6 @@ import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignInMutation } from '@/lib/redux/features/user/userApi';
 
-
 const SignInModal = ({
     setType,
 }: {
@@ -53,7 +52,6 @@ const SignInModal = ({
                 type: 'error',
             });
             console.log(error);
-
         }
     }, [data, error, updateNotification]);
 
@@ -71,8 +69,6 @@ const SignInModal = ({
                 text: `Невірний імейл або пароль!, ${err.status}`,
                 type: 'error',
             });
-
-
         }
     };
 
@@ -117,7 +113,11 @@ const SignInModal = ({
                         type={notification.type}
                     />
                 )}
-                <button className={style.submitBtn} type="submit">
+                <button
+                    className={`${style.submitBtn} ${isLoading ? style.submitBtnDisabled : ''}`}
+                    type="submit"
+                    disabled={isLoading}
+                >
                     Увійти
                 </button>
             </form>

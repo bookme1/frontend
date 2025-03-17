@@ -1,7 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import styles from './PageTurner.module.css';
-import { Container } from './PageTurner.styles';
 import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 import { Icon } from '@/components/common/Icon';
 

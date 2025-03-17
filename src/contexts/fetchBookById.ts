@@ -1,4 +1,5 @@
 import { IBook } from '@/app/book/[id]/page.types';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 export async function FetchBookById(id: string): Promise<IBook | null | undefined> {
 
@@ -19,6 +20,12 @@ export async function FetchBookById(id: string): Promise<IBook | null | undefine
 
     catch (error) {
         console.error('Error fetching:', error);
+                await addLogEntry({
+                    source: 'function FetchBookById',
+                    message: `'Error fetching:', ${error}`,
+                    context: '',
+                    code: 0,
+                });
         return null;
     }
 }

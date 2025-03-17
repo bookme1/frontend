@@ -19,6 +19,7 @@ import { userApi } from './features/user/userApi';
 
 /* Instruments */
 import { reducer } from './rootReducer';
+import { logsApi } from './features/logs/logsApi';
 
 
 
@@ -29,7 +30,8 @@ export const reduxStore = configureStore({
       .concat(userApi.middleware)
       .concat(bookApi.middleware)
       .concat(adminApi.middleware)
-      .concat(booksetApi.middleware),
+      .concat(booksetApi.middleware)
+      .concat(logsApi.middleware),
 
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();

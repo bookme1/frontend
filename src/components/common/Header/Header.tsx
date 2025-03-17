@@ -19,6 +19,7 @@ import baseAvatar from '@/assets/main/user.png';
 import { Headerstatistics } from '@/components/Headerstatistics';
 import { Modal } from '@/components/main/Modal';
 import { SearchList } from '@/components/main/SearchList';
+import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import {
     selectOpenModal,
     setModalContent,
@@ -29,8 +30,9 @@ import {
 import {
     useGetCartQuantityQuery,
     useGetCartQuery,
+    useGetFavoritesQuantityQuery,
+    useGetFavoritesQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { getBooks } from '@/lib/redux/features/book/bookRequests';
 import { addOrderedBooks } from '@/lib/redux/features/order/orderSlice';
 import { BookType, IUser, Role } from '@/lib/redux/features/user/types';
 import { addUserData } from '@/lib/redux/features/user/userSlice';
@@ -99,11 +101,9 @@ export const Avatar = ({ children }: AvatarProps) => {
 
 const Header = ({
     userData,
-    favQuantity,
     booksArr,
 }: {
     userData: IUser | null;
-    favQuantity: number | null;
     booksArr: IBook[] | undefined | null;
 }) => {
     const isLoading = false;
@@ -115,13 +115,34 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
-    const { data: cartQuantity, refetch: refetchCartQuantity } =
-        useGetCartQuantityQuery({
-            type: BookType.Cart,
-        });
-    const { data: carts, refetch: refetchCart } = useGetCartQuery({
+    const {
+        data: carts,
+        refetch: refetchCart,
+        isLoading: isGetCartQueryLoading,
+        isError: isGetCartQuery,
+        error: getCartQueryError,
+    } = useGetCartQuery({
         type: BookType.Cart,
     });
+
+    const {
+        data: favs,
+        refetch: refetchFav,
+        isLoading: isGetFavQueryLoading,
+        isError: isGetFavQuery,
+        error: getFavQueryError,
+    } = useGetFavoritesQuery({
+        type: BookType.Fav,
+    });
+
+    if (isGetCartQuery) {
+        addLogEntry({
+            source: 'Header.tsx useGetCartQuery()',
+            message: `'Error: ${getCartQueryError}`,
+            context: '',
+            code: 0,
+        });
+    }
 
     const dispatch = useDispatch();
 
@@ -137,6 +158,17 @@ const Header = ({
         }
     }, [dispatch, userData]);
 
+    let cartQuantity;
+    let favQuantity;
+
+    if (!isGetCartQueryLoading && Array.isArray(carts?.data)) {
+        cartQuantity = carts?.data.length;
+    }
+
+    if (!isGetFavQueryLoading && Array.isArray(favs)) {
+        favQuantity = favs.length;
+    }
+
     const modalOpen = useSelector(selectOpenModal);
 
     const handleModal = () => {
@@ -147,8 +179,8 @@ const Header = ({
     const handleCartModal = () => {
         dispatch(setModalStatus(!modalOpen));
         dispatch(setModalContent('Cart'));
-        refetchCartQuantity();
         refetchCart();
+        refetchFav();
     };
 
     const handleClick = () => {
@@ -210,7 +242,7 @@ const Header = ({
 
     const handleBurgerButton = () => {
         dispatch(setModalContent('Burger'));
-        dispatch(setModalStatus(!modalOpen));
+        dispatch(setModalStatus(true));
     };
 
     const pathname = usePathname();
@@ -293,7 +325,7 @@ const Header = ({
                             <div className={styles.controlsContainer}>
                                 <div className={styles.headerBtn}>
                                     <a
-                                        className={styles.accountLink}
+                                        className={`${styles.accountLink}`}
                                         href={
                                             userData
                                                 ? '/account/favorites'
@@ -304,18 +336,18 @@ const Header = ({
                                             hasFavorites={hasFavorites}
                                             favQuantity={favQuantity}
                                         />
-                                        <p
-                                            style={{
-                                                fontSize: '16px',
-                                                fontFamily: 'RaleWay',
-                                            }}
+                                        <p className={styles.text}
+                                            // style={{
+                                            //     fontSize: '16px',
+                                            //     fontFamily: 'RaleWay',
+                                            // }}
                                         >
                                             Обране
                                         </p>
                                     </a>
                                 </div>
                                 <button
-                                    className={styles.headerBtn}
+                                    className={`${styles.headerBtn} ${styles.text}`}
                                     onClick={handleCartModal}
                                 >
                                     <BasketIcon cartQuantity={cartQuantity} />
@@ -349,7 +381,7 @@ const Header = ({
                                     </Avatar>
                                 ) : (
                                     <button
-                                        className={styles.headerBtn}
+                                        className={`${styles.headerBtn} ${styles.text}`}
                                         onClick={() => {
                                             handleClick();
                                         }}

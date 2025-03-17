@@ -15,7 +15,7 @@ export default function BookHeader({ chapterName, bookTitle }: Props) {
                 <p className={styles.title}>{bookTitle}</p>
             </header>
             <div className={styles.chapter}>
-                <h3>{chapterName}</h3>
+                <h3 className={styles.h3}>{chapterName}</h3>
             </div>
         </div>
     );

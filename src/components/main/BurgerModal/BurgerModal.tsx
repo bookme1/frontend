@@ -18,6 +18,7 @@ import {
     useGetCartQuantityQuery,
     useGetCartQuery,
     useGetFavoritesQuantityQuery,
+    useGetFavoritesQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType, IUser } from '@/lib/redux/features/user/types';
 
@@ -41,25 +42,59 @@ const BurgerModal: React.FC<{
         if (event) onClose(event);
     };
 
-    const { data: favQuantity } = useGetFavoritesQuantityQuery({
-        type: BookType.Fav,
-    });
+    // const { data: favQuantity } = useGetFavoritesQuantityQuery({
+    //     type: BookType.Fav,
+    // });
 
-    const { data: cartQuantity, refetch: refetchCartQuantity } =
-        useGetCartQuantityQuery({
-            type: BookType.Cart,
-        });
+    // const { data: cartQuantity, refetch: refetchCartQuantity } =
+    //     useGetCartQuantityQuery({
+    //         type: BookType.Cart,
+    //     });
 
-    const { refetch: refetchCart } = useGetCartQuery({
-        type: BookType.Cart,
-    });
+    // const { refetch: refetchCart } = useGetCartQuery({
+    //     type: BookType.Cart,
+    // });
+
+
 
     const handleCartModal = () => {
         dispatch(setModalStatus(true));
         dispatch(setModalContent('Cart'));
-        refetchCartQuantity();
+        refetchFav();
         refetchCart();
     };
+
+        const {
+            data: carts,
+            refetch: refetchCart,
+            isLoading: isGetCartQueryLoading,
+            isError: isGetCartQuery,
+            error: getCartQueryError,
+        } = useGetCartQuery({
+            type: BookType.Cart,
+        });
+    
+        const {
+            data: favs,
+            refetch: refetchFav,
+            isLoading: isGetFavQueryLoading,
+            isError: isGetFavQuery,
+            error: getFavQueryError,
+        } = useGetFavoritesQuery({
+            type: BookType.Fav,
+        });
+
+
+        let cartQuantity;
+        let favQuantity;
+    
+        if (!isGetCartQueryLoading && Array.isArray(carts?.data)) {
+            cartQuantity = carts?.data.length;
+        }
+    
+        if (!isGetFavQueryLoading && Array.isArray(favs)) {
+            favQuantity = favs.length;
+        }
 
     const hasFavorites = !!favQuantity;
 

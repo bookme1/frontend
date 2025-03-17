@@ -6,7 +6,6 @@ import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
-
 const SignUpModal = ({
     setType,
 }: {
@@ -118,7 +117,11 @@ const SignUpModal = ({
                         type={notification.type}
                     />
                 )}
-                <button className={styles.submitButton} type="submit">
+                <button
+                    className={`${styles.submitButton} ${isLoading ? styles.submitBtnDisabled : ''}`}
+                    type="submit"
+                    disabled={isLoading}
+                >
                     Зареєструватись
                 </button>
             </form>

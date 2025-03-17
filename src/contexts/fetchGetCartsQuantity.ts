@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 
 import { BookType } from '@/lib/redux/features/user/types.ts';
+import { addLogEntry } from './Logs/fetchAddLog';
 
 
 export async function fetchGetCartssQuantity(type: BookType.Cart): Promise<number | null> {
@@ -25,6 +26,12 @@ export async function fetchGetCartssQuantity(type: BookType.Cart): Promise<numbe
         return null;
     } catch (error) {
         console.error('Error fetching user data:', error);
+        await addLogEntry({
+            source: 'function fetchGetCartssQuantity',
+            message: `'Error fetching:', ${error}`,
+            context: '',
+            code: 0,
+        });
         return null;
     }
 }

@@ -26,7 +26,7 @@ const Hero = () => {
                                 />
                             </a>
                         </li>
-                        <li className={styles.navItem}>
+                        {/* <li className={styles.navItem}>
                             <a
                                 className={styles.navLink}
                                 href="/conditions-of-use"
@@ -37,7 +37,7 @@ const Hero = () => {
                                     className={styles.icon}
                                 />
                             </a>
-                        </li>
+                        </li> */}
                         <li className={styles.navItem}>
                             <a
                                 className={styles.navLink}
