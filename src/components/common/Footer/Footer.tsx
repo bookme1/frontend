@@ -1,46 +1,61 @@
 import Link from 'next/link';
 
-import { BottomSection, Container, TopSection } from './Footer.styles';
+import styles from './Footer.module.css';
 
 import { Icon } from '../Icon';
 
 const Footer = () => {
     const footer = {
-        first: ['Акції', 'Комплекти', 'Магазин BookMe'],
-        second: ['Блог', 'Дитячі', 'Умови використання сайту'],
+        first: [
+            { id: 1, label: 'Акції', link: '#' },
+            { id: 2, label: 'Комплекти', link: '#' },
+            { id: 3, label: 'Магазин BookMe', link: '#' },
+        ],
+        second: [
+            { id: 1, label: 'Блог', link: 'https://t.me/bookmeua' },
+            { id: 2, label: 'Дитячі', link: 'books?genre=Детские' },
+            {
+                id: 3,
+                label: 'Умови використання сайту',
+                link: 'conditions-of-use',
+            },
+        ],
     };
+
     return (
-        <footer>
-            <TopSection>
-                <Container>
-                    <div className="links">
+        <footer className={styles.footer}>
+            <section className={styles.topSection}>
+                <div className={styles.container}>
+                    <div className={styles.links}>
                         <Link href="#" aria-label="Перейти на головну сторінку">
                             <Icon name="logo_white" width={176} height={40} />
                         </Link>
-                        <div>
+                        <div className={styles.social}>
                             <a
                                 href="https://www.instagram.com/chervyak.ua/"
                                 aria-label="Перейти на інстаграм сторінку"
+                                className={styles.icon}
                             >
                                 <Icon name="instagram" />
                             </a>
                             <a
                                 href="https://t.me/bookmeua"
                                 aria-label="Перейти на телеграм сторінку"
+                                className={styles.icon}
                             >
                                 <Icon name="telegram" />
                             </a>
                         </div>
                     </div>
-                    <div className="navigation">
+                    <div className={styles.navigation}>
                         <h3>Каталог</h3>
-                        <div>
+                        <div className={styles.navigation__columns}>
                             <ul>
                                 {footer.first.map(text => {
                                     return (
-                                        <li key={text}>
-                                            <Link href="conditions-of-use">
-                                                {text}
+                                        <li key={text.id}>
+                                            <Link href={text.link}>
+                                                {text.label}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}
@@ -53,9 +68,9 @@ const Footer = () => {
                             <ul>
                                 {footer.second.map(text => {
                                     return (
-                                        <li key={text}>
-                                            <Link href="#">
-                                                {text}
+                                        <li key={text.id}>
+                                            <Link href={text.link}>
+                                                {text.label}
                                                 <Icon
                                                     name="arrow_right"
                                                     width={24}
@@ -67,31 +82,33 @@ const Footer = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="mobile__navigation">
+                    <div className={styles.mobile__navigation}>
                         <a
                             href="https://www.instagram.com/chervyak.ua/"
                             aria-label="Перейти на інстаграм сторінку"
+                            className={styles.icon}
                         >
                             <Icon name="instagram" />
                         </a>
                         <a
                             href="https://t.me/bookmeua"
                             aria-label="Перейти на телеграм сторінку"
+                            className={styles.icon}
                         >
                             <Icon name="telegram" />
                         </a>
                     </div>
-                </Container>
-            </TopSection>
-            <BottomSection>
-                <Container>
+                </div>
+            </section>
+            <section className={styles.bottomSection}>
+                <div>
                     <ul>
                         <li>Attribution</li>
                         <li>©2023— Copyright</li>
                         <li>Privacy</li>
                     </ul>
-                </Container>
-            </BottomSection>
+                </div>
+            </section>
         </footer>
     );
 };

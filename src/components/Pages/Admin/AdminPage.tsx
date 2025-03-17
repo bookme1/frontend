@@ -1,6 +1,7 @@
 'use client';
 
-import { ChartStyle } from '@/app/admin/page.style';
+import styles from './AdminPage.module.css';
+
 import { Chartjs } from '@/components/Chartjs';
 import { Chartjsbr } from '@/components/Chartjsbar';
 import { Transactions } from '@/components/Transactions';
@@ -15,34 +16,37 @@ interface AdminPageProps {
 }
 
 const AdminPage: React.FC<AdminPageProps> = ({ user, userStatistic }) => {
-    if (user?.role != Role.Moderator && user?.role != Role.Admin)
+    if (user?.role !== Role.Moderator && user?.role !== Role.Admin)
         return <div>Доступ закритий.</div>;
 
     return (
         <>
-            <div className="flex flex-row mt-10">
+            <div className={styles.container}>
                 <Webstatistics />
-                <div className="w-auto h-auto">
+                <div className={styles.chartWrapper}>
                     <Webdata
                         onlineQuantity={userStatistic?.onlineQuantity || 0}
                         newUsersQuantity={userStatistic?.newUsersQuantity || 0}
                         users={userStatistic?.users || 0}
                     />
-                    <div className="mt-10 w-auto h-auto items-start">
+                    <div className={styles.chartContainer}>
                         {userStatistic?.statistics ? (
                             <Chartjs statistics={userStatistic.statistics} />
                         ) : (
-                            <div>No statistics available</div>
+                            <div className={styles.noStatistics}>
+                                No statistics available
+                            </div>
                         )}
                     </div>
                 </div>
                 <Transactions />
             </div>
-            <ChartStyle className="mt-10 ml-20 mb-10">
+            <div className={styles.chartStyle}>
                 <Chartjsbr />
-            </ChartStyle>
-            <div className="mt-10"></div>
+            </div>
+          
         </>
     );
 };
+
 export default AdminPage;

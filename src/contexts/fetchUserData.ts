@@ -4,7 +4,7 @@ import { IUser } from '@/lib/redux/features/user/types.ts';
 import { headers } from 'next/headers';
 
 
-export async function fetchUserData(): Promise<IUser | null> {
+export async function fetchUserData(): Promise<IUser |null> {
     const requestHeaders = headers();
 
     // Take cookies from headers

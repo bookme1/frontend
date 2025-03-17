@@ -1,70 +1,73 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
+import styles from './PageTurner.module.css';
 import { Container } from './PageTurner.styles';
-
+import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 import { Icon } from '@/components/common/Icon';
 
 import { ModalReading } from '../modal/Modal';
-import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 
 interface PageTurnerProps {
-  filter?: boolean;
-  page: number;
-  fontSize: string;
-  setFontSize: Dispatch<SetStateAction<string>>;
-  fontFamily: string;
-  setFontFamily: Dispatch<SetStateAction<string>>;
-  theme: ITheme;
-  setTheme: Dispatch<SetStateAction<ITheme>>;
+    filter?: boolean;
+    page: number;
+    fontSize: string;
+    setFontSize: Dispatch<SetStateAction<string>>;
+    fontFamily: string;
+    setFontFamily: Dispatch<SetStateAction<string>>;
+    theme: ITheme;
+    setTheme: Dispatch<SetStateAction<ITheme>>;
 }
 
 const PageTurner: FC<PageTurnerProps> = ({
-  filter,
-  page,
-  setTheme,
-  theme,
-  setFontFamily,
-  fontFamily,
-  setFontSize,
-  fontSize,
+    filter,
+    page,
+    setTheme,
+    theme,
+    setFontFamily,
+    fontFamily,
+    setFontSize,
+    fontSize,
 }) => {
-  const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-  return (
-    <>
-      <Container>
-        {/* <button className="arrow">
-					<Icon name="arrow_left" width={24} height={24} />
-					<span className="turn">Назад</span>
+    return (
+        <>
+            <div className={`wrapper ${styles.container}`}>
+                {/* <button className={styles.arrow}>
+					<Icon name={styles.arrowleft} width={24} height={24} />
+					<span className={styles.turn}>Назад</span>
 				</button> */}
-        <button className="page-number">
-          <span className="short">стр.</span>{' '}
-          <span className="full">Сторінка</span>
-          {page}
-          <Icon name="arrow_up" width={24} height={24} />
-        </button>
-        {filter && (
-          <button className="filter" onClick={() => setShowModal(true)}>
-            <Icon name="settings" width={24} height={24} />
-          </button>
-        )}
-        {/* <button className="arrow">
-					<span className="turn">Вперед</span>
-					<Icon name="arrow_right" width={24} height={24} />
+                <button className={styles.pageNumber}>
+                    <span className={styles.short}>стр.</span>{' '}
+                    <span className={styles.full}>Сторінка</span>
+                    {page}
+                    <Icon name={styles.arrowUp} width={24} height={24} />
+                </button>
+                {filter && (
+                    <button
+                        className={styles.filter}
+                        onClick={() => setShowModal(true)}
+                    >
+                        <Icon name={styles.settings} width={24} height={24} />
+                    </button>
+                )}
+                {/* <button className={styles.arrow}>
+					<span className={styles.turn}>Вперед</span>
+					<Icon name={styles.arrowRight} width={24} height={24} />
 				</button> */}
-      </Container>
-      <ModalReading
-        isVisible={showModal}
-        onClose={() => setShowModal(false)}
-        fontSize={fontSize}
-        setFontSize={setFontSize}
-        fontFamily={fontFamily}
-        setFontFamily={setFontFamily}
-        theme={theme}
-        setTheme={setTheme}
-      />
-    </>
-  );
+            </div>
+            <ModalReading
+                isVisible={showModal}
+                onClose={() => setShowModal(false)}
+                fontSize={fontSize}
+                setFontSize={setFontSize}
+                fontFamily={fontFamily}
+                setFontFamily={setFontFamily}
+                theme={theme}
+                setTheme={setTheme}
+            />
+        </>
+    );
 };
 
 export default PageTurner;

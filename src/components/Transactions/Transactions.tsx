@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import styles from './Transactions.module.css';
 import { useGetAllTransactionsQuery } from '@/lib/redux/features/admin/adminApi';
 
 const Transactions: React.FC = () => {
@@ -69,49 +70,41 @@ const Transactions: React.FC = () => {
     };
 
     return (
-        <div
-            className="mx-auto shadow-2xl rounded-lg"
-            style={{ padding: '0.75rem', maxWidth: '4xl' }}
-        >
-            <p className="text-center mb-2 text-green-900 font-bold">
-                Останні транзакції
-            </p>
+        <div className={styles.container}>
+            <p className={styles.header}>Останні транзакції</p>
 
-            <div
-                className="overflow-auto"
-                style={{
-                    maxHeight: '360px',
-                    paddingLeft: '15px',
-                    paddingRight: '15px',
-                    paddingBottom: '15px',
-                }}
-            >
-                <ul className="text-green-700" style={{ minWidth: '100%' }}>
+            <div className={styles.scrollableList}>
+                <ul className={styles.list}>
                     {/* Рядок для назв колонок */}
-                    <li className="mb-2 bg-gray-200 p-2 rounded sticky top-0">
-                        <div className="grid grid-cols-5 gap-4">
-                            <p className="col-span-1">ID</p>
-                            <p className="col-span-2">Дата</p>
-                            <p className="col-span-2">Сума</p>
+                    <li className={`${styles.rowHeader} mb-2`}>
+                        <div className={styles.grid}>
+                            <p className={styles.colSpan1}>ID</p>
+                            <p className={styles.colSpan2}>Дата</p>
+                            <p className={styles.colSpan2}>Сума</p>
                         </div>
                     </li>
+
                     {/* Рядок для фільтрів */}
-                    <li className="mb-2 bg-gray-100 p-2 rounded sticky top-8">
-                        <div className="grid grid-cols-5 gap-4 items-center">
-                            <div className="flex items-center col-span-1">
+                    <li className={`${styles.rowFilters} mb-2`}>
+                        <div className={styles.grid}>
+                            <div
+                                className={`${styles.colSpan1} flex items-center`}
+                            >
                                 <button
                                     onClick={toggleSortOrder}
-                                    className="ml-2"
+                                    className={styles.button}
                                 >
                                     {sortOrder === 'asc' ? '↑' : '↓'}
                                 </button>
                             </div>
-                            <div className="col-span-2">
+
+                            <div className={styles.colSpan2}>
                                 <select
                                     value={selectedDate}
                                     onChange={e =>
                                         setSelectedDate(e.target.value)
                                     }
+                                    className={styles.select}
                                 >
                                     <option value="">Всі дати</option>
                                     {uniqueDates.map(date => (
@@ -121,12 +114,14 @@ const Transactions: React.FC = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-span-2">
+
+                            <div className={styles.colSpan2}>
                                 <select
                                     value={amountFilter}
                                     onChange={e =>
                                         setAmountFilter(e.target.value)
                                     }
+                                    className={styles.select}
                                 >
                                     <option value="all">Всі</option>
                                     <option value="below200">До 200 грн</option>
@@ -137,23 +132,23 @@ const Transactions: React.FC = () => {
                             </div>
                         </div>
                     </li>
-                    {/* Рядки з транзакціями */}
+
+                    {/* Рядки с транзакциями */}
                     {sortedFilteredTransactions &&
                         sortedFilteredTransactions.map(transaction => (
-                            <li
-                                key={transaction.id}
-                                className="bg-white rounded"
-                            >
-                                <div className="grid grid-cols-5 gap-4">
-                                    <p className="col-span-1">
+                            <li key={transaction.id} className={styles.rowItem}>
+                                <div className={styles.grid}>
+                                    <p className={styles.colSpan1}>
                                         {transaction.id}
                                     </p>
-                                    <p className="col-span-2">
+                                    <p className={styles.colSpan2}>
                                         {new Date(
                                             transaction.createdAt
                                         ).toLocaleDateString()}
                                     </p>
-                                    <p className="col-span-2">
+                                    <p
+                                        className={`${styles.colSpan2} ${styles.textRight}`}
+                                    >
                                         {transaction.amount.toFixed(2)} грн
                                     </p>
                                 </div>

@@ -52,7 +52,7 @@
 }
 
 .logocantainer {
-    @media (max-width: 767.5px) {
+    @media (max-width: 768px) {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -65,7 +65,7 @@
     gap: 40px;
     align-items: center;
 
-    @media (max-width: 1279.5px) {
+    @media (max-width: 1234px) {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -103,21 +103,36 @@
 
 .searchInput {
     border: 1px solid var(--gray_border);
-    width: 100%;
-    padding: 12px 0px 12px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    width: 330px;
+    height: 40px;
+    padding: 0 0 0 24px;
     border-radius: 8px;
-    ::placeholder {
-        color: var(--gray_dark);
-        font-size: 18px;
-        font-weight: 600;
+
+    @media (min-width: 768px) {
+        height: 50px;
+        width: 400px;
     }
 
-    @media (max-width: 767.5px) {
-        height: 40px;
+    @media (min-width: 1234px) {
+        border: 1px solid var(--gray_border);
+
+        width: 411px;
+        padding: 12px 0 12px 24px;
+        border-radius: 8px;
     }
 }
 
+.searchInput::placeholder {
+    color: var(--gray_dark);
+    font-size: 18px;
+    font-weight: 400;
+}
+
 .searchButton {
+    height: 41px;
+    width: 40px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: var(--gray_search);
@@ -125,7 +140,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 12px 28px;
+    /* padding: 12px 28px; */
     border-top: 1px solid var(--gray_border);
     border-right: 1px solid var(--gray_border);
     border-bottom: 1px solid var(--gray_border);
@@ -133,19 +148,39 @@
         background-color 0.15s ease-in-out,
         color 0.15s ease-in-out;
 
-    @media (max-width: 767.5px) {
-        height: 40px;
+    @media (min-width: 768px) {
+        height: 50px;
+        width: 50px;
         padding: 7px 14px;
 
         background-color: var(--red);
         border-color: red;
     }
+
+    @media (min-width: 1234px) {
+        height: 50px;
+        width: 80px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        background-color: var(--gray_search);
+        color: black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        /* padding: 12px 28px; */
+        border-top: 1px solid var(--gray_border);
+        border-right: 1px solid var(--gray_border);
+        border-bottom: 1px solid var(--gray_border);
+        transition:
+            background-color 0.15s ease-in-out,
+            color 0.15s ease-in-out;    
+    }
 }
 
-.searchButton.icon {
+.searchButton .icon {
     transition: color 0.15s ease-in-out;
 
-    @media (max-width: 767.5px) {
+    @media (max-width: 768px) {
         color: white;
     }
 }
@@ -200,6 +235,7 @@
 }
 
 .heartBtn {
+    width: 55px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -226,6 +262,7 @@
 }
 
 .heartIcon {
+    height: 28px;
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -251,6 +288,8 @@
 }
 
 .headerBtn {
+    width: 55px;
+    height: 55px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -258,6 +297,9 @@
     gap: 4px;
     color: var(--gray_dark);
     cursor: pointer;
+
+    font-size: 16px;
+    font-family: 'RaleWay', serif;
 }
 
 .headerBtn:active {

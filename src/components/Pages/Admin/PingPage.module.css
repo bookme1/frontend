@@ -1,0 +1,24 @@
+.title {
+    text-align: center;
+    font-size: 24px;
+}
+
+.pingList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    border: 1px solid gray;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.itemTitle {
+    color: green;
+}
+
+.itemTitle.error {
+    color: red;
+}

@@ -1,15 +1,19 @@
 .section {
     margin: 0 auto;
-    width: 230px;
+    width: 150px;
     height: 685px;
     padding: 40px 20px;
     border-radius: 20px;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     float: left;
 
-    a:active {
-        color: red;
+    @media (min-width: 748px) {
+        width: 230px;
     }
+}
+
+.section a:active {
+    color: red;
 }
 
 .list {
@@ -24,26 +28,46 @@
     align-items: center;
     font-size: 18px;
 
-    a {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-    }
 
-    &.account {
-        margin-bottom: 48px;
-    }
-    &.exit {
-        margin-top: 80px;
-    }
-
-    a.active {
-        color: var(--red);
-        font-weight: bold;
-    }
 }
 
-.userName{
+.item a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.item.account {
+    margin-bottom: 48px;
+}
+.item.exit {
+    margin-top: 80px;
+}
+
+.item a.active {
+    color: var(--red);
+    font-weight: bold;
+}
+
+.item a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.item .account {
+    margin-bottom: 48px;
+}
+.item .exit {
+    margin-top: 80px;
+}
+
+.item a.active {
+    color: var(--red);
+    font-weight: bold;
+}
+
+.userName {
     font-size: 18px;
     font-weight: bold;
 }

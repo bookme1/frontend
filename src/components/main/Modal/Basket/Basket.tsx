@@ -53,7 +53,11 @@ const Basket: React.FC = () => {
         type: BookType.Cart,
     });
 
-    const { makeCartCheckout, makeCartWatermarking } = useBookService();
+    const {
+        makeCartCheckout,
+        makeCartWatermarking,
+        makeCartCheckoutWithRetry,
+    } = useBookService();
 
     useEffect(() => {
         if (Array.isArray(cart)) {
@@ -71,31 +75,58 @@ const Basket: React.FC = () => {
         }, 0);
     }, [orderedBooks]);
 
+    // const handleCheckout = async () => {
+    //     dispatch(setModalStatus(false));
+
+    //     const data = await makeCartCheckout(updateNotification);
+    //     console.log(`data -${data}`);
+
+    //     const watermarking_response = await makeCartWatermarking(data.order_id);
+
+    //     console.log(`watermarking_response - ${watermarking_response}`);
+
+    //     if (Array.isArray(watermarking_response)) {
+    //         console.log('transaction successful');
+    //     } else {
+    //         updateNotification({
+    //             isVisible: true,
+    //             text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+    //             type: 'error',
+    //         });
+    //     }
+    // };
+
     const handleCheckout = async () => {
         dispatch(setModalStatus(false));
 
-        const data = await makeCartCheckout(updateNotification);
-        console.log(`data -${data}`);
+        try {
+            const data = await makeCartCheckoutWithRetry(updateNotification);
+            console.log(`data -${data}`);
 
-        const watermarking_response = await makeCartWatermarking(data.order_id);
+            const watermarking_response = await makeCartWatermarking(
+                data.order_id
+            );
 
-        console.log(`watermarking_response - ${watermarking_response}`);
+            console.log(`watermarking_response - ${watermarking_response}`);
 
-        if (Array.isArray(watermarking_response)) {
-            console.log('transaction successful');
-        } else {
-            updateNotification({
-                isVisible: true,
-                text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
-                type: 'error',
-            });
+            if (Array.isArray(watermarking_response)) {
+                console.log('transaction successful');
+            } else {
+                updateNotification({
+                    isVisible: true,
+                    text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+                    type: 'error',
+                });
+            }
+        } catch (error) {
+            // Здесь ошибка будет уже обработана в makeCartCheckoutWithRetry
+            console.error('Error in checkout:', error);
         }
     };
-
     return (
         <div className={styles.container}>
             <span className={`${styles.text} ${styles.title}`}>Кошик</span>
-            {!cart?.data?.length ? (
+            {isLoading ? (
                 <div style={{ width: 370, margin: '0 auto' }}>
                     <p
                         style={{

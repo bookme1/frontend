@@ -1,0 +1,74 @@
+/* ModalDelete.module.css */
+
+.wrapper {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContainer {
+    width: 500px;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 16px;
+    border-radius: 16px;
+    color: #2f855a; /* Text color for green shade */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .header {
+    text-align: center;
+    color: #38a169; /* Green color */
+  }
+  
+  .bookTitle,
+  .bookSKU {
+    margin-top: 8px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    gap: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .button {
+    border: 1px solid;
+    padding: 12px;
+    border-radius: 8px;
+    width: 144px;
+    cursor: pointer;
+  }
+  
+  .deleteButton {
+    color: #e53e3e;
+    background-color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deleteButton:hover {
+    background-color: #f7fafc;
+  }
+  
+  .cancelButton {
+    background-color: #38a169;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancelButton:hover {
+    background-color: #2f855a;
+  }
+  

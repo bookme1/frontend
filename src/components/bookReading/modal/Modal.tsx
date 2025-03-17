@@ -1,155 +1,162 @@
 'use client';
 
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
-import { Backdrop, Modal } from './Modal.styles';
-
+import styles from './Modal.module.css';
+import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 import { Icon } from '@/components/common/Icon';
 
 import { RangeSliderContainer } from '../rangeSlider/RangeSlider.container';
-import { ITheme } from '@/components/Pages/ReadingBookIdPage';
 
 type Props = {
-  onClose: () => void;
-  isVisible: boolean;
-  fontSize: string;
-  setFontSize: Dispatch<SetStateAction<string>>;
-  fontFamily: string;
-  setFontFamily: Dispatch<SetStateAction<string>>;
-  theme: ITheme;
-  setTheme: Dispatch<SetStateAction<ITheme>>;
+    onClose: () => void;
+    isVisible: boolean;
+    fontSize: string;
+    setFontSize: Dispatch<SetStateAction<string>>;
+    fontFamily: string;
+    setFontFamily: Dispatch<SetStateAction<string>>;
+    theme: ITheme;
+    setTheme: Dispatch<SetStateAction<ITheme>>;
 };
 
 export const ModalReading = ({
-  isVisible,
-  onClose,
-  setTheme,
-  theme,
-  setFontFamily,
-  fontFamily,
-  setFontSize,
-  fontSize,
+    isVisible,
+    onClose,
+    setTheme,
+    theme,
+    setFontFamily,
+    fontFamily,
+    setFontSize,
+    fontSize,
 }: Props) => {
-  // const [fontSize, setFontSize] = useState(18);
-  // const [theme, setTheme] = useState('light');
-  // const [font, setFont] = useState('Raleway');
+    // const [fontSize, setFontSize] = useState(18);
+    // const [theme, setTheme] = useState('light');
+    // const [font, setFont] = useState('Raleway');
 
-  const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    if (target && target.id === 'wrapper') {
-      onClose();
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+    const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLElement;
+        if (target && target.id === 'wrapper') {
+            onClose();
+        }
     };
-  });
 
-  useEffect(() => {
-    if (isVisible) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-  }, [isVisible]);
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose();
+    };
 
-  useEffect(() => {
-    // dispatch(fontSize)
-  }, [fontSize]);
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    });
 
-  const handleChangeFontSize = (value: string) => {
-    setFontSize(value);
-  };
+    useEffect(() => {
+        if (isVisible) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+    }, [isVisible]);
 
-  const handleChangeTheme = (theme: ITheme) => {
-    setTheme(theme);
-  };
+    useEffect(() => {
+        // dispatch(fontSize)
+    }, [fontSize]);
 
-  const handleChangeFontFamily = (font: string) => {
-    setFontFamily(font);
-  };
+    const handleChangeFontSize = (value: string) => {
+        setFontSize(value);
+    };
 
-  if (!isVisible) return null;
+    const handleChangeTheme = (theme: ITheme) => {
+        setTheme(theme);
+    };
 
-  return (
-    <Backdrop id="wrapper" onClick={handleClose}>
-      <Modal>
-        <button className="close-btn" onClick={() => onClose()}>
-          <Icon name="close_modal" size={32} />
-        </button>
-        <h3 className="title">Налаштування читання</h3>
-        <div className="themes">
-          <p>Тема:</p>
-          <ul className="themes-list">
-            <li>
-              <button
-                className="theme-btn light"
-                onClick={() => handleChangeTheme('light')}
-              ></button>
-            </li>
-            <li>
-              <button
-                className="theme-btn dark"
-                onClick={() => handleChangeTheme('dark')}
-              ></button>
-            </li>
-            <li>
-              <button
-                className="theme-btn beige"
-                onClick={() => handleChangeTheme('beige')}
-              ></button>
-            </li>
-          </ul>
+    const handleChangeFontFamily = (font: string) => {
+        setFontFamily(font);
+    };
+
+    if (!isVisible) return null;
+
+    return (
+        <div className={styles.backdrop} id="wrapper" onClick={handleClose}>
+            <div className={styles.modal}>
+                <button className={styles.closeBtn} onClick={() => onClose()}>
+                    <Icon name="close_modal" size={32} />
+                </button>
+                <h3 className={styles.title}>Налаштування читання</h3>
+                <div className={styles.themes}>
+                    <p>Тема:</p>
+                    <ul className={styles.themesList}>
+                        <li>
+                            <button
+                                className={`${styles.themeBtn} ${styles.light}`}
+                                onClick={() => handleChangeTheme('light')}
+                            ></button>
+                        </li>
+                        <li>
+                            <button
+                                className={`${styles.themeBtn} ${styles.dark}`}
+                                onClick={() => handleChangeTheme('dark')}
+                            ></button>
+                        </li>
+                        <li>
+                            <button
+                                className={`${styles.themeBtn} ${styles.beige}`}
+                                onClick={() => handleChangeTheme('beige')}
+                            ></button>
+                        </li>
+                    </ul>
+                </div>
+                <div className={styles.fontSizes}>
+                    <p className={styles.fontSize}>Розмір шрифта: </p>
+                    <RangeSliderContainer
+                        min={12}
+                        max={24}
+                        onChange={value =>
+                            handleChangeFontSize(value.toString() + 'px')
+                        }
+                        initialValue={18}
+                        width={178}
+                        withLabel
+                    />
+                </div>
+                <div className={styles.fonts}>
+                    <p>Шрифт:</p>
+
+                    <ul className={styles.fontsList}>
+                        <li>
+                            <button
+                                className={`${styles.raleway} ${styles.fontBtn}`}
+                                onClick={() =>
+                                    handleChangeFontFamily('raleway')
+                                }
+                            >
+                                Тт
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                className={`${styles.timesNewRoman} ${styles.fontBtn}`}
+                                onClick={() =>
+                                    handleChangeFontFamily('times-new-roman')
+                                }
+                            >
+                                Тт
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                className={`${styles.vivaldi} ${styles.fontBtn}`}
+                                onClick={() =>
+                                    handleChangeFontFamily('vivaldi')
+                                }
+                            >
+                                Tт
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div className="font-sizes">
-          <p className="font-size">Розмір шрифта: </p>
-          <RangeSliderContainer
-            min={12}
-            max={24}
-            onChange={(value) => handleChangeFontSize(value.toString()+'px')}
-            initialValue={18}
-            width={178}
-            withLabel
-          />
-        </div>
-        <div className="fonts">
-          <p>Шрифт:</p>
-
-          <ul className="fonts-list">
-            <li>
-              <button
-                className="raleway font-btn"
-                onClick={() => handleChangeFontFamily('raleway')}
-              >
-                Тт
-              </button>
-            </li>
-            <li>
-              <button
-                className="times-new-roman font-btn"
-                onClick={() => handleChangeFontFamily('times-new-roman')}
-              >
-                Тт
-              </button>
-            </li>
-            <li>
-              <button
-                className="vivaldi font-btn"
-                onClick={() => handleChangeFontFamily('vivaldi')}
-              >
-                Tт
-              </button>
-            </li>
-          </ul>
-        </div>
-      </Modal>
-    </Backdrop>
-  );
+    );
 };

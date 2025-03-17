@@ -5,10 +5,9 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Item, LastItem, List } from './BreadCrumbs.styles';
+import styles from './BreadCrumbs.module.css';
 import { CyrillicNames, regexExp } from './BreadCrumbs.types';
 import names from './cyrillicNames.json';
-import { Wrapper } from '@/styles/globals.styles';
 
 import { Icon } from '../Icon';
 
@@ -32,13 +31,13 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     const renderLink = (href: string, itemLink: string, index: number) => (
         <React.Fragment key={index}>
             {index === cyrillicPathNames.length - 1 ? (
-                <LastItem key={index}>
+                <li className={`${styles.lastItem} ${styles.item}`} key={index}>
                     <Link href={href}>{itemLink}</Link>
-                </LastItem>
+                </li>
             ) : (
-                <Item key={index}>
+                <li className={styles.item} key={index}>
                     <Link href={href}>{itemLink}</Link>
-                </Item>
+                </li>
             )}
             {cyrillicPathNames?.length !== index + 1 && separator}
         </React.Fragment>
@@ -55,17 +54,17 @@ const Breadcrumbs = ({ name }: { name: string }) => {
     });
 
     return (
-        <Wrapper>
-            <List>
-                <Item>
+        <div className={`wrapper`}>
+            <ul className={styles.list}>
+                <li className={styles.item}>
                     <Link href={'/'}>Головна</Link>
                     {cyrillicPathNames &&
                         cyrillicPathNames.length > 0 &&
                         separator}
-                </Item>
+                </li>
                 {breadcrumbItems}
-            </List>
-        </Wrapper>
+            </ul>
+        </div>
     );
 };
 

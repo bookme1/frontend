@@ -111,7 +111,7 @@ export const useBookService = () => {
     };
 
     // Функция для оформления корзины
-    const makeCartCheckout = async (
+    const makeCartCheckout = async (    
         updateNotification: (newValues: Partial<NotificationState>) => void
     ) => {
         const instance = axios.create({ baseURL });
@@ -181,7 +181,114 @@ export const useBookService = () => {
             throw error;
         }
     };
-
+ // Функция для оформления корзины c повторными запросвми
+    const makeCartCheckoutWithRetry = async (
+        updateNotification: (newValues: Partial<NotificationState>) => void,
+        retries: number = 3, // Количество попыток
+        delay: number = 1000 // Задержка между попытками в миллисекундах
+    ) => {
+        const instance = axios.create({ baseURL });
+    
+        // Функция для проверки наличия интернета
+        const isOnline = () => {
+            return window.navigator.onLine;
+        };
+    
+        // Функция для выполнения запроса с повторными попытками
+        const makeRequest = async () => {
+            try {
+                const config: CustomAxiosRequestConfig = {
+                    withCredentials: true,
+                };
+    
+                const response = await instance.post('/api/book/cart-checkout', {}, config);
+    
+                const { data, signature, order_id } = response.data;
+                console.log('response data', response.data);
+    
+                // Динамічна завантаження LiqPayCheckout
+                if (typeof window === 'undefined') {
+                    return 0;
+                }
+    
+                const script = document.createElement('script');
+                script.src = 'https://static.liqpay.ua/libjs/checkout.js';
+                script.onload = () => {
+                    // @ts-ignore
+                    LiqPayCheckout.init({
+                        data: data,
+                        signature: signature,
+                        embedTo: '#liqpay',
+                        mode: 'popup', // або 'embed'
+                    })
+                        .on('liqpay.callback', async function (data: any) {
+                            const ifPaid = await checkIfPaid(data.order_id);
+                            if (ifPaid) {
+                                updateNotification({
+                                    isVisible: true,
+                                    text: 'Дякуємо за покупку!',
+                                    type: 'success',
+                                });
+                                const result = await makeDelivery(order_id);
+                                console.log('RESULT', result);
+                                if (result === 'OK') {
+                                    updateNotification({
+                                        isVisible: true,
+                                        text: 'Книжки були доставлені до бібліотеки!',
+                                        type: 'success',
+                                    });
+                                }
+                            }
+                        })
+                        .on('liqpay.ready', function (data: any) {
+                            // ready
+                            console.log('ready');
+                        })
+                        .on('liqpay.close', function (data: any) {
+                            // close
+                            console.log('closed');
+                            updateNotification({
+                                isVisible: true,
+                                text: 'Оплата була скасована.',
+                                type: 'error',
+                            });
+                        });
+                };
+                document.body.appendChild(script);
+    
+                return response.data;
+            } catch (error) {
+                throw error;
+            }
+        };
+    
+        // Попытки выполнения запроса
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            if (!isOnline()) {
+                console.log(`Попытка ${attempt}: Нет подключения к интернету`);
+                // Ожидаем перед повторной попыткой
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                try {
+                    const data = await makeRequest();
+                    return data; // Успешный запрос
+                } catch (error) {
+                    console.log(`Попытка ${attempt} не удалась`);
+                    // Если это была последняя попытка, выбрасываем ошибку
+                    if (attempt === retries) {
+                        updateNotification({
+                            isVisible: true,
+                            text: 'Не удалось выполнить запрос. Пожалуйста, проверьте ваше соединение и повторите попытку позже.',
+                            type: 'error',
+                        });
+                        throw error;
+                    }
+                }
+            }
+        }
+    };
+    
+    
     // Функция для создания заказа
     const orderRequest = async (orderData: CreateOrderDTO) => {
         const url = `${baseURL}/api/order`;
@@ -336,5 +443,6 @@ export const useBookService = () => {
         makeCartWatermarking,
         makeOrder,
         takeAllOrderedBooks,
+        makeCartCheckoutWithRetry
     };
 };

@@ -7,11 +7,11 @@
     }
     @media (min-width: 748px) {
         width: 748px;
-        height: 600px;
+        height: 650px;
     }
     @media (min-width: 1234px) {
         width: 1234px;
-        height: 600px;
+        height: 650px;
     }
 }
 
@@ -52,12 +52,13 @@
     justify-content: center;
     align-items: center;
     transition: background-color 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-    :hover {
-        background-color: #e6e6e6;
-    }
-    :active {
-        background-color: #cccccc;
-    }
+}
+
+.controlsLink:hover {
+    background-color: #e6e6e6;
+}
+.controlsLink:active {
+    background-color: #cccccc;
 }
 
 .controlsContainer {

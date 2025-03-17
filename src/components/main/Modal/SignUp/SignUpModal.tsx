@@ -1,26 +1,11 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import {
-    Agreement,
-    AgreementLink,
-    CheckboxContainer,
-    RoleCheckbox,
-    RoleCheckboxLabel,
-} from './SignUpModal.styles';
+import styles from './SignUpModal.module.css';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState, NotifyType } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
 import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
-import {
-    ChangeModalButton,
-    Description,
-    Form,
-    ModalContent,
-    ModalInput,
-    SubmitButton,
-    Title,
-} from '../Modal.styles';
 
 const SignUpModal = ({
     setType,
@@ -72,24 +57,27 @@ const SignUpModal = ({
     };
 
     return (
-        <ModalContent>
-            <Title>Створити профіль</Title>
-            <Description>
+        <div>
+            <p className={styles.title}>Створити профіль</p>
+            <p className={styles.description}>
                 Заповніть всі поля нижче, щоб створити свій профіль
-            </Description>
-            <Form onSubmit={handleSubmit}>
-                <ModalInput
+            </p>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <input
+                    className={styles.modalInput}
                     placeholder="Ім'я"
                     onChange={evt => setName(evt.target.value)}
                     required
                 />
-                <ModalInput
+                <input
+                    className={styles.modalInput}
                     placeholder="Імейл"
                     onChange={evt => setEmail(evt.target.value)}
                     required
                 />
                 <div style={{ position: 'relative' }}>
-                    <ModalInput
+                    <input
+                        className={styles.modalInput}
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Пароль"
                         onChange={evt => setPassword(evt.target.value)}
@@ -108,17 +96,21 @@ const SignUpModal = ({
                         onClick={() => setShowPassword(!showPassword)}
                     />
                 </div>
-                <CheckboxContainer>
-                    <RoleCheckbox
+                <div className={styles.checkboxContainer}>
+                    <input
+                        className={styles.roleCheckbox}
                         type="checkbox"
                         id="isAuthor"
                         checked={isAuthor}
                         onChange={() => setIsAuthor(!isAuthor)}
                     />
-                    <RoleCheckboxLabel htmlFor="isAuthor">
+                    <label
+                        className={styles.roleCheckboxLabel}
+                        htmlFor="isAuthor"
+                    >
                         Реєстрація як автор
-                    </RoleCheckboxLabel>
-                </CheckboxContainer>
+                    </label>
+                </div>
                 {notification.isVisible && (
                     <Notify
                         text={notification.text}
@@ -126,23 +118,30 @@ const SignUpModal = ({
                         type={notification.type}
                     />
                 )}
-                <SubmitButton type="submit">Зареєструватись</SubmitButton>
-            </Form>
-            <Agreement>
+                <button className={styles.submitButton} type="submit">
+                    Зареєструватись
+                </button>
+            </form>
+            <p className={styles.agreement}>
                 Реєструючись, ви погоджуєтеся
-                <AgreementLink href="#">
+                <a className={styles.agrementLink} href="#">
                     з угодою користувача і політикою конфіденційності
-                </AgreementLink>
+                </a>
                 bookme
-            </Agreement>
-            <Description>Або зареєструйтесь за допомогою:</Description>
-            <Description>
+            </p>
+            <p className={styles.description}>
+                Або зареєструйтесь за допомогою:
+            </p>
+            <p className={styles.description}>
                 Вже є профіль?
-                <ChangeModalButton onClick={() => setType('sign-in')}>
+                <button
+                    className={styles.changeModalButton}
+                    onClick={() => setType('sign-in')}
+                >
                     Вхід
-                </ChangeModalButton>
-            </Description>
-        </ModalContent>
+                </button>
+            </p>
+        </div>
     );
 };
 
