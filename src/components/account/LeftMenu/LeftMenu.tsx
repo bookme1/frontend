@@ -30,10 +30,10 @@ const NavLink = ({
 
 export default function LeftMenu({
     username = 'Гість',
-    veryfied,
+    isVerified,
 }: {
     username: string | null | undefined;
-    veryfied?: boolean | undefined | null;
+    isVerified?: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
     const router = useRouter();
@@ -76,30 +76,35 @@ export default function LeftMenu({
                 <p className={style.userName}>{username}</p>
             </li>
             <ul className={style.list}>
-                <li className={style.item}>
-                    <NavLink href="/account">
-                        <FaBookReader />
-                        Мої покупки
-                    </NavLink>
-                </li>
-                <li className={style.item}>
-                    <NavLink href="/account/favorites">
-                        <Icon name="heart" />
-                        Обране
-                    </NavLink>
-                </li>
+                {isVerified && (
+                    <>
+                        <li className={style.item}>
+                            <NavLink href="/account">
+                                <FaBookReader />
+                                Мої покупки
+                            </NavLink>
+                        </li>
+                        <li className={style.item}>
+                            <NavLink href="/account/favorites">
+                                <Icon name="heart" />
+                                Обране
+                            </NavLink>
+                        </li>
+                    </>
+                )}
+
                 {/* <li className={style.item}>
                     <NavLink href="/account/wallet">
-            <Icon name="wallet" /> Мій гаманець
-          </NavLink>
+                        <Icon name="wallet" /> Мій гаманець
+                    </NavLink>
                 </li> */}
-                {!veryfied && (
+                {!isVerified && (
                     <li
                         className={`${style.item} ${isBlinking ? style.blinking : ''}`}
                     >
                         <NavLink href="/account/verification">
                             <Icon name="star" />
-                            Веріфікація пошти
+                            Верифікація пошти
                         </NavLink>
                     </li>
                 )}
@@ -107,11 +112,7 @@ export default function LeftMenu({
             <li className={`${style.exit} ${style.item}`}>
                 <NavLink href="/">
                     <button
-                        onClick={() => {
-                            handleLogout();
-                            deleteCookies(['accessToken', 'refreshToken']);
-                            // router.push('/');
-                        }}
+                        onClick={() => handleLogout()}
                         className={style.logoutBtn}
                     >
                         <Icon name="exit" className="mr-2" />
