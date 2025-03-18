@@ -211,7 +211,7 @@ const Header = ({
         dispatch(openModal('burger'));
     };
 
-    const pathname = usePathname();
+    const pathname = usePathname() || '';
     const isAdminka = useMemo(() => pathname.startsWith('/admin'), [pathname]);
 
     const handleModalSignIn = () => {
@@ -384,7 +384,7 @@ const Header = ({
                 <Menu onClose={closeModals} />
             </GenericModal>
             <GenericModal modalName={'cart'} align={'center'}>
-                <Basket onClose={closeModals}/>
+                <Basket onClose={closeModals} />
             </GenericModal>
             <GenericModal modalName={'burger'} align={'right'}>
                 <Burger
