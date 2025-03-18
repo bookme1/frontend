@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 import styles from './BooksPage.module.css';
-import { ModalAddBook } from '@/components/Modaladdbook';
-import { ModalDelete } from '@/components/Modaldelete';
 import { Webstatistics } from '@/components/Webstatistics';
 import { Icon } from '@/components/common/Icon';
+import { ModalAddBook } from '@/components/tmp';
+import { ModalDelete } from '@/components/tmp2';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 
 interface BooksPageProps {
@@ -76,7 +76,7 @@ const BooksPage: React.FC<BooksPageProps> = ({ user }) => {
                                 <p>Артикул</p>
                                 <p>Ціна</p>
                                 <div className={styles.tableRowButtons}>
-                                    <button type='button'>
+                                    <button type="button">
                                         <Icon name="edit" size={34} />
                                     </button>
                                     <button onClick={() => setShowModal2(true)}>
