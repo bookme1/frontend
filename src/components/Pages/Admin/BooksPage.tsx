@@ -5,8 +5,8 @@ import { useState } from 'react';
 import styles from './BooksPage.module.css';
 import { Webstatistics } from '@/components/Webstatistics';
 import { Icon } from '@/components/common/Icon';
-import { ModalAddBook } from '@/components/tmp';
-import { ModalDelete } from '@/components/tmp2';
+import { ModalAddBook } from '@/components/modalAddBook';
+import { ModalDelete } from '@/components/modalDelete';
 import { IUser, Role } from '@/lib/redux/features/user/types';
 
 interface BooksPageProps {
