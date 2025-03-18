@@ -13,7 +13,7 @@ import {
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
+        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL,
     }),
     endpoints: builder => ({
         // #####################
@@ -144,4 +144,3 @@ export const {
     useVerifyEmailMutation,
     useProveTokenMutation,
 } = userApi;
-
