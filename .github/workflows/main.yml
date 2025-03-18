@@ -54,5 +54,11 @@ jobs:
                   ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
                   docker stop frontend-container || true &&
                   docker rm frontend-container || true &&
-                  docker run -d --env-file /home/adminmykhailo/bookme/client/.env --name frontend-container -p 8080:3000 my-frontend:latest
+                  docker run -d \
+                    -e NODE_ENV=production \
+                    -e NEXT_PUBLIC_BASE_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BASE_BACKEND_URL }} \
+                    -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
+                    -e NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }} \
+                    -e NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }} \
+                    --name frontend-container -p 8080:3000 my-frontend:latest
                   "
