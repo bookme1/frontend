@@ -31,7 +31,7 @@
         "src/components/Hero/Hero.tss",
         "src/components/book/MainInformation",
         "src/app/api/auth/[...nextauth].tsx",
-        "src/components/Modaladdbook/Modaladdbook.tsx"
+        "src/components/modalAddBook/ModalAddBook.tsx"
     ],
     "exclude": ["node_modules"]
 }
