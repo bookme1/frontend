@@ -26,7 +26,6 @@ const initialState: BooksSliceState = {
         successInfo: { isOpen: false },
         filter: { isOpen: false },
         addBookset: { isOpen: false },
-
     },
 };
 
@@ -37,14 +36,12 @@ const modalsSlice = createSlice({
     reducers: {
         openModal: (state, action: PayloadAction<string>) => {
             const modalName = action.payload;
-            console.log(`open - `, modalName)
             if (state.modals[modalName]) {
                 state.modals[modalName].isOpen = true;
             }
         },
         closeModal: (state, action: PayloadAction<string>) => {
             const modalName = action.payload;
-            console.log(`close - `, modalName)
 
             if (state.modals[modalName]) {
                 state.modals[modalName].isOpen = false;

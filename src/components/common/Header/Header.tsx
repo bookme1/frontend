@@ -125,7 +125,7 @@ const Header = ({
         type: BookType.Fav,
     });
 
-    if (isGetCartQuery) {
+    if (!userData && isGetCartQuery) {
         addLogEntry({
             source: 'Header.tsx useGetCartQuery()',
             message: `'Error: ${getCartQueryError}`,
