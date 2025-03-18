@@ -13,7 +13,7 @@ import {
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
+        baseUrl: 'https://bookme.kyiv.ua/api',
     }),
     endpoints: builder => ({
         // #####################
@@ -124,4 +124,3 @@ export const {
     useGetUserBooksQuery,
     useRemoveBookMutation,
 } = userApi;
-
