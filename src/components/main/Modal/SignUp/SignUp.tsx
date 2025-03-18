@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './SignUpModal.module.css';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
-import { useDispatch } from '@/lib/redux';
-import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
+import {
+    useSignUpMutation,
+    useVerifyEmailMutation,
+} from '@/lib/redux/features/user/userApi';
 
 interface SignUpProps {
     handleModalSignIn: () => void;
@@ -19,8 +21,6 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
     const [isAuthor, setIsAuthor] = useState(false);
     const [signUp, { data, error, isLoading }] = useSignUpMutation();
 
-    const dispatch = useDispatch();
-
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
         text: '',
@@ -31,17 +31,40 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
         setNotification(prev => ({ ...prev, ...newValues }));
     };
 
+    const [
+        verifyEmail,
+        {
+            isLoading: isLoadingVerifyEmail,
+            isSuccess,
+            isError,
+            error: eroorVerifyEmail,
+        },
+    ] = useVerifyEmailMutation();
+
+    // const sendVerifyCode = async () => {
+    //     try {
+    //         await verifyEmail(userId).unwrap();
+    //         alert('Письмо с подтверждением отправлено!');
+    //     } catch (err) {
+    //         console.error('Ошибка отправки письма:', err);
+    //         alert('Ошибка отправки письма');
+    //     }
+    // };
+
+    useEffect(() => {
+        if (data) {
+            window.location.replace('/account');
+        }
+        if (error) {
+            console.log(error);
+        }
+    }, [data, error]);
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const role = isAuthor ? 'Author' : 'User';
             await signUp({ username: name, email, password, role }).unwrap();
-
-            updateNotification({
-                isVisible: true,
-                text: 'Реєстрація успішна!',
-                type: 'success',
-            });
 
             updateNotification({
                 isVisible: true,

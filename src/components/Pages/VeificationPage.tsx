@@ -13,6 +13,7 @@ interface VeificationPageProps {
     user: IUser | null;
 }
 const VeificationPage: React.FC<VeificationPageProps> = ({ user }) => {
+
     return (
         <div
             className="wrapper"
@@ -25,9 +26,9 @@ const VeificationPage: React.FC<VeificationPageProps> = ({ user }) => {
                 >
                     <LeftMenu
                         username={user?.username}
-                        veryfied={user?.veryfied}
+                        isVerified={user?.verified}
                     />
-                    <Verify verified={user?.veryfied} />
+                    <Verify  />
                 </div>
             </ErrorBoundary>
         </div>

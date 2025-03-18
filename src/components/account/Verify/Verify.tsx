@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import styles from './Verify.module.css';
+import { useProveTokenMutation } from '@/lib/redux/features/user/userApi';
 
-const Verify = ({ verified }: { verified: boolean | undefined |null }) => {
-    const [verifyCode, setVerifyCode] = useState('');
+const Verify = ({}: {}) => {
+    const searchParams = useSearchParams();
+    const userId = Number(searchParams.get('user')) || 0;
+    const token = searchParams.get('token') ?? '';
 
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const form = e.target as HTMLFormElement;
-        setVerifyCode(form.verifyCode.value);
-        form.verifyCode.value = '';
-    };
+    const [proveToken, { data, isLoading, error }] = useProveTokenMutation();
+
+    useEffect(() => {
+        if (token && userId) {
+            proveToken({ token, userId })
+                .unwrap()
+                .then(response => console.log('Success:', response.message))
+                .catch(err => console.error('Error:', err));
+        }
+    }, [token, userId, proveToken]);
 
     return (
         <>
-            {!verified && (
-                <div className={`wrapper ${styles.container}`}>
-                    <h1 className={styles.title}>Будь-ласка, підтвердіть Вашу пошту</h1>
-                    <form className={styles.form} onSubmit={handleFormSubmit}>
-                        <label htmlFor="verifyCode" className={styles.label}>
-                            Введіть код верифікації
-                        </label>
-                        <input
-                            type="text"
-                            id="verifyCode"
-                            className={styles.input}
-                            required
-                        />
-                        <button type="submit" className={styles.submitBtn}>
-                            Відправити
-                        </button>
-                    </form>
-                </div>
-            )}
+            <div className={`wrapper ${styles.container}`}>
+                <h1 className={styles.title}>Веріфікація пошти</h1>
+                <p className={styles.text}>
+                    Проводиться віріфікація пошти. Будь-ласка, зачекайте...
+                </p>
+            </div>
         </>
     );
 };
