@@ -22,7 +22,7 @@ export const userApi = createApi({
         signUp: builder.mutation<IUser, signUpDTO>({
             // Registration, sends email verification link
             query: DTO => ({
-                url: `api/auth/email/signup?role=${DTO.role}`,
+                url: `api/auth/register?role=${DTO.role}`,
                 method: 'POST',
                 body: DTO,
             }),
@@ -68,6 +68,24 @@ export const userApi = createApi({
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                credentials: 'include',
+            }),
+        }),
+
+        verifyEmail: builder.mutation<{ message: string }, number>({
+            query: (userId) => ({
+                url: `api/auth/verify-email`,
+                method: 'POST',
+                body: { userId },
+                credentials: 'include',
+            }),
+        }),
+
+        proveToken: builder.mutation<{ message: string }, { token: string; userId: number }>({
+            query: ({ token, userId }) => ({
+                url: 'api/auth/prove-token',
+                method: 'POST',
+                body: { token, userId },
                 credentials: 'include',
             }),
         }),
@@ -123,4 +141,6 @@ export const {
     useAddBookQuery,
     useGetUserBooksQuery,
     useRemoveBookMutation,
+    useVerifyEmailMutation,
+    useProveTokenMutation,
 } = userApi;
