@@ -27,7 +27,6 @@ const VeificationPage: React.FC<VeificationPageProps> = ({ user }) => {
                     <LeftMenu
                         username={user?.username}
                         isVerified={user?.verified}
-                        isVerified={user?.verified}
                     />
                     <Verify  />
                 </div>
