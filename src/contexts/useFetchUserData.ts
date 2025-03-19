@@ -1,12 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import {
-    IUser,
-    UserResponse,
-    loginOutputDTO,
-} from '@/lib/redux/features/user/types.ts';
 import { addLogEntry } from './Logs/fetchAddLog';
-
+import { IUser, UserResponse } from '@/lib/redux/features/user/types.ts';
 
 const fetchUserData = async (
     accessToken: string | null,
@@ -91,8 +86,6 @@ const fetchUserData = async (
 const useFetchUserData = () => {
     const [userData, setUserData] = useState<IUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
-
 
     const fetchUserDataCallback = useCallback(
         async (accessToken: string | null, refreshToken: string | null) => {

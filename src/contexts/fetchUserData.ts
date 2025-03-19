@@ -1,12 +1,10 @@
-
-
-import { IUser } from '@/lib/redux/features/user/types.ts';
 import { headers } from 'next/headers';
-import { addLogEntry } from './Logs/fetchAddLog';
 
+import { addLogEntry } from './Logs/fetchAddLog';
+import { IUser } from '@/lib/redux/features/user/types.ts';
 
 export async function fetchUserData(): Promise<IUser | null> {
-    const requestHeaders = headers();
+    const requestHeaders = await headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');

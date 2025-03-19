@@ -1,11 +1,12 @@
 import { headers } from 'next/headers';
 
-import { BookType } from '@/lib/redux/features/user/types.ts';
 import { addLogEntry } from './Logs/fetchAddLog';
+import { BookType } from '@/lib/redux/features/user/types.ts';
 
-
-export async function fetchGetCartssQuantity(type: BookType.Cart): Promise<number | null> {
-    const requestHeaders = headers();
+export async function fetchGetCartssQuantity(
+    type: BookType.Cart
+): Promise<number | null> {
+    const requestHeaders = await headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');

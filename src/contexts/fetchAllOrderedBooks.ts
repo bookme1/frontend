@@ -1,10 +1,10 @@
 import { headers } from 'next/headers';
 
-import { IOrderBook } from '@/lib/redux/features/order/types';
 import { addLogEntry } from './Logs/fetchAddLog';
+import { IOrderBook } from '@/lib/redux/features/order/types';
 
 export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
-    const requestHeaders = headers();
+    const requestHeaders = await headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
@@ -21,8 +21,6 @@ export async function fetchAllOrderedBooks(): Promise<IOrderBook[] | null> {
         if (response.ok) {
             return await response.json();
         }
-
-
 
         return null;
     } catch (error) {

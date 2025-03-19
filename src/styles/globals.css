@@ -60,12 +60,15 @@ body.modal-open {
 .wrapper {
     margin: 0 auto;
     padding: 0 10px;
+
     @media (min-width: 363px) {
         width: 363px;
     }
+
     @media (min-width: 748px) {
         width: 748px;
     }
+
     @media (min-width: 1234px) {
         width: 1234px;
     }
@@ -74,12 +77,15 @@ body.modal-open {
 .wrapperMission {
     margin: 0 auto;
     padding: 0 10px;
+
     @media (min-width: 375px) {
         width: 375px;
     }
+
     @media (min-width: 768px) {
         width: 768px;
     }
+
     @media (min-width: 1440px) {
         width: 1440px;
         padding: 0 82px;

@@ -1,12 +1,13 @@
 import { headers } from 'next/headers';
 
-import { BookType } from '@/lib/redux/features/user/types.ts';
-import { IBook } from '@/app/book/[id]/page.types';
 import { addLogEntry } from './Logs/fetchAddLog';
+import { IBook } from '@/app/book/[id]/page.types';
+import { BookType } from '@/lib/redux/features/user/types.ts';
 
-
-export async function fetchGetFavorites(type: BookType.Fav): Promise<IBook[] | null> {
-    const requestHeaders = headers();
+export async function fetchGetFavorites(
+    type: BookType.Fav
+): Promise<IBook[] | null> {
+    const requestHeaders = await headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
