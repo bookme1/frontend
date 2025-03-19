@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-
 import styles from './filter.module.css';
 import { FiltersData } from '@/app/book/[id]/page.types';
 import FilterCheck from '@/components/FilterCheck/FilterCheck';
@@ -11,33 +9,15 @@ import searchParamsInputData from '../../../data/searchParams.json';
 
 const Filter = ({
     filtersData,
+    updateURL,
 }: {
     filtersData: FiltersData | undefined | null;
+    updateURL: (updates: { [key: string]: string | undefined }) => void;
 }) => {
     const [searchParamsInput, setSearchParamsInput] = useState(
         searchParamsInputData
     );
-    const router = useRouter();
-    const searchParams = useSearchParams();
 
-    const updateURL = (updates: { [key: string]: string | undefined }) => {
-        if (searchParams) {
-            const current = new URLSearchParams(
-                Array.from(searchParams.entries())
-            );
-            current.set('page', '1');
-            Object.entries(updates).forEach(([key, value]) => {
-                if (value !== null && value !== undefined && value !== '') {
-                    current.set(key, value);
-                } else {
-                    current.delete(key);
-                }
-            });
-            const search = current.toString();
-            const query = search ? `?${search}` : '';
-            router.push(`${window.location.pathname}${query}`);
-        }
-    };
     return (
         <div className={styles.general__wrapper}>
             {filtersData && (

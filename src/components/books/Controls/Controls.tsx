@@ -58,6 +58,29 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         page,
     });
 
+
+
+
+
+    const updateURL = (updates: { [key: string]: string | undefined }) => {
+        if (searchParams) {
+            const current = new URLSearchParams(
+                Array.from(searchParams.entries())
+            );
+            current.set('page', '1');
+            Object.entries(updates).forEach(([key, value]) => {
+                if (value !== null && value !== undefined && value !== '') {
+                    current.set(key, value);
+                } else {
+                    current.delete(key);
+                }
+            });
+            const search = current.toString();
+            const query = search ? `?${search}` : '';
+            router.push(`${window.location.pathname}${query}`);
+        }
+    };
+
     if (isError) {
         addLogEntry({
             source: 'Controls.tsx useGetFilterBooksQuery',
@@ -226,7 +249,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                         <div className={styles.wrapper}>
                             {!isMobile && filtersData && (
                                 <div className={styles.computer__filter}>
-                                    <Filter filtersData={filtersData} />
+                                    <Filter filtersData={filtersData} updateURL={updateURL}/>
                                 </div>
                             )}
 
@@ -282,6 +305,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                             )}
                                         </div>
                                     </div>
+
                                     <ul className={styles.information__list}>
                                         {sortArray.map((text, index) => {
                                             return (
@@ -313,6 +337,8 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                     filterBooks={filterBooks}
                                     user={user}
                                     handleOpenModal={handleOpenModal}
+                                    genre={genre}
+                                    updateURL={updateURL}
                                 />
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>

@@ -8,29 +8,52 @@ interface BookListProps {
     filterBooks?: BooksData;
     handleOpenModal: (modalName: string, event: React.MouseEvent) => void;
     user: IUser | undefined | null;
+    genre: string;
+    updateURL: (updates: { [key: string]: string | undefined }) => void;
 }
 
 const BookList: React.FC<BookListProps> = ({
     filterBooks,
     user,
     handleOpenModal,
+    genre,
+    updateURL,
 }) => {
- 
+    const handleClearGenreFilter = () => {
+        updateURL({
+            genre: '',
+        });
+    };
     return (
-        <ul className={styles.products__list}>
-            {filterBooks &&
-                filterBooks.books.map((book: IBook) => {
-                    return (
-                        <BookItem
-                            key={book.id}
-                            book={book}
-                            handleOpenModal={handleOpenModal}
-                            user={user}
-                            isSwiper={false}
-                        />
-                    );
-                })}
-        </ul>
+        <>
+            <div className={styles.miniFiltersContainer}>
+                {genre && (
+                    <div className={styles.miniFilter}>
+                        {genre}
+                        <button
+                            className={styles.clearFilterBtn}
+                            onClick={handleClearGenreFilter}
+                        >
+                            x
+                        </button>
+                    </div>
+                )}
+            </div>
+            <ul className={styles.products__list}>
+                {filterBooks &&
+                    filterBooks.books.map((book: IBook) => {
+                        return (
+                            <BookItem
+                                key={book.id}
+                                book={book}
+                                handleOpenModal={handleOpenModal}
+                                user={user}
+                                isSwiper={false}
+                            />
+                        );
+                    })}
+            </ul>
+        </>
     );
 };
 
