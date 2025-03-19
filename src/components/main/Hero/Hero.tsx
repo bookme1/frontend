@@ -26,18 +26,6 @@ const Hero = () => {
                                 />
                             </a>
                         </li>
-                        {/* <li className={styles.navItem}>
-                            <a
-                                className={styles.navLink}
-                                href="/conditions-of-use"
-                            >
-                                Умови використання
-                                <Icon
-                                    name="arrow_right"
-                                    className={styles.icon}
-                                />
-                            </a>
-                        </li> */}
                         <li className={styles.navItem}>
                             <a
                                 className={styles.navLink}
