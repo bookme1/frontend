@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
 import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
-import { Loading } from '@/components/SERVICE_PAGES/Loading';
+// import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
@@ -18,6 +19,11 @@ import { FiltersResponse } from '@/lib/redux/features/book/types';
 import { IUser } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
+
+const Loading = dynamic(
+    () => import('@/components/SERVICE_PAGES/Loading/Loading'),
+    { ssr: false }
+);
 
 interface ControlsProps {
     filtersData: FiltersResponse | undefined | null;
@@ -57,10 +63,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         genre,
         page,
     });
-
-
-
-
 
     const updateURL = (updates: { [key: string]: string | undefined }) => {
         if (searchParams) {
@@ -241,7 +243,10 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                             <div
                                 className={`${styles.filter} ${styles.mobile}`}
                             >
-                                <Filter filtersData={filtersData} />
+                                <Filter
+                                    filtersData={filtersData}
+                                    updateURL={updateURL}
+                                />
                             </div>
                         </GenericModal>
                     )}
@@ -249,7 +254,10 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                         <div className={styles.wrapper}>
                             {!isMobile && filtersData && (
                                 <div className={styles.computer__filter}>
-                                    <Filter filtersData={filtersData} updateURL={updateURL}/>
+                                    <Filter
+                                        filtersData={filtersData}
+                                        updateURL={updateURL}
+                                    />
                                 </div>
                             )}
 
