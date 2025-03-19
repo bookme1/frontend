@@ -48,6 +48,8 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
+
+
     const {
         data: filterBooks,
         isLoading,
@@ -179,7 +181,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         }
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set('page', newPage.toString());
-        router.push(currentUrl.toString());
+        router.replace(currentUrl.toString());
     };
     const isMobile = window.innerWidth <= 748;
 
@@ -223,11 +225,16 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     };
 
     const handlePageChange = (newPageTeest: number) => {
+       
         newPage = newPageTeest;
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('page', newPage.toString());
-        router.push(currentUrl.toString());
+
+        if (Number(page) !== newPage) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', newPage.toString());
+            router.replace(currentUrl.toString());
+        }
     };
+
 
     return (
         <>
@@ -341,13 +348,25 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                         {quantityRange}
                                     </p>
                                 </div>
-                                <BookList
-                                    filterBooks={filterBooks}
-                                    user={user}
-                                    handleOpenModal={handleOpenModal}
-                                    genre={genre}
-                                    updateURL={updateURL}
-                                />
+                                {isLoading ? (
+                                    <div
+                                        style={{
+                                            fontSize: '36px',
+                                            width: '100%',
+                                            backgroundColor: 'red',
+                                        }}
+                                    >
+                                        loading...
+                                    </div>
+                                ) : (
+                                    <BookList
+                                        filterBooks={filterBooks}
+                                        user={user}
+                                        handleOpenModal={handleOpenModal}
+                                        genre={genre}
+                                        updateURL={updateURL}
+                                    />
+                                )}
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>
                                         <button
