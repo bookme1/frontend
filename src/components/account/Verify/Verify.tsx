@@ -9,8 +9,9 @@ import { useProveTokenMutation } from '@/lib/redux/features/user/userApi';
 
 const Verify = ({}: {}) => {
     const searchParams = useSearchParams();
-    const userId = Number(searchParams.get('user')) || 0;
-    const token = searchParams.get('token') ?? '';
+
+    const userId = searchParams ? Number(searchParams.get('user')) || 0 : 0;
+    const token = searchParams ? (searchParams.get('token') ?? '') : '';
 
     const [proveToken, { data, isLoading, error }] = useProveTokenMutation();
 
@@ -26,9 +27,9 @@ const Verify = ({}: {}) => {
     return (
         <>
             <div className={`wrapper ${styles.container}`}>
-                <h1 className={styles.title}>Веріфікація пошти</h1>
+                <h1 className={styles.title}>Верифікація пошти</h1>
                 <p className={styles.text}>
-                    Проводиться віріфікація пошти. Будь-ласка, зачекайте...
+                    Проводиться верифікація пошти. Будь-ласка, зачекайте...
                 </p>
             </div>
         </>
