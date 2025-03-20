@@ -118,6 +118,7 @@ const Menu: React.FC<MenuProps> = ({ onClose }) => {
                                 key={index}
                                 item={subitem}
                                 id={`submenu-item-${index}`}
+                                handleCloseModal={handleCloseModal}
                             />
                         ))}
                     </ul>
@@ -136,6 +137,7 @@ interface MenuItemProps {
 interface SubmenuItemProps {
     item: IGenre;
     id: string;
+    handleCloseModal: () => void;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
@@ -151,15 +153,17 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
     );
 };
 
-const SubmenuItem: React.FC<SubmenuItemProps> = ({ item, id }) => {
+const SubmenuItem: React.FC<SubmenuItemProps> = ({
+    item,
+    id,
+    handleCloseModal,
+}) => {
     return (
         <li className={`${classes.menuItem}`} id={id}>
             <Link
-            className={` ${classes.cut}`}
+                className={` ${classes.cut}`}
                 href={`/books?genre=${item.genre}`}
-                onClick={() => {
-                    console.log('hahaha');
-                }}
+                onClick={handleCloseModal}
             >
                 {item.genre} ({item.count})
             </Link>
