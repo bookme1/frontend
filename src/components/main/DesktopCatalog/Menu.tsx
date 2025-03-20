@@ -39,6 +39,7 @@ const Menu: React.FC<MenuProps> = ({ onClose }) => {
     const handleCloseModal = () => {
         onClose();
     };
+
     return (
         <div className={classes.ai_content_wrapper}>
             {isLoading ? (
@@ -165,8 +166,9 @@ const SubmenuItem: React.FC<SubmenuItemProps> = ({
                 href={`/books?genre=${item.genre}`}
                 onClick={handleCloseModal}
             >
-                {item.genre} ({item.count})
+                {item.genre}
             </Link>
+            <p>({item.count})</p>
         </li>
     );
 };

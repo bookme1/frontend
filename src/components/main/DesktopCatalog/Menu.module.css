@@ -61,10 +61,12 @@
     border-bottom: 1px solid #bababa;
     font-variant-numeric: lining-nums;
 
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.cut{
+.cut {
     display: -webkit-box;
     box-orient: vertical;
     -webkit-box-orient: vertical;
@@ -72,6 +74,11 @@
     line-clamp: 3;
     -webkit-line-clamp: 3;
     text-overflow: ellipsis;
+
+    @media screen and (min-width: 768px) {
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+    }
 }
 
 .menuItemActive {
@@ -113,8 +120,6 @@
 .submenuItem {
     padding: 5px 10px;
     cursor: pointer;
-
-
 }
 
 .submenuItem:hover {
