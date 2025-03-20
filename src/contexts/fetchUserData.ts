@@ -5,9 +5,7 @@ import { IUser } from '@/lib/redux/features/user/types.ts';
 
 export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = await headers();
-    const backendUrl =
-        process.env.NEXT_PUBLIC_BASE_BACKEND_URL ||
-        process.env.BASE_BACKEND_URL + '/api';
+    const backendUrl = process.env.BASE_BACKEND_URL + '/api';
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
     try {
