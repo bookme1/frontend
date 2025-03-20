@@ -48,8 +48,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
-
-
     const {
         data: filterBooks,
         isLoading,
@@ -225,7 +223,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     };
 
     const handlePageChange = (newPageTeest: number) => {
-       
         newPage = newPageTeest;
 
         if (Number(page) !== newPage) {
@@ -234,7 +231,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
             router.replace(currentUrl.toString());
         }
     };
-
 
     return (
         <>
@@ -353,7 +349,8 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                         style={{
                                             fontSize: '36px',
                                             width: '100%',
-                                            backgroundColor: 'red',
+                                            marginLeft: 'auto',
+                                            height: '950px',
                                         }}
                                     >
                                         loading...
