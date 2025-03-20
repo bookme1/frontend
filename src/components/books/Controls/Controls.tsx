@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
 import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
-import { Loading } from '@/components/SERVICE_PAGES/Loading';
+// import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
@@ -18,6 +19,11 @@ import { FiltersResponse } from '@/lib/redux/features/book/types';
 import { IUser } from '@/lib/redux/features/user/types';
 
 import Filter from '../Filter/Filter';
+
+const Loading = dynamic(
+    () => import('@/components/SERVICE_PAGES/Loading/Loading'),
+    { ssr: false }
+);
 
 interface ControlsProps {
     filtersData: FiltersResponse | undefined | null;
@@ -42,6 +48,8 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
+
+
     const {
         data: filterBooks,
         isLoading,
@@ -57,6 +65,25 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         genre,
         page,
     });
+
+    const updateURL = (updates: { [key: string]: string | undefined }) => {
+        if (searchParams) {
+            const current = new URLSearchParams(
+                Array.from(searchParams.entries())
+            );
+            current.set('page', '1');
+            Object.entries(updates).forEach(([key, value]) => {
+                if (value !== null && value !== undefined && value !== '') {
+                    current.set(key, value);
+                } else {
+                    current.delete(key);
+                }
+            });
+            const search = current.toString();
+            const query = search ? `?${search}` : '';
+            router.push(`${window.location.pathname}${query}`);
+        }
+    };
 
     if (isError) {
         addLogEntry({
@@ -154,7 +181,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         }
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set('page', newPage.toString());
-        router.push(currentUrl.toString());
+        router.replace(currentUrl.toString());
     };
     const isMobile = window.innerWidth <= 748;
 
@@ -198,11 +225,16 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     };
 
     const handlePageChange = (newPageTeest: number) => {
+       
         newPage = newPageTeest;
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('page', newPage.toString());
-        router.push(currentUrl.toString());
+
+        if (Number(page) !== newPage) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('page', newPage.toString());
+            router.replace(currentUrl.toString());
+        }
     };
+
 
     return (
         <>
@@ -218,7 +250,10 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                             <div
                                 className={`${styles.filter} ${styles.mobile}`}
                             >
-                                <Filter filtersData={filtersData} />
+                                <Filter
+                                    filtersData={filtersData}
+                                    updateURL={updateURL}
+                                />
                             </div>
                         </GenericModal>
                     )}
@@ -226,7 +261,10 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                         <div className={styles.wrapper}>
                             {!isMobile && filtersData && (
                                 <div className={styles.computer__filter}>
-                                    <Filter filtersData={filtersData} />
+                                    <Filter
+                                        filtersData={filtersData}
+                                        updateURL={updateURL}
+                                    />
                                 </div>
                             )}
 
@@ -282,6 +320,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                             )}
                                         </div>
                                     </div>
+
                                     <ul className={styles.information__list}>
                                         {sortArray.map((text, index) => {
                                             return (
@@ -309,11 +348,25 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                         {quantityRange}
                                     </p>
                                 </div>
-                                <BookList
-                                    filterBooks={filterBooks}
-                                    user={user}
-                                    handleOpenModal={handleOpenModal}
-                                />
+                                {isLoading ? (
+                                    <div
+                                        style={{
+                                            fontSize: '36px',
+                                            width: '100%',
+                                            backgroundColor: 'red',
+                                        }}
+                                    >
+                                        loading...
+                                    </div>
+                                ) : (
+                                    <BookList
+                                        filterBooks={filterBooks}
+                                        user={user}
+                                        handleOpenModal={handleOpenModal}
+                                        genre={genre}
+                                        updateURL={updateURL}
+                                    />
+                                )}
                                 {totalPages > 1 && (
                                     <div className={styles.pagination}>
                                         <button

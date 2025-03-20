@@ -11,3 +11,37 @@
         gap: 16px;
     }
 }
+
+.miniFiltersContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.miniFilter {
+    position: relative;
+    font-size: 24px;
+    background-color: rgb(169, 164, 164);
+    color: white;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+
+    margin: 0 auto;
+    text-align: center;
+}
+
+.miniFiltersType {
+    font-weight: 700;
+}
+
+.clearFilterBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2%;
+
+    font-size: 24px;
+    color: white;
+
+    cursor: pointer;
+}

@@ -28,7 +28,7 @@ const Categories = () => {
             <Swiper
                 slidesPerView={3}
                 loop={true}
-                spaceBetween={69}
+                spaceBetween={0}
                 modules={[Navigation]}
                 className="mySwiper"
                 navigation={{
@@ -44,56 +44,56 @@ const Categories = () => {
                     },
                 }}
             >
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Менеджмент" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.management}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Менеджмент</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Лідерство" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.leader}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Лідерство</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Саморозвиток" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.brain}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Саморозвиток</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Проза" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.svitok}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Проза</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Психологія" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.puzzle}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Психологія</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?genre=Дитячі" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.kid}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Дитячі</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <a href="/books" className={styles.card}>
+                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                    <a href="/books?languages=eng" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.english}`}
                         ></div>
