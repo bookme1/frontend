@@ -57,6 +57,7 @@ jobs:
                   docker run -d \
                     -e NODE_ENV=production \
                     -e NEXT_PUBLIC_BASE_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BASE_BACKEND_URL }} \
+                    -e BASE_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BASE_BACKEND_URL }} \
                     -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
                     -e NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }} \
                     -e NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET }} \

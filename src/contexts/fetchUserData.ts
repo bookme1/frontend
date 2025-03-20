@@ -5,46 +5,36 @@ import { IUser } from '@/lib/redux/features/user/types.ts';
 
 export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = await headers();
-    console.log('SSR Headers(user fetch):', {
-        cookie: requestHeaders.get('cookie'),
-        allHeaders: requestHeaders,
-    });
+    const backendUrl =
+        process.env.NEXT_PUBLIC_BASE_BACKEND_URL ||
+        process.env.BASE_BACKEND_URL + '/api';
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
     try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
-            {
-                method: 'GET',
-                headers: { cookie: cookies || '' },
-                credentials: 'include',
-                cache: 'no-cache',
-            }
-        );
+        const response = await fetch(`${backendUrl}/user`, {
+            method: 'GET',
+            headers: { cookie: cookies || '' },
+            credentials: 'include',
+            cache: 'no-cache',
+        });
 
         if (response.ok) {
             return await response.json();
         }
 
         if (response.status === 401) {
-            const refreshResponse = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/auth/refresh`,
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { cookies: cookies || '' },
-                }
-            );
+            const refreshResponse = await fetch(`${backendUrl}/auth/refresh`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { cookies: cookies || '' },
+            });
 
             if (refreshResponse.ok) {
-                const userResponse = await fetch(
-                    `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
-                    {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: { cookies: cookies || '' },
-                    }
-                );
+                const userResponse = await fetch(`${backendUrl}/user`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { cookies: cookies || '' },
+                });
 
                 if (userResponse.ok) {
                     return await userResponse.json();
