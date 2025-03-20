@@ -21,27 +21,6 @@ import BookItem from '../book/Item/BookItem';
 import { Icon } from '../common/Icon';
 import { SwiperList } from '../main/SwiperList';
 
-type TransformedBook = {
-    id: string;
-    header: {};
-    original: {};
-    referenceNumber: string;
-    art: string;
-    title: string;
-    url: string;
-    price: string;
-    pages: number;
-    lang: string;
-    desc: string;
-    author: string;
-    pub: string;
-    pubDate: string;
-    genre: string;
-    formatMobi: string;
-    formatPdf: string;
-    formatEpub: string;
-};
-
 const Booksset = ({ userID }: { userID: number }) => {
     const [bookSetData, setBookSetData] = useState<BookSetRequest>({
         id: 0,
@@ -233,7 +212,11 @@ const Booksset = ({ userID }: { userID: number }) => {
     }
 
     const handleAddToBooksetList = (bookForList: string) => {
-        setBookForAdd(prev => [...(prev || []), bookForList]);
+        setBookForAdd(prev =>
+            prev?.includes(bookForList)
+                ? prev.filter(id => id !== bookForList)
+                : [...(prev || []), bookForList]
+        );
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

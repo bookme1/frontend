@@ -22,6 +22,7 @@ const BookItem = ({
     handleAddToBooksetList,
     user,
 }: any) => {
+    const [bookAdded, setBookAdded] = useState(false);
     const [addCard] = useAddCartMutation();
 
     const [notification, setNotification] = useState<NotificationState>({
@@ -80,8 +81,13 @@ const BookItem = ({
             >
                 {isPlusVisible && (
                     <button
-                        onClick={() => handleAddToBooksetList(book.id)}
-                        className={styles.addBooksetBtn}
+                        onClick={() => {
+                            handleAddToBooksetList(book.id);
+                            setBookAdded(!bookAdded);
+                        }}
+                        className={`${styles.addBooksetBtn} ${bookAdded ? styles.added : ''}`}
+                    
+                      
                     >
                         Add to bookset
                     </button>

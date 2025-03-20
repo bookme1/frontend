@@ -189,3 +189,7 @@
     background-color: #ff3333;
     border-radius: 10px;
 }
+
+.added {
+    background-color: green;
+}
