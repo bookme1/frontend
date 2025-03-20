@@ -86,7 +86,7 @@ const SignIn: React.FC<SignInProps> = ({ handleModalSignUp }) => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Пароль"
                         onChange={evt => setPassword(evt.target.value)}
-                        autoComplete="current-password" 
+                        autoComplete="current-password"
                         required
                     />
                     <Icon
