@@ -5,7 +5,10 @@ import { IUser } from '@/lib/redux/features/user/types.ts';
 
 export async function fetchUserData(): Promise<IUser | null> {
     const requestHeaders = await headers();
-
+    console.log('SSR Headers(user fetch):', {
+        cookie: requestHeaders.get('cookie'),
+        allHeaders: requestHeaders,
+    });
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');
     try {
@@ -14,6 +17,7 @@ export async function fetchUserData(): Promise<IUser | null> {
             {
                 method: 'GET',
                 headers: { cookie: cookies || '' },
+                credentials: 'include',
                 cache: 'no-cache',
             }
         );
@@ -27,6 +31,7 @@ export async function fetchUserData(): Promise<IUser | null> {
                 `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/auth/refresh`,
                 {
                     method: 'POST',
+                    credentials: 'include',
                     headers: { cookies: cookies || '' },
                 }
             );
@@ -36,6 +41,7 @@ export async function fetchUserData(): Promise<IUser | null> {
                     `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/user`,
                     {
                         method: 'GET',
+                        credentials: 'include',
                         headers: { cookies: cookies || '' },
                     }
                 );

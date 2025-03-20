@@ -12,8 +12,8 @@ import {
 
 const Verify = ({}: {}) => {
     const searchParams = useSearchParams();
-    const userId = Number(searchParams.get('user')) || 0;
-    const token = searchParams.get('token') ?? '';
+    const userId = Number(searchParams ? searchParams.get('user') : 0);
+    const token = searchParams ? searchParams.get('token') : '';
     const router = useRouter();
 
     const [proveToken, { data, isLoading, error }] = useProveTokenMutation();
@@ -24,7 +24,6 @@ const Verify = ({}: {}) => {
                 .unwrap()
                 .then(() => {
                     router.push('/account');
-                    
                 })
                 .catch(err => console.error('Error:', err));
         }
