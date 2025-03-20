@@ -1,16 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BookSetRequest, BookSetResponse } from './types';
 
+import { BookSetRequest, BookSetResponse } from './types';
 
 export const booksetApi = createApi({
     reducerPath: 'booksetApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '',
+        baseUrl:
+            process.env.NEXT_PUBLIC_BASE_BACKEND_URL ||
+            process.env.BASE_BACKEND_URL,
     }),
 
-    endpoints: (builder) => ({
+    endpoints: builder => ({
         createBookSet: builder.mutation<BookSetResponse[], BookSetRequest>({
-            query: (newBookSet) => ({
+            query: newBookSet => ({
                 url: '/api/bookset',
                 method: 'POST',
                 body: newBookSet,
@@ -25,7 +27,7 @@ export const booksetApi = createApi({
         }),
 
         deleteBookSet: builder.mutation<void, number>({
-            query: (id) => ({
+            query: id => ({
                 url: `/api/bookset/${id}`,
                 method: 'DELETE',
             }),
@@ -33,4 +35,8 @@ export const booksetApi = createApi({
     }),
 });
 
-export const { useCreateBookSetMutation, useGetBookSetQuery, useDeleteBookSetMutation } = booksetApi;
+export const {
+    useCreateBookSetMutation,
+    useGetBookSetQuery,
+    useDeleteBookSetMutation,
+} = booksetApi;

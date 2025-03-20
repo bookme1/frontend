@@ -73,7 +73,7 @@ export const userApi = createApi({
         }),
 
         verifyEmail: builder.mutation<{ message: string }, number>({
-            query: (userId) => ({
+            query: userId => ({
                 url: `api/auth/verify-email`,
                 method: 'POST',
                 body: { userId },
@@ -81,7 +81,10 @@ export const userApi = createApi({
             }),
         }),
 
-        proveToken: builder.mutation<{ message: string }, { token: string; userId: number }>({
+        proveToken: builder.mutation<
+            { message: string },
+            { token: string; userId: number }
+        >({
             query: ({ token, userId }) => ({
                 url: 'api/auth/prove-token',
                 method: 'POST',
