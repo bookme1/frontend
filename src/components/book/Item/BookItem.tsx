@@ -86,8 +86,6 @@ const BookItem = ({
                             setBookAdded(!bookAdded);
                         }}
                         className={`${styles.addBooksetBtn} ${bookAdded ? styles.added : ''}`}
-                    
-                      
                     >
                         Add to bookset
                     </button>
@@ -125,14 +123,13 @@ const BookItem = ({
                         />
                     )}
                     <div className={styles.functionality}>
-                        <span>{book.price} ₴</span>
+                        <span className={styles.price}>{book.price} ₴</span>
                         <div className={styles.button}>
                             <FavoriteBtn book={book} />
                             <button
                                 aria-label="Корзина"
                                 className={styles.basket}
                                 onClick={e => {
-                                    // handleOpenModal('successInfo', e, book);
                                     handleAddToOrder();
                                 }}
                             >

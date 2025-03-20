@@ -193,3 +193,9 @@
 .added {
     background-color: green;
 }
+
+.price{
+    font-size: 20px;
+    font-weight: 700;
+
+}
