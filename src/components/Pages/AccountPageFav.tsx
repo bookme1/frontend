@@ -17,7 +17,7 @@ const AccountPageFav: React.FC<AccountPageFavProps> = ({
     user,
     userOrderBooks,
 }) => {
-    console.log(user);
+
     return (
         <div
             className="wrapper"

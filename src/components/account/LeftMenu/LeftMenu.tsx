@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import style from './LeftMenu.module.css';
-import { deleteCookies } from '@/components/Cookie/Cookie';
 import { Icon } from '@/components/common/Icon';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
@@ -36,7 +35,7 @@ export default function LeftMenu({
     isVerified?: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
-    const router = useRouter();
+
     const handleLogout = async () => {
         try {
             await logOut().unwrap();
@@ -54,20 +53,6 @@ export default function LeftMenu({
             }
         }
     };
-
-    const [isBlinking, setIsBlinking] = useState(false);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIsBlinking(true); // Начать мигание
-            setTimeout(() => {
-                setIsBlinking(false); // Остановить мигание после 1.5 секунд (0.5с * 3 мигания)
-            }, 1500); // 3 мигания по 0.5 секунды
-        }, 10000); // Каждые 10 секунд
-
-        // Очистка интервала при размонтировании компонента
-        return () => clearInterval(interval);
-    }, []);
 
     return (
         <div className={style.section}>
@@ -98,16 +83,6 @@ export default function LeftMenu({
                         <Icon name="wallet" /> Мій гаманець
                     </NavLink>
                 </li> */}
-                {!isVerified && (
-                    <li
-                        className={`${style.item} ${isBlinking ? style.blinking : ''}`}
-                    >
-                        <NavLink href="/account/verification">
-                            <Icon name="star" />
-                            Верифікація пошти
-                        </NavLink>
-                    </li>
-                )}
             </ul>
             <li className={`${style.exit} ${style.item}`}>
                 <NavLink href="/">

@@ -46,6 +46,8 @@
     padding: 10px;
     border-radius: 50%;
     background-color: #ff3333;
+    max-width: 20px;
+    max-height: 20px;
 }
 
 .navigation {

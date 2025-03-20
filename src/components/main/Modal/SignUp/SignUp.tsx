@@ -4,10 +4,7 @@ import styles from './SignUpModal.module.css';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
 import { Icon } from '@/components/common/Icon';
-import {
-    useSignUpMutation,
-    useVerifyEmailMutation,
-} from '@/lib/redux/features/user/userApi';
+import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
 interface SignUpProps {
     handleModalSignIn: () => void;
@@ -31,34 +28,39 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
         setNotification(prev => ({ ...prev, ...newValues }));
     };
 
-    const [
-        verifyEmail,
-        {
-            isLoading: isLoadingVerifyEmail,
-            isSuccess,
-            isError,
-            error: eroorVerifyEmail,
-        },
-    ] = useVerifyEmailMutation();
+    const getMailServiceUrl = (email: string) => {
+        const domain = email.split('@')[1];
+        switch (domain) {
+            case 'gmail.com':
+                return 'https://mail.google.com/mail/u/0/#inbox';
+            case 'yahoo.com':
+                return 'https://mail.yahoo.com/';
+            case 'outlook.com':
+            case 'hotmail.com':
+                return 'https://outlook.live.com/mail/';
+            case 'mail.ru':
+                return 'https://e.mail.ru/inbox/';
+            case 'yandex.ru':
+                return 'https://mail.yandex.ru/';
+            default:
+                return null;
+        }
+    };
 
-    // const sendVerifyCode = async () => {
-    //     try {
-    //         await verifyEmail(userId).unwrap();
-    //         alert('Письмо с подтверждением отправлено!');
-    //     } catch (err) {
-    //         console.error('Ошибка отправки письма:', err);
-    //         alert('Ошибка отправки письма');
-    //     }
-    // };
+    const mailUrl = getMailServiceUrl(email);
 
     useEffect(() => {
         if (data) {
-            window.location.replace('/account');
+            if (mailUrl) {
+                window.location.href = mailUrl;
+            } else {
+                window.location.replace('/');
+            }
         }
         if (error) {
             console.log(error);
         }
-    }, [data, error]);
+    }, [data, error, mailUrl]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -71,6 +73,10 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
                 text: 'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі',
                 type: 'information',
             });
+
+            if (mailUrl) {
+                window.location.href = mailUrl;
+            }
         } catch (err: any) {
             updateNotification({
                 isVisible: true,
@@ -161,6 +167,15 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
             <p className={styles.description}>
                 Або зареєструйтесь за допомогою:
             </p>
+            <button
+                className={styles.googleBtn}
+                onClick={() => {
+                    window.location.href =
+                        'http://localhost:5050/api/auth/signin/google';
+                }}
+            >
+                <Icon name="google" size="24" />
+            </button>
             <p className={styles.description}>
                 Вже є профіль?
                 <button
