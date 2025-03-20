@@ -4,7 +4,7 @@ import { BookSetRequest } from '@/lib/redux/features/book/types';
 export async function fetchBooksets(): Promise<BookSetRequest[] | null> {
     try {
         let response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || process.env.BASE_BACKEND_URL}/api/bookset`,
+            `${process.env.BASE_BACKEND_URL}/api/bookset`,
             {
                 method: 'GET',
                 cache: 'no-cache',
