@@ -181,7 +181,12 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         currentUrl.searchParams.set('page', newPage.toString());
         router.replace(currentUrl.toString());
     };
-    const isMobile = window.innerWidth <= 748;
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth <= 748);
+    }, []);
 
     const getPageNumbers = () => {
         const pageNumbers = [];

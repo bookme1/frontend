@@ -93,15 +93,12 @@ const BookItem = ({
                     <Image
                         src={book.url}
                         alt={book.title}
-                        width={230}
-                        height={215}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className={`${styles.img}`}
-                        priority={true} 
-                        
+                        priority={true}
                         style={{
                             objectFit: 'cover',
-                            width: '100%',
-                            height: 'auto',
                         }}
                     />
                 </Link>
