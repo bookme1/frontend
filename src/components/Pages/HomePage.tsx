@@ -32,6 +32,7 @@ const HomePage: React.FC<HomePageProps> = ({ booksets, user }) => {
                             bookset={bookset.books}
                             id={bookset.id}
                             user={user}
+                            isBookset= {false}
                         />
                     ))
                 ) : (

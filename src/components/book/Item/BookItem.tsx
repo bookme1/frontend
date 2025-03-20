@@ -80,7 +80,7 @@ const BookItem = ({
             >
                 {isPlusVisible && (
                     <button
-                        onClick={() => handleAddToBooksetList(book)}
+                        onClick={() => handleAddToBooksetList(book.id)}
                         className={styles.addBooksetBtn}
                     >
                         Add to bookset

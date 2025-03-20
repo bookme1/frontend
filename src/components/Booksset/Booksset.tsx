@@ -55,7 +55,8 @@ const Booksset = ({ userID }: { userID: number }) => {
 
     const searchVal = useRef<HTMLInputElement | null>(null);
 
-    const [bookForAdd, setBookForAdd] = useState<TransformedBook[]>([]);
+    const [bookForAdd, setBookForAdd] = useState<string[]>([]);
+
     const [boosetName, setBooksetName] = useState('No name');
 
     const [query, setQuery] = useState('');
@@ -231,35 +232,14 @@ const Booksset = ({ userID }: { userID: number }) => {
         return <p>Нет доступных книжек в каталоге.</p>;
     }
 
-    const handleAddToBooksetList = (bookForList: TransformedBook) => {
-        setBookForAdd([...bookForAdd, bookForList]);
+    const handleAddToBooksetList = (bookForList: string) => {
+        setBookForAdd(prev => [...(prev || []), bookForList]);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            const transformedBooks = bookForAdd.map(book => ({
-                id: book.id, // Используем существующие данные
-                header: {}, // Добавьте или настройте значение
-                original: {}, // Добавьте или настройте значение
-                referenceNumber: '', // Задайте значение
-                art: book.art || '', // Или другое свойство
-                title: book.title,
-                url: book.url,
-                price: book.price,
-                pages: book.pages,
-                lang: book.lang,
-                desc: book.desc,
-                author: book.author,
-                pub: book.pub,
-                pubDate: book.pubDate || '', // Или другое значение
-                genre: book.genre || '', // Или другое значение
-                formatMobi: book.formatMobi || '',
-                formatPdf: book.formatPdf || '',
-                formatEpub: book.formatEpub || '',
-            }));
-
             await createBookSet({
                 id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1,
                 title: boosetName,
@@ -267,7 +247,7 @@ const Booksset = ({ userID }: { userID: number }) => {
                     createdBy: userID,
                     createdAt: new Date().toISOString(),
                 },
-                books: transformedBooks, // Преобразованный массив
+                books: bookForAdd,
             }).unwrap();
 
             // Очистка состояния после создания набора
@@ -347,6 +327,7 @@ const Booksset = ({ userID }: { userID: number }) => {
                             bookset={sets.books}
                             id={sets.id}
                             user={null}
+                            isBookset={true}
                         />
                     </div>
                 ))}

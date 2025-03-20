@@ -18,11 +18,13 @@ const CardList = ({
     books,
     id,
     user,
+    isBookset,
 }: {
     name: string;
     books: any[];
     id: number;
     user: IUser | null;
+    isBookset?: boolean;
 }) => {
     const [width, setWidth] = useState(0);
 
@@ -57,7 +59,7 @@ const CardList = ({
     }
 
     return (
-        <div className={style.wrapper}>
+        <div className={`${style.wrapper} ${isBookset ? style.bookset : ''}`}>
             <div className={style.sliderControls}>
                 <h2 className={style.controlsTitle}>{name}</h2>
                 {isChevronVisible && (

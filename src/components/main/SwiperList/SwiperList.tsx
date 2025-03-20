@@ -9,6 +9,7 @@ const SwiperList = ({
     bookset = [],
     id,
     user,
+    isBookset,
 }: {
     name: string;
     parametrData?: string;
@@ -16,13 +17,14 @@ const SwiperList = ({
     bookset: any[];
     id: number;
     user: IUser | null;
+    isBookset?: boolean;
 }) => {
     const booksArr = bookset;
 
     if (!booksArr)
         return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
 
-    return <CardList name={name} books={booksArr} id={id} user={user} />;
+    return <CardList name={name} books={booksArr} id={id} user={user} isBookset={isBookset}/>;
 };
 
 export default SwiperList;
