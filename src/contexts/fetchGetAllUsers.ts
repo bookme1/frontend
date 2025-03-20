@@ -1,11 +1,10 @@
 import { headers } from 'next/headers';
 
-import { userDTO } from '@/lib/redux/features/admin/types';
 import { addLogEntry } from './Logs/fetchAddLog';
-
+import { userDTO } from '@/lib/redux/features/admin/types';
 
 export async function fetchGetAllUsers(): Promise<userDTO[] | string | null> {
-    const requestHeaders = headers();
+    const requestHeaders = await headers();
 
     // Take cookies from headers
     const cookies = requestHeaders.get('cookie');

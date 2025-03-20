@@ -33,9 +33,9 @@ const Verify = ({}: {}) => {
     return (
         <div className={`${styles.container}`}>
             <div className={`wrapper ${styles.container}`}>
-                <h1 className={styles.title}>Веріфікація пошти</h1>
+                <h1 className={styles.title}>Верифікація пошти</h1>
                 <p className={styles.text}>
-                    Проводиться віріфікація пошти. Будь-ласка, зачекайте...
+                    Проводиться верифікація пошти. Будь-ласка, зачекайте...
                 </p>
             </div>
         </div>
