@@ -72,13 +72,9 @@ const updateFontFamily = (rendition: Rendition, fontFamily: string) => {
 
 interface ReadingBookIdPageProps {
     user: IUser | null;
-  
 }
 
-const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({
-    user,
-    
-}) => {
+const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({ user }) => {
     const [page, setPage] = useState<number>(0);
     const rendition = useRef<Rendition | undefined>(undefined);
     const toc = useRef<NavItem[]>([]);
@@ -117,7 +113,7 @@ const ReadingBookIdPage: React.FC<ReadingBookIdPageProps> = ({
 
     useEffect(() => {
         if (!isAuthorized) {
-            router.replace('http://localhost:3000/');
+            router.replace('/');
         }
     }, [isAuthorized, router]);
 

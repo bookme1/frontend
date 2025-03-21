@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
 
 import styles from './Favorite.module.css';
+import { explode } from './particles';
 import { IBook } from '@/app/book/[id]/page.types';
 import {
     useAddFavoriteMutation,
@@ -53,7 +54,11 @@ const FavoriteBtn = ({ book }: { book: IBook | undefined }) => {
         }
     }, [book]);
 
-    const handleFavoriteClick = async (e: any) => {
+    const handleFavoriteClick = async (e: React.MouseEvent<SVGElement>) => {
+        const x = e.pageX;
+        const y = e.pageY;
+        explode(x, y);
+
         setIsFav(true);
 
         if (book) {

@@ -170,8 +170,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
             <button
                 className={styles.googleBtn}
                 onClick={() => {
-                    window.location.href =
-                        'http://localhost:5050/api/auth/signin/google';
+                    window.location.href = `${process.env.BASE_BACKEND_URL}/api/auth/signin/google`;
                 }}
             >
                 <Icon name="google" size="24" />

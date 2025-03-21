@@ -1,9 +1,9 @@
-
 import { FaBookReader } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import style from './LeftMenu.module.css';
 import { Icon } from '@/components/common/Icon';
@@ -35,12 +35,12 @@ export default function LeftMenu({
     isVerified?: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
+    const router = useRouter();
 
     const handleLogout = async () => {
         try {
             await logOut().unwrap();
-            console.log('Выход выполнен');
-            window.location.replace('/');
+            router.replace('/');
         } catch (error) {
             console.error('Ошибка выхода:', error);
             if (error) {
