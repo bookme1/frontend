@@ -15,6 +15,22 @@
     }
 }
 
+.bookset {
+    margin: 0 auto;
+    padding: 30px 10px;
+    @media (min-width: 363px) {
+        width: 170px;
+    }
+    @media (min-width: 748px) {
+        width: 500px;
+        height: 650px;
+    }
+    @media (min-width: 1234px) {
+        width: 1000px;
+        height: 650px;
+    }
+}
+
 .swiper-container {
     margin-top: 50px;
 }

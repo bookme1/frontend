@@ -48,8 +48,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     const page = decodeURIComponent(searchParams?.get('page') || '');
     const router = useRouter();
 
-
-
     const {
         data: filterBooks,
         isLoading,
@@ -183,7 +181,12 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         currentUrl.searchParams.set('page', newPage.toString());
         router.replace(currentUrl.toString());
     };
-    const isMobile = window.innerWidth <= 748;
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth <= 748);
+    }, []);
 
     const getPageNumbers = () => {
         const pageNumbers = [];
@@ -225,7 +228,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
     };
 
     const handlePageChange = (newPageTeest: number) => {
-       
         newPage = newPageTeest;
 
         if (Number(page) !== newPage) {
@@ -234,7 +236,6 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
             router.replace(currentUrl.toString());
         }
     };
-
 
     return (
         <>
@@ -353,7 +354,8 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                         style={{
                                             fontSize: '36px',
                                             width: '100%',
-                                            backgroundColor: 'red',
+                                            marginLeft: 'auto',
+                                            height: '950px',
                                         }}
                                     >
                                         loading...

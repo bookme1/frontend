@@ -24,6 +24,7 @@ const BookItem = ({
     handleAddToBooksetList,
     user,
 }: any) => {
+    const [bookAdded, setBookAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [addCard] = useAddCartMutation();
 
@@ -76,6 +77,7 @@ const BookItem = ({
         });
 
     return (
+        <>
         <li
             key={book.id}
             className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
@@ -83,14 +85,17 @@ const BookItem = ({
             <div className={isLoading ? styles.loading : styles.visuallyHidden}>
                 <Lottie animationData={loaderData} loop={true} />
             </div>
-            {isPlusVisible && (
-                <button
-                    onClick={() => handleAddToBooksetList(book)}
-                    className={styles.addBooksetBtn}
-                >
-                    Add to bookset
-                </button>
-            )}
+                {isPlusVisible && (
+                    <button
+                        onClick={() => {
+                            handleAddToBooksetList(book.id);
+                            setBookAdded(!bookAdded);
+                        }}
+                        className={`${styles.addBooksetBtn} ${bookAdded ? styles.added : ''}`}
+                    >
+                        Add to bookset
+                    </button>
+                )}
             <Link
                 href={`/book/${book.id}`}
                 className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
@@ -108,40 +113,39 @@ const BookItem = ({
                     }}
                 />
             </Link>
-            <div
-                className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
-            >
-                <div className={styles.information}>
-                    <p className={styles.title}>{book.title}</p>
-                    <p className={styles.author}>
-                        {book.author || 'Немає автора'}
-                    </p>
-                </div>
-                {notification.isVisible && (
-                    <Notify
-                        text={notification.text}
-                        duration={5}
-                        type={notification.type}
-                    />
-                )}
-                <div className={styles.functionality}>
-                    <span>{book.price} ₴</span>
-                    <div className={styles.button}>
-                        <FavoriteBtn book={book} />
-                        <button
-                            aria-label="Корзина"
-                            className={styles.basket}
-                            onClick={e => {
-                                // handleOpenModal('successInfo', e, book);
-                                handleAddToOrder();
-                            }}
-                        >
-                            <Icon name="basket" size={24} color="#fff" />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </li>
+              <div
+                  className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
+              >
+                  <div className={styles.information}>
+                      <p className={styles.title}>{book.title}</p>
+                      <p className={styles.author}>
+                          {book.author || 'Немає автора'}
+                      </p>
+                  </div>
+                  {notification.isVisible && (
+                      <Notify
+                          text={notification.text}
+                          duration={5}
+                          type={notification.type}
+                      />
+                  )}
+                  <div className={styles.functionality}>
+                      <span className={styles.price}>{book.price} ₴</span>
+                      <div className={styles.button}>
+                          <FavoriteBtn book={book} />
+                          <button
+                              aria-label="Корзина"
+                              className={styles.basket}
+                              onClick={e => {
+                                  handleAddToOrder();
+                              }}
+                          >
+                              <Icon name="basket" size={24} color="#fff" />
+                          </button>
+                      </div>
+                  </div>
+            </li>
+        </>
     );
 };
 

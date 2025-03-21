@@ -11,7 +11,7 @@ export const booksetApi = createApi({
     }),
 
     endpoints: builder => ({
-        createBookSet: builder.mutation<BookSetResponse[], BookSetRequest>({
+        createBookSet: builder.mutation<void, BookSetRequest>({
             query: newBookSet => ({
                 url: '/api/bookset',
                 method: 'POST',
