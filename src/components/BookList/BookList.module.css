@@ -1,6 +1,6 @@
 .products__list {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 24px;
     margin-bottom: 32px;
