@@ -1,19 +1,15 @@
-
 import axios, { AxiosRequestConfig } from 'axios';
-import { IBook } from '@/app/book/[id]/page.types';
-import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
-import { NotificationState } from '@/components/Notify/NotifyType';
 
+import { IBook } from '@/app/book/[id]/page.types';
+import { NotificationState } from '@/components/Notify/NotifyType';
+import { CreateOrderDTO, IOrderBook } from '@/lib/redux/features/order/types';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
     withCredentials?: true;
 }
 
-
 export const useBookService = () => {
     const baseURL = process.env.NEXT_PUBLIC_BASE_BACKEND_URL || '';
-
-
 
     // Функция для пополнения очереди книг
     const refillQueue = async () => {
@@ -111,7 +107,7 @@ export const useBookService = () => {
     };
 
     // Функция для оформления корзины
-    const makeCartCheckout = async (    
+    const makeCartCheckout = async (
         updateNotification: (newValues: Partial<NotificationState>) => void
     ) => {
         const instance = axios.create({ baseURL });
@@ -121,7 +117,11 @@ export const useBookService = () => {
                 withCredentials: true,
             };
 
-            const response = await instance.post('/api/book/cart-checkout', {}, config);
+            const response = await instance.post(
+                '/api/book/cart-checkout',
+                {},
+                config
+            );
 
             const { data, signature, order_id } = response.data;
             console.log('response data', response.data);
@@ -181,36 +181,40 @@ export const useBookService = () => {
             throw error;
         }
     };
- // Функция для оформления корзины c повторными запросвми
+    // Функция для оформления корзины c повторными запросвми
     const makeCartCheckoutWithRetry = async (
         updateNotification: (newValues: Partial<NotificationState>) => void,
         retries: number = 3, // Количество попыток
         delay: number = 1000 // Задержка между попытками в миллисекундах
     ) => {
         const instance = axios.create({ baseURL });
-    
+
         // Функция для проверки наличия интернета
         const isOnline = () => {
             return window.navigator.onLine;
         };
-    
+
         // Функция для выполнения запроса с повторными попытками
         const makeRequest = async () => {
             try {
                 const config: CustomAxiosRequestConfig = {
                     withCredentials: true,
                 };
-    
-                const response = await instance.post('/api/book/cart-checkout', {}, config);
-    
+
+                const response = await instance.post(
+                    '/api/book/cart-checkout',
+                    {},
+                    config
+                );
+
                 const { data, signature, order_id } = response.data;
                 console.log('response data', response.data);
-    
+
                 // Динамічна завантаження LiqPayCheckout
                 if (typeof window === 'undefined') {
                     return 0;
                 }
-    
+
                 const script = document.createElement('script');
                 script.src = 'https://static.liqpay.ua/libjs/checkout.js';
                 script.onload = () => {
@@ -255,13 +259,13 @@ export const useBookService = () => {
                         });
                 };
                 document.body.appendChild(script);
-    
+
                 return response.data;
             } catch (error) {
                 throw error;
             }
         };
-    
+
         // Попытки выполнения запроса
         for (let attempt = 1; attempt <= retries; attempt++) {
             if (!isOnline()) {
@@ -287,24 +291,25 @@ export const useBookService = () => {
             }
         }
     };
-    
-    
+
     // Функция для создания заказа
     const orderRequest = async (orderData: CreateOrderDTO) => {
         const url = `${baseURL}/api/order`;
         try {
             const config: CustomAxiosRequestConfig = {
-                headers: {
-
-                },
-                withCredentials: true, // Куки включены
+                headers: {},
+                withCredentials: true,
             };
 
-            const response = await axios.post(url, {
-                order_id: orderData.order_id,
-                orderBooks: orderData.orderBooks,
-                amount: orderData.amount,
-            }, config);
+            const response = await axios.post(
+                url,
+                {
+                    order_id: orderData.order_id,
+                    orderBooks: orderData.orderBooks,
+                    amount: orderData.amount,
+                },
+                config
+            );
 
             return response.data;
         } catch (error) {
@@ -326,7 +331,11 @@ export const useBookService = () => {
     };
 
     // Добавление водяного знака
-    const makeWatermarking = async (formats: string, reference_number: string, order_id: string) => {
+    const makeWatermarking = async (
+        formats: string,
+        reference_number: string,
+        order_id: string
+    ) => {
         const url = `${baseURL}/api/book/watermarking`;
         try {
             const response = await axios.post(url, {
@@ -443,6 +452,6 @@ export const useBookService = () => {
         makeCartWatermarking,
         makeOrder,
         takeAllOrderedBooks,
-        makeCartCheckoutWithRetry
+        makeCartCheckoutWithRetry,
     };
 };

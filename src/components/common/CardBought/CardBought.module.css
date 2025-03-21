@@ -16,10 +16,13 @@
 .cardItem.formats-hover {
     overflow: hidden;
     position: absolute;
-    bottom: 0; /* Начальная позиция скрытого блока */
+    bottom: 0;
+    /* Начальная позиция скрытого блока */
     left: 0;
-    transform: translateY(105%); /* Скрываем блок за пределами контейнера */
-    transition: transform 0.3s ease; /* Плавный переход трансформации */
+    transform: translateY(105%);
+    /* Скрываем блок за пределами контейнера */
+    transition: transform 0.3s ease;
+    /* Плавный переход трансформации */
 }
 
 .formats-hover:hover {
@@ -47,7 +50,8 @@
 }
 
 .imageContainer.lazyload {
-    background-color: #ccc; /* Цвет фона, который будет виден, пока изображение не загружено */
+    background-color: #ccc;
+    /* Цвет фона, который будет виден, пока изображение не загружено */
     background-size: cover;
     background-position: center;
 }
@@ -65,7 +69,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-clamp: 1;
-    -webkit-line-clamp: 1; /* Ограничивает количество строк до 1 */
+    -webkit-line-clamp: 1;
+    /* Ограничивает количество строк до 1 */
 }
 
 .authors {
@@ -120,4 +125,8 @@
 .bookLink:hover {
     color: white;
     background-color: var(--red);
+}
+
+.cardDisabled {
+    background-color: rgba(0, 0, 0, 0.3);
 }
