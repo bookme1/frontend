@@ -1,6 +1,6 @@
-import Lottie from 'lottie-react';
 import { useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -15,6 +15,8 @@ import {
     useGetCartQuantityQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 const BookItem = ({
     isSwiper,
@@ -82,9 +84,13 @@ const BookItem = ({
                 key={book.id}
                 className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
             >
-                            <div className={isLoading ? styles.loading : styles.visuallyHidden}>
-                <Lottie animationData={loaderData} loop={true} />
-            </div>
+                <div
+                    className={
+                        isLoading ? styles.loading : styles.visuallyHidden
+                    }
+                >
+                    <Lottie animationData={loaderData} loop={true} />
+                </div>
                 {isPlusVisible && (
                     <button
                         onClick={() => {
