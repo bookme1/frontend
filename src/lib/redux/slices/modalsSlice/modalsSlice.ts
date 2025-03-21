@@ -49,7 +49,7 @@ const modalsSlice = createSlice({
         },
 
         closeAllModals: (state) => {
-            console.log('closeAllModals');
+
 
             Object.keys(state.modals).forEach(modalName => {
                 state.modals[modalName].isOpen = false;

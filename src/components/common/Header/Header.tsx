@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ContentLoader from 'react-content-loader';
 
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -125,14 +126,53 @@ const Header = ({
         type: BookType.Fav,
     });
 
-    if (!userData && isGetCartQuery) {
-        // addLogEntry({
-        //     source: 'Header.tsx useGetCartQuery()',
-        //     message: `'Error: ${getCartQueryError}`,
-        //     context: '',
-        //     code: 0,
-        // });
-        // 7к логов с ним, надо чекнуть ошибку. Постоянно кидает
+    if (userData && getCartQueryError) {
+        let mess = '';
+
+        if ((getCartQueryError as FetchBaseQueryError).status) {
+            const error = getCartQueryError as FetchBaseQueryError;
+
+            if (
+                'data' in error &&
+                typeof error.data === 'object' &&
+                error.data !== null &&
+                'message' in error.data
+            ) {
+                mess = (error.data as { message: string }).message;
+            }
+
+            const errorCode =
+                typeof error.status === 'string' ? 0 : error.status;
+
+            addLogEntry({
+                source: 'Header.tsx useGetCartQuery()',
+                message: `Error: ${error.status} | ${mess}`,
+                context: '',
+                code: errorCode,
+            });
+        } else if (
+            (getCartQueryError as { data: { message: string }; status: number })
+                .status
+        ) {
+            const error = getCartQueryError as {
+                data: { message: string };
+                status: number;
+            };
+
+            addLogEntry({
+                source: 'Header.tsx useGetCartQuery()',
+                message: `Error: ${error.status} | ${error.data.message}`,
+                context: '',
+                code: error.status,
+            });
+        } else {
+            addLogEntry({
+                source: 'Header.tsx useGetCartQuery()',
+                message: 'Unknown error format or missing details',
+                context: '',
+                code: 0,
+            });
+        }
     }
 
     useEffect(() => {

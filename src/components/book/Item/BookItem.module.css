@@ -1,8 +1,6 @@
 .img {
     position: relative !important;
     left: 0 !important;
-    /* width: 120px;
-    height: 150px; */
     object-fit: cover;
     background-position: center;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
@@ -11,10 +9,12 @@
 
 .swiper {
     height: 288px;
+    position: relative;
 }
 
 .notSwiper {
     width: 230px;
+    position: relative;
 }
 
 .item {
@@ -135,17 +135,19 @@
     }
 
     .img {
-        height: 288px;
-        width: 100%;
+        /* height: 215px; */
+        width: 230px;
         border-radius: 10px 10px 0 0;
     }
 
     .wrapper {
         padding: 0 12px 12px;
+        position: relative;
     }
 
     .item.swiper {
-        height: 450px;
+        height: 520px;
+        position: relative;
     }
 
     .item {
@@ -154,10 +156,12 @@
 
     .swiper {
         height: auto;
+        position: relative;
     }
 
     .notSwiper {
         width: 230px;
+        position: relative;
     }
 }
 
@@ -167,9 +171,10 @@
     }
 
     .notSwiper {
-        max-height: 450px;
+        /* max-height: 450px; */
         width: 100%;
         max-width: 215px;
+        position: relative;
     }
 }
 
@@ -185,6 +190,15 @@
     border-radius: 10px;
 }
 
+.added {
+    background-color: green;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+}
+
 .loading {
     position: absolute;
     top: 0;
@@ -197,7 +211,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: background-color 0.2s ease-in-out;
 }
 

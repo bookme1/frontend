@@ -10,6 +10,7 @@ interface BookListProps {
     user: IUser | undefined | null;
     genre: string;
     updateURL: (updates: { [key: string]: string | undefined }) => void;
+
 }
 
 const BookList: React.FC<BookListProps> = ({
@@ -18,6 +19,7 @@ const BookList: React.FC<BookListProps> = ({
     handleOpenModal,
     genre,
     updateURL,
+
 }) => {
     const handleClearGenreFilter = () => {
         updateURL({
@@ -49,6 +51,7 @@ const BookList: React.FC<BookListProps> = ({
                                 handleOpenModal={handleOpenModal}
                                 user={user}
                                 isSwiper={false}
+                             
                             />
                         );
                     })}
