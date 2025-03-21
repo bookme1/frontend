@@ -197,6 +197,7 @@
 .price{
     font-size: 20px;
     font-weight: 700;
+}
 
 }
 
@@ -212,7 +213,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: background-color 0.2s ease-in-out;
 }
 
