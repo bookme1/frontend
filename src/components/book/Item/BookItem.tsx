@@ -1,6 +1,6 @@
-import Lottie from 'lottie-react';
 import { useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,6 +16,8 @@ import {
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 const BookItem = ({
     isSwiper,
     book,
@@ -24,8 +26,8 @@ const BookItem = ({
     handleAddToBooksetList,
     user,
 }: any) => {
-    const [bookAdded, setBookAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [bookAdded, setBookAdded] = useState(false);
     const [addCard] = useAddCartMutation();
 
     const [notification, setNotification] = useState<NotificationState>({
@@ -78,13 +80,17 @@ const BookItem = ({
 
     return (
         <>
-        <li
-            key={book.id}
-            className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
-        >
-            <div className={isLoading ? styles.loading : styles.visuallyHidden}>
-                <Lottie animationData={loaderData} loop={true} />
-            </div>
+            <li
+                key={book.id}
+                className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
+            >
+                <div
+                    className={
+                        isLoading ? styles.loading : styles.visuallyHidden
+                    }
+                >
+                    <Lottie animationData={loaderData} loop={true} />
+                </div>
                 {isPlusVisible && (
                     <button
                         onClick={() => {
@@ -96,54 +102,55 @@ const BookItem = ({
                         Add to bookset
                     </button>
                 )}
-            <Link
-                href={`/book/${book.id}`}
-                className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
-                onClick={() => setIsLoading(true)}
-            >
-                <Image
-                    src={book.url}
-                    alt={book.title}
-                    width={230}
-                    height={288}
-                    className={`${styles.img}`}
-                    loading="lazy"
-                    style={{
-                        objectFit: 'cover',
-                    }}
-                />
-            </Link>
-              <div
-                  className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
-              >
-                  <div className={styles.information}>
-                      <p className={styles.title}>{book.title}</p>
-                      <p className={styles.author}>
-                          {book.author || 'Немає автора'}
-                      </p>
-                  </div>
-                  {notification.isVisible && (
-                      <Notify
-                          text={notification.text}
-                          duration={5}
-                          type={notification.type}
-                      />
-                  )}
-                  <div className={styles.functionality}>
-                      <span className={styles.price}>{book.price} ₴</span>
-                      <div className={styles.button}>
-                          <FavoriteBtn book={book} />
-                          <button
-                              aria-label="Корзина"
-                              className={styles.basket}
-                              onClick={e => {
-                                  handleAddToOrder();
-                              }}
-                          >
-                              <Icon name="basket" size={24} color="#fff" />
-                          </button>
-                      </div>
-                  </div>
+                <Link
+                    href={`/book/${book.id}`}
+                    className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
+                    onClick={() => setIsLoading(true)}
+                >
+                    <Image
+                        src={book.url}
+                        alt={book.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className={`${styles.img}`}
+                        priority={true}
+                        style={{
+                            objectFit: 'cover',
+                        }}
+                    />
+                </Link>
+                <div
+                    className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
+                >
+                    <div className={styles.information}>
+                        <p className={styles.title}>{book.title}</p>
+                        <p className={styles.author}>
+                            {book.author || 'Немає автора'}
+                        </p>
+                    </div>
+                    {notification.isVisible && (
+                        <Notify
+                            text={notification.text}
+                            duration={5}
+                            type={notification.type}
+                        />
+                    )}
+                    <div className={styles.functionality}>
+                        <span className={styles.price}>{book.price} ₴</span>
+                        <div className={styles.button}>
+                            <FavoriteBtn book={book} />
+                            <button
+                                aria-label="Корзина"
+                                className={styles.basket}
+                                onClick={e => {
+                                    handleAddToOrder();
+                                }}
+                            >
+                                <Icon name="basket" size={24} color="#fff" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
         </>
     );
