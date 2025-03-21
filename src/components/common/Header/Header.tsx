@@ -126,12 +126,13 @@ const Header = ({
     });
 
     if (!userData && isGetCartQuery) {
-        addLogEntry({
-            source: 'Header.tsx useGetCartQuery()',
-            message: `'Error: ${getCartQueryError}`,
-            context: '',
-            code: 0,
-        });
+        // addLogEntry({
+        //     source: 'Header.tsx useGetCartQuery()',
+        //     message: `'Error: ${getCartQueryError}`,
+        //     context: '',
+        //     code: 0,
+        // });
+        // 7к логов с ним, надо чекнуть ошибку. Постоянно кидает
     }
 
     useEffect(() => {

@@ -16,6 +16,7 @@ const CardBought = ({
     pdfLink: string | undefined;
     mobiLink: string | undefined;
 }) => {
+    const isActive = epubLink || pdfLink || mobiLink;
     let initialBook;
     if (!book)
         initialBook = { title: '1', url: '1', price: 0, author: '1', id: '1' };
@@ -25,7 +26,9 @@ const CardBought = ({
 
     return (
         <>
-            <li className={styles.cardItem}>
+            <li
+                className={`${styles.cardItem} ${!isActive && styles.cardDisabled}`}
+            >
                 <div
                     className={`${styles.lazyload} ${styles.imageContainer}`}
                     style={{ ['--background-image' as string]: `url(${url})` }}
@@ -42,7 +45,12 @@ const CardBought = ({
                         </Link>
                     </p>
                     <p className={styles.authors}>{author}</p>
-                    <p className={styles.price}>Скачати</p>
+                    {isActive && <p className={styles.price}>Скачати</p>}
+                    {!isActive && (
+                        <p className={styles.price}>
+                            Книга генерується. Будь ласка, зачекайте...
+                        </p>
+                    )}
                     <div className={styles.bottomContainer}>
                         <div className={styles.boxStyles}>
                             {mobiLink && (
