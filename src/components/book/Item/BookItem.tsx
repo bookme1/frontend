@@ -1,9 +1,11 @@
+import Lottie from 'lottie-react';
 import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 
 import styles from './BookItem.module.css';
+import loaderData from './loader.json';
 import FavoriteBtn from '@/components/Favorite/FavoriteBtn';
 import Notify from '@/components/Notify/Notify';
 import { NotificationState } from '@/components/Notify/NotifyType';
@@ -22,6 +24,7 @@ const BookItem = ({
     handleAddToBooksetList,
     user,
 }: any) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [bookAdded, setBookAdded] = useState(false);
     const [addCard] = useAddCartMutation();
 
@@ -79,6 +82,9 @@ const BookItem = ({
                 key={book.id}
                 className={`${styles.item} ${isSwiper ? styles.swiper : styles.notSwiper}`}
             >
+                            <div className={isLoading ? styles.loading : styles.visuallyHidden}>
+                <Lottie animationData={loaderData} loop={true} />
+            </div>
                 {isPlusVisible && (
                     <button
                         onClick={() => {
@@ -93,6 +99,7 @@ const BookItem = ({
                 <Link
                     href={`/book/${book.id}`}
                     className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
+                    onClick={() => setIsLoading(true)}
                 >
                     <Image
                         src={book.url}

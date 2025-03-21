@@ -1,9 +1,18 @@
-// particlesAlgorithm.ts
-const colors: string[] = ['#ffc000', '#ff3b3b', '#ff8400'];
-const heartColor: string = '#ff0000';
-const hearts: number = 15;
+// particles.ts
+type Particle = {
+    x: number;
+    y: number;
+    radius: number;
+    color: string;
+    rotation: number;
+    speed: number;
+    friction: number;
+    opacity: number;
+    yVel: number;
+    gravity: number;
+};
 
-interface Particle {
+type Heart = {
     x: number;
     y: number;
     size: number;
@@ -14,58 +23,108 @@ interface Particle {
     opacity: number;
     yVel: number;
     gravity: number;
-}
+};
+
+const colors = ['#ffc000', '#ff3b3b', '#ff8400'];
+const heartColor = '#ff0000';
+const bubbles = 17;
+const hearts = 8;
 
 export const explode = (x: number, y: number): void => {
-    let particles: Particle[] = [];
-    let ratio: number = window.devicePixelRatio;
-    let c: HTMLCanvasElement = document.createElement('canvas');
-    let ctx = c.getContext('2d');
+    const ratio = window.devicePixelRatio;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-    if (!ctx) return; // Проверка на случай, если контекст не поддерживается
+    if (!ctx) return;
 
-    c.style.position = 'absolute';
-    c.style.left = `${x - 100}px`;
-    c.style.top = `${y - 100}px`;
-    c.style.pointerEvents = 'none';
-    c.style.width = '200px';
-    c.style.height = '200px';
-    c.style.zIndex = '100';
-    c.width = 200 * ratio;
-    c.height = 200 * ratio;
-    document.body.appendChild(c);
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${x - 100}px`;
+    canvas.style.top = `${y - 100}px`;
+    canvas.style.pointerEvents = 'none';
+    canvas.style.width = '200px';
+    canvas.style.height = '200px';
+    canvas.style.zIndex = '100';
 
-    // Генерация сердечек
-    for (let i = 0; i < hearts; i++) {
+    canvas.width = 200 * ratio;
+    canvas.height = 200 * ratio;
+
+    document.body.appendChild(canvas);
+
+    const particles: Particle[] = [];
+    const heartsArray: Heart[] = [];
+
+    for (let i = 0; i < bubbles; i++) {
         particles.push({
-            x: c.width / 2,
-            y: c.height / 2,
-            size: r(20, 30),
-            color: heartColor,
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: r(20, 30),
+            color: colors[Math.floor(Math.random() * colors.length)],
             rotation: r(0, 360, true),
-            speed: r(6, 10),
+            speed: r(8, 12),
             friction: 0.9,
             opacity: r(0, 0.5, true),
             yVel: 0,
-            gravity: 0.02,
+            gravity: 0.1,
         });
     }
 
-    render(particles, ctx, c.width, c.height);
-    setTimeout(() => document.body.removeChild(c), 1000);
+    for (let i = 0; i < hearts; i++) {
+        heartsArray.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: r(20, 30),
+            color: heartColor,
+            rotation: r(0, 360, true),
+            speed: r(8, 12),
+            friction: 0.9,
+            opacity: r(0, 0.5, true),
+            yVel: 0,
+            gravity: 0.1,
+        });
+    }
+
+    render(particles, heartsArray, ctx, canvas.width, canvas.height);
+
+    setTimeout(() => {
+        if (document.body.contains(canvas)) {
+            document.body.removeChild(canvas);
+        }
+    }, 1000);
 };
 
 const render = (
     particles: Particle[],
+    heartsArray: Heart[],
     ctx: CanvasRenderingContext2D,
     width: number,
     height: number
 ): void => {
-    requestAnimationFrame(() => render(particles, ctx, width, height));
+    requestAnimationFrame(() =>
+        render(particles, heartsArray, ctx, width, height)
+    );
     ctx.clearRect(0, 0, width, height);
 
-    // Рендеринг сердечек
-    particles.forEach((h: Particle) => {
+    // Render particles
+    particles.forEach(p => {
+        p.x += p.speed * Math.cos((p.rotation * Math.PI) / 180);
+        p.y += p.speed * Math.sin((p.rotation * Math.PI) / 180);
+        p.opacity -= 0.01;
+        p.speed *= p.friction;
+        p.radius *= p.friction;
+        p.yVel += p.gravity;
+        p.y += p.yVel;
+
+        if (p.opacity < 0 || p.radius < 0) return;
+
+        ctx.beginPath();
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fill();
+    });
+
+    // Render hearts
+    heartsArray.forEach(h => {
         h.x += h.speed * Math.cos((h.rotation * Math.PI) / 180);
         h.y += h.speed * Math.sin((h.rotation * Math.PI) / 180);
         h.opacity -= 0.01;
@@ -102,5 +161,5 @@ const drawHeart = (
     ctx.fill();
 };
 
-const r = (a: number, b: number, c?: boolean): number =>
-    parseFloat((Math.random() * (a - b) + b).toFixed(c ? 0 : 2));
+const r = (a: number, b: number, float = false): number =>
+    parseFloat((Math.random() * (b - a) + a).toFixed(float ? 1 : 0));
