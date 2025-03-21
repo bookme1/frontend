@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
@@ -9,28 +9,41 @@ import { RangePriceProps } from './rangePrice.types';
 
 const RangePrice: React.FC<RangePriceProps> = ({ filtersData, updateURL }) => {
     const searchParams = useSearchParams();
-    const minPriceRef = useRef<string>(
+
+    // Используем useState для хранения значений цен
+    const [minPrice, setMinPrice] = useState<string>(
         searchParams?.get('minPrice') || filtersData.minPrice.toString()
     );
-    const maxPriceRef = useRef<string>(
+    const [maxPrice, setMaxPrice] = useState<string>(
         searchParams?.get('maxPrice') || filtersData.maxPrice.toString()
     );
 
+    // Функция для обработки изменения в полях ввода
+    const handleMinPriceChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setMinPrice(event.target.value);
+    };
+
+    const handleMaxPriceChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setMaxPrice(event.target.value);
+    };
+
+    // Функция отправки формы
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const minPrice = (
-            document.getElementById('minPrice') as HTMLInputElement
-        ).value;
-        const maxPrice = (
-            document.getElementById('maxPrice') as HTMLInputElement
-        ).value;
-        minPriceRef.current = minPrice;
-        maxPriceRef.current = maxPrice;
         updateURL({
-            minPrice: minPriceRef.current,
-            maxPrice: maxPriceRef.current,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
         });
     };
+
+    useEffect(() => {
+        setMinPrice(filtersData.minPrice?.toString() || '0');
+        setMaxPrice(filtersData.maxPrice?.toString() || '0');
+    }, [filtersData.minPrice, filtersData.maxPrice]);
 
     return (
         <div className={styles.range__wrapper}>
@@ -40,13 +53,15 @@ const RangePrice: React.FC<RangePriceProps> = ({ filtersData, updateURL }) => {
                     <input
                         id="minPrice"
                         type="text"
-                        defaultValue={minPriceRef.current}
+                        value={minPrice} // Используем value, чтобы значение инпута зависело от состояния
+                        onChange={handleMinPriceChange} // Обрабатываем изменение для minPrice
                         placeholder={filtersData.minPrice.toString()}
                     />
                     <input
                         id="maxPrice"
                         type="text"
-                        defaultValue={maxPriceRef.current}
+                        value={maxPrice} // То же самое для maxPrice
+                        onChange={handleMaxPriceChange} // Обрабатываем изменение для maxPrice
                         placeholder={filtersData.maxPrice.toString()}
                     />
                 </label>
