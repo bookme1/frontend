@@ -10,6 +10,7 @@
 .imgContainer {
     height: 333px;
     background-color: var(--gray_border);
+    position: relative;
 }
 
 .swiper {
@@ -148,6 +149,7 @@
     .imgContainer {
         height: 333px;
         background-color: var(--gray_border);
+        position: relative;
     }
 
     .wrapper {
