@@ -16,6 +16,7 @@ const Menu: React.FC<MenuProps> = ({ onClose }) => {
     if (!data?.length) data = [];
 
     const [submenuData, setSubmenuData] = useState<IGenre[]>([]);
+    const [isShevronVisible, setIsChevronVisible] = useState(false);
 
     const setActiveMenuItem = (index: number) => {
         const menuItems = document.querySelectorAll(
@@ -103,14 +104,17 @@ const Menu: React.FC<MenuProps> = ({ onClose }) => {
                 <>
                     <ul className={classes.menuColumn}>
                         {data.map((item, index) => (
-                            <MenuItem
-                                key={index}
-                                item={item}
-                                id={`menu-item-${index}`}
-                                onHover={() =>
-                                    handleMouseEnter(item.children, index)
-                                }
-                            />
+                            <>
+                                <MenuItem
+                                    key={index}
+                                    item={item}
+                                    id={`menu-item-${index}`}
+                                    onHover={() =>
+                                        handleMouseEnter(item.children, index)
+                                    }
+                                />
+                            
+                            </>
                         ))}
                     </ul>
                     <ul className={classes.submenuColumn}>
@@ -150,6 +154,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onHover, id }) => {
             data-active-handler="menu"
         >
             {item.genre} ({item.count})
+            {item.children?.length ?<span>&gt;</span>:''}
         </li>
     );
 };
