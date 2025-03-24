@@ -18,6 +18,7 @@ import { openModal } from '@/lib/redux';
 import {
     useAddCartMutation,
     useGetCartQuantityQuery,
+    useGetCartQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
@@ -43,6 +44,10 @@ const MainInformation = ({
         useGetCartQuantityQuery({
             type: BookType.Cart,
         });
+
+    const { data: cart } = useGetCartQuery({ type: BookType.Cart });
+
+    const isInCart = cart?.some(cartItem => cartItem.id === book.id);
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -163,7 +168,11 @@ const MainInformation = ({
     const getAuthorsMarkup = (authors: string) => {
         if (authors === undefined) return;
         const authorsArr = authors.split(',');
-        return authorsArr.map(author => <li className={styles.author} key={author}>{author}</li>);
+        return authorsArr.map(author => (
+            <li className={styles.author} key={author}>
+                {author}
+            </li>
+        ));
     };
 
     const authorsMarkup = getAuthorsMarkup(book.author);
@@ -197,27 +206,31 @@ const MainInformation = ({
                                 type={notification.type}
                             />
                         )}
-                        <div className={styles.controls}>
-                            <button
-                                className={styles.toCardBtn}
-                                onClick={() => {
-                                    openModal('cart');
-                                    handleAddBook();
-                                    refetchCartQuantity();
-                                }}
-                            >
-                                <Icon name="cart" size={28} />В кошик
-                            </button>
-                            <button
-                                className={styles.toCardBtn}
-                                onClick={handleCheckout}
-                            >
-                                Купити зараз
-                            </button>
-                            <button className={styles.toFavBnt}>
-                                <FavoriteBtn book={book} />
-                            </button>
-                        </div>
+                        {isInCart ? (
+                            <div className={styles.controls}>
+                                <button
+                                    className={styles.toCardBtn}
+                                    onClick={() => {
+                                        openModal('cart');
+                                        handleAddBook();
+                                        refetchCartQuantity();
+                                    }}
+                                >
+                                    <Icon name="cart" size={28} />В кошик
+                                </button>
+                                <button
+                                    className={styles.toCardBtn}
+                                    onClick={handleCheckout}
+                                >
+                                    Купити зараз
+                                </button>
+                                <button className={styles.toFavBnt}>
+                                    <FavoriteBtn book={book} />
+                                </button>
+                            </div>
+                        ) : (
+                            <div>Ви вже купили цю книгу.</div>
+                        )}
                         <Formats
                             // setChecked={setCheckedFormats}
                             pdf={aviableFormats[0]}
