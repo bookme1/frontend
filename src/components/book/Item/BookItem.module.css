@@ -7,6 +7,11 @@
     border-radius: 2px;
 }
 
+.imgContainer {
+    height: 333px;
+    background-color: var(--gray_border);
+}
+
 .swiper {
     height: 288px;
     position: relative;
@@ -138,6 +143,11 @@
         /* height: 215px; */
         width: 230px;
         border-radius: 10px 10px 0 0;
+    }
+
+    .imgContainer {
+        height: 333px;
+        background-color: var(--gray_border);
     }
 
     .wrapper {
