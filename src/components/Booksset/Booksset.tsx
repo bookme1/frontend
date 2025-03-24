@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import style from './Booksset.module.css';
-import DragAndDrop from './test';
+
 import { IBook } from '@/app/book/[id]/page.types';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch } from '@/lib/redux';
