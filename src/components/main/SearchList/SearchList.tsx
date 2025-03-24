@@ -12,7 +12,7 @@ const SearchList = ({ books }: { books: IBook[] | undefined }) => {
     }
 
     const searchMarkup = books.map(book => (
-        <SearchItem key={book.title} title={book.title} id={book.id} />
+        <SearchItem key={book.id} title={book.title} id={book.id} />
     ));
     return (
         <div className={styles.searchListContainer}>
