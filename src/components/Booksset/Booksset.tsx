@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import style from './Booksset.module.css';
+import DragAndDrop from './test';
 import { IBook } from '@/app/book/[id]/page.types';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch } from '@/lib/redux';
@@ -14,7 +15,10 @@ import {
     useDeleteBookSetMutation,
     useGetBookSetQuery,
 } from '@/lib/redux/features/book/booksetApi';
-import { BookSetRequest } from '@/lib/redux/features/book/types';
+import {
+    BookSetRequest,
+    BookSetResponse,
+} from '@/lib/redux/features/book/types';
 
 import { GenericModal } from '../GenericModal/GenericModal';
 import BookItem from '../book/Item/BookItem';
@@ -67,6 +71,16 @@ const Booksset = ({ userID }: { userID: number }) => {
         error: getBooksetError,
         refetch,
     } = useGetBookSetQuery();
+
+    const [items, setItems] = useState<BookSetResponse[]>([]);
+
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (isSuccess && booksets) {
+            setItems(booksets);
+        }
+    }, [isSuccess, booksets]);
 
     if (isError) {
         addLogEntry({
@@ -290,14 +304,41 @@ const Booksset = ({ userID }: { userID: number }) => {
         }
     };
 
+    const handleDragStart = (index: number) => {
+        setDraggedIndex(index);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (index: number) => {
+        if (draggedIndex === null || draggedIndex === index) return;
+
+        const newItems = [...items];
+        const [movedItem] = newItems.splice(draggedIndex, 1);
+        newItems.splice(index, 0, movedItem);
+
+        setItems(newItems);
+        setDraggedIndex(null);
+    };
+
     return (
         <div className={style.container}>
             <button onClick={handleModal} className={style.createBooksetBtn}>
                 ADD NEW BOOKSET
             </button>
-            {booksets &&
-                booksets.map(sets => (
-                    <div key={sets.id} className={style.booksetContainer}>
+ 
+            {items &&
+                items.map((sets, index) => (
+                    <div
+                        key={sets.id}
+                        className={style.booksetContainer}
+                        draggable
+                        onDragStart={() => handleDragStart(index)}
+                        onDragOver={handleDragOver}
+                        onDrop={() => handleDrop(index)}
+                    >
                         <button
                             className={style.createBooksetBtn}
                             onClick={() => handleDelete(sets.id)}
@@ -314,6 +355,7 @@ const Booksset = ({ userID }: { userID: number }) => {
                         />
                     </div>
                 ))}
+
             <GenericModal modalName={'addBookset'}>
                 <div className={style.form}>
                     <div className={style.header}>
