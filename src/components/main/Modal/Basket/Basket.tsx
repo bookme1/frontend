@@ -71,9 +71,9 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                 typeof book.price === 'string'
                     ? parseFloat(book.price)
                     : book.price;
-                typeof book.price === 'string'
-                    ? parseFloat(book.price)
-                    : book.price;
+            typeof book.price === 'string'
+                ? parseFloat(book.price)
+                : book.price;
             return !isNaN(price) ? total + price : total;
         }, 0);
     }, [orderedBooks]);
@@ -199,13 +199,13 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                             <p className={styles.text}>Всього:</p>
                             <p className={styles.text}>{totalPrice} &#x20B4;</p>
                         </div>
-
-                        <button
+                        Увага! Під час тесту, оформлення замовлення через кошик
+                        не доступне! Використовуйте "купити зараз" на сторінці
+                        деталей книги
+                        {/* <button
                             className={styles.cartBtn}
                             onClick={handleCheckout}
-                        >
-                            Оформити замовлення
-                        </button>
+                        ></button> */}
                     </div>
                 </>
             )}

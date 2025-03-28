@@ -123,7 +123,7 @@ const SignIn: React.FC<SignInProps> = ({ handleModalSignUp }) => {
             <button
                 className={style.googleBtn}
                 onClick={() => {
-                    window.location.href = `${process.env.BASE_BACKEND_URL}/api/auth/signin/google`;
+                    window.location.href = `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL}/api/auth/signin/google`;
                 }}
             >
                 <Icon name="google" size="24" />

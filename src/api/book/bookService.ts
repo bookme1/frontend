@@ -352,14 +352,17 @@ export const useBookService = () => {
 
     // Доставка
     const makeDelivery = async (order_id: string) => {
+        console.log('I am delievering!');
+        console.warn('I am delievering!');
         const url = `${baseURL}/api/book/deliver`;
         try {
             const response = await axios.post(url, {
                 transactionId: order_id,
             });
-
+            console.log('Result:', response.data);
             return response.data;
         } catch (error) {
+            console.log('ERROR');
             throw error;
         }
     };

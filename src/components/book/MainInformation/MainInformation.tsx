@@ -34,8 +34,10 @@ const MainInformation = ({
     characteristics: ICharacteristics;
     isAuthorized: boolean;
 }) => {
+    console.log('BOOK', book);
     const [imageLoaded, setImageLoaded] = useState(false);
     const checkedFormats = ['pdf', 'mobi', 'epub'];
+    const formatsToWatermark: string[] = [];
     const { makeTestCheckout, makeCartCheckout, makeWatermarking, makeOrder } =
         useBookService();
 
@@ -121,7 +123,7 @@ const MainInformation = ({
         makeTestCheckout(book.price, order_id, updateNotification);
 
         const transaction_id = await makeWatermarking(
-            checkedFormats.join(','),
+            formatsToWatermark.join(','),
             book.referenceNumber,
             order_id
         );
@@ -152,18 +154,31 @@ const MainInformation = ({
         );
     };
 
-    const aviableFormats = [false, false, false];
+    const availableFormats = [false, false, false];
 
-    if (book.formatMobi) aviableFormats[1] = true;
-    if (book.formatPdf) aviableFormats[0] = true;
-    if (book.formatEpub) aviableFormats[2] = true;
+    if (book.formatMobi) {
+        availableFormats[1] = true;
+        formatsToWatermark.push('mobi');
+    }
+    if (book.formatPdf) {
+        availableFormats[0] = true;
+        formatsToWatermark.push('pdf');
+    }
+    if (book.formatEpub) {
+        availableFormats[2] = true;
+        formatsToWatermark.push('epub');
+    }
 
     const screenWidth = useWindowSize().width;
 
     const getAuthorsMarkup = (authors: string) => {
         if (authors === undefined) return;
         const authorsArr = authors.split(',');
-        return authorsArr.map(author => <li className={styles.author} key={author}>{author}</li>);
+        return authorsArr.map(author => (
+            <li className={styles.author} key={author}>
+                {author}
+            </li>
+        ));
     };
 
     const authorsMarkup = getAuthorsMarkup(book.author);
@@ -220,9 +235,9 @@ const MainInformation = ({
                         </div>
                         <Formats
                             // setChecked={setCheckedFormats}
-                            pdf={aviableFormats[0]}
-                            mobi={aviableFormats[1]}
-                            epub={aviableFormats[2]}
+                            pdf={availableFormats[0]}
+                            mobi={availableFormats[1]}
+                            epub={availableFormats[2]}
                         />
                     </div>
                     {screenWidth &&
