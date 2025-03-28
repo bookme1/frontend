@@ -62,7 +62,10 @@ const Footer = () => {
                                 {footer.first.map(text => {
                                     return (
                                         <li key={text.id}>
-                                            <Link href={text.link}>
+                                            <Link
+                                                href={text.link}
+                                                prefetch={true}
+                                            >
                                                 {text.label}
                                                 <Icon
                                                     name="arrow_right"
@@ -77,7 +80,10 @@ const Footer = () => {
                                 {footer.second.map(text => {
                                     return (
                                         <li key={text.id}>
-                                            <Link href={text.link}>
+                                            <Link
+                                                href={text.link}
+                                                prefetch={true}
+                                            >
                                                 {text.label}
                                                 <Icon
                                                     name="arrow_right"
@@ -114,7 +120,10 @@ const Footer = () => {
                         {/* <li>Attribution</li> */}
                         <li>©2023—2025 Copyright</li>
                         <li>
-                            У разі питань писати на пошту mikhail2574@gmail.com
+                            <a href="mailto:mikhail2574@gmail.com">
+                                У разі питань писати на пошту
+                                mikhail2574@gmail.com
+                            </a>
                         </li>
                     </ul>
                 </div>
