@@ -5,10 +5,7 @@ import React, { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import styles from './Verify.module.css';
-import {
-    useProveTokenMutation,
-    useSignInMutation,
-} from '@/lib/redux/features/user/userApi';
+import { useProveTokenMutation } from '@/lib/redux/features/user/userApi';
 
 const Verify = ({}: {}) => {
     const searchParams = useSearchParams();

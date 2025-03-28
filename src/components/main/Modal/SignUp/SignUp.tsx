@@ -11,6 +11,8 @@ interface SignUpProps {
 }
 
 const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
+    const baseBackendUrl = process.env.NEXT_PUBLIC_BASE_BACKEND_URL ?? '';
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -170,7 +172,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
             <button
                 className={styles.googleBtn}
                 onClick={() => {
-                    window.location.href = `${process.env.BASE_BACKEND_URL}/api/auth/signin/google`;
+                    window.location.href = `${baseBackendUrl}/api/auth/signin/google`;
                 }}
             >
                 <Icon name="google" size="24" />
