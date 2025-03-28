@@ -7,13 +7,21 @@ import { Icon } from '../Icon';
 const Footer = () => {
     const footer = {
         first: [
-            { id: 1, label: 'Акції', link: '#' },
-            { id: 2, label: 'Комплекти', link: '#' },
-            { id: 3, label: 'Магазин BookMe', link: '#' },
+            {
+                id: 1,
+                label: 'Біографії',
+                link: 'books?genre=%D0%91%D1%96%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D1%96%D1%97%20%D1%82%D0%B0%20%D0%BD%D0%B5%D1%85%D1%83%D0%B4%D0%BE%D0%B6%D0%BD%D1%8F%20%D0%BB%D1%96%D1%82%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0',
+            },
+            { id: 2, label: 'Історія', link: 'books?genre=Історія' },
+            {
+                id: 3,
+                label: 'Психологія',
+                link: 'books?genre=Психологія,%20Суспільство%20та%20соціальні%20науки',
+            },
         ],
         second: [
             { id: 1, label: 'Блог', link: 'https://t.me/bookmeua' },
-            { id: 2, label: 'Дитячі', link: 'books?genre=Детские' },
+            { id: 2, label: 'Дитячі', link: 'books?genre=Дитяча%20література' },
             {
                 id: 3,
                 label: 'Умови використання сайту',
@@ -103,9 +111,11 @@ const Footer = () => {
             <section className={styles.bottomSection}>
                 <div>
                     <ul>
-                        <li>Attribution</li>
-                        <li>©2023— Copyright</li>
-                        <li>Privacy</li>
+                        {/* <li>Attribution</li> */}
+                        <li>©2023—2025 Copyright</li>
+                        <li>
+                            У разі питань писати на пошту mikhail2574@gmail.com
+                        </li>
                     </ul>
                 </div>
             </section>

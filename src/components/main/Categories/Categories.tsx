@@ -52,16 +52,19 @@ const Categories = () => {
                         <h2 className={styles.cardDescription}>Менеджмент</h2>
                     </a>
                 </SwiperSlide>
-                <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
+                {/* <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
                     <a href="/books?genre=Лідерство" className={styles.card}>
                         <div
                             className={`${styles.iconContainer} ${styles.leader}`}
                         ></div>
                         <h2 className={styles.cardDescription}>Лідерство</h2>
                     </a>
-                </SwiperSlide>
+                </SwiperSlide> */}
                 <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
-                    <a href="/books?genre=Саморозвиток" className={styles.card}>
+                    <a
+                        href="/books?genre=Розум,%20тіло,%20дух"
+                        className={styles.card}
+                    >
                         <div
                             className={`${styles.iconContainer} ${styles.brain}`}
                         ></div>
@@ -85,7 +88,10 @@ const Categories = () => {
                     </a>
                 </SwiperSlide>
                 <SwiperSlide style={{ width: '200px', marginRight: '0' }}>
-                    <a href="/books?genre=Дитячі" className={styles.card}>
+                    <a
+                        href="/books?genre=Дитяча%20література"
+                        className={styles.card}
+                    >
                         <div
                             className={`${styles.iconContainer} ${styles.kid}`}
                         ></div>
