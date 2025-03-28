@@ -1,19 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import styles from './control.module.css';
+import { BooksData, IBook } from '@/app/book/[id]/page.types';
 import BookList from '@/components/BookList/BookList';
 import { GenericModal } from '@/components/GenericModal/GenericModal';
 // import { Loading } from '@/components/SERVICE_PAGES/Loading';
 import { Icon } from '@/components/common/Icon';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
 import { openModal, useDispatch, useSelector } from '@/lib/redux';
-import { useGetFilterBooksQuery } from '@/lib/redux/features/book/bookApi';
+import {
+    useGetFilterBooksQuery,
+    useGetFiltersQuery,
+} from '@/lib/redux/features/book/bookApi';
 import { FiltersResponse } from '@/lib/redux/features/book/types';
 // import { addToOrders } from '@/lib/redux/features/order/orderSlice';
 import { IUser } from '@/lib/redux/features/user/types';
@@ -63,6 +67,43 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
         genre,
         page,
     });
+
+    const {
+        data: filters,
+        error: filtersDataError,
+        isLoading: filtersDataIsError,
+        refetch: fetchFilters,
+    } = useGetFiltersQuery('');
+
+    const forFilters = useMemo(() => {
+        return {
+            authors: authors ? [authors] : [],
+            minPrice: minPrice ? parseInt(minPrice) : undefined,
+            maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
+            publishers: publishers ? [publishers] : [],
+            languages: languages ? [languages] : [],
+            genres: genre ? [genre] : [],
+        };
+    }, [authors, minPrice, maxPrice, publishers, languages, genre]);
+
+    const filteredData = getFilteredData(filterBooks?.books);
+
+    const [forFiltersData, setForFiltersData] = useState<
+        FilteredData | undefined | null
+    >(undefined);
+
+    useEffect(() => {
+        const hasDataInFilters = Object.values(forFilters).some(value => {
+            return Array.isArray(value) && value.length > 0;
+        });
+
+        const newData = !hasDataInFilters ? filters : filteredData;
+
+        // Обновляем состояние только если оно изменилось
+        if (JSON.stringify(newData) !== JSON.stringify(forFiltersData)) {
+            setForFiltersData(newData);
+        }
+    }, [filteredData, filters, forFilters, forFiltersData]);
 
     const updateURL = (updates: { [key: string]: string | undefined }) => {
         if (searchParams) {
@@ -252,7 +293,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                                 className={`${styles.filter} ${styles.mobile}`}
                             >
                                 <Filter
-                                    filtersData={filtersData}
+                                    filtersData={forFiltersData}
                                     updateURL={updateURL}
                                 />
                             </div>
@@ -263,7 +304,7 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
                             {!isMobile && filtersData && (
                                 <div className={styles.computer__filter}>
                                     <Filter
-                                        filtersData={filtersData}
+                                        filtersData={forFiltersData}
                                         updateURL={updateURL}
                                     />
                                 </div>
@@ -439,3 +480,103 @@ const Controls: React.FC<ControlsProps> = ({ filtersData, user }) => {
 };
 
 export default Controls;
+
+interface FilteredData {
+    authors: string[];
+    genres: string[];
+    languages: string[];
+    minPrice: number;
+    maxPrice: number;
+    publishers: string[];
+}
+
+const getFilteredData = (filterBooks: IBook[] | undefined): FilteredData => {
+    const authors = Array.from(new Set(filterBooks?.map(book => book.author)));
+    const genres = Array.from(
+        new Set(filterBooks?.map(book => book.genre))
+    ).filter((genre): genre is string => genre !== undefined);
+    const languages = Array.from(new Set(filterBooks?.map(book => book.lang)));
+    const publishers = Array.from(new Set(filterBooks?.map(book => book.pub)));
+    const prices = filterBooks
+        ?.map(book => book.price)
+        .filter(price => price !== undefined);
+
+    return {
+        authors,
+        genres,
+        languages,
+        minPrice: prices?.length ? Math.min(...prices) : 0,
+        maxPrice: prices?.length ? Math.max(...prices) : 0,
+        publishers,
+    };
+};
+
+///// ЭТО РАБОЧАЯ УНИВЕРСАЛЬНАЯ ФУНКЙИЯ ДЛЯ ФИТРАЦИИ ИЗМЕНЕНИЯ ДОСТУПНЫХ ПАРАМЕТРОВ ФИЛЬТРАЦИИ
+// const getFilteredData = (
+//     filterBooks: BooksData | undefined,
+//     filters: {
+//         authors?: string[];
+//         genres?: string[];
+//         languages?: string[];
+//         minPrice?: number;
+//         maxPrice?: number;
+//         publishers?: string[];
+//     }
+// ): FilteredData => {
+//     const filteredBooks =
+//         filterBooks?.books.filter(book => {
+//             return (
+//                 (!filters.authors?.length ||
+//                     filters.authors.includes(book.author)) &&
+//                 (!filters.genres?.length ||
+//                     filters.genres.some(genre =>
+//                         book.genre
+//                             ?.split('/')
+//                             .map(g => g.trim())
+//                             .includes(genre)
+//                     )) &&
+//                 (!filters.languages?.length ||
+//                     filters.languages.includes(book.lang)) &&
+//                 (!filters.publishers?.length ||
+//                     filters.publishers.includes(book.pub)) &&
+//                 (filters.minPrice === undefined ||
+//                     book.price >= filters.minPrice) &&
+//                 (filters.maxPrice === undefined ||
+//                     book.price <= filters.maxPrice)
+//             );
+//         }) || [];
+
+//     const prices = filteredBooks.map(book => {
+//         const price = Number(book.price);
+//         return !isNaN(price) ? price : 0;
+//     });
+//     if (prices.length === 0) {
+//         return {
+//             authors: [],
+//             genres: [],
+//             languages: [],
+//             publishers: [],
+//             minPrice: 0,
+//             maxPrice: 0,
+//         };
+//     }
+
+//     const minPrice = Math.min(...prices);
+//     const maxPrice = Math.max(...prices);
+//     return {
+//         authors: Array.from(
+//             new Set(filteredBooks.map(book => book.author).filter(Boolean))
+//         ) as string[],
+//         genres: Array.from(
+//             new Set(filteredBooks.map(book => book.genre).filter(Boolean))
+//         ) as string[],
+//         languages: Array.from(
+//             new Set(filteredBooks.map(book => book.lang).filter(Boolean))
+//         ) as string[],
+//         publishers: Array.from(
+//             new Set(filteredBooks.map(book => book.pub).filter(Boolean))
+//         ) as string[],
+//         minPrice,
+//         maxPrice,
+//     };
+// };

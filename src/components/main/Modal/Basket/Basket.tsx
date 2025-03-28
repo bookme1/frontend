@@ -49,8 +49,8 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
 
     let cartQuantity;
 
-    if (!isLoading && Array.isArray(cart?.data)) {
-        cartQuantity = cart?.data.length;
+    if (!isLoading && Array.isArray(cart)) {
+        cartQuantity = cart?.length;
     }
 
     const {

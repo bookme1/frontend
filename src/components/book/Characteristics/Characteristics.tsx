@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './Characteristics.module.css';
 import { ICharacteristics } from './Characteristics.types';
@@ -11,6 +11,16 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
 }) => {
     const [isFull, setIsFull] = useState(false);
     const [isDescFull, setIsDescFull] = useState(false);
+
+    const [isButtonVisible, setIsButtonVisible] = useState(false);
+    const descRef = useRef<HTMLParagraphElement>(null);
+
+    useEffect(() => {
+        if (descRef.current) {
+            setIsButtonVisible(descRef.current.scrollHeight > 95);
+        }
+    }, [characteristics?.description]);
+
     useEffect(() => {
         if (isDescFull == true) {
             document.querySelector('.description')?.classList.add('full');
@@ -84,25 +94,27 @@ const Characteristics: React.FC<{ characteristics: ICharacteristics }> = ({
                     Цитати з книгиz
                 </button>
             </div> */}
-            <p
-                className={`${styles.description} ${styles.desc}`}
+     <p
+                ref={descRef}
+                className={`${styles.description} ${styles.desc} ${isDescFull ? styles.full : ''}`}
                 dangerouslySetInnerHTML={{
                     __html: characteristics?.description || '',
                 }}
+                style={{ maxHeight: isDescFull ? 'none' : '95px', overflow: 'hidden' }}
             ></p>
-            <button
-                className={styles.fullButton}
-                onClick={() => {
-                    setIsDescFull(prev => !prev);
-                }}
-            >
-                {isDescFull ? 'Сховати ' : 'Показати '}
-                повний опис
-                <Icon
-                    className={`${styles.full_icon} ${styles.icon}`}
-                    name="arrow_down"
-                />
-            </button>
+            {isButtonVisible && (
+                <button
+                    className={styles.fullButton}
+                    onClick={() => setIsDescFull(prev => !prev)}
+                >
+                    {isDescFull ? 'Сховати ' : 'Показати '}
+                    повний опис
+                    <Icon
+                        className={`${styles.full_icon} ${styles.icon}`}
+                        name="arrow_down"
+                    />
+                </button>
+            )}
         </div>
     );
 };

@@ -78,6 +78,10 @@ const BookItem = ({
             type: BookType.Cart,
         });
 
+    const imageLoader = () => {
+        return 'loading...';
+    };
+
     return (
         <>
             <li
@@ -107,17 +111,20 @@ const BookItem = ({
                     className={` ${isSwiper ? styles.swiper : styles.notSwiper}`}
                     onClick={() => setIsLoading(true)}
                 >
-                    <Image
-                        src={book.url}
-                        alt={book.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className={`${styles.img}`}
-                        priority={true}
-                        style={{
-                            objectFit: 'cover',
-                        }}
-                    />
+                    <div className={styles.imgContainer}>
+                        <Image
+                            src={book.url}
+                            alt={book.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className={`${styles.img}`}
+                            priority={true}
+                            style={{
+                                objectFit: 'contain',
+                            }}
+                            blurDataURL='blur'
+                        />
+                    </div>
                 </Link>
                 <div
                     className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}

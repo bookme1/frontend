@@ -114,15 +114,13 @@ export const bookApi = createApi({
         // #################
         // CART INTERACTION
         // #################
-        getCart: builder.query<
-            { data: IBook[] },
-            { type: BookType.Cart }>({
-                query: ({ type }) => ({
-                    url: `api/user/books/${type}`,
-                    method: 'GET',
-                    credentials: 'include',
-                }),
+        getCart: builder.query<IBook[], { type: BookType.Cart }>({
+            query: ({ type }) => ({
+                url: `api/user/books/${type}`,
+                method: 'GET',
+                credentials: 'include',
             }),
+        }),
 
         addCart: builder.mutation<IUser, userBookDTO>({
             // Add book to favorites

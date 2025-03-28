@@ -44,8 +44,8 @@ const Burger: React.FC<BurgerProps> = ({
     let cartQuantity;
     let favQuantity;
 
-    if (!isGetCartQueryLoading && Array.isArray(carts?.data)) {
-        cartQuantity = carts?.data.length;
+    if (!isGetCartQueryLoading && Array.isArray(carts)) {
+        cartQuantity = carts?.length;
     }
 
     if (!isGetFavQueryLoading && Array.isArray(favs)) {
