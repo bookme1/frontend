@@ -2,15 +2,13 @@ import { addLogEntry } from './Logs/fetchAddLog';
 import { BookSetRequest } from '@/lib/redux/features/book/types';
 
 export async function fetchBooksets(): Promise<BookSetRequest[] | null> {
+    const baseBackendUrl = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
     try {
-        let response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL}/api/bookset`,
-            {
-                method: 'GET',
-                cache: 'no-cache',
-            }
-        );
-      
+        let response = await fetch(`${baseBackendUrl}/api/bookset`, {
+            method: 'GET',
+            cache: 'no-cache',
+        });
+
         if (response.ok) {
             return (response = await response.json());
         }
