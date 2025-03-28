@@ -200,8 +200,8 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                             <p className={styles.text}>{totalPrice} &#x20B4;</p>
                         </div>
                         Увага! Під час тесту, оформлення замовлення через кошик
-                        не доступне! Використовуйте "купити зараз" на сторінці
-                        деталей книги
+                        не доступне! Використовуйте &quot;купити зараз&quot; на
+                        сторінці деталей книги
                         {/* <button
                             className={styles.cartBtn}
                             onClick={handleCheckout}
