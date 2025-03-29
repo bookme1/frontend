@@ -276,140 +276,148 @@ const Header = ({
             ) : (
                 <header className={styles.headerContainer}>
                     <div className={`wrapper ${styles.headerWrapper}`}>
-                        <div className={styles.logocantainer}>
-                            <Link
-                                href="/"
-                                aria-label="Перейти на головну сторінку"
-                            >
-                                <Icon
-                                    className={styles.logo}
-                                    name="logo_black"
-                                    width={176}
-                                    height={40}
-                                />
-                            </Link>
-                        </div>
-                        <div className={styles.fromDesctop}>
-                            <button
-                                type="submit"
-                                onClick={handleModalCatalog}
-                                className={`z-10 ${styles.catalogBtn}`}
-                            >
-                                Категорії
-                            </button>
-                        </div>
-                        <div className={styles.flexRow}>
-                            <form
-                                className={styles.searchForm}
-                                onSubmit={e => {
-                                    handleSubmitSearch(e);
-                                }}
-                            >
-                                <div>
-                                    <input
-                                        className={styles.searchInput}
-                                        placeholder="Знайти"
-                                        onChange={e => {
-                                            handleSearch(e);
-                                        }}
-                                        ref={searchVal}
-                                    />
-                                    <button
-                                        className={styles.searchButton}
-                                        type="submit"
-                                        aria-label="Пошук"
-                                    >
-                                        <Icon
-                                            name="search"
-                                            size={24}
-                                            className={styles.icon}
-                                        />
-                                    </button>
-                                </div>
-                                {isSearchListOpen && (
-                                    <SearchList books={books} />
-                                )}
-                            </form>
-                            <div
-                                style={{ width: 50 }}
-                                className={styles.toTablet}
-                            >
-                                <button
-                                    className={styles.burgerBtn}
-                                    onClick={handleBurgerButton}
+                        <div className={styles.subContainer}>
+                            <div className={styles.logoContainer}>
+                                <Link
+                                    href="/"
+                                    aria-label="Перейти на головну сторінку"
                                 >
-                                    <Icon name="burger" size={32} />
-                                </button>
+                                    <Icon
+                                        className={styles.logo}
+                                        name="logo_black"
+                                        width={176}
+                                        height={40}
+                                    />
+                                </Link>
                             </div>
                         </div>
-                        <div className={styles.fromDesctop}>
-                            <div className={styles.controlsContainer}>
-                                <div className={styles.headerBtn}>
-                                    <a
-                                        className={`${styles.accountLink}`}
-                                        href={
-                                            userData
-                                                ? '/account/favorites'
-                                                : '/favorite'
-                                        }
-                                    >
-                                        <HeartIcon
-                                            hasFavorites={hasFavorites}
-                                            favQuantity={favQuantity}
-                                        />
-                                        <p className={styles.text}>Обране</p>
-                                    </a>
-                                </div>
+                        <div className={styles.subBox}>
+                            <div className={styles.fromDesctop}>
                                 <button
-                                    className={`${styles.headerBtn} ${styles.text}`}
-                                    onClick={handleCartModal}
+                                    type="submit"
+                                    onClick={handleModalCatalog}
+                                    className={`z-10 ${styles.catalogBtn}`}
                                 >
-                                    <BasketIcon cartQuantity={cartQuantity} />
-                                    Кошик
+                                    Категорії
                                 </button>
-                                {isLoading ? (
-                                    <ContentLoader
-                                        speed={2}
-                                        width={50}
-                                        height={50}
-                                        viewBox="0 0 50 50"
-                                        backgroundColor="#f3f3f3"
-                                        foregroundColor="#ecebeb"
-                                    >
-                                        <rect
-                                            x="0"
-                                            y="35"
-                                            rx="3"
-                                            ry="3"
-                                            width="50"
-                                            height="15"
+                            </div>
+                            <div className={styles.flexRow}>
+                                <form
+                                    className={styles.searchForm}
+                                    onSubmit={e => {
+                                        handleSubmitSearch(e);
+                                    }}
+                                >
+                                    <div>
+                                        <input
+                                            className={styles.searchInput}
+                                            placeholder="Знайти"
+                                            onChange={e => {
+                                                handleSearch(e);
+                                            }}
+                                            ref={searchVal}
                                         />
-                                        <circle cx="25" cy="16" r="16" />
-                                    </ContentLoader>
-                                ) : userData ? (
-                                    <Avatar>
+                                        <button
+                                            className={styles.searchButton}
+                                            type="submit"
+                                            aria-label="Пошук"
+                                        >
+                                            <Icon
+                                                name="search"
+                                                size={24}
+                                                className={styles.icon}
+                                            />
+                                        </button>
+                                    </div>
+                                    {isSearchListOpen && (
+                                        <SearchList books={books} />
+                                    )}
+                                </form>
+                                <div
+                                    style={{ width: 50 }}
+                                    className={styles.toTablet}
+                                >
+                                    <button
+                                        className={styles.burgerBtn}
+                                        onClick={handleBurgerButton}
+                                    >
+                                        <Icon name="burger" size={32} />
+                                    </button>
+                                </div>
+                            </div>
+                            <div className={styles.fromDesctop}>
+                                <div className={styles.controlsContainer}>
+                                    <div className={styles.headerBtn}>
                                         <a
-                                            className={styles.accountLink}
-                                            href="/account"
-                                        ></a>
-                                    </Avatar>
-                                ) : (
+                                            className={`${styles.accountLink}`}
+                                            href={
+                                                userData
+                                                    ? '/account/favorites'
+                                                    : '/favorite'
+                                            }
+                                        >
+                                            <HeartIcon
+                                                hasFavorites={hasFavorites}
+                                                favQuantity={favQuantity}
+                                            />
+                                            <p className={styles.text}>
+                                                Обране
+                                            </p>
+                                        </a>
+                                    </div>
                                     <button
                                         className={`${styles.headerBtn} ${styles.text}`}
-                                        onClick={() => {
-                                            handleModalSignIn();
-                                        }}
+                                        onClick={handleCartModal}
                                     >
-                                        <Icon name="account" size={28} />
-                                        Увійти
+                                        <BasketIcon
+                                            cartQuantity={cartQuantity}
+                                        />
+                                        Кошик
                                     </button>
-                                )}
-                                {(userData?.role === Role.Moderator ||
-                                    userData?.role === Role.Admin) && (
-                                    <a href="/admin">
-                                        <TfiPanel size={40} color="#000" />
-                                    </a>
-                                )}
+                                    {isLoading ? (
+                                        <ContentLoader
+                                            speed={2}
+                                            width={50}
+                                            height={50}
+                                            viewBox="0 0 50 50"
+                                            backgroundColor="#f3f3f3"
+                                            foregroundColor="#ecebeb"
+                                        >
+                                            <rect
+                                                x="0"
+                                                y="35"
+                                                rx="3"
+                                                ry="3"
+                                                width="50"
+                                                height="15"
+                                            />
+                                            <circle cx="25" cy="16" r="16" />
+                                        </ContentLoader>
+                                    ) : userData ? (
+                                        <Avatar>
+                                            <a
+                                                className={styles.accountLink}
+                                                href="/account"
+                                            ></a>
+                                        </Avatar>
+                                    ) : (
+                                        <button
+                                            className={`${styles.headerBtn} ${styles.text}`}
+                                            onClick={() => {
+                                                handleModalSignIn();
+                                            }}
+                                        >
+                                            <Icon name="account" size={28} />
+                                            Увійти
+                                        </button>
+                                    )}
+                                    {(userData?.role === Role.Moderator ||
+                                        userData?.role === Role.Admin) && (
+                                        <a href="/admin">
+                                            <TfiPanel size={40} color="#000" />
+                                        </a>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
