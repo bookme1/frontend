@@ -60,14 +60,11 @@ export const userApi = createApi({
                 credentials: 'include',
             }),
         }),
-        getData: builder.mutation<loginOutputDTO, string>({
+        getData: builder.mutation<loginOutputDTO, void>({
             //get user data by token
-            query: token => ({
+            query: () => ({
                 url: 'api/user',
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
                 credentials: 'include',
             }),
         }),
