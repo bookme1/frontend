@@ -41,18 +41,17 @@
 .headerWrapper {
     @media (min-width: 768px) {
         display: flex;
-        gap: 28px;
+        /* gap: 28px; */
         align-items: center;
         justify-content: space-between;
         flex-direction: row;
-        flex-wrap: wrap;
     }
     @media (min-width: 1280px) {
-        gap: 53px;
+        /* gap: 53px; */
     }
 }
 
-.logocantainer {
+.logoContainer {
     @media (max-width: 768px) {
         display: flex;
         justify-content: center;
@@ -328,4 +327,18 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+}
+
+.subContainer {
+    width: 240px;
+}
+
+.subBox {
+    display: flex;
+    justify-content: space-between;
+    width: 481px;
+
+    @media (min-width: 1280px) {
+        width: 944px;
+    }
 }
