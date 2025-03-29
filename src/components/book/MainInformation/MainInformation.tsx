@@ -35,7 +35,6 @@ const MainInformation = ({
     characteristics: ICharacteristics;
     isAuthorized: boolean;
 }) => {
-    console.log('BOOK', book);
     const [imageLoaded, setImageLoaded] = useState(false);
     const checkedFormats = ['pdf', 'mobi', 'epub'];
     const formatsToWatermark: string[] = [];
@@ -50,6 +49,7 @@ const MainInformation = ({
     const { data: cart } = useGetCartQuery({ type: BookType.Cart });
 
     const isInCart = cart?.some(cartItem => cartItem.id === book.id);
+    const isBuyBtnVisible = isInCart === undefined ? true : isInCart;
 
     const [notification, setNotification] = useState<NotificationState>({
         isVisible: false,
@@ -217,7 +217,7 @@ const MainInformation = ({
                                 type={notification.type}
                             />
                         )}
-                        {isInCart ? (
+                        {isBuyBtnVisible ? (
                             <div className={styles.controls}>
                                 <button
                                     className={styles.toCardBtn}
