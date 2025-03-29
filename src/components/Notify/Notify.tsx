@@ -5,11 +5,11 @@ import { NotifyType } from './NotifyType';
 
 interface MessagePopupProps {
     text: string;
-    duration: number;
+    duration?: number;
     type: NotifyType;
 }
 
-const Notify: React.FC<MessagePopupProps> = ({ text, duration, type }) => {
+const Notify: React.FC<MessagePopupProps> = ({ text, duration = 5, type }) => {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {

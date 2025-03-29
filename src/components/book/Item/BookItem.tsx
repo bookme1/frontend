@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -34,7 +34,21 @@ const BookItem = ({
         isVisible: false,
         text: '',
         type: 'information',
+        duration: 3,
     });
+
+    useEffect(() => {
+        if (notification.isVisible) {
+            const timer = setTimeout(
+                () => {
+                    setNotification(prev => ({ ...prev, isVisible: false }));
+                },
+                (notification.duration ?? 3) * 1000
+            );
+
+            return () => clearTimeout(timer);
+        }
+    }, [notification.isVisible, notification.duration]);
 
     const updateNotification = (newValues: Partial<typeof notification>) => {
         setNotification(prev => ({ ...prev, ...newValues }));
@@ -81,7 +95,7 @@ const BookItem = ({
     const imageLoader = () => {
         return 'loading...';
     };
-
+    console.log(notification.isVisible);
     return (
         <>
             <li
@@ -122,41 +136,54 @@ const BookItem = ({
                             style={{
                                 objectFit: 'contain',
                             }}
-                            blurDataURL='blur'
+                            blurDataURL="blur"
                         />
                     </div>
                 </Link>
-                <div
-                    className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
-                >
-                    <div className={styles.information}>
-                        <p className={styles.title}>{book.title}</p>
-                        <p className={styles.author}>
-                            {book.author || 'Немає автора'}
-                        </p>
-                    </div>
-                    {notification.isVisible && (
+                {notification.isVisible && (
+                    <div style={{ marginTop: '50%', transform:'translateY(-70%)' }}>
                         <Notify
                             text={notification.text}
                             duration={5}
                             type={notification.type}
                         />
-                    )}
-                    <div className={styles.functionality}>
-                        <span className={styles.price}>{book.price} ₴</span>
-                        <div className={styles.button}>
-                            <FavoriteBtn book={book} />
-                            <button
-                                aria-label="Корзина"
-                                className={styles.basket}
-                                onClick={e => {
-                                    handleAddToOrder();
-                                }}
-                            >
-                                <Icon name="basket" size={24} color="#fff" />
-                            </button>
-                        </div>
                     </div>
+                )}
+                <div
+                    className={`${styles.wrapper}  ${isSwiper ? styles.swiper : styles.notSwiper}`}
+                >
+                    {!notification.isVisible && (
+                        <>
+                            <div className={styles.information}>
+                                <p className={styles.title}>{book.title}</p>
+                                <p className={styles.author}>
+                                    {book.author || 'Немає автора'}
+                                </p>
+                            </div>
+
+                            <div className={styles.functionality}>
+                                <span className={styles.price}>
+                                    {book.price} ₴
+                                </span>
+                                <div className={styles.button}>
+                                    <FavoriteBtn book={book} />
+                                    <button
+                                        aria-label="Корзина"
+                                        className={styles.basket}
+                                        onClick={e => {
+                                            handleAddToOrder();
+                                        }}
+                                    >
+                                        <Icon
+                                            name="basket"
+                                            size={24}
+                                            color="#fff"
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
             </li>
         </>
