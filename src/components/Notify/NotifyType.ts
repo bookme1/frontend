@@ -4,4 +4,5 @@ export type NotificationState = {
     isVisible: boolean;
     text: string;
     type: NotifyType;
+    duration?: number;
 };
