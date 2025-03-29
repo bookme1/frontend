@@ -50,7 +50,7 @@ export const GenericModal = ({
                     className={styles.closeButton}
                     onClick={() => handleCloseModal(modalName)}
                 >
-                    <Icon name="close_modal" size={48} />
+                    <Icon name="close_modal" size={38} />
                 </button>
                 {children}
             </div>
