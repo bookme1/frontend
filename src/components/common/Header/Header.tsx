@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ContentLoader from 'react-content-loader';
+import { IoMdClose } from 'react-icons/io';
 
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import dynamic from 'next/dynamic';
@@ -100,6 +101,8 @@ const Header = ({
 }) => {
     const isLoading = false;
     const [isSearchListOpen, setIsSearchListOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+
     const searchVal = useRef<HTMLInputElement | null>(null);
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
@@ -211,10 +214,12 @@ const Header = ({
     };
 
     const handleSearch = async (e: any) => {
-        if (e.target.value.length >= 2) {
+        const value = e.target.value;
+        setSearchValue(value);
+        if (value.length >= 2) {
             setIsSearchListOpen(true);
             const filteredBooks = booksArr?.filter((book: IBook) =>
-                book.title.toLowerCase().includes(e.target.value.toLowerCase())
+                book.title.toLowerCase().includes(value.toLowerCase())
             );
             setBooks(filteredBooks);
         } else {
@@ -269,6 +274,12 @@ const Header = ({
         dispatch(closeAllModals());
     };
 
+    const handleClearSearch = () => {
+        setSearchValue(''); // Очистить значение инпута
+        setIsSearchListOpen(false); // Закрыть список поиска
+        setBooks([]); // Очистить список найденных книг
+    };
+
     return (
         <>
             {isAdminka ? (
@@ -309,14 +320,37 @@ const Header = ({
                                     }}
                                 >
                                     <div>
-                                        <input
-                                            className={styles.searchInput}
-                                            placeholder="Знайти"
-                                            onChange={e => {
-                                                handleSearch(e);
-                                            }}
-                                            ref={searchVal}
-                                        />
+                                        <div style={{ position: 'relative' }}>
+                                            <input
+                                                className={styles.searchInput}
+                                                value={searchValue}
+                                                placeholder="Знайти"
+                                                onChange={e => {
+                                                    handleSearch(e);
+                                                }}
+                                                ref={searchVal}
+                                            />
+                                            {isSearchListOpen && (
+                                                <div
+                                                    onClick={handleClearSearch}
+                                                >
+                                                    <IoMdClose
+                                                        style={{
+                                                            position:
+                                                                'absolute',
+                                                            top: '50%',
+                                                            transform:
+                                                                'translateY(-50%)',
+                                                            left: '8px',
+                                                            color: 'red',
+                                                            cursor: 'pointer',
+                                                            fontWeight: '700',
+                                                            fontSize: '32px',
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                         <button
                                             className={styles.searchButton}
                                             type="submit"
@@ -330,7 +364,12 @@ const Header = ({
                                         </button>
                                     </div>
                                     {isSearchListOpen && (
-                                        <SearchList books={books} />
+                                        <SearchList
+                                            books={books}
+                                            isListVivible={() =>
+                                                setIsSearchListOpen(false)
+                                            }
+                                        />
                                     )}
                                 </form>
                                 <div
@@ -427,7 +466,10 @@ const Header = ({
                 <SignIn handleModalSignUp={handleModalSignUp} />
             </GenericModal>
             <GenericModal modalName={'signUp'} align={'center'}>
-                <SignUp handleModalSignIn={handleModalSignIn}  onClose={closeModals}/>
+                <SignUp
+                    handleModalSignIn={handleModalSignIn}
+                    onClose={closeModals}
+                />
             </GenericModal>
             <GenericModal modalName={'catalog'} align={'center'}>
                 <Menu onClose={closeModals} />
