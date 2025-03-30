@@ -1,5 +1,6 @@
 import { IUser } from '@/lib/redux/features/user/types.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../store';
 
 
 interface UserState {
@@ -28,9 +29,14 @@ const userSlice = createSlice({
     addUserData(state, action: PayloadAction<IUser>) {
       state.userData = action.payload;
     },
+
+    clearUserData(state) {
+      state.userData = {} as IUser; // Очистка userData
+    },
   },
 });
 
-export const { addFavoriteBook, removeFavoriteBook, addUserData } = userSlice.actions;
+export const { addFavoriteBook, removeFavoriteBook, addUserData, clearUserData } = userSlice.actions;
+export const selectUserData = (state: RootState): IUser => state.user.userData;
 
 export default userSlice.reducer;

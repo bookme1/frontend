@@ -104,8 +104,6 @@ const Header = ({
     const [books, setBooks] = useState<IBook[] | undefined>();
     const router = useSearchParams();
 
-    const dispatch = useDispatch();
-
     const {
         data: carts,
         refetch: refetchCart,
@@ -125,6 +123,8 @@ const Header = ({
     } = useGetFavoritesQuery({
         type: BookType.Fav,
     });
+
+    const dispatch = useDispatch();
 
     if (userData && getCartQueryError) {
         let mess = '';

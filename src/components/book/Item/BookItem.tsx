@@ -95,7 +95,7 @@ const BookItem = ({
     const imageLoader = () => {
         return 'loading...';
     };
-    console.log(notification.isVisible);
+
     return (
         <>
             <li

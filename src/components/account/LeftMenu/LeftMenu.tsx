@@ -3,12 +3,14 @@ import { VscAccount } from 'react-icons/vsc';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+
 
 import style from './LeftMenu.module.css';
 import { Icon } from '@/components/common/Icon';
 import { addLogEntry } from '@/contexts/Logs/fetchAddLog';
+
 import { useLogOutMutation } from '@/lib/redux/features/user/userApi';
+
 
 const NavLink = ({
     href = null,
@@ -35,12 +37,16 @@ export default function LeftMenu({
     isVerified?: boolean | undefined | null;
 }) {
     const [logOut, { isLoading, isError, error }] = useLogOutMutation();
-    const router = useRouter();
+
+
+
 
     const handleLogout = async () => {
         try {
             await logOut().unwrap();
-            router.replace('/');
+    
+            // router.replace('/');
+            window.location.replace('/');
         } catch (error) {
             console.error('Ошибка выхода:', error);
             if (error) {
