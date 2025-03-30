@@ -427,7 +427,7 @@ const Header = ({
                 <SignIn handleModalSignUp={handleModalSignUp} />
             </GenericModal>
             <GenericModal modalName={'signUp'} align={'center'}>
-                <SignUp handleModalSignIn={handleModalSignIn} />
+                <SignUp handleModalSignIn={handleModalSignIn}  onClose={closeModals}/>
             </GenericModal>
             <GenericModal modalName={'catalog'} align={'center'}>
                 <Menu onClose={closeModals} />

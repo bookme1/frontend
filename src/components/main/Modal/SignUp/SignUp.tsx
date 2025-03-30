@@ -8,9 +8,10 @@ import { useSignUpMutation } from '@/lib/redux/features/user/userApi';
 
 interface SignUpProps {
     handleModalSignIn: () => void;
+    onClose: () => void;
 }
 
-const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
+const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn, onClose }) => {
     const baseBackendUrl = process.env.NEXT_PUBLIC_BASE_BACKEND_URL ?? '';
 
     const [name, setName] = useState('');
@@ -24,10 +25,20 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
         isVisible: false,
         text: '',
         type: 'information',
+        duration: 3,
     });
 
-    const updateNotification = (newValues: Partial<typeof notification>) => {
+    const updateNotification = (
+        newValues: Partial<typeof notification>,
+        duration: number = 5
+    ) => {
         setNotification(prev => ({ ...prev, ...newValues }));
+
+        if (newValues.isVisible) {
+            setTimeout(() => {
+                setNotification(prev => ({ ...prev, isVisible: false }));
+            }, duration * 1000);
+        }
     };
 
     const getMailServiceUrl = (email: string) => {
@@ -52,17 +63,18 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
     const mailUrl = getMailServiceUrl(email);
 
     useEffect(() => {
-        if (data) {
+        if (data && !notification.isVisible) {
             if (mailUrl) {
                 window.location.href = mailUrl;
             } else {
-                window.location.replace('/');
+                onClose();
             }
         }
+
         if (error) {
             console.log(error);
         }
-    }, [data, error, mailUrl]);
+    }, [data, error, mailUrl, notification.isVisible, onClose]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -74,6 +86,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
                 isVisible: true,
                 text: 'Активуйте акаунт по посиланню на вашій пошті. Лист може знаходитись у спамі',
                 type: 'information',
+                duration: 10,
             });
 
             if (mailUrl) {
@@ -84,6 +97,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
                 isVisible: true,
                 text: `Помилка при реєстрації ${err.status}`,
                 type: 'error',
+                duration: 10,
             });
             console.error('Error while registering', err);
         }
@@ -147,7 +161,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleModalSignIn }) => {
                 {notification.isVisible && (
                     <Notify
                         text={notification.text}
-                        duration={5}
+                        duration={10}
                         type={notification.type}
                     />
                 )}
