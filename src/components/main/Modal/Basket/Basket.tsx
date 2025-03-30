@@ -83,23 +83,16 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
 
         try {
             const data = await makeCartCheckoutWithRetry(updateNotification);
-            console.log(`data -${data}`);
-
-            const watermarking_response = await makeCartWatermarking(
-                data.order_id
-            );
-
-            console.log(`watermarking_response - ${watermarking_response}`);
-
-            if (Array.isArray(watermarking_response)) {
-                console.log('transaction successful');
-            } else {
-                updateNotification({
-                    isVisible: true,
-                    text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
-                    type: 'error',
-                });
-            }
+            console.log('Order created, watermarked: ' + data);
+            // if (Array.isArray(watermarking_response)) {
+            //     console.log('transaction successful');
+            // } else {
+            //     updateNotification({
+            //         isVisible: true,
+            //         text: `Помилка при нанесенні вотермарки! Будь ласка, зв&apos;яжіться з адміністратором сайту`,
+            //         type: 'error',
+            //     });
+            // }
         } catch (error) {
             // Здесь ошибка будет уже обработана в makeCartCheckoutWithRetry
             console.error('Error in checkout:', error);
@@ -199,13 +192,12 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                             <p className={styles.text}>Всього:</p>
                             <p className={styles.text}>{totalPrice} &#x20B4;</p>
                         </div>
-                        Увага! Під час тесту, оформлення замовлення через кошик
-                        не доступне! Використовуйте &quot;купити зараз&quot; на
-                        сторінці деталей книги
-                        {/* <button
+                        <button
                             className={styles.cartBtn}
                             onClick={handleCheckout}
-                        ></button> */}
+                        >
+                            Оформити замовлення
+                        </button>
                     </div>
                 </>
             )}

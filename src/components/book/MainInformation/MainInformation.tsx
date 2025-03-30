@@ -127,36 +127,25 @@ const MainInformation = ({
 
         makeTestCheckout(book.price, order_id, updateNotification);
 
-        const transaction_id = await makeWatermarking(
-            formatsToWatermark.join(','),
-            book.referenceNumber,
-            order_id
-        );
-        if (transaction_id) {
-            console.log('transaction successful');
-        } else {
-            console.log(transaction_id);
-            console.log('oshibka');
-
-            updateNotification({
-                isVisible: true,
-                text: `Помилка при нанесенні вотермарки!`,
-                type: 'error',
-            });
-            updateNotification({
-                isVisible: true,
-                text: `Будь ласка, зв'яжіться з адміністратором сайту!`,
-                type: 'error',
-            });
-        }
-
-        await makeOrder(
-            order_id,
-            checkedFormats.join(','),
-            transaction_id,
-            book.referenceNumber,
-            book.price
-        );
+        await makeOrder([book.id], order_id); // Create order object + prepare file
+        // const transaction_id = await makeWatermarking(
+        //     formatsToWatermark.join(','),
+        //     book.referenceNumber,
+        //     order_id
+        // );
+        // if (transaction_id) {
+        // } else {
+        //     updateNotification({
+        //         isVisible: true,
+        //         text: `Помилка при нанесенні вотермарки!`,
+        //         type: 'error',
+        //     });
+        //     updateNotification({
+        //         isVisible: true,
+        //         text: `Будь ласка, зв'яжіться з адміністратором сайту!`,
+        //         type: 'error',
+        //     });
+        // }
     };
 
     const availableFormats = [false, false, false];
