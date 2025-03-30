@@ -48,10 +48,13 @@ const PingPage: React.FC<PingPageProps> = () => {
         );
     });
 
-    const secret = '1b41d378b24738917d314dff5c816b61';
+    const elibri_private_key: string =
+        process.env.NEXT_PUBLIC_ELIBRI_PRIVATE_KEY || '';
+
     const timestamp = Math.floor(Date.now() / 1000);
+    const elibri_public_key = process.env.NEXT_PUBLIC_ELIBRI_PUBLIC_KEY;
     const hmac = crypto
-        .createHmac('sha1', secret)
+        .createHmac('sha1', elibri_private_key)
         .update(timestamp.toString())
         .digest('base64');
     const sig = encodeURIComponent(hmac);
@@ -63,7 +66,7 @@ const PingPage: React.FC<PingPageProps> = () => {
         price: 0,
         stamp: timestamp,
         sig: sig,
-        token: 'e_wa_97fd26f52e0505e68ec782ea_test',
+        token: elibri_public_key,
     };
 
     async function makeRequest() {
