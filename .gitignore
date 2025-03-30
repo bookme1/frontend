@@ -39,7 +39,7 @@ next-env.d.ts
 
 .prettierrc
 .env
-*.xml
+# *.xml
 .env
 compose.yml
 docker-compose.yaml
