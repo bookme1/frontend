@@ -13,6 +13,7 @@ import { Icon } from '@/components/common/Icon';
 import {
     useAddCartMutation,
     useGetCartQuantityQuery,
+    useGetCartQuery,
 } from '@/lib/redux/features/book/bookApi';
 import { BookType } from '@/lib/redux/features/user/types';
 
@@ -36,6 +37,13 @@ const BookItem = ({
         type: 'information',
         duration: 3,
     });
+
+        const {
+
+            refetch: refetchGetCats,
+        } = useGetCartQuery({
+            type: BookType.Cart,
+        });
 
     useEffect(() => {
         if (notification.isVisible) {
@@ -72,6 +80,7 @@ const BookItem = ({
                 type: BookType.Cart,
             });
             refetchCartQuantity();
+            refetchGetCats();
             updateNotification({
                 isVisible: true,
                 text: 'Книга успішно додана у кошик',
