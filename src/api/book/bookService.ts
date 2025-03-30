@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { IBook } from '@/app/book/[id]/page.types';
 import { NotificationState } from '@/components/Notify/NotifyType';
@@ -262,7 +262,18 @@ export const useBookService = () => {
 
                 return response.data;
             } catch (error) {
-                throw error;
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 401) {
+                        // Reload page
+                        // TODO: Notification -> not authorized
+                        window.location.reload();
+                    } else {
+                        throw error;
+                    }
+                } else {
+                    console.error('Unknown error:', error);
+                    throw error;
+                }
             }
         };
 
@@ -293,7 +304,7 @@ export const useBookService = () => {
     };
 
     // Функция для создания заказа
-    const orderRequest = async (orderData: CreateOrderDTO) => {
+    const orderRequest = async (books: string[], order_id: string) => {
         const url = `${baseURL}/api/order`;
         try {
             const config: CustomAxiosRequestConfig = {
@@ -304,9 +315,8 @@ export const useBookService = () => {
             const response = await axios.post(
                 url,
                 {
-                    order_id: orderData.order_id,
-                    orderBooks: orderData.orderBooks,
-                    amount: orderData.amount,
+                    books, // id[]
+                    order_id, // In order to make pay process instant -> generate id on frontend
                 },
                 config
             );
@@ -352,17 +362,14 @@ export const useBookService = () => {
 
     // Доставка
     const makeDelivery = async (order_id: string) => {
-        console.log('I am delievering!');
-        console.warn('I am delievering!');
         const url = `${baseURL}/api/book/deliver`;
         try {
             const response = await axios.post(url, {
-                transactionId: order_id,
+                orderId: order_id,
             });
-            console.log('Result:', response.data);
+
             return response.data;
         } catch (error) {
-            console.log('ERROR');
             throw error;
         }
     };
@@ -382,37 +389,8 @@ export const useBookService = () => {
     };
 
     // Функция для создания заказа в корзине
-    const makeOrder = async (
-        // accessToken: string | null,
-        uuid: string,
-        formats: string,
-        transactionId: string,
-        reference_number: string,
-        amount: number
-    ) => {
-        const orderedBooks: IOrderBook[] = [
-            {
-                reference_number: reference_number,
-                ordered_formats: formats,
-                transaction_id: transactionId,
-                book: {
-                    id: 'sampleBookId',
-                    title: 'sampleBookTitle',
-                    // добавьте другие свойства, которые имеет IBook
-                } as IBook,
-                epubLink: 'sampleEpubLink',
-                mobiLink: 'sampleMobiLink',
-                pdfLink: 'samplePdfLink',
-            },
-        ];
-
-        const createOrderDTO: CreateOrderDTO = {
-            order_id: uuid,
-            orderBooks: orderedBooks,
-            amount: Number(amount),
-        };
-
-        const data = await orderRequest(createOrderDTO);
+    const makeOrder = async (books: string[], order_id: string) => {
+        const data = await orderRequest(books, order_id);
 
         if (!data) {
             return false;
