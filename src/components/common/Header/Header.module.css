@@ -102,12 +102,13 @@
 }
 
 .searchInput {
+  
     border: 1px solid var(--gray_border);
     font-size: 18px;
     font-weight: 600;
     width: 282px;
     height: 40px;
-    padding: 0 0 0 24px;
+    padding-left: 50px;
     border-radius: 8px;
 
     @media (min-width: 768px) {
@@ -119,7 +120,7 @@
         border: 1px solid var(--gray_border);
 
         width: 411px;
-        padding: 12px 0 12px 24px;
+        padding: 12px 0 12px 36px;
         border-radius: 8px;
     }
 }
