@@ -148,7 +148,14 @@ const Basket: React.FC<BasketProps> = ({ onClose }) => {
                                         quality={75}
                                         style={{ objectFit: 'contain' }}
                                     />
-                                    <div>
+                                    <div
+                                        style={{
+                                            maxWidth: '250px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '10px',
+                                        }}
+                                    >
                                         <p className={styles.title}>
                                             {book.title}
                                         </p>
