@@ -1,14 +1,8 @@
-import dynamic from 'next/dynamic';
-
 import styles from './Hero.module.css';
+import HeroImage from './HeroImage/HeroImage';
 import { Icon } from '@/components/common/Icon';
 
 const Hero = () => {
-    //dynamic import of a client component
-    const HeroImage = dynamic(() => import('./HeroImage/HeroImage'), {
-        ssr: false,
-    });
-
     return (
         <section className={styles.heroSection}>
             <div className={`wrapper ${styles.heroWrapper}`}>

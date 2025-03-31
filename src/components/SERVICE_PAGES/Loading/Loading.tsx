@@ -1,13 +1,14 @@
 'use client';
 
-import Lottie from 'lottie-react';
 import React from 'react';
 
 import loaderData from '/src/assets/book_animation.json';
+import dynamic from 'next/dynamic';
 
 import styles from './Loading.module.css';
 import { Icon } from '@/components/common/Icon';
 
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 const Loading = () => {
     return (
         <div className={styles.wrapper}>

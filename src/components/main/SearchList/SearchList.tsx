@@ -1,16 +1,16 @@
 'use client';
 
 import styles from './SearchList.module.css';
-import { IBook } from '@/app/book/[id]/page.types';
+import { IBookShort } from '@/lib/redux/features/books/booksSlice';
 
 import { SearchItem } from '../SearchItem';
 
 const SearchList = ({
     books,
-    isListVivible,
+    isListVisible,
 }: {
-    books: IBook[] | undefined;
-    isListVivible: () => void;
+    books: IBookShort[] | undefined;
+    isListVisible: () => void;
 }) => {
     if (!books) {
         return <p>Error while fetching books</p>;
@@ -21,7 +21,7 @@ const SearchList = ({
             key={book.id}
             title={book.title}
             id={book.id}
-            isListVivible={isListVivible}
+            isListVisible={isListVisible}
         />
     ));
     return (

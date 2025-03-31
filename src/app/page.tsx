@@ -5,14 +5,14 @@ import { fetchBooksets } from '@/contexts/fetchBooksets';
 import { fetchUserData } from '@/contexts/fetchUserData';
 
 export const metadata: Metadata = {
-    title: 'Bookme — Книжний маркетплейс',
+    title: 'Bookme — Онлайн книгарня',
     description:
         'Купуй та завантажуй якісні електронні книги: EPUB, MOBI, PDF. Надійно, швидко та зручно.',
     keywords:
         'електронні книги, bookme, купити книги, EPUB, MOBI, PDF, книжковий магазин',
     robots: 'index, follow',
     alternates: {
-        canonical: 'https://yourdomain.com/',
+        canonical: 'https://bookme.kyiv.ua/',
     },
 };
 

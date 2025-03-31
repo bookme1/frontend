@@ -1,23 +1,17 @@
 import React, { ReactNode } from 'react';
 
 import { Footer } from '@/components/common/Footer';
-import { Header } from '@/components/common/Header';
+import HeaderWrapper from '@/components/common/Header/HeaderWrapper';
 import { Icons } from '@/components/common/Icons';
-
-import { fetchUserData } from '@/contexts/fetchUserData';
 import { Providers } from '@/lib/providers';
 import { raleway } from '@/styles/fonts';
 import '@/styles/globals.css';
-import { fetchBooks } from '@/contexts/fetchBooks';
 
 interface RootLayoutProps {
     children: ReactNode;
 }
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
-    const user = await fetchUserData();
-    const booksArr = await fetchBooks()
-
     return (
         <html className={raleway.className} lang="uk">
             <head>
@@ -31,21 +25,19 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
             </head>
-            <body className="bg-main">
-                <Providers>
-                    <main style={{ height: '100%' }}>
-                        <Header
-                            userData={user}
-                            booksArr={booksArr}
-                        />
-                        {children}
-                        <Footer />
-                    </main>
+            <body>
+                <div className="bg-main">
+                    <Providers>
+                        <main style={{ height: '100%' }}>
+                            <HeaderWrapper />
+                            {children}
+                            <Footer />
+                        </main>
 
-
-                    <div id="modal-root"></div>
-                </Providers>
-                <Icons />
+                        <div id="modal-root"></div>
+                    </Providers>
+                    <Icons />
+                </div>
             </body>
         </html>
     );

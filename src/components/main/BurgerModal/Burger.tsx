@@ -1,29 +1,64 @@
 import React from 'react';
-import { IoIosList } from 'react-icons/io';
+import { IoIosList, IoMdHeartEmpty } from 'react-icons/io';
 
 import style from './BurgerModal.module.css';
-import { BasketIcon, HeartIcon } from '@/components/common/Header/Header';
 import { Icon } from '@/components/common/Icon';
 import classes from '@/components/main/DesktopCatalog/Menu.module.css';
-import { RootState, useSelector } from '@/lib/redux';
+import { useSelector } from '@/lib/redux';
 import {
     useGetCartQuery,
     useGetFavoritesQuery,
 } from '@/lib/redux/features/book/bookApi';
-import { BookType, IUser } from '@/lib/redux/features/user/types';
+import { BookType } from '@/lib/redux/features/user/types';
+import { selectUserData } from '@/lib/redux/features/user/userSlice';
+
+import styles from '../../common/Header/Header.module.css';
 
 interface BurgerProps {
     handleModalSignIn: () => void;
     handleCartModal: () => void;
 }
 
+interface HeartIconProps {
+    hasFavorites: boolean | null;
+    favQuantity: number | null | undefined;
+}
+
+interface BasketIconProps {
+    cartQuantity: number | null | undefined;
+}
+
+const HeartIcon = ({ hasFavorites, favQuantity }: HeartIconProps) => {
+    return (
+        <div
+            className={`${styles.heartIcon} ${hasFavorites ? styles.favorited : styles.notFavorited}`}
+        >
+            <IoMdHeartEmpty size={28} />
+            {hasFavorites && (
+                <div className={styles.favoriteCount}>{favQuantity}</div>
+            )}
+        </div>
+    );
+};
+
+const BasketIcon = ({ cartQuantity }: BasketIconProps) => {
+    return (
+        <div
+            className={`${styles.heartIcon} ${cartQuantity ? styles.favorited : styles.notFavorited}`}
+        >
+            <Icon name="cart" size={28} />
+            {cartQuantity && (
+                <div className={styles.favoriteCount}>{cartQuantity}</div>
+            )}
+        </div>
+    );
+};
+
 const Burger: React.FC<BurgerProps> = ({
     handleModalSignIn,
     handleCartModal,
 }) => {
-    const userData: IUser | null = useSelector(
-        (state: RootState) => state.user.userData
-    );
+    const user = useSelector(selectUserData);
 
     const {
         data: carts,
@@ -54,7 +89,7 @@ const Burger: React.FC<BurgerProps> = ({
 
     const hasFavorites = !!favQuantity;
 
-    const isVisible = Object.keys(userData).length > 0 ? true : false;
+    const isVisible = !!user;
 
     return (
         <div className={` ${classes.burger_content_wrapper}`}>

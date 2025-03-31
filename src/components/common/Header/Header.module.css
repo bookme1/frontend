@@ -20,6 +20,7 @@
         justify-content: center;
         align-items: center;
     }
+
     @media (min-width: 1280px) {
         font-size: 16px;
     }
@@ -46,6 +47,7 @@
         justify-content: space-between;
         flex-direction: row;
     }
+
     @media (min-width: 1280px) {
         /* gap: 53px; */
     }
@@ -60,7 +62,7 @@
     }
 }
 
-.fromDesctop {
+.fromDesktop {
     display: flex;
     gap: 40px;
     align-items: center;
@@ -81,6 +83,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+
     @media (min-width: 768px) {
         width: calc(100% - 345px);
     }
@@ -93,16 +96,18 @@
 .searchForm {
     position: relative;
     width: 100%;
+
     @media (min-width: 768px) {
         min-width: 400px;
     }
+
     @media (min-width: 1280px) {
         width: 411px;
     }
 }
 
 .searchInput {
-  
+
     border: 1px solid var(--gray_border);
     font-size: 18px;
     font-weight: 600;
@@ -197,6 +202,7 @@
 
 .toTablet {
     width: 100%;
+
     @media (min-width: 1280px) {
         position: absolute;
         width: 1px;

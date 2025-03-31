@@ -9,7 +9,7 @@ export enum Role {
     Author = 'Author',
 }
 
-// User entity from backend without password
+// User entity from backend without password and with "lastFetchedAt"
 export interface IUser {
     id: number;
     username: string | null;
@@ -20,6 +20,7 @@ export interface IUser {
     books: string[];
     orders: Order[];
     verified?: boolean | null | undefined;
+    lastFetchedAt: number;
 }
 
 export interface Order {

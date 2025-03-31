@@ -4,11 +4,23 @@ import Link from 'next/link';
 
 import styles from './SearchItem.module.css';
 
-const SearchItem = ({ title, id, isListVivible }: { title: string; id: string, isListVivible:()=>void}) => {
+const SearchItem = ({
+    title,
+    id,
+    isListVisible,
+}: {
+    title: string;
+    id: string;
+    isListVisible: () => void;
+}) => {
     const linkHref = `/book/${id}`;
     return (
         <li className={styles.searchItemContainer}>
-            <Link className={styles.searchLink} href={linkHref} onClick={()=>isListVivible()}>
+            <Link
+                className={styles.searchLink}
+                href={linkHref}
+                onClick={() => isListVisible()}
+            >
                 {title}
             </Link>
         </li>

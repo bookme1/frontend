@@ -1,27 +1,20 @@
-import { IBook } from '@/app/book/[id]/page.types';
 import { addLogEntry } from './Logs/fetchAddLog';
-
+import { IBook } from '@/app/book/[id]/page.types';
 
 export async function fetchBooks(): Promise<IBook[] | null> {
-
     try {
         let response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/book`,
+            `${process.env.NEXT_PUBLIC_BASE_BACKEND_URL || ''}/api/book?isShort=true`,
             {
                 method: 'GET',
-                cache: 'no-cache',
-
             }
         );
 
         if (response.ok) {
-            return response = await response.json();
+            return (response = await response.json());
         }
         return null;
-    }
-
-
-    catch (error) {
+    } catch (error) {
         console.error('Error fetching:', error);
 
         await addLogEntry({
