@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { IBook } from '@/app/book/[id]/page.types';
 import { MainInformation } from '@/components/book/MainInformation';
 import { BreadCrumbs } from '@/components/common/BreadCrumbs';
@@ -9,6 +11,7 @@ import { IUser } from '@/lib/redux/features/user/types';
 
 import Error from '../Error/Error';
 import ErrorBoundary from '../Error/ErrorBoundary';
+import { saveRouteToLocalStorage } from '../LastBooks/LastBooks';
 
 interface BookPageProps {
     user: IUser | null;
@@ -17,6 +20,10 @@ interface BookPageProps {
 
 const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
     const modals = useSelector((state: any) => state.modals.modals);
+
+    useEffect(() => {
+        saveRouteToLocalStorage(window.location.href);
+    }, []);
 
     return (
         <>
@@ -34,7 +41,6 @@ const BookPage: React.FC<BookPageProps> = ({ user, book }) => {
                             genres: book.genre,
                         }}
                         isAuthorized={user ? true : false}
-                       
                     />
                 )}
 

@@ -38,12 +38,9 @@ const BookItem = ({
         duration: 3,
     });
 
-        const {
-
-            refetch: refetchGetCats,
-        } = useGetCartQuery({
-            type: BookType.Cart,
-        });
+    const { refetch: refetchGetCats } = useGetCartQuery({
+        type: BookType.Cart,
+    });
 
     useEffect(() => {
         if (notification.isVisible) {
@@ -150,7 +147,12 @@ const BookItem = ({
                     </div>
                 </Link>
                 {notification.isVisible && (
-                    <div style={{ marginTop: '50%', transform:'translateY(-70%)' }}>
+                    <div
+                        style={{
+                            marginTop: '50%',
+                            transform: 'translateY(-70%)',
+                        }}
+                    >
                         <Notify
                             text={notification.text}
                             duration={5}
