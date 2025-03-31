@@ -23,7 +23,7 @@ const CardList = ({
     name: string;
     books: any[];
     id: number;
-    user: IUser | null;
+    user: IUser | null | undefined;
     isBookset?: boolean;
 }) => {
     const [width, setWidth] = useState(0);
@@ -36,7 +36,6 @@ const CardList = ({
     if (books?.length) {
         booksMarkup = books.map(book => (
             <SwiperSlide key={book.id} className={style.swiperStyle}>
-          
                 <BookItem
                     key={book.id}
                     book={book}

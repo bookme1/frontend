@@ -25,6 +25,7 @@ import { BookType } from '@/lib/redux/features/user/types';
 import { Characteristics } from '../Characteristics';
 import { ICharacteristics } from '../Characteristics/Characteristics.types';
 import { Formats } from '../Formats';
+import LastBooksSwiper from '@/components/LastBooks/LastBooksSwiper';
 
 const MainInformation = ({
     book,
@@ -251,6 +252,7 @@ const MainInformation = ({
                     <Characteristics characteristics={characteristics} />
                 </div>
             )}
+            <LastBooksSwiper />
         </div>
     );
 };

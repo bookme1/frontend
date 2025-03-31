@@ -16,7 +16,7 @@ const SwiperList = ({
     value?: string;
     bookset: any[];
     id: number;
-    user: IUser | null;
+    user?: IUser | null | undefined;
     isBookset?: boolean;
 }) => {
     const booksArr = bookset;
@@ -24,7 +24,15 @@ const SwiperList = ({
     if (!booksArr)
         return <p>Щось пішло не так. Спробуйте перезавантажити сторінку</p>;
 
-    return <CardList name={name} books={booksArr} id={id} user={user} isBookset={isBookset}/>;
+    return (
+        <CardList
+            name={name}
+            books={booksArr}
+            id={id}
+            user={user}
+            isBookset={isBookset}
+        />
+    );
 };
 
 export default SwiperList;

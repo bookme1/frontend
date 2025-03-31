@@ -130,6 +130,12 @@ body.modal-open {
     --btn-text-color: #505050;
 }
 
+.swiper-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Стили для обнуления верхних отступов у элементов */
 h1,
 h2,
