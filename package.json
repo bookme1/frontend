@@ -4,7 +4,7 @@
     "homepage": "https://bookme.kyiv.ua",
     "scripts": {
         "build": "turbo run build",
-        "dev": "turbo run dev",
+        "dev": "turbo run dev --parallel",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "check-types": "turbo run check-types"
@@ -14,6 +14,7 @@
         "autoprefixer": "^10.4.20",
         "axios": "^1.6.5",
         "classnames": "^2.5.1",
+        "epubjs": "^0.3.93",
         "lottie-react": "^2.4.0",
         "ms": "^2.1.3",
         "next": "^15.2.3",
@@ -30,9 +31,6 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
-        "prettier": "^3.5.3",
-        "turbo": "^2.4.4",
-        "typescript": "5.8.2",
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
         "@types/node": "^20",
         "@types/react": "^18",
@@ -41,7 +39,10 @@
         "eslint": "^8",
         "eslint-config-next": "14.0.4",
         "eslint-config-prettier": "^9.1.0",
-        "eslint-plugin-prettier": "^5.1.3"
+        "eslint-plugin-prettier": "^5.1.3",
+        "prettier": "^3.5.3",
+        "turbo": "^2.4.4",
+        "typescript": "5.8.2"
     },
     "engines": {
         "node": ">=18"
