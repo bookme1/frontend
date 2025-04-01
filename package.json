@@ -1,16 +1,13 @@
 {
     "name": "bookme",
-    "version": "0.1.0",
     "private": true,
     "homepage": "https://bookme.kyiv.ua",
     "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "export": "next build && next export",
-        "start": "next start",
-        "lint": "next lint",
-        "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "check-types": "turbo run check-types"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.3.0",
@@ -33,6 +30,9 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
+        "prettier": "^3.5.3",
+        "turbo": "^2.4.4",
+        "typescript": "5.8.2",
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
         "@types/node": "^20",
         "@types/react": "^18",
@@ -41,8 +41,14 @@
         "eslint": "^8",
         "eslint-config-next": "14.0.4",
         "eslint-config-prettier": "^9.1.0",
-        "eslint-plugin-prettier": "^5.1.3",
-        "prettier": "^3.3.2",
-        "typescript": "^5"
-    }
+        "eslint-plugin-prettier": "^5.1.3"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "packageManager": "npm@10.8.2",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ]
 }

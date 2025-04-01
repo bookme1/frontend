@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📚 Bookme Monorepo
 
-## Getting Started
+Welcome to the **Bookme** monorepo — a modern eBook platform for reading, buying, and managing books. Built with cutting-edge tools like **Next.js**, **Turborepo**, **Redux**, and **TypeScript**, this repository contains the client website, book reader, and admin panel.
 
-First, run the development server:
+---
+
+## 📦 Repository Structure
+
+```
+frontend/
+├── apps/
+│   ├── store/        # Public-facing client website
+│   ├── reader/       # Book reader (only for logged-in users)
+│   └── admin/        # Admin panel (restricted access)
+├── packages/
+│   ├── ui/           # Shared UI components (React)
+│   ├── lib/          # Helpers, Redux slices, API logic
+│   └── config/       # Shared configurations (eslint, prettier, tsconfig, etc.)
+├── turbo.json        # Turborepo configuration
+├── package.json      # Root package.json with workspaces
+└── tsconfig.json     # Base TypeScript config
+```
+
+---
+
+## ✨ Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Start development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Build all apps and packages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## ⚙️ Technologies
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js** — SSR/ISR, App Router, Dynamic import
+- **Turborepo** — High-speed monorepo orchestration
+- **Redux Toolkit** — Centralized state management
+- **TypeScript** — Static type checking
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 💡 Bookme Features
 
-## Deploy on Vercel
+- 📖 Read purchased books directly on site
+- 🛒 Add books to favorites and cart
+- 🧑‍💻 Auth via Email and Google, secure refresh tokens
+- 📚 Book and order management in the admin panel
+- 🤖 Role-based access: User, Moderator, Admin
+- ⚡ Client-side and RTK Query caching
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ☁️ Remote Caching (Optional)
+
+Use [Vercel Remote Cache](https://turbo.build/repo/docs/core-concepts/remote-caching) for faster CI builds:
+
+```bash
+npx turbo login
+npx turbo link
+```
+
+---
+
+## 🔗 Useful Links
+
+- [Turborepo Docs](https://turbo.build/repo/docs)
+- [Redux Toolkit Docs](https://redux-toolkit.js.org/)
+- [Next.js Docs](https://nextjs.org/docs)
+
+---
+
+> Made with ❤️ by Misha & Bookme Dev Team

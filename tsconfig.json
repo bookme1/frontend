@@ -14,24 +14,19 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "plugins": [{ "name": "next" }],
+        "baseUrl": ".",
+        "paths": { "@/*": ["./apps/store/src/*"] }
     },
     "include": [
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        ".next/types/**/*.ts",
-        "src/components/Hero/Hero.tss",
-        "src/components/book/MainInformation",
-        "src/app/api/auth/[...nextauth].tsx",
-        "src/components/modalAddBook/ModalAddBook.tsx"
+        "turbo/apps/store/.next/types/**/*.ts",
+        "turbo/apps/store/src/components/Hero/Hero.tss",
+        "turbo/apps/store/src/components/book/MainInformation",
+        "turbo/apps/store/src/app/api/auth/[...nextauth].tsx",
+        "turbo/apps/store/src/components/modalAddBook/ModalAddBook.tsx"
     ],
     "exclude": ["node_modules"]
 }
