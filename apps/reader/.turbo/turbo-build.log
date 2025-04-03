@@ -1,0 +1,33 @@
+
+> reader@0.1.0 build
+> next build
+
+   ▲ Next.js 15.2.4
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/6) ...
+[Error: Minified React error #31; visit https://reactjs.org/docs/error-decoder.html?invariant=31&args[]=object%20with%20keys%20%7B%24%24typeof%2C%20type%2C%20key%2C%20ref%2C%20props%7D for the full message or use the non-minified dev environment for full errors and additional helpful warnings.]
+Error occurred prerendering page "/404". Read more: https://nextjs.org/docs/messages/prerender-error
+Error: Minified React error #31; visit https://reactjs.org/docs/error-decoder.html?invariant=31&args[]=object%20with%20keys%20%7B%24%24typeof%2C%20type%2C%20key%2C%20ref%2C%20props%7D for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at Z (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:76:490)
+    at Xc (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:68:409)
+    at Zc (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:70:210)
+    at Z (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:76:89)
+    at Zc (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:70:481)
+    at Z (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:76:89)
+    at $c (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:78:98)
+    at bd (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:77:404)
+    at Z (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:76:217)
+    at Zc (C:\Users\Misha\Documents\GitHub\bookme1\frontend\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js:71:479)
+Export encountered an error on /_error: /404, exiting the build.
+ ⨯ Next.js build worker exited with code: 1 and signal: null
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path C:\Users\Misha\Documents\GitHub\bookme1\frontend\apps\reader
+npm error workspace reader@0.1.0
+npm error location C:\Users\Misha\Documents\GitHub\bookme1\frontend\apps\reader
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c next build

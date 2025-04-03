@@ -1,105 +1,83 @@
-// src/app/reader/page.tsx
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import ePub, { Book, Rendition } from 'epubjs';
+import ePub, { Location, Rendition } from 'epubjs';
 
+import { getEpubFromIndexedDB } from './indexed-db-util';
 import styles from './page.module.css';
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
-
-// src/app/reader/page.tsx
 
 const Page = () => {
     const viewerRef = useRef<HTMLDivElement>(null);
     const renditionRef = useRef<Rendition | null>(null);
-    const [book, setBook] = useState<Book | null>(null);
+    // const [book, setBook] = useState<Book | null>(null);
     const [progress, setProgress] = useState<number>(0);
     const [showSettings, setShowSettings] = useState(false);
-    const [fontSize, setFontSize] = useState<number>(100);
+    const [fontSize, setFontSize] = useState<number>(18);
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [fontFamily, setFontFamily] = useState<string>('serif');
-    const [notes, setNotes] = useState<{ cfi: string; text: string }[]>([]);
-    const [selectedText, setSelectedText] = useState<string>('');
-    const [noteInput, setNoteInput] = useState<string>('');
 
     useEffect(() => {
-        const book = ePub('/book.epub');
-        setBook(book);
-        const rendition = book.renderTo(viewerRef.current!, {
-            width: '100%',
-            height: '100%',
-        });
-
-        rendition.themes.default({
-            body: {
-                background: theme === 'dark' ? '#1e1e1e' : '#fff',
-                color: theme === 'dark' ? '#fff' : '#000',
-                fontSize: `${fontSize}%`,
-                fontFamily,
-            },
-        });
-
-        rendition.display();
-        renditionRef.current = rendition;
-
-        rendition.on('relocated', location => {
-            const percentage = book.locations.percentageFromCfi(
-                location.start.cfi
-            );
-            setProgress(percentage);
-            localStorage.setItem('reader-progress', percentage.toString());
-        });
-
-        rendition.on('selected', (cfiRange, contents) => {
-            contents.window.getSelection()?.removeAllRanges();
-            const text = contents.window.getSelection()?.toString() || '';
-            setSelectedText(text);
-        });
-
-        book.ready.then(() => {
-            book.locations.generate(1000).then(() => {
-                const savedProgress = localStorage.getItem('reader-progress');
-                if (savedProgress) {
-                    const loc = book.locations.cfiFromPercentage(
-                        parseFloat(savedProgress)
-                    );
-                    rendition.display(loc);
-                }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('SW registered:', reg);
             });
-        });
-
-        return () => rendition.destroy();
-    }, [theme, fontSize, fontFamily]);
-
-    const handleAddNote = () => {
-        if (selectedText && noteInput) {
-            setNotes([
-                ...notes,
-                {
-                    cfi:
-                        renditionRef.current?.currentLocation().start.cfi || '',
-                    text: noteInput,
-                },
-            ]);
-            setNoteInput('');
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        const loadBook = async () => {
+            const blob = await getEpubFromIndexedDB('півник-щось-там.epub');
+            if (!blob) {
+                console.warn('EPUB not found in IndexedDB');
+                return;
+            }
+            const arrayBuffer = await blob.arrayBuffer();
+
+            const book = ePub(arrayBuffer);
+            // setBook(book);
+            const rendition = book.renderTo(viewerRef.current!, {
+                width: '100%',
+                height: '100%',
+            });
+
+            rendition.themes.default({
+                body: {
+                    background: theme === 'dark' ? '#1e1e1e' : '#fff',
+                    color: theme === 'dark' ? '#fff' : '#000',
+                    fontFamily,
+                    'font-size': `${fontSize}px !important`,
+                },
+            });
+
+            rendition.display();
+            renditionRef.current = rendition;
+
+            rendition.on('relocated', (location: Location) => {
+                const percentage = book.locations.percentageFromCfi(
+                    location.start.cfi
+                );
+                setProgress(percentage);
+                localStorage.setItem('reader-progress', percentage.toString());
+            });
+
+            book.ready.then(() => {
+                book.locations.generate(1000).then(() => {
+                    const savedProgress =
+                        localStorage.getItem('reader-progress');
+                    if (savedProgress) {
+                        const loc = book.locations.cfiFromPercentage(
+                            parseFloat(savedProgress)
+                        );
+                        rendition.display(loc);
+                    }
+                });
+            });
+        };
+
+        loadBook();
+        return () => renditionRef.current?.destroy();
+    }, [theme, fontSize, fontFamily]);
 
     return (
         <div className={styles.readerContainer}>
@@ -128,6 +106,7 @@ const Page = () => {
                     Settings
                 </button>
             </div>
+
             <div ref={viewerRef} className={styles.viewer} />
 
             {showSettings && (
@@ -145,8 +124,8 @@ const Page = () => {
                                 <label>Font Size</label>
                                 <input
                                     type="range"
-                                    min={80}
-                                    max={150}
+                                    min={12}
+                                    max={50}
                                     value={fontSize}
                                     onChange={e =>
                                         setFontSize(parseInt(e.target.value))
@@ -188,24 +167,6 @@ const Page = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-            )}
-
-            {selectedText && (
-                <div className={styles.noteBox}>
-                    <div className={styles.noteTitle}>Add Note</div>
-                    <textarea
-                        className={styles.noteInput}
-                        placeholder="Write your note..."
-                        value={noteInput}
-                        onChange={e => setNoteInput(e.target.value)}
-                    />
-                    <button
-                        className={styles.saveNoteButton}
-                        onClick={handleAddNote}
-                    >
-                        Save Note
-                    </button>
                 </div>
             )}
         </div>
