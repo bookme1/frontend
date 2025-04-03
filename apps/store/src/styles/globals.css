@@ -1,0 +1,186 @@
+:root {
+    --text_main: #1f171e;
+    --red: #f33;
+    --blue: #0597e8;
+    --gray: #6e646d;
+    --gray_dark: #505050;
+    --gray_border: #a7a7a7;
+
+    --green: #538787;
+    --green_acid: #cfff10;
+
+    --gray_search: #f4f4f4;
+    --beige: #fcddc9;
+    --color-footer-bottom: #606060;
+    --white: #fff;
+    --ai-button-bg-color: #121212;
+    --ai-button-text-color: #ffffff;
+}
+
+body {
+    position: relative;
+}
+
+.bg-main {
+    color: var(--text_main);
+    margin: 0;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.scroll-down .scrollable_nav {
+    transform: translate3d(0, 100%, 0);
+    box-shadow: none;
+}
+
+.scroll-up .scrollable_nav {
+    transform: none;
+}
+
+.ai-open-button {
+    position: fixed;
+    bottom: 3%;
+    right: 1%;
+    display: inline-flex;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: 8px;
+    color: var(--ai-button-text-color);
+    background: var(--ai-button-bg-color);
+    z-index: 9;
+}
+
+.wrapper {
+    margin: 0 auto;
+    padding: 0 10px;
+
+    @media (min-width: 363px) {
+        width: 363px;
+    }
+
+    @media (min-width: 748px) {
+        width: 748px;
+    }
+
+    @media (min-width: 1234px) {
+        width: 1234px;
+    }
+}
+
+.wrapperMission {
+    margin: 0 auto;
+    padding: 0 10px;
+
+    @media (min-width: 375px) {
+        width: 375px;
+    }
+
+    @media (min-width: 768px) {
+        width: 768px;
+    }
+
+    @media (min-width: 1440px) {
+        width: 1440px;
+        padding: 0 82px;
+    }
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.for_light_theme {
+    --primary-background-color: #ffffff;
+    --text-color: #1f171e;
+    --title-color: #1f171e;
+    --arrow-btn-bgcolor: #ffffff;
+    --arrow-btn-bgcolor-hover: #f4f4f4;
+    --filter-btn-bgcolor: #a7a7a7;
+    --btn-text-color: #1f171e;
+}
+
+.for_dark_theme {
+    --primary-background-color: #1f171e;
+    --text-color: #e1cdc1;
+    --title-color: #f6e7de;
+    --arrow-btn-bgcolor: #505050;
+    --arrow-btn-bgcolor-hover: #2b2828;
+    --filter-btn-bgcolor: #505050;
+    --btn-text-color: #ffffff;
+}
+
+.for_beige_theme {
+    --primary-background-color: #fffbf5;
+    --text-color: #1f171e;
+    --title-color: #1f171e;
+    --arrow-btn-bgcolor: #ffe6c0;
+    --arrow-btn-bgcolor-hover: #f4f4f4;
+    --filter-btn-bgcolor: #a7a7a7;
+    --btn-text-color: #505050;
+}
+
+/* Стили для обнуления верхних отступов у элементов */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+/* Класс для обнуления базовых свойств у списков (ul) */
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* Класс для обнуления базовых свойств у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Свойства для корректного отображения картинок */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Свойства для обнуления курсива у address */
+address {
+    font-style: normal;
+}
+
+button {
+    border: none;
+    background-color: inherit;
+    box-sizing: border-box;
+    padding: 0;
+
+    cursor: pointer;
+}
+
+input,
+ul,
+li,
+div,
+p,
+section,
+img {
+    box-sizing: border-box;
+}

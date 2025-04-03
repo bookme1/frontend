@@ -1,0 +1,11 @@
+
+> bookme-store@0.1.0 build
+> next build
+
+   ▲ Next.js 15.2.4
+   - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+ ⨯ ESLint: Failed to load plugin 'storybook' declared in '..\..\.eslintrc.json': Cannot find module 'eslint-plugin-storybook' Require stack: - C:\Users\Misha\Documents\GitHub\bookme1\frontend\__placeholder__.js Referenced from: C:\Users\Misha\Documents\GitHub\bookme1\frontend\.eslintrc.json

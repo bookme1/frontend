@@ -1,0 +1,48 @@
+{
+    "name": "bookme-store",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "https://bookme.kyiv.ua",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "export": "next build && next export",
+        "start": "next start",
+        "lint": "next lint",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^2.3.0",
+        "autoprefixer": "^10.4.20",
+        "axios": "^1.6.5",
+        "classnames": "^2.5.1",
+        "lottie-react": "^2.4.0",
+        "ms": "^2.1.3",
+        "next": "^15.2.3",
+        "next-auth": "^4.24.11",
+        "next-transpile-modules": "^10.0.1",
+        "normalize.css": "^8.0.1",
+        "react": "18.3.1",
+        "react-content-loader": "^7.0.2",
+        "react-dom": "18.3.1",
+        "react-icons": "^5.0.1",
+        "react-redux": "^9.1.2",
+        "sharp": "^0.33.5",
+        "swiper": "^11.2.2",
+        "uuid": "^10.0.0"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "@types/redux-logger": "^3.0.13",
+        "eslint": "^8",
+        "eslint-config-next": "14.0.4",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.1.3",
+        "prettier": "^3.3.2",
+        "typescript": "^5"
+    }
+}
