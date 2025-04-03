@@ -130,3 +130,24 @@
 .cardDisabled {
     background-color: rgba(0, 0, 0, 0.3);
 }
+
+.readOfflineBox {
+    position: absolute;
+    right: 10px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+
+    padding: 3px 6px;
+    border-radius: 8px;
+    border: 1px solid var(--red);
+
+    transition:
+    background-color 0.25s ease-in-out,
+    color 0.25s ease-in-out;
+}
+
+.readOfflineBox:hover {
+    color: white;
+    background-color: var(--red);
+}

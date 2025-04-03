@@ -8,6 +8,7 @@ export default function UserBooks({
 }: {
     userOrderBooks: IOrderBook[] | null | undefined;
 }) {
+    console.log(userOrderBooks)
     return (
         <ul className={styles.cardList}>
             {userOrderBooks?.map(

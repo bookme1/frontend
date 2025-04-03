@@ -1,10 +1,16 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Link from 'next/link';
+
 
 import styles from './CardBought.module.css';
 
 import { IBook } from '../../../app/book/[id]/page.types';
+
+import {handleDownload} from '../../../../../shared/downloadBook'
+import { useRouter } from 'next/navigation';
 
 const CardBought = ({
     book,
@@ -25,6 +31,42 @@ const CardBought = ({
 
     const { title, url, author, id } = initialBook;
 
+    const [isChecked, setIsChecked] = useState(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const savedState = localStorage.getItem('booksOffline');
+        if (savedState) {
+            try {
+                const parsedState = JSON.parse(savedState);
+                if (Array.isArray(parsedState)) {
+                    setIsChecked(parsedState.includes(id));
+                }
+            } catch (error) {
+                console.error('Ошибка парсинга localStorage:', error);
+                localStorage.removeItem('booksOffline');
+            }
+        }
+    }, [id]);
+
+    const handleChange = (epubLink: string) => {
+        const savedState = localStorage.getItem('booksOffline');
+        let selectedBooks: string[] = savedState ? JSON.parse(savedState) : [];
+
+        if (isChecked) {
+            selectedBooks = selectedBooks.filter(bookId => bookId !== id);
+        } else {
+            selectedBooks.push(id);
+        }
+
+        setIsChecked(!isChecked);
+        localStorage.setItem('booksOffline', JSON.stringify(selectedBooks));
+
+        handleDownload(id, epubLink);
+        router.replace(`http://localhost:3002/?q=${id}`);
+    };
+
     return (
         <>
             <li
@@ -40,13 +82,32 @@ const CardBought = ({
                     ></Link>
                 </div>
                 <div className={styles.descriptionCotainer}>
+                    {epubLink && (
+                        <div className={styles.readOfflineBox}>
+                            <input
+                                type="checkbox"
+                                id={id}
+                                checked={isChecked}
+                                onChange={() => handleChange(epubLink)}
+                            />
+                            <label
+                                htmlFor={id}
+                                className={styles.readOfflineLabel}
+                            >
+                                Доступ <br />
+                                off-line
+                            </label>
+                        </div>
+                    )}
                     <p className={styles.title}>
                         <Link className={styles.cardLink} href={`/book/${id}`}>
                             {title}
                         </Link>
                     </p>
                     <p className={styles.authors}>{author}</p>
+
                     {isActive && <p className={styles.price}>Скачати</p>}
+
                     {!isActive && (
                         <p className={styles.price}>
                             Книга генерується. Будь ласка, зачекайте...

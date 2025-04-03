@@ -28,6 +28,6 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "public/sw.js"
-    ],
+, "../shared/indexed-db-util.ts"    ],
     "exclude": ["node_modules"]
 }

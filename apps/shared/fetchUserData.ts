@@ -1,16 +1,13 @@
+import { addLogEntry } from "@/contexts/Logs/fetchAddLog";
+import { IUser } from "@/lib/redux/features/user/types";
 
 
-import { addLogEntry } from './Logs/fetchAddLog';
+export async function fetchUserData(url: string | undefined): Promise<IUser | null> {
+    const backendUrl = url + '/api';
+    const cookies = document.cookie; // Получаем cookies на клиенте
 
-import { IUser } from '../lib/redux/features/user/types';
-import { headers } from 'next/headers';
-
-export async function fetchUserData(): Promise<IUser | null> {
-    const requestHeaders = await headers();
-    const backendUrl = process.env.BASE_BACKEND_URL + '/api';
-    // Take cookies from headers
-    const cookies = requestHeaders.get('cookie');
     try {
+        // Получаем данные пользователя
         const response = await fetch(`${backendUrl}/user`, {
             method: 'GET',
             headers: { cookie: cookies || '' },
@@ -22,18 +19,19 @@ export async function fetchUserData(): Promise<IUser | null> {
             return await response.json();
         }
 
+        // Если не авторизован, пробуем обновить токен
         if (response.status === 401) {
             const refreshResponse = await fetch(`${backendUrl}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
-                headers: { cookies: cookies || '' },
+                headers: { cookie: cookies || '' }, // Передаем cookies для refresh
             });
 
             if (refreshResponse.ok) {
                 const userResponse = await fetch(`${backendUrl}/user`, {
                     method: 'GET',
                     credentials: 'include',
-                    headers: { cookies: cookies || '' },
+                    headers: { cookie: cookies || '' }, // Передаем cookies
                 });
 
                 if (userResponse.ok) {

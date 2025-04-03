@@ -3,9 +3,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import ePub, { Location, Rendition } from 'epubjs';
+import { useSearchParams } from 'next/navigation';
 
-import { getEpubFromIndexedDB } from './indexed-db-util';
 import styles from './page.module.css';
+
+import { handleDownload } from '../../../shared/downloadBook';
+import { fetchUserData } from '../../../shared/fetchUserData';
+import { getEpubFromIndexedDB } from '../../../shared/indexed-db-util';
+import { IUser } from '../../../store/src/lib/redux/features/user/types';
 
 const Page = () => {
     const viewerRef = useRef<HTMLDivElement>(null);
@@ -17,6 +22,33 @@ const Page = () => {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [fontFamily, setFontFamily] = useState<string>('serif');
 
+    const [user, setUser] = useState<IUser | null>(null);
+    const [orderedBooks, setOrderedBooks] = useState<any[] | null>(null);
+
+    const searchParams = useSearchParams();
+    const id = searchParams.get('q');
+
+    const backendUrl = process.env.NEXT_PUBLIC_BASE_BACKEND_URL;
+    const partOfLink = process.env.NEXT_PUBLIC_PART_OF_LINK;
+
+    useEffect(() => {
+        const getUserData = async () => {
+            const data = await fetchUserData(backendUrl);
+            if (data) {
+                setUser(data);
+            }
+        };
+
+        getUserData();
+    }, [backendUrl]);
+
+    useEffect(() => {
+        if (user) {
+            const orders = user.orders[0].orderBooks;
+            setOrderedBooks(orders);
+        }
+    }, [backendUrl, user]);
+
     useEffect(() => {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').then(reg => {
@@ -27,7 +59,11 @@ const Page = () => {
 
     useEffect(() => {
         const loadBook = async () => {
-            const blob = await getEpubFromIndexedDB('півник-щось-там.epub');
+            if (!id) {
+                console.warn('Ошибка: ID отсутствует в параметрах запроса');
+                return;
+            }
+            const blob = await getEpubFromIndexedDB(id); //вставить id из адресной строки
             if (!blob) {
                 console.warn('EPUB not found in IndexedDB');
                 return;
@@ -77,7 +113,7 @@ const Page = () => {
 
         loadBook();
         return () => renditionRef.current?.destroy();
-    }, [theme, fontSize, fontFamily]);
+    }, [theme, fontSize, fontFamily, id]);
 
     return (
         <div className={styles.readerContainer}>
@@ -94,6 +130,47 @@ const Page = () => {
                         onClick={() => renditionRef.current?.next()}
                     >
                         Next
+                    </button>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+              
+                        gap: '20px',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <button
+                        style={{
+                            width: '44px',
+                            height: '44px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '1px 1px 6px 0px #00000026',
+                            border: '1px solid #00000026',
+                            borderRadius: '50%',
+                         
+                            cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                            window.location.href = `${backendUrl}/api/auth/signin/google`;
+                        }}
+                    >
+                        Гугл-вход
+                    </button>
+                    <button
+                        onClick={() => {
+                            orderedBooks?.map(book => {
+                                handleDownload(
+                                    book?.book?.id,
+                                    book?.epubLink,
+                                    partOfLink
+                                );
+                            });
+                        }}
+                    >
+                        Загрузить книги с аккаунта
                     </button>
                 </div>
                 <div className={styles.progress}>
